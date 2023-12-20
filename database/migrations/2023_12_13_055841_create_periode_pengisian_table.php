@@ -12,13 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('periode_pengisian', function (Blueprint $table) {
-            $table->id();
+            $table->id('periode_pengisian_id');
             $table->year('tahun');
             $table->integer('periode')->lenght(2);
-            $table->dateTime('tanggal_audite_isi');
-            $table->dateTime('tanggal_audite_tutup');
-            $table->dateTime('tanggal_auditor_isi');
-            $table->dateTime('tanggal_auditor_tutup');
+            $table->dateTime('tanggal_isi_audite');
+            $table->dateTime('tanggal_tutup_audite');
+            $table->dateTime('tanggal_isi_auditor');
+            $table->dateTime('tanggal_tutup_auditor');
             $table->timestamps();
         });
     }

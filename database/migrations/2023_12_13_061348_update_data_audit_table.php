@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('data_audit', function (Blueprint $table) {
-            $table->unsignedBigInteger('indikator_id')->after('id');
-            $table->unsignedBigInteger('periode_pengisian_id')->after('indikator_id');
+        Schema::table('audit_data', function (Blueprint $table) {
+            $table->unsignedBigInteger('indikator_kinerja_id')->after('audit_data_id');
+            $table->unsignedBigInteger('periode_pengisian_id')->after('indikator_kinerja_id');
 
-            $table->foreign('indikator_id')->references('id')->on('indikator');
-            $table->foreign('periode_pengisian_id')->references('id')->on('periode_pengisian');
+            $table->foreign('indikator_kinerja_id')->references('indikator_kinerja_id')->on('indikator_kinerja');
+            $table->foreign('periode_pengisian_id')->references('periode_pengisian_id')->on('periode_pengisian');
         });
     }
 

@@ -11,12 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('indikator', function (Blueprint $table) {
-            $table->id();
+        Schema::create('indikator_kinerja', function (Blueprint $table) {
+            $table->id('indikator_kinerja_id');
+            $table->string('no_id');
             $table->unsignedBigInteger('unit_id');
-            $table->foreign('unit_id')->references('id')->on('unit');
+            $table->foreign('unit_id')->references('unit_id')->on('unit');
+            $table->string('indikator_kinerja_kegiatan');
+            $table->string('indikator_kinerja_sub_kegiatan');
             $table->string('kode');
-            $table->string('indikator_kinerja');
+            $table->string('indikator_kinerja_unit_kerja');
+            $table->string('satuan');
             $table->integer('target');
             $table->timestamps();
         });
