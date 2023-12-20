@@ -234,7 +234,7 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Daftar Unit Kerja</h1>
+      <h1>Unit</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
@@ -243,112 +243,37 @@
       </nav>
     </div><!-- End Page Title -->
 
-    <section class="unit">
-        <div class="row">
-          <div class="col-lg-12">
-
-            <div class="card">
-              <div class="card-body">
-                <div class="d-flex align-items-center">
-                    <h5 class="card-title">Unit Kerja</h5>
-                    <span class="divider"></span>
-                    <a href="{{route('add_unit')}}" class="btn btn-primary btn-sm ms-2"><i class="ri-add-line">Tambah Unit</i></a>
-                </div>
-
-                <!-- Table with stripped rows -->
-                <table class="table datatable table-hover">
-                  <thead>
-                    <tr>
-                      <th>Nomor</th>
-                      <th>Nama Unit</th>
-                      <th>Auditor 1</th>
-                      <th>Auditor 2</th>
-                      <th>Aksi</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    @forelse($units as $unit)
-                    <tr>
-                      <td>{{$unit->unit_id}}</td>
-                      <td>{{$unit->nama_unit}}</td>
-                      <td></td>
-                      <td></td>
-                      <td>
-                        <form action="" method="POST">
-                            <a href="" class="btn btn-sm btn-primary"><i class="ri-pencil-line"></i>Edit</a>
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger"><i class="ri-delete-bin-2-line"></i>Hapus</button>
-                        </form>
-                      </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td>Data Tidak Tersedia</td>
-                    </tr>
-                    @endforelse
-                  </tbody>
-                </table>
-                <!-- End Table with stripped rows -->
-                {{$units->links()}}
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-    {{-- <section class="section dashboard">
+    <section class="section dashboard">
       <div class="row ">
         <div class="col-12">
             <div class="recent-sales overflow-auto">
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex align-items-center">
-                            <h5 class="card-title">Daftar Unit Kerja</h5>
-                            <span class="divider"></span>
-                            <a href="{{route('add_unit')}}" type="button" class="btn btn-primary btn-sm ms-2"><i class="ri-add-line"></i> Tambah Unit </a>
+                            <a href="\unit" type="" class="ms-2"><i class="ri-arrow-left-line" style="font-size: 20px; color: #012970"></i></a>
+                            <h5 class="card-title ms-3">Tambah Data Unit</h5>
                         </div>
-                      <!-- Table with hoverable rows -->
-                      <table class="table table-hover">
-                        <thead>
-                          <tr>
-                            <th scope="col">No</th>
-                            <th scope="col">Nama Unit</th>
-                            <th scope="col">Auditor 1</th>
-                            <th scope="col">Auditor 2</th>
-                            <th scope="col">Aksi</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($units as $unit)
-                          <tr>
-                              <td>{{$unit->unit_id}}</td>
-                              <td>{{$unit->nama_unit}}</td>
-                            <td></td>
-                            <td></td>
-                            <td class="">
-                              <form action="" method="POST">
-                                  <a href="" class="btn btn-sm btn-primary"><i class="ri-pencil-line"></i>Edit</a>
-                                  @csrf
-                                  @method('DELETE')
-                                  <button type="submit" class="btn btn-sm btn-danger"><i class="ri-delete-bin-2-line"></i>Hapus</button>
-                              </form>
-                            </td>
-                          </tr>
-                          @empty
-                          <tr>
-                            <td colspan="2">Data Tidak Tersedia</td>
-                          </tr>
-                          @endforelse
-                        </tbody>
-                      </table>
-                      {{$units->links()}}
-                      <!-- End Table with hoverable rows -->
+                        <div class="col-lg-6">
+
+                            <form action="{{route('store')}}" method="POST" enctype="multipart/form-data" class="row g-3">
+                                <div class="col-12">
+                                    <label for="inputNanme4" class="form-label">Nama Unit</label>
+                                    <input type="text" class="form-control @error('nama_unit') is-invalid @enderror" name="nama_unit" id="nama_unit" placeholder="Masukkan Nama Unit">
+                                    @error('nama_unit')
+                                    <div class="alert alert-danger mt-2">
+                                        {{$message}}
+                                    </div>
+                                    @enderror
+                                </div>
+                                <div class="">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                   </div>
       </div>
-    </section> --}}
+    </section>
 
   </main><!-- End #main -->
 

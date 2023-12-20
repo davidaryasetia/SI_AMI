@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('audit_data', function (Blueprint $table) {
             $table->id('audit_data_id');
             $table->string('realisasi');
-            $table->string('hasil_audit');
+            $table->enum('hasil_audit', ['melampaui','memenuhi','belum memenuhi']);
             $table->string('link_data_dukung');
             $table->text('komentar');
             $table->boolean('status_pengisian_audite');

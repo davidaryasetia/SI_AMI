@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UnitController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,9 +21,11 @@ Route::get('/', function () {
 Route::get('/profile', function(){
     return view('profile');
 });
-Route::get('/unit', function(){
-    return view('unit');
-});
+Route::get('/unit', [UnitController::class, 'unit']);
+
+Route::get('/add_unit', [UnitController::class, 'add_unit'])->name('add_unit');
+Route::post('/store', [UnitController::class, 'store'])->name('store');
+
 Route::get('/daftar_user', function(){
     return view('daftar_user');
 });
