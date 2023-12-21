@@ -193,26 +193,26 @@
           <a class="nav-link" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
             <i class="bi bi-menu-button-wide"></i><span>Data Audit</span><i class="bi bi-chevron-down ms-auto"></i>
           </a>
-          <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <ul id="components-nav" class="nav-content" data-bs-parent="#sidebar-nav">
               <a class="text-primary" href="\unit">
-                <i class="bi bi-circle"></i><span>Unit</span>
+                <i class="bi bi-circle"></i><span>Unit Kerja</span>
               </a>
             </li>
             <li>
               <a href="\indikator">
-                <i class="bi bi-circle"></i><span>Indikator</span>
+                <i class="bi bi-circle"></i><span>Indikator Unit Kerja</span>
               </a>
             </li>
             <li>
               <a href="\daftar_user">
-                <i class="bi bi-circle"></i><span>Daftar Pengguna</span>
+                <i class="bi bi-circle"></i><span>Daftar User</span>
               </a>
             </li>
           </ul>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link collapsed" href="\unit">
+          <a class="nav-link collapsed" href="\jadwal">
             <i class="bi bi-book"></i>
             <span>Buat Jadwal</span>
           </a>
@@ -239,11 +239,11 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Unit</h1>
+      <h1>Indikator Kinerja Unit</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item active">Indikitor</li>
+          <li class="breadcrumb-item active">Indikator</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->

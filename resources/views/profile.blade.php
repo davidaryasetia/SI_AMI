@@ -25,7 +25,7 @@
   <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
   <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
-
+   <link rel="stylesheet" href="assets/css/custom.css" class="href">
   <link href="assets/css/style.css" rel="stylesheet">
 
 </head>
@@ -67,7 +67,7 @@
           <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
             <i class="bi bi-menu-button-wide"></i><span>Data Audit</span><i class="bi bi-chevron-down ms-auto"></i>
           </a>
-          <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <ul id="components-nav" class="nav-content" data-bs-parent="#sidebar-nav">
               <a href="\unit">
                 <i class="bi bi-circle"></i><span>Unit</span>
               </a>
@@ -86,7 +86,7 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link collapsed" href="\unit">
+          <a class="nav-link collapsed" href="\jadwal">
             <i class="bi bi-book"></i>
             <span>Buat Jadwal</span>
           </a>
@@ -114,7 +114,7 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Profile</h1>
+      <h1>Profile User</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
@@ -177,6 +177,7 @@
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Status Auditor</div>
                     <div class="col-lg-9 col-md-8">Ya</div>
+                    <span class="divider"></span>
                   </div>
 
                   <div class="row">

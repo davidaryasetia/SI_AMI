@@ -193,7 +193,7 @@
         <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-menu-button-wide"></i><span>Data Audit</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <ul id="components-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
             <a href="\unit">
               <i class="bi bi-circle"></i><span>Unit</span>
             </a>
@@ -212,7 +212,7 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="\unit">
+        <a class="nav-link collapsed" href="\jadwal">
           <i class="bi bi-book"></i>
           <span>Buat Jadwal</span>
         </a>

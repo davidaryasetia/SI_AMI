@@ -172,7 +172,6 @@
 
   <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar">
-
     <ul class="sidebar-nav" id="sidebar-nav">
         <!-- End Dashboard Nav -->
 
@@ -189,26 +188,26 @@
           <a class="nav-link" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
             <i class="bi bi-menu-button-wide"></i><span>Data Audit</span><i class="bi bi-chevron-down ms-auto"></i>
           </a>
-          <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <ul id="components-nav" class="nav-content" data-bs-parent="#sidebar-nav">
               <a class="text-primary" href="\unit">
-                <i class="bi bi-circle"></i><span>Unit</span>
+                <i class="bi bi-circle"></i><span>Unit Kerja</span>
               </a>
             </li>
             <li>
               <a href="\indikator">
-                <i class="bi bi-circle"></i><span>Indikator</span>
+                <i class="bi bi-circle"></i><span>Indikator Kinerja Unit</span>
               </a>
             </li>
             <li>
               <a href="\daftar_user">
-                <i class="bi bi-circle"></i><span>Daftar Pengguna</span>
+                <i class="bi bi-circle"></i><span>Daftar User</span>
               </a>
             </li>
           </ul>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link collapsed" href="\unit">
+          <a class="nav-link collapsed" href="\jadwal">
             <i class="bi bi-book"></i>
             <span>Buat Jadwal</span>
           </a>
