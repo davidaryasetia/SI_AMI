@@ -256,6 +256,7 @@
                         <div class="col-lg-6">
 
                             <form action="{{route('store')}}" method="POST" enctype="multipart/form-data" class="row g-3">
+                                @csrf
                                 <div class="col-12">
                                     <label for="inputNanme4" class="form-label">Nama Unit</label>
                                     <input type="text" class="form-control @error('nama_unit') is-invalid @enderror" name="nama_unit" id="nama_unit" placeholder="Masukkan Nama Unit">

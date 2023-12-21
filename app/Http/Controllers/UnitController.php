@@ -3,11 +3,7 @@
 namespace App\Http\Controllers;
 // import model post
 use \App\Models\Unit;
-
-// return type redirectResponse
 use Illuminate\Http\RedirectResponse;
-
-// return type view
 use Illuminate\View\View;
 
 // import Facade "Storage"
@@ -19,7 +15,7 @@ class UnitController extends Controller
 {
     public function unit(): View{
         // get unit
-        $units = Unit::latest()->paginate(5);
+        $units = Unit::orderBy('unit_id')->paginate(5);
 
         // render view to unit
         return view('unit', compact('units'));
@@ -42,5 +38,22 @@ class UnitController extends Controller
         return redirect()->route('unit')->with(['Success'=>'Data Unit Berhasil Ditambahkan']);
     }
 
+    public function edit(string $id): View{
+        $unit = Unit::findOrFail($id);
+        return view('edit_unit', compact('unit'));
+    }
+
+    public function update(Request $request, $id): RedirectResponse {
+        $this->validate($request, [
+            'nama_unit'=>'required|min:3',
+        ]);
+
+        $unit = Unit::findOrFail($id);
+        $unit->update([
+            'nama_unit'=>request->nama_unit,
+        ]);
+
+        return redirect()->route('unit')->with(['success'=>'Data Berhasil Diubah']);
+    }
 
 }

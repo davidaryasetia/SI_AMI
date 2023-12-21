@@ -27,7 +27,6 @@
   <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
   <link href="assets/css/style.css" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/custom.css" class="href">
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 </head>
 
 <body>
@@ -235,7 +234,7 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Daftar Unit Kerja</h1>
+      <h1>Unit</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
@@ -244,78 +243,46 @@
       </nav>
     </div><!-- End Page Title -->
 
-    <section class="unit">
-        <div class="row">
-          <div class="col-lg-12">
+    <section class="section dashboard">
+      <div class="row ">
+        <div class="col-12">
+            <div class="recent-sales overflow-auto">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <a href="\unit" type="" class="ms-2"><i class="ri-arrow-left-line" style="font-size: 20px; color: #012970"></i></a>
+                            <h5 class="card-title ms-3">Tambah Data Unit</h5>
+                        </div>
+                        <div class="col-lg-6">
 
-            <div class="card">
-              <div class="card-body">
-                <div class="d-flex align-items-center">
-                    <h5 class="card-title">Unit Kerja</h5>
-                    <span class="divider"></span>
-                    <a href="{{route('add_unit')}}" class="btn btn-primary btn-sm ms-2"><i class="ri-add-line">Tambah Unit</i></a>
-                </div>
+                            <form action="{{route('update')}}" method="POST" enctype="multipart/form-data" class="row g-3">
+                                @csrf
+                                @method('PUT')
+                                <div class="col-12">
+                                    <label for="inputNanme4" class="form-label">Nama Unit</label>
+                                    <input type="text" class="form-control @error('nama_unit') is-invalid @enderror" name="nama_unit" id="nama_unit" value="{{old("nama_unit", $post->nama_unit)}}" placeholder="Masukkan Nama Unit">
+                                    @error('nama_unit')
+                                    <div class="alert alert-danger mt-2">
+                                        {{$message}}
+                                    </div>
+                                    @enderror
+                                </div>
+                                <div class="">
+                                    <button type="submit" class="btn btn-primary">Update</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                  </div>
+      </div>
+    </section>
 
-                <!-- Table with stripped rows -->
-                <table class="table datatable table-hover">
-                  <thead>
-                    <tr>
-                      <th>Nomor</th>
-                      <th>Nama Unit</th>
-                      <th>Auditor 1</th>
-                      <th>Auditor 2</th>
-                      <th>Aksi</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    @forelse($units as $unit)
-                    <tr>
-                      <td>{{$unit->unit_id}}</td>
-                      <td>{{$unit->nama_unit}}</td>
-                      <td></td>
-                      <td></td>
-                      <td>
-                        <form onsubmit="return confirm('Apakah anda yakin ingin menghapus data?');" action="" method="POST">
-                            <a href="{{route('edit'), $unit->id}}" class="btn btn-sm btn-primary"><i class="ri-pencil-line"></i>Edit</a>
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger"><i class="ri-delete-bin-2-line"></i>Hapus</button>
-                        </form>
-                      </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td>Data Tidak Tersedia</td>
-                    </tr>
-                    @endforelse
-                  </tbody>
-                </table>
-                <!-- End Table with stripped rows -->
-                {{$units->links()}}
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
   </main><!-- End #main -->
 
 
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-  <script>
-    @if(session()->has('success'))
-    toastr.success('{{session('success')}}', 'Berhasil');
-
-    @elseif(session()->has('error'))
-    toastr.error('{{session('error')}}', 'Gagal');
-
-    @endif
-  </script>
   <!-- Vendor JS Files -->
   <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -325,6 +292,7 @@
   <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
   <script src="assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
+
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
 
