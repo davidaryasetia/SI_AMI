@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('realisasi');
             $table->enum('hasil_audit', ['melampaui','memenuhi','belum memenuhi']);
             $table->string('link_data_dukung');
-            $table->text('komentar');
+            $table->text('komentar_auditor_1');
+            $table->text('komentar_auditor_2');
             $table->boolean('status_pengisian_audite');
             $table->boolean('status_penilaian_auditor1');
             $table->boolean('status_penilaian_auditor2');

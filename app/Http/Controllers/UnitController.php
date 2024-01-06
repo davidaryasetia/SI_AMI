@@ -18,7 +18,9 @@ class UnitController extends Controller
         $units = Unit::orderBy('unit_id')->paginate(5);
 
         // render view to unit
-        return view('unit', compact('units'));
+        return view('/unit', [
+            "title" => "Unit Kerja"
+        ], compact('units'));
     }
 
     public function add_unit(): View{
