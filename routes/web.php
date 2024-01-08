@@ -22,6 +22,7 @@ Route::get('/', function () {
 
 // Route For Unit Kerja
 
+Route::get('/unit', [UnitController::class, 'unit']);
 Route::get('/add_unit', [UnitController::class, 'add_unit'])->name('add_unit');
 Route::post('/store', [UnitController::class, 'store'])->name('store');
 Route::get('/unit', [UnitController::class, 'unit'])->name('unit');

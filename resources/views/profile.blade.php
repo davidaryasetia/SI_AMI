@@ -54,6 +54,11 @@
                 </div>
 
                 <div class="row">
+                  <div class="col-lg-3 col-md-4 label ">NIP</div>
+                  <div class="col-lg-9 col-md-8">Hary Oktavianto</div>
+                </div>
+
+                <div class="row">
                   <div class="col-lg-3 col-md-4 label">Unit</div>
                   <div class="col-lg-9 col-md-8">PJM</div>
                 </div>

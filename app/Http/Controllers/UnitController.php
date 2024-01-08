@@ -24,12 +24,14 @@ class UnitController extends Controller
     }
 
     public function add_unit(): View{
-        return view('add_unit');
+        return view('add_unit', [
+            "title" => "Tambah Unit Kerja"
+        ]);
     }
 
     public function store(Request $request): RedirectResponse{
         $this->validate($request, [
-            'nama_unit'=>'required|min:3',
+            'nama_unit'=>'required|min:3|unique:unit',
         ]);
 
         // insert data
@@ -37,7 +39,7 @@ class UnitController extends Controller
             'nama_unit'=>$request->nama_unit,
         ]);
 
-        return redirect()->route('unit')->with(['Success'=>'Data Unit Berhasil Ditambahkan']);
+        return redirect('/unit')->with(['success-unit'=>'Data Unit Berhasil Ditambahkan']);
     }
 
     public function edit(string $id): View{
