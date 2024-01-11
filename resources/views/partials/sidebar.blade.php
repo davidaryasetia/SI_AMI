@@ -7,28 +7,28 @@
       <li class="nav-heading">Pages</li>
 
       <li class="nav-item">
-        <a class="nav-link {{($title == "Beranda") ? "" : "collapsed"}}" href="\">
+        <a class="nav-link {{Request::is('/') ? '' : 'collapsed'}}" href="/">
           <i class="bi bi-grid"></i>
           <span>Beranda</span>
         </a>
       </li>
 
       <li class="nav-item">
-        <a class="nav-link {{($title == "Indikator Unit Kerja" || $title == "Data User" || $title == "Unit Kerja" || $title == "Tambah Unit Kerja") ? "" : "collapsed"}}" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+        <a class="nav-link {{Request::is('data_audit*')? '' : 'collapsed'}}" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-menu-button-wide"></i><span>Data Audit</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="components-nav" class="nav-content {{($title == "Beranda") ? "collapse" : ""}}" data-bs-parent="#sidebar-nav">
-            <a href="\unit" class="{{($title == "Unit Kerja") ? "active" : ""}}">
+        <ul id="components-nav" class="nav-content" data-bs-parent="#sidebar-nav">
+            <a href="/data_audit/unit_kerja" class="{{Request::is('data_audit/unit_kerja*') ? 'active' : ''}}">
               <i class="bi bi-circle"></i><span>Unit Kerja</span>
             </a>
           </li>
           <li>
-            <a href="\indikator" class="{{($title == "Indikator Unit Kerja" || $title == "Tambah Unit Kerja") ? "active" : ""}}">
+            <a href="/data_audit/indikator_unit_kerja" class="{{Request::is('data_audit/indikator_unit_kerja*') ? 'active' : ''}}">
               <i class="bi bi-circle"></i><span>Indikator Unit Kerja</span>
             </a>
           </li>
           <li>
-            <a href="\data_user" class="{{($title == "Data User") ? "active" : ""}}">
+            <a href="/data_audit/data_user_pengguna" class="{{Request::is('data_audit/data_user_pengguna*') ? 'active' : ''}}">
               <i class="bi bi-circle"></i><span>Data User</span>
             </a>
           </li>
@@ -42,14 +42,14 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link {{($title == "Profile User") ? "" : "collapsed"}}" href="\profile">
+        <a class="nav-link {{Request::is('user_profile/profile') ? "" : "collapsed"}}" href="/user_profile/profile">
           <i class="bi bi-person"></i>
           <span>Profile</span>
         </a>
       </li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="\login">
+        <a class="nav-link collapsed" href="/auth/login">
           <i class="bi bi bi-box-arrow-in-right"></i>
           <span>Keluar</span>
         </a>

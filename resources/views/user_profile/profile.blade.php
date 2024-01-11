@@ -20,7 +20,7 @@
         <div class="card">
           <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-            <img src="assets/img/user.jpeg" alt="Profile" class="rounded-circle">
+            <img src="{{asset ('assets/img/user.jpeg')}}" alt="Profile" class="rounded-circle">
             <h2>Hary Oktavianto</h2>
             <h3>Unit PJM</h3>
 
@@ -55,7 +55,7 @@
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label ">NIP</div>
-                  <div class="col-lg-9 col-md-8">Hary Oktavianto</div>
+                  <div class="col-lg-9 col-md-8">197610012001121001</div>
                 </div>
 
                 <div class="row">

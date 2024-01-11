@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UnitController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\IndikatorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,28 +22,26 @@ Route::get('/', function () {
     ]);
 });
 
-// Route For Unit Kerja
+// Route Resource For Unit Kerja
+Route::resource('/data_audit/unit_kerja', UnitController::class);
+Route::resource('/data_audit/indikator_unit_kerja', IndikatorController::class);
+Route::resource('/data_audit/data_user_pengguna', UserController::class);
 
-Route::get('/unit', [UnitController::class, 'unit']);
-Route::get('/add_unit', [UnitController::class, 'add_unit'])->name('add_unit');
-Route::post('/store', [UnitController::class, 'store'])->name('store');
-Route::get('/unit', [UnitController::class, 'unit'])->name('unit');
-Route::get('/edit', [UnitController::class], 'edit')->name('edit');
-
-Route::get('/indikator', function() {
-    return view('indikator', [
+Route::get('/data_audit/indikator_unit_kerja/indikator', function() {
+    return view('data_audit.indikator_unit_kerja.indikator', [
         "title" => "Indikator Unit Kerja"
     ]);
 });
 
-Route::get('/data_user', function(){
-    return view('data_user', [
+Route::get('/data_audit/data_user_pengguna/user', function(){
+    return view('data_audit.data_user_pengguna.user', [
         "title" => "Data User"
     ]);
 });
 
-Route::get('/profile', function(){
-    return view('profile', [
+// Profile Pengguna
+Route::get('/user_profile/profile', function(){
+    return view('user_profile.profile', [
         "title" => "Profile User"
     ]);
 });
@@ -52,6 +52,6 @@ Route::get('/jadwal', function(){
     ]);
 });
 
-Route::get('/login', function(){
-    return view('login');
+Route::get('/auth/login', function(){
+    return view('auth.login');
 });

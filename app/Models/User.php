@@ -17,10 +17,10 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
+    protected $table = 'user';
+    protected $primaryKey = 'user_id';
+    protected $guarded = [
+        'user_id'
     ];
 
     /**
@@ -33,7 +33,7 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    /**
+/**
      * The attributes that should be cast.
      *
      * @var array<string, string>

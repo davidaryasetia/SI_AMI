@@ -9,7 +9,8 @@ class Unit extends Model
 {
     use HasFactory;
     protected $table='unit';
-    protected $fillable = [
-        'nama_unit'
+    protected $primaryKey = 'unit_id';
+    protected $guarded = [
+        'unit_id'
     ];
 }
