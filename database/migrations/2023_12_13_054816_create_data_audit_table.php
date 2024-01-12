@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('audit_data', function (Blueprint $table) {
-            $table->id('audit_data_id');
-            $table->string('realisasi');
+        Schema::create('transaksi_indikator_kinerja', function (Blueprint $table) {
+            $table->id('transaksi_indikator_kinerja_id');
+            $table->string('capaian_realisasi');
             $table->enum('hasil_audit', ['melampaui','memenuhi','belum memenuhi']);
-            $table->string('link_data_dukung');
-            $table->text('komentar_auditor_1');
-            $table->text('komentar_auditor_2');
+            $table->string('upload_data_dukung');
+            $table->text('saran_audit');
+            $table->text('capaian_kinerja_selanjutnya');
             $table->boolean('status_pengisian_audite');
             $table->boolean('status_penilaian_auditor1');
             $table->boolean('status_penilaian_auditor2');

@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('audit_data', function (Blueprint $table) {
-            $table->unsignedBigInteger('indikator_kinerja_id')->after('audit_data_id')->nullOnDelete();
+        Schema::table('transaksi_indikator_kinerja', function (Blueprint $table) {
+            $table->unsignedBigInteger('indikator_kinerja_id')->after('transaksi_indikator_kinerja_id')->nullOnDelete();
             $table->unsignedBigInteger('periode_pengisian_id')->after('indikator_kinerja_id')->nullOnDelete();
 
             $table->foreign('indikator_kinerja_id')->references('indikator_kinerja_id')->on('indikator_kinerja');

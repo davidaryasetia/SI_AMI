@@ -40,11 +40,11 @@
                 </div>
                   <div class="pt-2 pb-2">
                     <h5 class="card-title text-center pb-0 fs-4">Login ke Akun Anda</h5>
-                    <p class="text-center small">Masukkan Email & Password Untuk Login</p>
+                    <p class="text-cen
+                    {{-- ter small">Masukkan Email & Password Untuk Login</p> --}}
                   </div>
 
                   <form action="" method="post" class="row g-3 needs-validation" novalidate>
-
                     <div class="col-12">
                       <label for="email" class="email">Email</label>
                       <div class="input-group has-validation">

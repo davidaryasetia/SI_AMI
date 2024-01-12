@@ -11,15 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('indikator_kinerja', function (Blueprint $table) {
-            $table->id('indikator_kinerja_id');
-            $table->integer('no_id');
+        Schema::create('unit_branch', function (Blueprint $table) {
+            $table->id('unit_branch_id');
             $table->unsignedBigInteger('unit_id')->nullOnDelete();
             $table->foreign('unit_id')->references('unit_id')->on('unit');
-            $table->string('kode')->unique();
-            $table->string('indikator_kinerja_unit_kerja')->unique();
-            $table->string('satuan');
-            $table->integer('target');
+            $table->string('nama_unit_branch')->lenght(64)->unique();
             $table->timestamps();
         });
     }
@@ -29,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('indikator');
+        //
     }
 };

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->dateTime('tanggal_tutup_audite');
             $table->dateTime('tanggal_isi_auditor');
             $table->dateTime('tanggal_tutup_auditor');
-            $table->dateTime('tanggal_buka_revisi_audite');
+            $table->dateTime('tanggal_isi_revisi_audite');
             $table->dateTime('tanggal_tutup_revisi_audite');
             $table->timestamps();
         });
