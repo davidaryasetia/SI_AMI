@@ -21,6 +21,7 @@
             </div>
             @endif()
         </div>
+          <!-- Table with stripped rows -->
     </div><!-- End Page Title -->
 </div>
 
@@ -29,9 +30,9 @@
         <div class="col-lg-12">
           <div class="card">
             <div class="card-body">
-              <div class="d-flex align-items-center">
-                  <h5 class="card-title">Unit Kerja</h5>
-                  <span class="divider"></span>
+              <div class="d-flex align-items-center mt-3">
+                  {{-- <  h5 class="card-title">Unit Kerja</h5>
+                  <span class="divider"></span> --}}
                   <a href="/data_audit/unit_kerja/create" class="btn btn-primary btn-sm ms-2"><i class="ri-add-line">Tambah Unit</i></a>
               </div>
 
@@ -80,8 +81,8 @@
             </div>
           </div>
 
-        </div>
-      </div>
+        {{-- </div>
+      </div> --}}
     </section>
 @endsection
 
