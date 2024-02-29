@@ -7,7 +7,7 @@
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-        <li class="breadcrumb-item active">Periode Pengisian AMI</li>
+        <li class="breadcrumb-item active">Perisde Pengisian</li>
       </ol>
     </nav>
   </div>
