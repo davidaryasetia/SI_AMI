@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('unit', function(Blueprint $table){
-            $table->id('unit_id');
-            $table->string('unit')->unique();
-            $table->timestamps();
+        Schema::table('pertanyaan', function (Blueprint $table) {
+            $table->unsignedBigInteger('laporan_auditor_id');
+            $table->foreign('laporan_auditor_id')->references('laporan_auditor_id')->on('laporan_auditor');
         });
     }
 
@@ -23,8 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::create('unit', function(Blueprint $table){
-            $table->dropIfExists('unit');
+        Schema::table('pertanyaan', function (Blueprint $table) {
+            //
         });
     }
 };

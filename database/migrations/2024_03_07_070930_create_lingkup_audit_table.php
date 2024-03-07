@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('unit', function(Blueprint $table){
-            $table->id('unit_id');
-            $table->string('unit')->unique();
+        Schema::create('lingkup_audit', function (Blueprint $table) {
+            $table->id('no_lingkup');
+            $table->string('lingkup');
             $table->timestamps();
         });
     }
@@ -23,8 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::create('unit', function(Blueprint $table){
-            $table->dropIfExists('unit');
-        });
+        Schema::dropIfExists('lingkup_audit');
     }
 };

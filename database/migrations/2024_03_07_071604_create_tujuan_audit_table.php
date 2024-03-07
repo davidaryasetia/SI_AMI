@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('unit', function(Blueprint $table){
-            $table->id('unit_id');
-            $table->string('unit')->unique();
+        Schema::create('tujuan_audit', function (Blueprint $table) {
+            $table->id('no_tujuan');
+            $table->string('tujuan');
             $table->timestamps();
         });
     }
@@ -23,8 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::create('unit', function(Blueprint $table){
-            $table->dropIfExists('unit');
-        });
+        Schema::dropIfExists('tujuan_audit');
     }
 };

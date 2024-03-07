@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('unit', function(Blueprint $table){
-            $table->id('unit_id');
-            $table->string('unit')->unique();
+        Schema::create('laporan_auditor', function (Blueprint $table) {
+            $table->id('laporan_auditor_id');
             $table->timestamps();
         });
     }
@@ -23,8 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::create('unit', function(Blueprint $table){
-            $table->dropIfExists('unit');
-        });
+        Schema::dropIfExists('laporan_auditor');
     }
 };

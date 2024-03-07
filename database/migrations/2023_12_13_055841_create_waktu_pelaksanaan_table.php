@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('unit', function(Blueprint $table){
-            $table->id('unit_id');
-            $table->string('unit')->unique();
+        Schema::create('waktu_pelaksanaan', function (Blueprint $table) {
+            $table->id('pelaksanaan_id');
+            $table->year('tahun');
+            $table->integer('semester')->lenght(2);
+            $table->dateTime('tanggal_pembukaan_ami');
+            $table->dateTime('tanggal_penutupan_ami');
             $table->timestamps();
         });
     }
@@ -23,8 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::create('unit', function(Blueprint $table){
-            $table->dropIfExists('unit');
-        });
+        Schema::dropIfExists('waktu_pelaksanaan');
     }
 };
