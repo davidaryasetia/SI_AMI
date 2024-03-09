@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Indikator;
+use App\Models\IndikatorKinerjaUnit;
 use App\Models\Unit;
 use Illuminate\Http\Request;
 
 class IndikatorController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display sting of the resource.
      */
     public function index()
     {
         return view('data_audit.indikator_unit_kerja.indikator', [
             'title' => 'Indikator Kinerja Unit',
             'units' => Unit::all(),
-            'indikators' => Indikator::orderBy('indikator_kinerja_id')->paginate(15)
+            'indikators' => IndikatorKinerjaUnit::orderBy('indikator_kinerja_id')->paginate(15)
         ]);
     }
 

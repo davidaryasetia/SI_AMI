@@ -6,7 +6,8 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use \App\Models\Unit;
 use \App\Models\User;
-use \App\Models\Indikator;
+use \App\Models\IndikatorKinerjaUnit;
+use \App\Models\Auditor;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,104 +23,178 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
+
+         // User
+         User::create([
+            'unit_id' => 1,
+            'nama' => 'Hary Oktavianto',
+            'nip' => 1970121001,
+            'status_admin' => true,
+            'email' => 'hary@pens.ac.id',
+            'password' => bcrypt('hary'),
+        ]);
+        User::create([
+            'unit_id' => 2,
+            'nama' => 'Nana Ramadijanti',
+            'nip' => 1974521001,
+            'status_admin' => true,
+            'email' => 'nana@pens.ac.id',
+            'password' => bcrypt('nana'),
+        ]);
+        User::create([
+            'unit_id' => 3,
+            'nama' => 'Tita Karlita',
+            'nip' => 1985521001,
+            'status_admin' => true,
+            'email' => 'tita@pens.ac.id',
+            'password' => bcrypt('tita'),
+        ]);
+        User::create([
+            'unit_id' => 4,
+            'nama' => 'Fitri Setyorini',
+            'nip' => 1970521001,
+            'status_admin' => false,
+            'email' => 'fitri@pens.ac.id',
+            'password' => bcrypt('tita'),
+        ]);
+
+
         // Unit
         Unit::create([
-            'nama_unit' => 'Ukarni',
+            'unit' => 'Ukarni',
         ]);
         Unit::create([
-            'nama_unit' => 'P3M',
+            'unit' => 'P3M',
         ]);
         Unit::create([
-            'nama_unit' => 'Penalaran',
+            'unit' => 'Penalaran',
         ]);
         Unit::create([
-            'nama_unit' => 'Minat Bakat',
+            'unit' => 'Minat Bakat',
         ]);
         Unit::create([
-            'nama_unit' => 'Perencanaan',
+            'unit' => 'P4MP Pembelajaran',
         ]);
         Unit::create([
-            'nama_unit' => 'P4MP Pembelajaran',
+            'unit' => 'P4MP SPM',
+        ]);
+        Unit::create([
+            'unit' => 'UPUK',
+        ]);
+        Unit::create([
+            'unit' => 'BAK',
+        ]);
+        Unit::create([
+            'unit' => 'SPI',
+        ]);
+        Unit::create([
+            'unit' => 'UPUK',
         ]);
 
+        // Auditor 
+        Auditor::create([
+            'unit_id' => 1, 
+            'user_id' => 2,
+        ]);
+        Auditor::create([
+            'unit_id' => 1, 
+            'user_id' => 3,
+        ]);
 
-        // User
-        User::create([
-            'unit_id' => 2,
-            'nip' => 1970121001,
-            'nama_lengkap' => 'Hary Oktavianto',
-            'email' => 'hary@pens.ac.id',
-            'no_telepon' => 62822323488,
-            'password' => bcrypt('hary'),
-            'status_admin' => true,
-            'status_auditor' => true,
-            'unit_id_diaudit' => 1,
-            'status_audite' => false
-        ]);
-        User::create([
-            'unit_id' => 2,
-            'nip' => 1970001,
-            'nama_lengkap' => 'Nana Ramadijanti',
-            'email' => 'nana@pens.ac.id',
-            'no_telepon' => 629328423882,
-            'password' => bcrypt('nana'),
-            'status_admin' => true,
-            'status_auditor' => true,
-            'unit_id_diaudit' => 3,
-            'status_audite' => false
-        ]);
-        User::create([
-            'unit_id' => 2,
-            'nip' => 1979101,
-            'nama_lengkap' => 'Tita Karlita',
-            'email' => 'tita@pens.ac.id',
-            'no_telepon' => 62283747238883,
-            'password' => bcrypt('tita'),
-            'status_admin' => true,
-            'status_auditor' => true,
-            'unit_id_diaudit' => 1,
-            'status_audite' => true
-        ]);
 
         // Indikator Kinerja Unit
-        Indikator::create([
+        IndikatorKinerjaUnit::create([
             'unit_id' => 1,
+            'kode' => 'U11.1',
+            'indikator_kinerja_unit_kerja' => 'Jumlah karya tulis dalam bentuk buku referensi sesuai kriteria minimal',
+            'satuan' => 'lulusan',
+            'target' => 40,
+        ]);
+        IndikatorKinerjaUnit::create([
+            'unit_id' => 1,
+            'kode' => 'U11.2',
+            'indikator_kinerja_unit_kerja' => 'Jumlah lulusan prodi yang mendapatkan pekerjaan pertama  dengan waktu tunggu antara 6 sd 12 bulan dan bergaji ≥ 1.2 x UMP',
+            'satuan' => 'lulusan',
+            'target' => 40,
+        ]);
+        IndikatorKinerjaUnit::create([
+            'unit_id' => 1,
+            'kode' => 'U11.3',
+            'indikator_kinerja_unit_kerja' => 'Jumlah lulusan prodi yang mendapatkan pekerjaan pertama dengan waktu tunggu ≤ 6 bulan dan bergaji   ≤ 1.2 x UMP',
+            'satuan' => 'lulusan',
+            'target' => 40,
+        ]);
+        IndikatorKinerjaUnit::create([
+            'unit_id' => 1,
+            'kode' => 'U11.4',
+            'indikator_kinerja_unit_kerja' => 'Jumlah lulusan prodi yang mendapatkan pekerjaan pertama  dengan waktu tunggu antara 6 sd 12 bulan dan bergaji ≤  1.2 x UMP',
+            'satuan' => 'lulusan',
+            'target' => 40,
+        ]);
+        IndikatorKinerjaUnit::create([
+            'unit_id' => 1,
+            'kode' => 'U11.5',
+            'indikator_kinerja_unit_kerja' => 'Jumlah lulusan prodi yang melanjutkan studi ke jenjang berikutnya',
+            'satuan' => 'lulusan',
+            'target' => 40,
+        ]);
+        IndikatorKinerjaUnit::create([
+            'unit_id' => 1,
+            'kode' => 'U11.6',
+            'indikator_kinerja_unit_kerja' => 'Jumlah lulusan prodi yang berwirausaha berijin dengan waktu tunggu ≤ 6 bulan dan bergaji ≥ 1.2 x UMP',
+            'satuan' => 'lulusan',
+            'target' => 40,
+        ]);
+        IndikatorKinerjaUnit::create([
+            'unit_id' => 1,
+            'kode' => 'U11.7',
+            'indikator_kinerja_unit_kerja' => 'Jumlah lulusan prodi yang berwirausaha berijin dengan waktu tunggu antara 6 sd 12 bulan dan bergaji ≥ 1.2 x UMP',
+            'satuan' => 'lulusan',
+            'target' => 40,
+        ]);
+        IndikatorKinerjaUnit::create([
+            'unit_id' => 1,
+            'kode' => 'U11.8',
+            'indikator_kinerja_unit_kerja' => 'Jumlah lulusan prodi yang berwirausaha berijin dengan waktu tunggu ≤ 6 bulan dan bergaji   ≤ 1.2 x UMP',
+            'satuan' => 'lulusan',
+            'target' => 40,
+        ]);
+        IndikatorKinerjaUnit::create([
+            'unit_id' => 1,
+            'kode' => 'U11.9',
+            'indikator_kinerja_unit_kerja' => 'Jumlah lulusan prodi yang berwirausaha berijin dengan waktu tunggu antara 6 sd 12 bulan dan bergaji ≤  1.2 x UMP',
+            'satuan' => 'lulusan',
+            'target' => 40,
+        ]);
+        IndikatorKinerjaUnit::create([
+            'unit_id' => 1,
+            'kode' => 'U11.10',
+            'indikator_kinerja_unit_kerja' => 'Jumlah responden tracer study pada tahun anggaran berjalan (Lulusan T-1)',
+            'satuan' => 'lulusan',
+            'target' => 40,
+        ]);
+
+        IndikatorKinerjaUnit::create([
+            'unit_id' => 2,
             'kode' => 'U23.1',
             'indikator_kinerja_unit_kerja' => 'Jumlah karya tulis dalam bentuk buku referensi sesuai kriteria minimal',
             'satuan' => 'nominal',
-            'target' => 1,
+            'target' => 40,
         ]);
-        Indikator::create([
-            'unit_id' => 1,
+        IndikatorKinerjaUnit::create([
+            'unit_id' => 2,
             'kode' => 'U23.2',
-            'indikator_kinerja_unit_kerja' => 'Jumlah karya tulis dalam bentuk  jurnal internasional bereputasi atau jurnal internasional terindeks pada databese internasional bereputasi (Q1-Q4)
-            ',
+            'indikator_kinerja_unit_kerja' => 'Jumlah karya tulis dalam bentuk  jurnal internasional bereputasi atau jurnal internasional terindeks pada databese internasional bereputasi (Q1-Q4)',
             'satuan' => 'nominal',
-            'target' => 1,
+            'target' => 24,
         ]);
-        Indikator::create([
-            'unit_id' => 1,
-            'kode' => 'C9.35',
-            'indikator_kinerja_unit_kerja' => 'Jumlah karya tulis da`lam bentuk  buku nasional/internasional yang mempunyai ISBN
-            ',
-            'satuan' => 'nominal',
-            'target' => 3,
-        ]);
-
-        Indikator::create([
-            'unit_id' => 1,
+        IndikatorKinerjaUnit::create([
+            'unit_id' => 2,
             'kode' => 'U23.3',
-            'indikator_kinerja_unit_kerja' => 'Jumlah karya tulis dalam bentuk  book chapter internasional ',
+            'indikator_kinerja_unit_kerja' => 'Jumlah karya tulis dalam bentuk  jurnal internasional bereputasi atau jurnal internasional terindeks pada databese internasional bereputasi (Q1-Q4)',
             'satuan' => 'nominal',
-            'target' => 2,
+            'target' => 24,
         ]);
-        Indikator::create([
-            'unit_id' => 1,
-            'kode' => 'U23.4',
-            'indikator_kinerja_unit_kerja' => 'Jumlah karya tulis dalam bentuk  jurnal internasional/nasional berbahasa inggris atau bahasa resmi PBB terindeks pada DOAJ
-            ',
-            'satuan' => 'nominal',
-            'target' => 96,
-        ]);
+       
     }
 }

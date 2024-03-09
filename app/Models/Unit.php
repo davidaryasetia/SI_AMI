@@ -5,12 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Indikator extends Model
+// unit
+class Unit extends Model
 {
     use HasFactory;
-    protected $table = 'indikator_kinerja';
-    protected $primaryKey = 'indikator_kinerja_id';
+    protected $table='unit';
+    protected $primaryKey = 'unit_id';
     protected $guarded = [
-        'indikator_kinerja_id'
+        'unit_id'
     ];
 }
