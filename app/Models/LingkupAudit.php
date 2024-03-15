@@ -5,15 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-// unit
-class Unit extends Model
+class LingkupAudit extends Model
 {
     use HasFactory;
-    protected $table='unit';
-    protected $primaryKey = 'unit_id';
+    protected $table = 'lingkup_audit';
+    protected $primaryKey = 'no_lingkup';
     protected $fillable = [
-        'nama_unit', 
-        'created_at', 
-        'updated_at'
+      'lingkup', 
+      'created_at', 
+      'updated_at'  
     ];
 }

@@ -5,15 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-// unit
-class Unit extends Model
+class UnitBranch extends Model
 {
     use HasFactory;
-    protected $table='unit';
-    protected $primaryKey = 'unit_id';
-    protected $fillable = [
-        'nama_unit', 
+    protected $table='unit_branch';
+    protected $primaryKey='unit_branch_id';
+    protected $fillable=[
+        'unit_id',
+        'nama_unit_branch', 
         'created_at', 
         'updated_at'
     ];
+    
 }

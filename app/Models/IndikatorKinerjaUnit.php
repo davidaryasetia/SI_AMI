@@ -10,7 +10,13 @@ class IndikatorKinerjaUnit extends Model
     use HasFactory;
     protected $table = 'indikator_kinerja_unit';
     protected $primaryKey = 'indikator_kinerja_id';
-    protected $guarded = [
-        'indikator_kinerja_id'
+    protected $fillable = [
+        'unit_id', 
+        'kode', 
+        'indikator_kinerja_unit_kerja', 
+        'satuan', 
+        'target', 
+        'created_at', 
+        'updated_at'
     ];
 }

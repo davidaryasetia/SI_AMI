@@ -1,0 +1,23 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\WaktuPelaksanaan;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+
+class WaktuPelaksanaanSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        WaktuPelaksanaan::create([
+            'tahun' => 2024, 
+            'semester' => 1, 
+            'tanggal_pembukaan_ami' => '2024-02-01 00:00:00', 
+            'tanggal_penutupan_ami' => '2024-03-01 23:59:59', 
+        ]);
+    }
+}

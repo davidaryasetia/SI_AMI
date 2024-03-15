@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-// unit
-class Unit extends Model
+class Saran extends Model
 {
     use HasFactory;
-    protected $table='unit';
-    protected $primaryKey = 'unit_id';
+    protected $table = 'saran';
+    protected $primaryKey = 'no_saran';
     protected $fillable = [
-        'nama_unit', 
+        'indikator_kinerja', 
         'created_at', 
-        'updated_at'
+        'updated_at', 
+        'laporan_auditor_id'
     ];
 }

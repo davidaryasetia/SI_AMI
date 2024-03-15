@@ -27,6 +27,7 @@ Route::resource('/data_audit/unit_kerja', UnitController::class);
 Route::resource('/data_audit/indikator_unit_kerja', IndikatorController::class);
 Route::resource('/data_audit/data_user_pengguna', UserController::class);
 
+// Route Resource
 Route::get('/data_audit/indikator_unit_kerja/indikator', function() {
     return view('data_audit.indikator_unit_kerja.indikator', [
         "title" => "Indikator Unit Kerja"

@@ -8,9 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Auditor extends Model
 {
     use HasFactory;
-    protected $table='unit';
-    protected $primaryKey = 'unit_id';
+    protected $table='auditor';
+    protected $primaryKey = 'auditor_id';
     protected $guarded = [
-        'unit_id'
+        'unit_id', 
+        'user_id', 
+        'created_at', 
+        'updated_at' 
     ];
 }

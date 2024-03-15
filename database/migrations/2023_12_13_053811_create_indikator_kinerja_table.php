@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('indikator_kinerja_unit', function (Blueprint $table) {
             $table->id('indikator_kinerja_id');
-            $table->integer('no_id');
+            // $table->integer('no_id');
             $table->unsignedBigInteger('unit_id')->nullOnDelete();
             $table->foreign('unit_id')->references('unit_id')->on('unit');
             $table->string('kode')->unique();
-            $table->string('indikator_kinerja_unit_kerja')->unique();
+            $table->string('indikator_kinerja_unit_kerja'); 
             $table->string('satuan');
             $table->integer('target');
             $table->timestamps();

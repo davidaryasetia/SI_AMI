@@ -39,7 +39,6 @@
                       <th>Indikator Kinerja Unit (Ikuk)</th>
                       <th>Satuan</th>
                       <th>Target</th>
-                      <th>Realisasi</th>
                       <th>Aksi</th>
                     </tr>
                   </thead>
@@ -51,7 +50,6 @@
                       <td>{{$indikator->indikator_kinerja_unit_kerja}}</td>
                       <td>{{$indikator->satuan}}</td>
                       <td>{{$indikator->target}}</td>
-                      <td></td>
                       <td>
                           <div style="display: inline-block">
                               <a href="" class="btn btn-sm btn-primary"><i class="ri-pencil-line"></i></a>

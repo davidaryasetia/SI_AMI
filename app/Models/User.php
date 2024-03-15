@@ -20,8 +20,17 @@ class User extends Authenticatable
      */
     protected $table = 'user';
     protected $primaryKey = 'user_id';
-    protected $guarded = [
-        'user_id'
+    protected $fillable = [
+        'unit_id', 
+        'nama', 
+        'nip', 
+        'status_admin', 
+        'email', 
+        'password', 
+        'email_verified_at', 
+        'remember_token', 
+        'created_at', 
+        'updated_at'
     ];
 
     /**

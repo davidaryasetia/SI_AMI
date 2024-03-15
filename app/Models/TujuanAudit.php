@@ -5,14 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-// unit
-class Unit extends Model
+class TujuanAudit extends Model
 {
     use HasFactory;
-    protected $table='unit';
-    protected $primaryKey = 'unit_id';
+    protected $table = 'tujuan_audit';
+    protected $primaryKey = 'no_tujuan';
     protected $fillable = [
-        'nama_unit', 
+        'tujuan', 
         'created_at', 
         'updated_at'
     ];
