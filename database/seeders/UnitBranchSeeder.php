@@ -36,10 +36,6 @@ class UnitBranchSeeder extends Seeder
         ]);
         UnitBranch::create([
             'unit_id' => '8',
-            'nama_unit_branch' => 'D3 Teknik Elektro Industri',
-        ]);
-        UnitBranch::create([
-            'unit_id' => '8',
             'nama_unit_branch' => 'D4 Teknik Rekayasa Internet',
         
         

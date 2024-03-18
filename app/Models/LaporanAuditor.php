@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class LaporanAuditor extends Model
 {
     use HasFactory;
-    protected $table = 'laoporan_auditor';
+    protected $table = 'laporan_auditor';
     protected $primaryKey = 'laporan_auditor_id';
     protected $fillable = [
         'created_at', 

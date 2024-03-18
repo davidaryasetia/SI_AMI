@@ -44,7 +44,7 @@ class UserSeeder extends Seeder
             'nip' => 1970521004,
             'status_admin' => false,
             'email' => 'fitri@pens.ac.id',
-            'password' => bcrypt('tita'),
+            'password' => bcrypt('fitri'),
         ]);
         User::create([
             'unit_id' => 5,
@@ -52,7 +52,7 @@ class UserSeeder extends Seeder
             'nip' => 1970521005,
             'status_admin' => false,
             'email' => 'Selvia@pens.ac.id',
-            'password' => bcrypt('tita'),
+            'password' => bcrypt('selvia'),
         ]);
         User::create([
             'unit_id' => 6,
@@ -60,23 +60,23 @@ class UserSeeder extends Seeder
             'nip' => 1970521006,
             'status_admin' => false,
             'email' => 'wenny@pens.ac.id',
-            'password' => bcrypt('tita'),
+            'password' => bcrypt('wenny'),
         ]);
         User::create([
             'unit_id' => 7,
             'nama' => 'Fitrah Maharani',
             'nip' => 1970521007,
             'status_admin' => false,
-            'email' => 'fitri@pens.ac.id',
-            'password' => bcrypt('tita'),
+            'email' => 'fitra@pens.ac.id',
+            'password' => bcrypt('fitrah'),
         ]);
         User::create([
             'unit_id' => 8,
-            'nama' => 'Fitri Setyorini',
+            'nama' => 'Fitriani Setyorini',
             'nip' => 1970521001,
             'status_admin' => false,
-            'email' => 'fitri@pens.ac.id',
-            'password' => bcrypt('tita'),
+            'email' => 'fitriani@pens.ac.id',
+            'password' => bcrypt('fitriani'),
         ]);
 
     }

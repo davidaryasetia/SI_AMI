@@ -1,8 +1,7 @@
 <?php
 
 namespace Database\Seeders;
-
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use \App\Models\Unit;
 use \App\Models\User;
@@ -25,6 +24,9 @@ class DatabaseSeeder extends Seeder
             AuditorSeeder::class, 
             IndikatorKinerjaUnitSeeder::class, 
             WaktuPelaksanaanSeeder::class, 
+            LingkupAuditSeeder::class, 
+            TujuanAuditSeeder::class,
+            LaporanAuditorSeeder::class, 
             TransaksiDataSeeder::class
         ]);
     }

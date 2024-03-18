@@ -36,6 +36,9 @@ class UnitSeeder extends Seeder
             'nama_unit' => 'P4MP SPM',
         ]);
         Unit::create([
+            'nama_unit' => 'Departemen Teknik Informatika',
+        ]);
+        Unit::create([
             'nama_unit' => 'Departemen Teknik Elektronika',
         ]);
         Unit::create([

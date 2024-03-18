@@ -10,10 +10,11 @@ class Auditor extends Model
     use HasFactory;
     protected $table='auditor';
     protected $primaryKey = 'auditor_id';
-    protected $guarded = [
+    protected $fillable = [
         'unit_id', 
-        'user_id', 
+        'auditor_1', 
+        'auditor_2', 
         'created_at', 
-        'updated_at' 
+        'updated_at', 
     ];
 }

@@ -13,7 +13,7 @@ class IndikatorKinerjaUnitSeeder extends Seeder
      */
     public function run(): void
     {
-        // Indikator Kinerja Unit
+        // Unit 1 => Ukarni
         IndikatorKinerjaUnit::create([
             'unit_id' => 1,
             'kode' => 'U11.1',
@@ -85,6 +85,7 @@ class IndikatorKinerjaUnitSeeder extends Seeder
             'target' => 40,
         ]);
 
+        // Unit 2 => P3M
         IndikatorKinerjaUnit::create([
             'unit_id' => 2,
             'kode' => 'U23.1',
@@ -101,10 +102,63 @@ class IndikatorKinerjaUnitSeeder extends Seeder
         ]);
         IndikatorKinerjaUnit::create([
             'unit_id' => 2,
-            'kode' => 'U23.3',
-            'indikator_kinerja_unit_kerja' => 'Jumlah karya tulis dalam bentuk  jurnal internasional bereputasi atau jurnal internasional terindeks pada databese internasional bereputasi (Q1-Q4)',
+            'kode' => 'C9.35',
+            'indikator_kinerja_unit_kerja' => 'Jumlah karya tulis dalam bentuk  buku nasional/internasional yang mempunyai ISBN',
             'satuan' => 'nominal',
             'target' => 24,
         ]);
+        IndikatorKinerjaUnit::create([
+            'unit_id' => 2,
+            'kode' => 'U23.3',
+            'indikator_kinerja_unit_kerja' => 'Jumlah karya tulis dalam bentuk  book chapter internasional ',
+            'satuan' => 'nominal',
+            'target' => 24,
+        ]);
+        IndikatorKinerjaUnit::create([
+            'unit_id' => 2,
+            'kode' => 'U23.4',
+            'indikator_kinerja_unit_kerja' => 'Jumlah karya tulis dalam bentuk  jurnal internasional/nasional berbahasa inggris atau bahasa resmi PBB terindeks pada DOAJ',
+            'satuan' => 'nominal',
+            'target' => 24,
+        ]);
+
+        // Unit 3 => P3M
+        IndikatorKinerjaUnit::create([
+            'unit_id' => 3,
+            'kode' => 'U12.8',
+            'indikator_kinerja_unit_kerja' => 'Jumlah mahasiswa berprestasi juara 1 bidang akademik tingkat internasional ',
+            'satuan' => 'nominal',
+            'target' => 24,
+        ]);
+        IndikatorKinerjaUnit::create([
+            'unit_id' => 3,
+            'kode' => 'U12.10',
+            'indikator_kinerja_unit_kerja' => 'Jumlah mahasiswa berprestasi juara 2 bidang akademik tingkat internasional',
+            'satuan' => 'nominal',
+            'target' => 24,
+        ]);
+        IndikatorKinerjaUnit::create([
+            'unit_id' => 3,
+            'kode' => 'U12.12',
+            'indikator_kinerja_unit_kerja' => 'Jumlah mahasiswa berprestasi juara 3  bidang akademik tingkat internasional',
+            'satuan' => 'nominal',
+            'target' => 24,
+        ]);
+        IndikatorKinerjaUnit::create([
+            'unit_id' => 3,
+            'kode' => 'U12.14',
+            'indikator_kinerja_unit_kerja' => 'Jumlah mahasiswa berprestasi juara 1  bidang akademik tingkat nasional',
+            'satuan' => 'nominal',
+            'target' => 24,
+        ]);
+        IndikatorKinerjaUnit::create([
+            'unit_id' => 3,
+            'kode' => 'U12.16',
+            'indikator_kinerja_unit_kerja' => 'Jumlah mahasiswa berprestasi juara 2  bidang akademik tingkat nasional',
+            'satuan' => 'nominal',
+            'target' => 24,
+        ]);
+        
+        
     }
 }
