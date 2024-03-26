@@ -18,8 +18,16 @@ return new class extends Migration
             $table->boolean('status_verifikasi_auditor');
             $table->string('realisasi');
             $table->enum('hasil_audit', ['melampaui','memenuhi','belum memenuhi']);
+            $table->longText('analisis');
+            $table->longText('target_tahun_depan');
+            $table->longText('strategi_pencapaian');
+            $table->longText('sarpras_yang_dibutuhkan');
+            $table->longText('faktor_pendukung');
+            $table->longText('faktor_penghambat');
+            $table->longText('akar_masalah');
+            $table->longText('tindak_lanjut');
+            $table->longText('status');
             $table->string('data_dukung');
-            $table->text('saran');
             $table->timestamps();
         });
     }
