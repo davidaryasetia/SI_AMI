@@ -15,7 +15,7 @@ return new class extends Migration
             $table->unsignedBigInteger('pelaksanaan_id');
             $table->foreign('pelaksanaan_id')->references('pelaksanaan_id')->on('waktu_pelaksanaan');
             
-            $table->unsignedBigInteger('laporan_auditor_id');
+            $table->unsignedBigInteger('laporan_auditor_id')->nullable();
             $table->foreign('laporan_auditor_id')->references('laporan_auditor_id')->on('laporan_auditor');
 
             $table->unsignedBigInteger('unit_id');

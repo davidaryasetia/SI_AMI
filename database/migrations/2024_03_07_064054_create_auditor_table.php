@@ -17,11 +17,8 @@ return new class extends Migration
             $table->foreign('unit_id')->references('unit_id')->on('unit');
 
             $table->unsignedBigInteger('auditor_1');
-            $table->foreign('auditor_1')->references('user_id')->on('user');
-
             $table->unsignedBigInteger('auditor_2');
-            $table->foreign('auditor_2')->references('user_id')->on('user');
-
+            $table->foreign('auditor_1', 'auditor_2')->references('user_id')->on('user');
             $table->timestamps();
         });
     }

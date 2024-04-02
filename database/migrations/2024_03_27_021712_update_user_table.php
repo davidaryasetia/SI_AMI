@@ -13,8 +13,11 @@ return new class extends Migration
     {
         if(Schema::hasTable('unit')){
             Schema::table('user', function(Blueprint $table){
-                $table->unsignedBigInteger('unit_id')->after('user_id')->nullOnDelete();
+                $table->unsignedBigInteger('unit_id')->after('user_id')->nullOnDelete()->nullable();
                 $table->foreign('unit_id')->references('unit_id')->on('unit');
+
+                $table->unsignedBigInteger('unit_branch_id')->after('unit_id')->nullable() ;
+                $table->foreign('unit_branch_id')->references('unit_branch_id')->on('unit_branch');
             });
         }
     }
