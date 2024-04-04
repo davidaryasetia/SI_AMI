@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('indikator_kinerja_unit', function (Blueprint $table) {
-            $table->id('indikator_kinerja_id');
-            // $table->integer('no_id');
-            $table->unsignedBigInteger('unit_id')->nullOnDelete();
-            $table->foreign('unit_id')->references('unit_id')->on('unit');
+        Schema::create('indikator_kinerja_unit_kerja', function (Blueprint $table) {
+            $table->id('indikator_kinerja_unit_kerja_id');
             $table->string('kode')->unique();
-            $table->string('indikator_kinerja_unit_kerja'); 
+            $table->string('isi_indikator_kinerja_unit_kerja'); 
             $table->string('satuan');
             $table->integer('target');
             $table->timestamps();
@@ -29,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('indikator_kinerja_unit');
+        Schema::dropIfExists('indikator_kinerja_unit_kerja');
     }
 };

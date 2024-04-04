@@ -24,9 +24,8 @@ return new class extends Migration
             $table->unsignedBigInteger('auditor_id');
             $table->foreign('auditor_id')->references('auditor_id')->on('auditor');
             
-            $table->unsignedBigInteger('indikator_kinerja_id');
-            $table->foreign('indikator_kinerja_id')->references('indikator_kinerja_id')->on('indikator_kinerja_unit');
-
+            $table->unsignedBigInteger('indikator_kinerja_unit_kerja_id');
+            $table->foreign('indikator_kinerja_unit_kerja_id')->references('indikator_kinerja_unit_kerja_id')->on('indikator_kinerja_unit_kerja');
         });
     }
 
@@ -35,8 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('transaksi_data', function (Blueprint $table) {
-            //
-        });
+        Schema::drop('transaksi_data');
     }
 };

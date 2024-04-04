@@ -25,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('laporan_auditor', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('laporan_auditor');
     }
 };
