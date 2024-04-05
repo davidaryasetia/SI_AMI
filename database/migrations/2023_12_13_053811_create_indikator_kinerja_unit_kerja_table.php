@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id('indikator_kinerja_unit_kerja_id');
             $table->string('kode')->unique();
             $table->string('isi_indikator_kinerja_unit_kerja'); 
-            $table->string('satuan');
-            $table->integer('target');
+            $table->string('satuan_ikuk');
+            $table->integer('target_ikuk');
             $table->timestamps();
         });
     }
