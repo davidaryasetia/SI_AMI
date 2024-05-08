@@ -37,9 +37,9 @@ class UnitBranchSeeder extends Seeder
         UnitBranch::create([
             'unit_id' => '8',
             'nama_unit_branch' => 'D4 Teknik Rekayasa Internet',
-        
-        
-        # DTIK
+
+
+            # DTIK
         ]);
         UnitBranch::create([
             'unit_id' => '9',
@@ -57,7 +57,7 @@ class UnitBranchSeeder extends Seeder
             'unit_id' => '9',
             'nama_unit_branch' => 'D4 Sains Data Terapan',
         ]);
-        
+
         # DTME
         UnitBranch::create([
             'unit_id' => '10',
@@ -67,6 +67,5 @@ class UnitBranchSeeder extends Seeder
             'unit_id' => '10',
             'nama_unit_branch' => 'D4 Sistem Pembangkit Energi',
         ]);
-        
     }
 }

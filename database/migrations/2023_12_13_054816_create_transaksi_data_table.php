@@ -16,9 +16,10 @@ return new class extends Migration
             $table->string('riwayat_nama_unit');
             $table->boolean('status_pengisian_audite');
             $table->boolean('status_verifikasi_auditor');
-            $table->string('realisasi');
+            $table->string('realisasi_ikuk');
             $table->enum('hasil_audit', ['melampaui','memenuhi','belum memenuhi']);
             $table->longText('analisis');
+            $table->longText('target_lama');
             $table->longText('target_tahun_depan');
             $table->longText('strategi_pencapaian');
             $table->longText('sarpras_yang_dibutuhkan');

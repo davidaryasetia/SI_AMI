@@ -1,6 +1,7 @@
 <?php
 
 namespace Database\Seeders;
+
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use \App\Models\Unit;
@@ -19,14 +20,14 @@ class DatabaseSeeder extends Seeder
         // Calling seeder
         $this->call([
             UnitSeeder::class,
-            UnitBranchSeeder::class, 
-            UserSeeder::class, 
-            AuditorSeeder::class, 
-            IndikatorKinerjaUnitSeeder::class, 
-            WaktuPelaksanaanSeeder::class, 
-            LingkupAuditSeeder::class, 
+            UnitBranchSeeder::class,
+            UserSeeder::class,
+            AuditorSeeder::class,
+            IndikatorKinerjaUnitSeeder::class,
+            WaktuPelaksanaanSeeder::class,
+            LingkupAuditSeeder::class,
             TujuanAuditSeeder::class,
-            LaporanAuditorSeeder::class, 
+            LaporanAuditorSeeder::class,
             TransaksiDataSeeder::class
         ]);
     }

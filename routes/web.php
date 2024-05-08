@@ -18,7 +18,7 @@ use App\Http\Controllers\IndikatorController;
 
 Route::get('/', function () {
     return view('index', [
-        "title"=>"Beranda"
+        "title" => "Beranda"
     ]);
 });
 
@@ -28,31 +28,31 @@ Route::resource('/data_audit/indikator_unit_kerja', IndikatorController::class);
 Route::resource('/data_audit/data_user_pengguna', UserController::class);
 
 // Route Resource
-Route::get('/data_audit/indikator_unit_kerja/indikator', function() {
+Route::get('/data_audit/indikator_unit_kerja/indikator', function () {
     return view('data_audit.indikator_unit_kerja.indikator', [
         "title" => "Indikator Unit Kerja"
     ]);
 });
 
-Route::get('/data_audit/data_user_pengguna/user', function(){
+Route::get('/data_audit/data_user_pengguna/user', function () {
     return view('data_audit.data_user_pengguna.user', [
         "title" => "Data User"
     ]);
 });
 
 // Profile Pengguna
-Route::get('/user_profile/profile', function(){
+Route::get('/user_profile/profile', function () {
     return view('user_profile.profile', [
         "title" => "Profile User"
     ]);
 });
 
-Route::get('/jadwal', function(){
+Route::get('/jadwal', function () {
     return view('jadwal', [
         "title" => "Jadwal Pengisian"
     ]);
 });
 
-Route::get('/auth/login', function(){
+Route::get('/auth/login', function () {
     return view('auth.login');
 });

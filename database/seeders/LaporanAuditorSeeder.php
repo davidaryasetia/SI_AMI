@@ -14,16 +14,16 @@ class LaporanAuditorSeeder extends Seeder
     public function run(): void
     {
         LaporanAuditor::create([
-            'no_tujuan' => 1, 
-            'no_lingkup' => 1, 
+            'no_tujuan' => 1,
+            'no_lingkup' => 1,
         ]);
         LaporanAuditor::create([
-            'no_tujuan' => 1, 
-            'no_lingkup' => 1, 
+            'no_tujuan' => 1,
+            'no_lingkup' => 1,
         ]);
         LaporanAuditor::create([
-            'no_tujuan' => 1, 
-            'no_lingkup' => 1, 
+            'no_tujuan' => 1,
+            'no_lingkup' => 1,
         ]);
     }
 }

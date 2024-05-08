@@ -15,21 +15,19 @@ class AuditorSeeder extends Seeder
     {
         // Auditor 
         Auditor::create([
-            'unit_id' => 1, 
+            'unit_id' => 1,
             'auditor_1' => 2,
             'auditor_2' => 3,
         ]);
         Auditor::create([
-            'unit_id' => 2, 
+            'unit_id' => 2,
             'auditor_1' => 1,
             'auditor_2' => 5,
         ]);
         Auditor::create([
-            'unit_id' => 3, 
+            'unit_id' => 3,
             'auditor_1' => 4,
             'auditor_2' => 6,
         ]);
-        
-    
     }
 }

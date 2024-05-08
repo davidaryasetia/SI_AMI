@@ -18,3 +18,5 @@ class IndikatorKinerjaKegiatan extends Model
       'target_ikk'
     ];
 }
+
+

@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('indikator_kinerja_sub_kegiatan', function (Blueprint $table) {
             $table->id('indikator_kinerja_sub_kegiatan_id');
             $table->text('isi_indikator_kinerja_sub_kegiatan');
+            $table->string('kode_iksk');
             $table->string('satuan_iksk');
-            $table->string('target_iksk');
+            $table->iteger('target_iksk');
         });
     }
 

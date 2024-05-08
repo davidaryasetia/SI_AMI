@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('kode_ikk');
             $table->string('isi_indikator_kinerja_kegiatan');
             $table->string('satuan_ikk');
-            $table->string('target_ikk');
+            $table->integer('target_ikk');
         });
     }
 

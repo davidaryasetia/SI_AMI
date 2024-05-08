@@ -15,7 +15,7 @@ class TujuanAuditSeeder extends Seeder
     {
         TujuanAudit::create([
             'tujuan' => 'Melihat kesesuaian antara pelaksanaan standar dengan indikator kinerja yang
-            telah ditetapkan pada standar SPMI PENS.', 
+            telah ditetapkan pada standar SPMI PENS.',
         ]);
     }
 }

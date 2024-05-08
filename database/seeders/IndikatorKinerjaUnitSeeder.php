@@ -158,7 +158,5 @@ class IndikatorKinerjaUnitSeeder extends Seeder
             'satuan' => 'nominal',
             'target' => 24,
         ]);
-        
-        
     }
 }

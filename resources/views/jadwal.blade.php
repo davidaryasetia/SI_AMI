@@ -1,24 +1,21 @@
 @extends('layouts.main')
 
 @section('container')
-
-<div class="pagetitle">
-    <h1>Atur Pengisian AMI</h1>
-    <nav>
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-        <li class="breadcrumb-item active">Perisde Pengisian</li>
-      </ol>
-    </nav>
-  </div>
-
-  <section class="section dashboard">
-    <div class="row">
-
-
-
+    <div class="pagetitle">
+        <h1>Atur Pengisian AMI</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item active">Perisde Pengisian</li>
+            </ol>
+        </nav>
     </div>
-  </section>
+
+    <section class="section dashboard">
+        <div class="row">
 
 
+
+        </div>
+    </section>
 @endsection

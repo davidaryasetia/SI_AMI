@@ -9,11 +9,11 @@ use Illuminate\Database\Eloquent\Model;
 class Unit extends Model
 {
     use HasFactory;
-    protected $table='unit';
+    protected $table = 'unit';
     protected $primaryKey = 'unit_id';
     protected $fillable = [
-        'nama_unit', 
-        'created_at', 
+        'nama_unit',
+        'created_at',
         'updated_at'
     ];
 }
