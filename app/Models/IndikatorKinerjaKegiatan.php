@@ -17,6 +17,17 @@ class IndikatorKinerjaKegiatan extends Model
       'satuan_ikk', 
       'target_ikk'
     ];
+
+    // indikator_kinerja_kegiatan -> indikator_kinerja_sub_kegiatan (one to many)
+    public function Indikator_Kinerja_Sub_Kegiatan(){
+      return $this->hasMany(IndikatorKinerjaSubKegiatan::class);
+    }
+
+    public function Indikator_Kinerja_Kegiatan(){
+      return $this->belongsTo(Unit::class);
+    }
+
+    
 }
 
 
