@@ -16,6 +16,12 @@ return new class extends Migration
             $table->string('indikator_kinerja');
             $table->integer('jumlah_indikator');
             $table->longText('peluang_peningkatan');
+
+            $table->unsignedBigInteger('laporan_auditor_id');
+            $table->foreign('laporan_auditor_id')
+                    ->references('laporan_auditor_id')
+                    ->on('laporan_auditor');
+            
             $table->timestamps();
         });
     }

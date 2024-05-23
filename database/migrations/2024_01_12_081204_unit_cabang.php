@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('unit_branch', function (Blueprint $table) {
-            $table->id('unit_branch_id');
+        Schema::create('unit_cabang', function (Blueprint $table) {
+            $table->id('unit_cabang_id');
             $table->unsignedBigInteger('unit_id')->nullOnDelete();
             $table->foreign('unit_id')->references('unit_id')->on('unit');
-            $table->string('nama_unit_branch')->lenght(64)->unique();
+            
+            $table->string('nama_unit_cabang')->lenght(64)->unique();
             $table->timestamps();
         });
     }

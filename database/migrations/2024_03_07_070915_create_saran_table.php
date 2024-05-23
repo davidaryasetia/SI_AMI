@@ -14,6 +14,12 @@ return new class extends Migration
         Schema::create('saran', function (Blueprint $table) {
             $table->id('no_saran');
             $table->string('indikator_kinerja');
+
+            $table->unsignedBigInteger('laporan_auditor_id');
+            $table->foreign('laporan_auditor_id')
+                    ->references('laporan_auditor_id')
+                    ->on('laporan_auditor');
+                    
             $table->timestamps();
         });
     }

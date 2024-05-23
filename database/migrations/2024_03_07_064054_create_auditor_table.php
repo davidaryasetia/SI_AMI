@@ -13,13 +13,22 @@ return new class extends Migration
     {
         Schema::create('auditor', function (Blueprint $table) {
             $table->id('auditor_id');
+
             $table->unsignedBigInteger('unit_id');
-            $table->foreign('unit_id')->references('unit_id')->on('unit');
+            $table->foreign('unit_id')
+                    ->references('unit_id')
+                    ->on('unit');
 
             $table->unsignedBigInteger('auditor_1');
+            $table->foreign('auditor_1')
+                    ->references('user_id')
+                    ->on('user');
+            
             $table->unsignedBigInteger('auditor_2');
-            $table->foreign('auditor_1')->references('user_id')->on('user');
-            $table->foreign('auditor_2')->references('user_id')->on('user');
+            $table->foreign('auditor_2')
+                    ->references('user_id')
+                    ->on('user');
+
             $table->timestamps();
         });
     }
@@ -32,3 +41,4 @@ return new class extends Migration
         Schema::dropIfExists('auditor');
     }
 };
+ 

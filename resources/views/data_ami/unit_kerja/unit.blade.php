@@ -49,16 +49,16 @@
                                     <th class="border-bottom-0">
                                         <h6 class="fw-semibold mb-0 text-center">Unit Kerja</h6>
                                     </th>
-
+                                    <th class="border-bottom-0">
+                                        <h6 class="fw-semibold mb-0 text-center">Audite</h6>
+                                    </th>
                                     <th class="border-bottom-0">
                                         <h6 class="fw-semibold mb-0 text-center">Auditor 1</h6>
                                     </th>
                                     <th class="border-bottom-0">
                                         <h6 class="fw-semibold mb-0 text-center">Auditor 2</h6>
                                     </th>
-                                    <th class="border-bottom-0">
-                                        <h6 class="fw-semibold mb-0 text-center">PIC</h6>
-                                    </th>
+                                   
                                     <th class="border-bottom-0">
                                         <h6 class="fw-semibold mb-0">Edit</h6>
                                     </th>

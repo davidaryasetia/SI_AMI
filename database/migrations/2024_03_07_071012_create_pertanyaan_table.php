@@ -16,6 +16,12 @@ return new class extends Migration
             $table->longText('pertanyaan');
             $table->string('jawaban');
             $table->longText('keterangan');
+            
+            $table->unsignedBigInteger('laporan_auditor_id');
+            $table->foreign('laporan_auditor_id')
+                    ->references('laporan_auditor_id')
+                    ->on('laporan_auditor');
+
             $table->timestamps();
         });
     }

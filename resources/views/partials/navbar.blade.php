@@ -23,7 +23,7 @@
                             class="rounded-circle">
                     </a>
                     <div class="flex-grow-1 me-3">
-                        <span class="fw-semibold d-block" id="navbar-username">John</span>
+                        <span class="fw-semibold d-block" id="navbar-username">Hary Oktavianto</span>
                         <small class="text-muted" id="navbar-status"></small>
                     </div>
                     <span>
@@ -33,11 +33,7 @@
                         <div class="message-body">
                             <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
                                 <i class="ti ti-user fs-6"></i>
-                                <p class="mb-0 fs-3">My Profile</p>
-                            </a>
-                            <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
-                                <i class="ti ti-mail fs-6"></i>
-                                <p class="mb-0 fs-3">My Account</p>
+                                <p class="mb-0 fs-3">Profile</p>
                             </a>
                             <a href="./authentication-login.html"
                                 class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>

@@ -14,35 +14,44 @@ class UnitSeeder extends Seeder
     public function run(): void
     {
         // Unit
-        Unit::create([
-            'nama_unit' => 'Ukarni',
+        Unit::create([ // 1
+            'nama_unit' => 'Ukarni', 
         ]);
-        Unit::create([
-            'nama_unit' => 'P3M',
+
+        Unit::create([  // 2
+            'nama_unit' => 'P3M', 
         ]);
-        Unit::create([
+
+        Unit::create([  // 3
             'nama_unit' => 'Penalaran',
         ]);
-        Unit::create([
+
+        Unit::create([  // 4
             'nama_unit' => 'Minat Bakat',
         ]);
-        Unit::create([
+
+        Unit::create([  // 5
             'nama_unit' => 'Perencanaan',
         ]);
-        Unit::create([
-            'nama_unit' => 'P4MP Pembelajaran',
+
+        Unit::create([ //6
+            'nama_unit' => 'P4MP Pembelajaran', 
         ]);
-        Unit::create([
-            'nama_unit' => 'P4MP SPM',
+
+        Unit::create([ // 7
+            'nama_unit' => 'P4MP SPM', 
         ]);
-        Unit::create([
-            'nama_unit' => 'Departemen Teknik Elektronika',
+
+        Unit::create([ // 8
+            'nama_unit' => 'Departemen Teknik Elektronika', 
         ]);
-        Unit::create([
-            'nama_unit' => 'Departemen Teknik Informatika',
+
+        Unit::create([  // 9
+            'nama_unit' => 'Departemen Teknik Informatika', 
         ]);
-        Unit::create([
-            'nama_unit' => 'Departemen Teknik Mekanika Energi',
+
+        Unit::create([ // 10
+            'nama_unit' => 'Departemen Teknik Mekanika Energi', 
         ]);
     }
 }

@@ -13,57 +13,57 @@ class UnitBranchSeeder extends Seeder
      */
     public function run(): void
     {
-        #DTE
-        UnitBranch::create([
+        # Departemen Teknik Elektronika
+        UnitBranch::create([ // 1
             'unit_id' => '8',
             'nama_unit_branch' => 'D4 Teknik Elektronika',
         ]);
-        UnitBranch::create([
+        UnitBranch::create([ // 2
             'unit_id' => '8',
             'nama_unit_branch' => 'D3 Teknik Elektronika',
         ]);
-        UnitBranch::create([
+        UnitBranch::create([ // 3
             'unit_id' => '8',
             'nama_unit_branch' => 'D3 Teknik Telekomunikasi',
         ]);
-        UnitBranch::create([
+        UnitBranch::create([ // 4
             'unit_id' => '8',
             'nama_unit_branch' => 'D4 Teknik Telekomunikasi',
         ]);
-        UnitBranch::create([
+        UnitBranch::create([ // 5
             'unit_id' => '8',
             'nama_unit_branch' => 'D4 Teknik Elektro Industri',
         ]);
-        UnitBranch::create([
+        UnitBranch::create([  // 6
             'unit_id' => '8',
             'nama_unit_branch' => 'D4 Teknik Rekayasa Internet',
 
 
-            # DTIK
+        # Departement Teknik Informatika
         ]);
-        UnitBranch::create([
+        UnitBranch::create([ // 7
             'unit_id' => '9',
             'nama_unit_branch' => 'D4 Teknik Informatika',
         ]);
-        UnitBranch::create([
+        UnitBranch::create([ // 8
             'unit_id' => '9',
             'nama_unit_branch' => 'D3 Teknik Informatika',
         ]);
-        UnitBranch::create([
+        UnitBranch::create([ // 9
             'unit_id' => '9',
             'nama_unit_branch' => 'D4 Teknik Komputer',
         ]);
-        UnitBranch::create([
+        UnitBranch::create([ // 10
             'unit_id' => '9',
             'nama_unit_branch' => 'D4 Sains Data Terapan',
         ]);
 
-        # DTME
-        UnitBranch::create([
+        # Departemen Teknik Mekanika Energi
+        UnitBranch::create([ // 11
             'unit_id' => '10',
             'nama_unit_branch' => 'D4 Teknik Mekatronika',
         ]);
-        UnitBranch::create([
+        UnitBranch::create([ // 12
             'unit_id' => '10',
             'nama_unit_branch' => 'D4 Sistem Pembangkit Energi',
         ]);

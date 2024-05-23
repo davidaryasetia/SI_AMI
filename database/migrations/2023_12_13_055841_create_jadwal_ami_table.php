@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('saran', function (Blueprint $table) {
-            $table->unsignedBigInteger('laporan_auditor_id');
-            $table->foreign('laporan_auditor_id')->references('laporan_auditor_id')->on('laporan_auditor');
+        Schema::create('jadwal_ami', function (Blueprint $table) {
+            $table->id('jadwal_ami_id');
+            $table->year('tahun');
+            $table->dateTime('tanggal_pembukaan_ami');
+            $table->dateTime('tanggal_penutupan_ami');
+            $table->timestamps();
         });
     }
 
@@ -22,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('saran');
+        Schema::dropIfExists('waktu_pelaksanaan');
     }
 };

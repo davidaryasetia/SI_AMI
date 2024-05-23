@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('indikator_kinerja_kegiatan', function (Blueprint $table) {
             $table->id('indikator_kinerja_kegiatan_id');
+            
             $table->unsignedBigInteger('unit_id');
             $table->foreign('unit_id')->references('unit_id')->on('unit');
+
             $table->string('kode_ikk');
             $table->string('isi_indikator_kinerja_kegiatan');
             $table->string('satuan_ikk');

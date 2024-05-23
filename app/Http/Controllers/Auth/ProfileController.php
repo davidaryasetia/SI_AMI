@@ -22,7 +22,7 @@ class ProfileController extends Controller
      */
     public function create()
     {
-        //
+       
     }
 
     /**
@@ -46,7 +46,9 @@ class ProfileController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return view('auth.profile.edit', [
+            'title' => 'Edit Profile', 
+        ]);
     }
 
     /**
