@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class UnitBranch extends Model
 {
     use HasFactory;
-    protected $table='unit_branch';
-    protected $primaryKey='unit_branch_id';
+    protected $table='unit_cabang';
+    protected $primaryKey='unit_cabang_id';
     protected $fillable=[
         'unit_id',
         'nama_unit_branch', 

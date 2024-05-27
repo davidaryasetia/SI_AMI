@@ -8,6 +8,7 @@ use \App\Models\Unit;
 use \App\Models\User;
 use \App\Models\IndikatorKinerjaUnit;
 use \App\Models\Auditor;
+use App\Models\IndikatorKinerjaSubKegiatan;
 use App\Models\UnitBranch;
 
 class DatabaseSeeder extends Seeder
@@ -19,16 +20,22 @@ class DatabaseSeeder extends Seeder
     {
         // Calling seeder
         $this->call([
+            // Data Master
             UnitSeeder::class,
             UnitBranchSeeder::class,
             UserSeeder::class,
             AuditorSeeder::class,
-            IndikatorKinerjaUnitSeeder::class,
+            IndikatorKinerjaKegiatanSeeder::class, 
+            IndikatorKinerjaSubKegiatanSeeder::class, 
+            IndikatorKinerjaUnitKerjaSeeder::class, 
+
+            // Data Transaksi
+
+            // Laporan
             WaktuPelaksanaanSeeder::class,
             LingkupAuditSeeder::class,
             TujuanAuditSeeder::class,
             LaporanAuditorSeeder::class,
-            TransaksiDataSeeder::class
         ]);
     }
 }

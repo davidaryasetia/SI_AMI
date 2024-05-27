@@ -15,19 +15,16 @@ class WaktuPelaksanaanSeeder extends Seeder
     {
         WaktuPelaksanaan::create([
             'tahun' => 2022,
-            'semester' => 1,
             'tanggal_pembukaan_ami' => '2022-02-01 00:00:00',
             'tanggal_penutupan_ami' => '2024-03-01 23:59:59',
         ]);
         WaktuPelaksanaan::create([
             'tahun' => 2023,
-            'semester' => 1,
             'tanggal_pembukaan_ami' => '2023-02-01 00:00:00',
             'tanggal_penutupan_ami' => '2023-03-01 23:59:59',
         ]);
         WaktuPelaksanaan::create([
             'tahun' => 2024,
-            'semester' => 1,
             'tanggal_pembukaan_ami' => '2024-02-01 00:00:00',
             'tanggal_penutupan_ami' => '2024-03-01 23:59:59',
         ]);

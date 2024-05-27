@@ -19,12 +19,12 @@ return new class extends Migration
                     ->references('unit_id')
                     ->on('unit');
 
-            $table->unsignedBigInteger('auditor_1');
+            $table->unsignedBigInteger('auditor_1')->nullable();
             $table->foreign('auditor_1')
                     ->references('user_id')
                     ->on('user');
             
-            $table->unsignedBigInteger('auditor_2');
+            $table->unsignedBigInteger('auditor_2')->nullable();
             $table->foreign('auditor_2')
                     ->references('user_id')
                     ->on('user');

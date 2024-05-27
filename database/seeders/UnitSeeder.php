@@ -15,11 +15,11 @@ class UnitSeeder extends Seeder
     {
         // Unit
         Unit::create([ // 1
-            'nama_unit' => 'Ukarni', 
+            'nama_unit' => 'Ukarni',
         ]);
 
         Unit::create([  // 2
-            'nama_unit' => 'P3M', 
+            'nama_unit' => 'P3M',
         ]);
 
         Unit::create([  // 3
@@ -35,23 +35,36 @@ class UnitSeeder extends Seeder
         ]);
 
         Unit::create([ //6
-            'nama_unit' => 'P4MP Pembelajaran', 
+            'nama_unit' => 'P4MP Pembelajaran',
         ]);
 
         Unit::create([ // 7
-            'nama_unit' => 'P4MP SPM', 
+            'nama_unit' => 'P4MP SPM',
         ]);
 
         Unit::create([ // 8
-            'nama_unit' => 'Departemen Teknik Elektronika', 
+            'nama_unit' => 'Departemen Teknik Elektronika',
         ]);
 
         Unit::create([  // 9
-            'nama_unit' => 'Departemen Teknik Informatika', 
+            'nama_unit' => 'Departemen Teknik Informatika',
         ]);
 
         Unit::create([ // 10
-            'nama_unit' => 'Departemen Teknik Mekanika Energi', 
+            'nama_unit' => 'Departemen Teknik Mekanika Energi',
+        ]);
+
+
+        Unit::create([ // 11
+            'nama_unit' => 'UPUK',
+        ]);
+
+        Unit::create([ // 12
+            'nama_unit' => 'BAK',
+        ]);
+
+        Unit::create([ // 13
+            'nama_unit' => 'SPI',
         ]);
     }
 }

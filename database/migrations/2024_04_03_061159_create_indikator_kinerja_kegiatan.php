@@ -18,9 +18,10 @@ return new class extends Migration
             $table->foreign('unit_id')->references('unit_id')->on('unit');
 
             $table->string('kode_ikk');
-            $table->string('isi_indikator_kinerja_kegiatan');
+            $table->longText('isi_indikator_kinerja_kegiatan');
             $table->string('satuan_ikk');
-            $table->integer('target_ikk');
+            $table->integer('target_ikk')->nullable();
+            $table->timestamps();
         });
     }
 

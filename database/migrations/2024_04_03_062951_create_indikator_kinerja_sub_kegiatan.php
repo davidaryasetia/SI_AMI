@@ -19,10 +19,11 @@ return new class extends Migration
                     ->on('indikator_kinerja_kegiatan');
 
          
-            $table->text('isi_indikator_kinerja_sub_kegiatan');
+            $table->longText('isi_indikator_kinerja_sub_kegiatan');
             $table->string('kode_iksk');
             $table->string('satuan_iksk');
-            $table->integer('target_iksk');
+            $table->integer('target_iksk')->nullable();
+            $table->timestamps();
         });
     }
 

@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
         // User
         User::create([  // 1
             'unit_id' => 1, // Ukarni
-            'unit_branch_id' => NULL,
+            'unit_cabang_id' => NULL,
             'nama' => 'Hary Oktavianto',
             'nip' => 1970121001,
             'status_admin' => true,
@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
         ]);
         User::create([ // 2
             'unit_id' => 2, // P3M
-            'unit_branch_id' => NULL,
+            'unit_cabang_id' => NULL,
             'nama' => 'Nana Ramadijanti',
             'nip' => 1974521002,
             'status_admin' => true,
@@ -34,7 +34,7 @@ class UserSeeder extends Seeder
         ]);
         User::create([ // 3
             'unit_id' => 3, // Penalaran
-            'unit_branch_id' => NULL,
+            'unit_cabang_id' => NULL,
             'nama' => 'Tita Karlita',
             'nip' => 1985521003,
             'status_admin' => true,
@@ -43,7 +43,7 @@ class UserSeeder extends Seeder
         ]);
         User::create([ // 4
             'unit_id' => 4, // Minat Bakat
-            'unit_branch_id' => NULL,
+            'unit_cabang_id' => NULL,
             'nama' => 'Fitri Setyorini',
             'nip' => 1970521004,
             'status_admin' => false,
@@ -52,7 +52,7 @@ class UserSeeder extends Seeder
         ]);
         User::create([ // 5
             'unit_id' => 5, // Perencanaa
-            'unit_branch_id' => NULL,
+            'unit_cabang_id' => NULL,
             'nama' => 'Selvia',
             'nip' => 1970521005,
             'status_admin' => false,
@@ -61,7 +61,7 @@ class UserSeeder extends Seeder
         ]);
         User::create([ // 6
             'unit_id' => 6, // P4MP Pembelajran
-            'unit_branch_id' => NULL,
+            'unit_cabang_id' => NULL,
             'nama' => 'Wenny Mistarika',
             'nip' => 1970521006,
             'status_admin' => false,
@@ -70,7 +70,7 @@ class UserSeeder extends Seeder
         ]);
         User::create([ // 7
             'unit_id' => 7, // P4MP SPM
-            'unit_branch_id' => NULL,
+            'unit_cabang_id' => NULL,
             'nama' => 'Fitrah Maharani',
             'nip' => 1970521007,
             'status_admin' => false,
@@ -78,11 +78,11 @@ class UserSeeder extends Seeder
             'password' => bcrypt('fitrah'),
         ]);
 
-        
+
         // ----------- Departement Teknik Elektronika --------------------//
         User::create([ // 8
             'unit_id' => 8, // Departemen Teknik Elektronika
-            'unit_branch_id' => 1, // D4 Teknik Elektronika
+            'unit_cabang_id' => 1, // D4 Teknik Elektronika
             'nama' => 'Elly Purwantini',
             'nip' => 1970521021,
             'status_admin' => false,
@@ -91,7 +91,7 @@ class UserSeeder extends Seeder
         ]);
         User::create([ // 9
             'unit_id' => 8, // Departemnen Teknik Elektronika
-            'unit_branch_id' => 2, // D3 Teknik Elektronika
+            'unit_cabang_id' => 2, // D3 Teknik Elektronika
             'nama' => 'Elizabeth Anggraeni',
             'nip' => 197052102,
             'status_admin' => false,
@@ -100,7 +100,7 @@ class UserSeeder extends Seeder
         ]);
         User::create([ // 10
             'unit_id' => 8, // Departement Teknik Elektronika 
-            'unit_branch_id' => 3, // D3 Teknik Telekomunikasi
+            'unit_cabang_id' => 3, // D3 Teknik Telekomunikasi
             'nama' => 'Dedid Cahya',
             'nip' => 1970521023,
             'status_admin' => false,
@@ -109,7 +109,7 @@ class UserSeeder extends Seeder
         ]);
         User::create([ // 11
             'unit_id' => 8, // Departement Teknik Elektronika
-            'unit_branch_id' => 4, // D4 Teknik Telekomunikasi
+            'unit_cabang_id' => 4, // D4 Teknik Telekomunikasi
             'nama' => 'Wahjoe Tjatur',
             'nip' => 1970521024,
             'status_admin' => false,
@@ -117,13 +117,13 @@ class UserSeeder extends Seeder
             'password' => bcrypt('wahjoe'),
         ]);
         // ------------- Departement Teknik Elektronika -------------------//
-        
-        
-        
+
+
+
         // ------------- Departement Teknik Informatika -------------------//
         User::create([ // 12
             'unit_id' => 9, // Departement Teknik Informatika
-            'unit_branch_id' => 7, // D4 Teknik Informatika
+            'unit_cabang_id' => 7, // D4 Teknik Informatika
             'nama' => 'Nur Rosyid Mubtadai',
             'nip' => 1970521031,
             'status_admin' => false,
@@ -133,7 +133,7 @@ class UserSeeder extends Seeder
 
         User::create([ // 13
             'unit_id' => 9, // Departement Teknik Informatika
-            'unit_branch_id' => 8, // D3 Teknik Informatika
+            'unit_cabang_id' => 8, // D3 Teknik Informatika
             'nama' => 'Syauqi Ahmad Ahsan',
             'nip' => 1970521039,
             'status_admin' => false,
@@ -143,7 +143,7 @@ class UserSeeder extends Seeder
 
         User::create([ // 14
             'unit_id' => 9, // Departement Teknik Informatika
-            'unit_branch_id' => 9, // D4 Teknik Komputer
+            'unit_cabang_id' => 9, // D4 Teknik Komputer
             'nama' => 'Riyanto Sigit',
             'nip' => 1970521032,
             'status_admin' => false,
@@ -153,7 +153,7 @@ class UserSeeder extends Seeder
 
         User::create([ // 15
             'unit_id' => 9, // Departement Teknik Informatika
-            'unit_branch_id' => 10, // D4 Sains Data Terapan
+            'unit_cabang_id' => 10, // D4 Sains Data Terapan
             'nama' => 'Iwan Syarif',
             'nip' => 1970521025,
             'status_admin' => false,
@@ -162,12 +162,12 @@ class UserSeeder extends Seeder
         ]);
         // ------------- Departement Teknik Informatika -------------------//
 
-        
+
 
         // ------------- Departement Teknik Mekanika Energi --------------//
         User::create([ // 16
             'unit_id' => 10, // Departement Teknik Mekanika Energi
-            'unit_branch_id' => 11, // D4 Teknik Mekatronika
+            'unit_cabang_id' => 11, // D4 Teknik Mekatronika
             'nama' => 'Endra Pitowarno',
             'nip' => 1970521037,
             'status_admin' => false,
@@ -177,7 +177,7 @@ class UserSeeder extends Seeder
 
         User::create([ // 17
             'unit_id' => 10, // Departement Teknik Mekanika Energi
-            'unit_branch_id' => 12, // D4 Sistem Pembangkit Energi
+            'unit_cabang_id' => 12, // D4 Sistem Pembangkit Energi
             'nama' => 'Indra Adji',
             'nip' => 1970521135,
             'status_admin' => false,

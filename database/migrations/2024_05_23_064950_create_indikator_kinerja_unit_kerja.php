@@ -20,9 +20,9 @@ return new class extends Migration
                     ->on('indikator_kinerja_sub_kegiatan');
 
             $table->string('kode_ikuk')->unique();
-            $table->string('isi_indikator_kinerja_unit_kerja'); 
+            $table->longText('isi_indikator_kinerja_unit_kerja'); 
             $table->string('satuan_ikuk');
-            $table->integer('target_ikuk');
+            $table->integer('target_ikuk')->nullable();
             $table->timestamps();
         });
     }

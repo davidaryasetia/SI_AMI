@@ -15,7 +15,7 @@ class IndikatorKinerjaKegiatan extends Model
       'kode_ikk', 
       'isi_indikator_kinerja_kegaitan', 
       'satuan_ikk', 
-      'target_ikk'
+      'target_ikk', 
     ];
 
     // indikator_kinerja_kegiatan -> indikator_kinerja_sub_kegiatan (one to many)

@@ -37,7 +37,7 @@ class AuditorSeeder extends Seeder
             'auditor_1' => 5, // Selvia
             'auditor_2' => 7, // Fitrah
         ]);
-        
+
         Auditor::create([ // 5
             'unit_id' => 5,  // Perencanaan
             'auditor_1' => 3, // Tita
@@ -74,5 +74,22 @@ class AuditorSeeder extends Seeder
             'auditor_2' => null, // Wenny
         ]);
 
+        Auditor::create([ // 11
+            'unit_id' => 11,  // UPUK
+            'auditor_1' => null, // Dedid
+            'auditor_2' => null, // Wenny
+        ]);
+
+        Auditor::create([ // 12
+            'unit_id' => 12,  // UPUK
+            'auditor_1' => null, // Dedid
+            'auditor_2' => null, // Wenny
+        ]);
+
+        Auditor::create([ // 13
+            'unit_id' => 13,  // UPUK
+            'auditor_1' => null, // Dedid
+            'auditor_2' => null, // Wenny
+        ]);
     }
 }
