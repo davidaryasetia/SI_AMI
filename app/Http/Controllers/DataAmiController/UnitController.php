@@ -13,9 +13,24 @@ class UnitController extends Controller
      */
     public function index()
     {
+
+        $data_unit = Unit::select(
+            'unit.unit_id as unit_id',
+            'unit.nama_unit as nama_unit',
+            'usr.nama as audite',
+            'usr1.nama as auditor1',
+            'usr2.nama as auditor2'
+        )
+            ->leftJoin('auditor', 'unit.unit_id', '=', 'auditor.unit_id')
+            ->leftJoin('user as usr1', 'auditor.auditor_1', '=', 'usr1.user_id')
+            ->leftJoin('user as usr2', 'auditor.auditor_2', '=', 'usr2.user_id')
+            ->leftJoin('user as usr', 'unit.unit_id', '=', 'usr.unit_id')
+            ->get();
+
+
         return view('data_ami.unit_kerja.unit', [
-            'title' => 'Unit Kerja', 
-            'units' => Unit::orderBy('unit_id')->paginate(15)
+            'title' => 'Unit Kerja',
+            'data_unit' => $data_unit,
         ]);
     }
 
@@ -25,7 +40,7 @@ class UnitController extends Controller
     public function create()
     {
         return view('data_ami.unit_kerja.create', [
-            'title' => 'Tambah Unit Kerja', 
+            'title' => 'Tambah Unit Kerja',
         ]);
     }
 
@@ -35,11 +50,17 @@ class UnitController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'id' => 'required|unique:unit|min:3'
+            'nama_unit' => 'required|unique:unit|min:4'
         ]);
 
-        Unit::create($validatedData);
-        return redirect('/unit_kerja')->with('success', 'Data Unit Kerja Berhasil Ditambahkan');
+        $unit = Unit::create($validatedData);
+
+        if($unit){
+            return redirect('/unit_kerja')->with('success', 'Data Unit Kerja Berhasil Ditambahkan');
+        } else {
+            return redirect('/unit_kerja')->with('error', 'Data Gagal Di input');
+        }
+        
     }
 
     /**
@@ -55,9 +76,28 @@ class UnitController extends Controller
      */
     public function edit(string $id)
     {
+
+
+        $data_unit = Unit::select(
+            'unit.unit_id as unit_id',
+            'unit.nama_unit as nama_unit',
+            'usr.nama as audite',
+            'usr1.nama as auditor1',
+            'usr2.nama as auditor2'
+        )
+            ->join('auditor', 'unit.unit_id', '=', 'auditor.unit_id')
+            ->leftJoin('user as usr1', 'auditor.auditor_1', '=', 'usr1.user_id')
+            ->leftJoin('user as usr2', 'auditor.auditor_2', '=', 'usr2.user_id')
+            ->leftJoin('user as usr', 'unit.unit_id', '=', 'usr.unit_id')
+            ->where('unit.unit_id', $id)
+            ->first();
+
         $unit = Unit::where('unit_id', $id)->firstOrFail();
+        // dd($data_unit);
         return view('data_ami.unit_kerja.edit', [
-            'unit' => $unit, 
+
+            'unit' => $unit,
+            'data_unit' => $data_unit, 
             'title' => 'Edit Unit',
         ]);
     }
@@ -72,7 +112,7 @@ class UnitController extends Controller
             'nama_unit' => 'required|unique:unit|min:3',
         ];
 
-        if($request->nama_unit === $unit->nama_unit){
+        if ($request->nama_unit === $unit->nama_unit) {
             return redirect('/unit_kerja')->with('success', 'Tidak ada perubahan pada nama unit');
         }
 

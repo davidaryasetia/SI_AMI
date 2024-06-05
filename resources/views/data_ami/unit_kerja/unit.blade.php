@@ -70,30 +70,30 @@
                             </thead>
                             <tbody>
                                 <?php $no = 1; ?>
-                                <?php foreach($units as $unit): ?>
+                                <?php foreach($data_unit as $unit): ?>
                                 <tr>
                                     <td class="border-bottom-0 text-center">
                                         <h6 class="fw-semibold mb-0"> {{ $no++ }} </h6>
                                     </td>
                                     <td class="border-bottom-0">
                                         <div class="p-3">
-                                            <h6 class="fw-semibold mb-1 text-center"> {{ $unit['nama_unit'] }} </h6>
+                                            <h6 class="fw-semibold mb-1 text-center"> {{$unit->nama_unit}} </h6>
                                         </div>
                                     </td>
 
                                     <td class="border-bottom-0">
                                         <div class="p-3">
-                                            <h6 class="fw-semibold mb-1 text-center"> </h6>
+                                            <h6 class="fw-semibold mb-1 text-center"> {{$unit->audite}} </h6>
                                         </div>
                                     </td>
                                     <td class="border-bottom-0">
                                         <div class="p-3">
-                                            <h6 class="fw-semibold mb-1 text-center"> </h6>
+                                            <h6 class="fw-semibold mb-1 text-center"> {{$unit->auditor1}} </h6>
                                         </div>
                                     </td>
                                     <td class="border-bottom-0">
                                         <div class="p-3">
-                                            <h6 class="fw-semibold mb-1 text-center"> </h6>
+                                            <h6 class="fw-semibold mb-1 text-center"> {{$unit->auditor2}} </h6>
                                         </div>
                                     </td>
                                     <td class="border-bottom-0">
@@ -103,7 +103,7 @@
                                     </td>
                                     <td class="border-bottom-0">
                                         <form action="{{ route('unit_kerja.destroy', $unit->unit_id) }}" method="POST"
-                                            onsubmit="return confirm('Apakah Anda Yakin Ingin Menghapus Data Unit : <?php echo $unit['nama_unit']; ?> ?')">
+                                            onsubmit="return confirm('Apakah Anda Yakin Ingin Menghapus Data Unit : {{$unit->nama_unit}} ?')">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-link text-danger">

@@ -35,7 +35,7 @@
                                        
 
                                         <div>
-                                            <button type="submit" class="btn btn-outline-info">Filter</button>
+                                            <button type="submit" class="btn btn-outline-info">Submit</button>
                                         </div>
                                     </div>
                                 </form>

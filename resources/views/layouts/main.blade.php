@@ -54,13 +54,39 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.7/css/dataTables.dataTables.css" />
     <script src="https://cdn.datatables.net/2.0.7/js/dataTables.js"></script>
     <script>
-        $('#table_unit').DataTable({
+    //    ----------- Home ------------------------------
+    $('#table_status').DataTable({
             responsive: true,
+            "scrollY": "500px",
+            "pageLength": 10, // Set initial page length to 5
+            "lengthMenu": [ [10, 15, 20], [10, 15, 20] ], 
             columns: [{
                     width: '4px'
                 },
                 {
-                    width : '32px'
+                    width: '32px'
+                },
+                {
+                    width: '12px'
+                },
+                {
+                    width: '12px'
+                },
+            ]
+        });
+       
+       
+       // ------------- Data Audit Mutu Internal ------------
+        $('#table_unit').DataTable({
+            responsive: true,
+            "scrollY": "500px",
+            "pageLength": 10, // Set initial page length to 5
+            "lengthMenu": [ [10, 15, 20], [10, 15, 20] ], 
+            columns: [{
+                    width: '4px'
+                },
+                {
+                    width: '32px'
                 },
                 {
                     width: '12px'
@@ -80,8 +106,60 @@
 
             ]
         });
+        $('#table_audite').DataTable({
+            responsive: true,
+            "scrollY": "500px",
+            "pageLength": 10, // Set initial page length to 5
+            "lengthMenu": [ [10, 15, 20], [10, 15, 20] ], 
+            columns: [{
+                    width: '4px'
+                },
+                {
+                    width: '32px'
+                },
+                {
+                    width: '12px'
+                },
+                {
+                    width: '4px'
+                },
+                {
+                    width: '4px'
+                },
+
+            ]
+        });
+        $('#table_auditor').DataTable({
+            responsive: true,
+            "scrollY": "500px",
+            "pageLength": 10, // Set initial page length to 5
+            "lengthMenu": [ [10, 15, 20], [10, 15, 20] ], 
+            columns: [{
+                    width: '4px'
+                },
+                {
+                    width: '32px'
+                },
+                {
+                    width: '12px'
+                },
+                {
+                    width: '12px'
+                },
+                {
+                    width: '4px'
+                },
+                {
+                    width: '4px'
+                },
+
+            ]
+        });
         $('#table_indikator').DataTable({
             responsive: true,
+            "scrollY": "500px",
+            "pageLength": 10, // Set initial page length to 5
+            "lengthMenu": [ [10, 15, 20], [10, 15, 20] ], 
             columns: [{
                     width: '6px'
                 },
@@ -100,8 +178,14 @@
                 },
             ]
         });
+
+
+        // ---------------- Auth Section ---------------------
         $('#daftar_user').DataTable({
             responsive: true,
+            "scrollY": "500px",
+            "pageLength": 10, // Set initial page length to 5
+            "lengthMenu": [ [10, 15, 20], [10, 15, 20] ], 
             columns: [{
                     width: '6px'
                 },

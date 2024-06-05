@@ -1,31 +1,27 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\DataAmiController;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\Unit;
 use Illuminate\Http\Request;
 
-class DaftarUserController extends Controller
+class AuditorController extends Controller
 {
-    /**
+/**
      * Display a listing of the resource.
      */
     public function index()
     {
-
-        $data_user = User::select(
-            'user.nama as nama', 
-            'user.email as email', 
-            'unit.nama_unit as nama_unit', 
-            'user.status_admin as status'
-        )
-            ->join('unit', 'user.unit_id', '=', 'unit.unit_id')
-            ->get();
-
-        return view('auth.daftar_user.user', [
-            'title' => 'Data User', 
-            'data_user' => $data_user, 
+        $data_auditor = Unit::select('unit.nama_unit', 'usr1.nama as auditor1', 'usr2.nama as auditor2')
+        ->join('auditor', 'unit.unit_id', '=', 'auditor.unit_id')
+        ->leftJoin('user as usr1', 'auditor.auditor_1', '=', 'usr1.user_id')
+        ->leftJoin('user as usr2', 'auditor.auditor_2', '=', 'usr2.user_id')
+        ->get();
+        
+        return view('data_ami.daftar_auditor.auditor', [
+            'title' => 'Daftar Auditor', 
+            'daftar_auditor' => $data_auditor,
         ]);
     }
 
@@ -34,9 +30,7 @@ class DaftarUserController extends Controller
      */
     public function create()
     {
-        return view('auth.daftar_user.create', [
-            'title' => 'Tambah User Pengguna', 
-        ]);
+        //
     }
 
     /**

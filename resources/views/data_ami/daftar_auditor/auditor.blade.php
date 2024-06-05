@@ -8,11 +8,11 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="d-flex align-items-center mb-4">
                             <div>
-                                <span class="card-title fw-semibold me-3">Daftar User</span>
+                                <span class="card-title fw-semibold me-3">Daftar Auditor</span>
                             </div>
                             <div>
-                                <a href="daftar_user/create" type="button" class="btn btn-primary"><i
-                                        class="ti ti-plus"></i>Tambah User</a>
+                                <a href="unit_kerja/create" type="button" class="btn btn-primary"><i
+                                        class="ti ti-plus me-1"></i>Tambah List Auditor</a>
                             </div>
                         </div>
 
@@ -39,7 +39,7 @@
                     </div>
 
                     <div class="table-responsive">
-                        <table id="daftar_user" class="table table-hover table-bordered text-nowrap mb-0 align-middle">
+                        <table id="table_auditor" class="table table-hover table-bordered text-nowrap mb-0 align-middle">
 
                             <thead class="text-dark fs-4">
                                 <tr>
@@ -47,18 +47,15 @@
                                         <h6 class="fw-semibold mb-0">No</h6>
                                     </th>
                                     <th class="border-bottom-0">
-                                        <h6 class="fw-semibold mb-0 text-center">Nama User</h6>
-                                    </th>
-
-                                    <th class="border-bottom-0">
-                                        <h6 class="fw-semibold mb-0 text-center">Email</h6>
+                                        <h6 class="fw-semibold mb-0 text-center">Unit Kerja</h6>
                                     </th>
                                     <th class="border-bottom-0">
-                                        <h6 class="fw-semibold mb-0 text-center">Unit</h6>
+                                        <h6 class="fw-semibold mb-0 text-center">Auditor 1</h6>
                                     </th>
                                     <th class="border-bottom-0">
-                                        <h6 class="fw-semibold mb-0 text-center">Admin</h6>
+                                        <h6 class="fw-semibold mb-0 text-center">Auditor 2</h6>
                                     </th>
+                                   
                                     <th class="border-bottom-0">
                                         <h6 class="fw-semibold mb-0">Edit</h6>
                                     </th>
@@ -70,38 +67,25 @@
                             </thead>
                             <tbody>
                                 <?php $no = 1; ?>
-                                <?php foreach($data_user as $dataUser): ?>
+                               <?php foreach($daftar_auditor as $auditor): ?>
                                 <tr>
                                     <td class="border-bottom-0 text-center">
                                         <h6 class="fw-semibold mb-0"> {{$no++}} </h6>
                                     </td>
                                     <td class="border-bottom-0">
                                         <div class="p-3">
-                                            <h6 class="fw-semibold mb-1 text-center"> {{$dataUser->nama}} </h6>
+                                            <h6 class="fw-semibold mb-1 text-center"> {{$auditor->nama_unit}} </h6>
                                         </div>
                                     </td>
 
                                     <td class="border-bottom-0">
                                         <div class="p-3">
-                                            <h6 class="fw-semibold mb-1 text-center"> {{$dataUser->email}} </h6>
+                                            <h6 class="fw-semibold mb-1 text-center"> {{$auditor->auditor1}} </h6>
                                         </div>
                                     </td>
                                     <td class="border-bottom-0">
                                         <div class="p-3">
-                                            <h6 class="fw-semibold mb-1 text-center">
-                                                {{$dataUser->nama_unit}}
-                                            </h6>
-                                        </div>
-                                    </td>
-                                    <td class="border-bottom-0">
-                                        <div class="p-3">
-                                            <h6 class="fw-semibold mb-1 text-center"> 
-                                            @if($dataUser->status == true)
-                                                Ya    
-                                            @else
-                                                Tidak
-                                            @endif
-                                            </h6>
+                                            <h6 class="fw-semibold mb-1 text-center"> {{$auditor->auditor2}} </h6>
                                         </div>
                                     </td>
                                     <td class="border-bottom-0">
@@ -111,7 +95,7 @@
                                     </td>
                                     <td class="border-bottom-0">
                                         <form action="" method="POST"
-                                            onsubmit="return confirm('Apakah Anda Yakin Ingin Menghapus Data Unit :  ?')">
+                                            onsubmit="return confirm('Apakah Anda Yakin Ingin Menghapus Data Unit : ?')">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-link text-danger">

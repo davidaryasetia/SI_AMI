@@ -18,4 +18,16 @@ class Auditor extends Model
         'created_at', 
         'updated_at', 
     ];
+
+    // relasi ke user 
+    public function auditor1()
+    {
+        return $this->belongsTo(User::class, 'auditor_1');
+    }
+    
+    public function auditor2()
+    {
+        return $this->belongsTo(User::class, 'auditor_2');
+    }
+
 }

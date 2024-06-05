@@ -17,10 +17,19 @@ class Unit extends Model
         'updated_at'
     ];
 
-    // unit->indikator_kinerja_kegiatan (one to many)
-    public function Indikator_Kinerja_Kegiatan(){
-        return $this->hasMany(IndikatorKinerjaKegiatan::class);
+    // relasi ke auditor 
+    public function auditors()
+    {
+        return $this->hasMany(Auditor::class);
     }
+
+    // Relasi ke users
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
+
+    
 
 
 

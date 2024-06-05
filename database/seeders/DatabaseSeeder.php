@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             // Data Master
             UnitSeeder::class,
-            UnitBranchSeeder::class,
+            UnitCabangSeeder::class,
             UserSeeder::class,
             AuditorSeeder::class,
             IndikatorKinerjaKegiatanSeeder::class, 

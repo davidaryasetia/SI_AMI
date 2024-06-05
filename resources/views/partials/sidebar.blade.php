@@ -43,7 +43,23 @@
                          <span>
                              <i class="ti ti-table"></i>
                          </span>
-                         <span class="hide-menu">Indikator Kinerja Unit Kerja</span>
+                         <span class="hide-menu">Instrument AMI</span>
+                     </a>
+                 </li>
+                 <li class="sidebar-item">
+                     <a class="sidebar-link {{ Request::is('daftar_audite*') ? 'active' : '' }}"  href="/daftar_audite" aria-expanded="false">
+                         <span>
+                             <i class="ti ti-users"></i>
+                         </span>
+                         <span class="hide-menu">Daftar Audite</span>
+                     </a>
+                 </li>
+                 <li class="sidebar-item">
+                     <a class="sidebar-link {{ Request::is('daftar_auditor*') ? 'active' : '' }}"  href="/daftar_auditor" aria-expanded="false">
+                         <span>
+                             <i class="ti ti-users"></i>
+                         </span>
+                         <span class="hide-menu">Daftar Auditor</span>
                      </a>
                  </li>
                  <li class="sidebar-item">

@@ -40,22 +40,50 @@
                     </div>
                     {{-- Content --}}
 
-                    <form action="/unit_kerja/{{$unit['nama_unit']}}" method="POST" enctype="multipart/form-data">
+                    <form action="/unit_kerja/{{ $unit['nama_unit'] }}" method="POST" enctype="multipart/form-data">
                         @method('put')
                         @csrf
-                        <div class="mb-4 col-lg-6">
-                            <label for="unit" class="form-label">Nama Unit</label>
-                            <input type="text" class="form-control @error('nama_unit') is-invalid @enderror"
-                                id="nama_unit" name="nama_unit" aria-describedby="emailHelp"
-                                placeholder="Masukkan Nama Unit........" required autofocus
-                                value="{{ $unit['nama_unit'] }}">
-                            @error('nama_unit')
-                                <div class="alert alert-danger mt-2">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+                        <div class="row">
+                            <div class="mb-4 col-lg-6">
+                                <label for="unit" class="form-label">Nama Unit</label>
+                                <input type="text" class="form-control @error('nama_unit') is-invalid @enderror"
+                                    id="nama_unit" name="nama_unit" aria-describedby="emailHelp"
+                                    placeholder="Masukkan Nama Unit........" required autofocus
+                                    value="{{ $unit['nama_unit'] }}">
+                                @error('nama_unit')
+                                    <div class="alert alert-danger mt-2">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-4 col-lg-6">
+                                <label for="unit" class="form-label">Audite</label>
+                                <input type="text" class="form-control @error('nama_unit') is-invalid @enderror"
+                                    id="nama_unit" name="nama_unit" aria-describedby="emailHelp"
+                                    placeholder="Masukkan Nama Unit........" required autofocus
+                                    value="{{ $data_unit->audite }}" disabled>
+                              
+                            </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Tambah Unit</button>
+                        <div class="row">
+                            <div class="mb-4 col-lg-6">
+                                <label for="unit" class="form-label">Auditor 1</label>
+                                <input type="text" class="form-control @error('nama_unit') is-invalid @enderror"
+                                    id="nama_unit" name="nama_unit" aria-describedby="emailHelp"
+                                    placeholder="Masukkan Nama Unit........" required autofocus
+                                    value="{{ $data_unit->auditor1 }}" disabled>
+                               
+                            </div>
+                            <div class="mb-4 col-lg-6">
+                                <label for="unit" class="form-label">Auditor 2</label>
+                                <input type="text" class="form-control @error('nama_unit') is-invalid @enderror"
+                                    id="nama_unit" name="nama_unit" aria-describedby="emailHelp"
+                                    placeholder="Masukkan Nama Unit........" required autofocus
+                                    value="{{ $data_unit->auditor2 }}" disabled>
+                              
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Edit Data Unit Kerja</button>
                     </form>
                     {{-- END-Content --}}
                 </div>
