@@ -10,10 +10,10 @@
                             <div>
                                 <span class="card-title fw-semibold me-3">Jadwal Pengisian AMI</span>
                             </div>
-                            <div class="me-3">
+                            {{-- <div class="me-3">
                                 <a href="/indikator_unit_kerja/create" type="button" class="btn btn-primary"><i
                                         class="ti ti-plus me-2"></i>Tambah IKUK</a>
-                            </div>
+                            </div> --}}
                         </div>
 
                         <div>

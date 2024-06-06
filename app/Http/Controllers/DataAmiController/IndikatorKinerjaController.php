@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\DataAmiController;
 
 use App\Http\Controllers\Controller;
+use App\Models\IndikatorKinerjaUnit;
+use App\Models\IndikatorKinerjaUnitKerja;
 use App\Models\Unit;
 use Illuminate\Http\Request;
 
@@ -13,9 +15,17 @@ class IndikatorKinerjaController extends Controller
      */
     public function index()
     {
+        $data_ami = IndikatorKinerjaUnitKerja::select(
+            'kode_ikuk', 
+            'isi_indikator_kinerja_unit_kerja', 
+            'satuan_ikuk', 
+            'target_ikuk', 
+        )->get();
+
         return view('data_ami.indikator_unit_kerja.indikator', [
             'title' => 'Indikator Kinerja', 
-            'units' => Unit::orderBy('unit_id')->paginate(15)
+            'units' => Unit::orderBy('unit_id')->paginate(15), 
+            'data_ami' => $data_ami
         ]);
     }
 

@@ -92,23 +92,25 @@
 
                             </thead>
                             <tbody>
+                                <?php $no = 1; ?>
+                                <?php foreach($data_ami as $dataAmi): ?>
                                 <tr>
                                     <td class="border-bottom-0 text-center">
-                                        <h6 class="fw-semibold mb-0"> </h6>
+                                        <h6 class="fw-semibold mb-0"> {{$dataAmi->kode_ikuk}} </h6>
                                     </td>
-                                    <td class="border-bottom-0">
+                                    <td class="border-bottom-0" style="width: 40%; white-space: pre-line; word-wrap: break-word; text-align: left; color: black;">
                                         <div class="p-3">
-                                            <h6 class="fw-semibold mb-1 text-center"> </h6>
+                                            <h6 class="fw-semibold mb-1"> {{$dataAmi->isi_indikator_kinerja_unit_kerja}} </h6>
                                         </div>
                                     </td>
                                     <td class="border-bottom-0">
                                         <div class="p-3">
-                                            <h6 class="fw-semibold mb-1 text-center"> </h6>
+                                            <h6 class="fw-semibold mb-1 text-center"> {{$dataAmi->satuan_ikuk}} </h6>
                                         </div>
                                     </td>
                                     <td class="border-bottom-0">
                                         <div class="p-3">
-                                            <h6 class="fw-semibold mb-1 text-center"> </h6>
+                                            <h6 class="fw-semibold mb-1 text-center"> {{$dataAmi->target_ikuk}} </h6>
                                         </div>
                                     </td>
 
@@ -127,6 +129,7 @@
                                         </form>
                                     </td>
                                 </tr>
+                                <?php endforeach;?>
                             </tbody>
                         </table>
                     </div>

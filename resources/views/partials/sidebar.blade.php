@@ -39,14 +39,6 @@
                      </a>
                  </li>
                  <li class="sidebar-item">
-                     <a class="sidebar-link {{ Request::is('indikator_unit_kerja*') ? 'active' : '' }}"  href="/indikator_unit_kerja" aria-expanded="false">
-                         <span>
-                             <i class="ti ti-table"></i>
-                         </span>
-                         <span class="hide-menu">Instrument AMI</span>
-                     </a>
-                 </li>
-                 <li class="sidebar-item">
                      <a class="sidebar-link {{ Request::is('daftar_audite*') ? 'active' : '' }}"  href="/daftar_audite" aria-expanded="false">
                          <span>
                              <i class="ti ti-users"></i>
@@ -62,6 +54,14 @@
                          <span class="hide-menu">Daftar Auditor</span>
                      </a>
                  </li>
+                 <li class="sidebar-item">
+                    <a class="sidebar-link {{ Request::is('indikator_unit_kerja*') ? 'active' : '' }}"  href="/indikator_unit_kerja" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-table"></i>
+                        </span>
+                        <span class="hide-menu">Instrument AMI</span>
+                    </a>
+                </li>
                  <li class="sidebar-item">
                      <a class="sidebar-link {{ Request::is('jadwal_ami*') ? 'active' : '' }}"  href="/jadwal_ami" aria-expanded="false">
                          <span>
