@@ -12,6 +12,7 @@ class IndikatorKinerjaUnitKerja extends Model
     protected $primaryKey = 'indikator_kinerja_unit_kerja_id';
     protected $fillable = [
         'indikator_kinerja_sub_kegiatan_id', 
+        'unit_id', 
         'kode_ikuk', 
         'isi_indikator_kinerja_unit_kerja', 
         'satuan_ikuk', 

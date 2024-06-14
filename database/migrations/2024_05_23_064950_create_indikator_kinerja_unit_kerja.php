@@ -14,20 +14,21 @@ return new class extends Migration
         Schema::create('indikator_kinerja_unit_kerja', function (Blueprint $table) {
             $table->id('indikator_kinerja_unit_kerja_id');
             
-            $table->unsignedBigInteger('indikator_kinerja_sub_kegiatan_id');
-            $table->foreign('indikator_kinerja_sub_kegiatan_id', 'fk_iksk_id')
-                    ->references('indikator_kinerja_sub_kegiatan_id')
-                    ->on('indikator_kinerja_sub_kegiatan');
+            // $table->unsignedBigInteger('indikator_kinerja_sub_kegiatan_id')->nullable(true);
+            // $table->foreign('indikator_kinerja_sub_kegiatan_id', 'fk_iksk_id')
+            //         ->references('indikator_kinerja_sub_kegiatan_id')
+            //         ->on('indikator_kinerja_sub_kegiatan');
 
-            $table->unsignedBigInteger('unit_id');
-            $table->foreign('unit_id')
-                    ->references('unit_id')
-                    ->on('unit');
 
-            $table->string('kode_ikuk')->unique();
+            $table->string('kode_ikuk');
             $table->longText('isi_indikator_kinerja_unit_kerja'); 
             $table->string('satuan_ikuk');
             $table->integer('target_ikuk')->nullable();
+            
+            $table->unsignedBigInteger('unit_id')->nullable(true);
+            $table->foreign('unit_id')
+                    ->references('unit_id')
+                    ->on('unit');
             $table->timestamps();
         });
     }

@@ -10,6 +10,7 @@ use App\Http\Controllers\DataAmiController\JadwalAmiController;
 use App\Http\Controllers\DataAmiController\UnitBranchController;
 use App\Http\Controllers\DataAmiController\UnitController;
 use App\Http\Controllers\HomeController\BerandaController;
+use App\Http\Controllers\ImportController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -42,3 +43,4 @@ Route::resource('/daftar_audite', AuditeController::class);
 Route::resource('/jadwal_ami', JadwalAmiController::class);
 Route::resource('/profile', ProfileController::class);
 Route::resource('/daftar_user', DaftarUserController::class);
+Route::post('/import-data', [ImportController::class, 'importData'])->name('import.data');
