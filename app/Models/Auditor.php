@@ -20,14 +20,19 @@ class Auditor extends Model
     ];
 
     // relasi ke user 
-    public function auditor1()
+    public function users1()
     {
-        return $this->belongsTo(User::class, 'auditor_1');
+        return $this->belongsTo(User::class, 'user_id');
     }
     
-    public function auditor2()
+    public function users2()
     {
-        return $this->belongsTo(User::class, 'auditor_2');
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function units()
+    {
+        return $this->belongsTo(Unit::class, 'unit_id');
     }
 
 }

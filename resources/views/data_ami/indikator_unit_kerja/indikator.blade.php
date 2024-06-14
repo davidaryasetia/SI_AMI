@@ -14,6 +14,10 @@
                                 <a href="/indikator_unit_kerja/create" type="button" class="btn btn-primary"><i
                                         class="ti ti-plus me-2"></i>Tambah IKUK</a>
                             </div>
+                            <div class="me-2">
+                                <a href="/indikator_unit_kerja/create" type="button" class="btn btn-primary"><i
+                                        class="ti ti-upload me-2"></i>Import Data</a>
+                            </div>
 
                             <div class="d-flex justify-content-start">
                                 <form action="" method="GET">
@@ -24,16 +28,13 @@
                                                     <option value="">Pilih Unit......</option>
                                                     @foreach ($units as $unit)
                                                         <option value="{{ $unit['unit_id'] }}"
-                                                            >
+                                                            {{ $unit['unit_id'] == $unit_id ? 'selected' : '' }}>
                                                             {{ $unit['nama_unit'] }}
                                                         </option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                         </div>
-
-                                       
-
                                         <div>
                                             <button type="submit" class="btn btn-outline-info">Submit</button>
                                         </div>
@@ -83,6 +84,9 @@
                                         <h6 class="fw-semibold mb-0 text-center">Target</h6>
                                     </th>
                                     <th class="border-bottom-0">
+                                        <h6 class="fw-semibold mb-0 text-center">Unit</h6>
+                                    </th>
+                                    <th class="border-bottom-0">
                                         <h6 class="fw-semibold mb-0 text-center">Edit</h6>
                                     </th>
                                     <th class="border-bottom-0">
@@ -96,21 +100,32 @@
                                 <?php foreach($data_ami as $dataAmi): ?>
                                 <tr>
                                     <td class="border-bottom-0 text-center">
-                                        <h6 class="fw-semibold mb-0"> {{$dataAmi->kode_ikuk}} </h6>
+                                        <h6 class="fw-semibold mb-0"> {{ $dataAmi->kode_ikuk }} </h6>
                                     </td>
-                                    <td class="border-bottom-0" style="width: 40%; white-space: pre-line; word-wrap: break-word; text-align: left; color: black;">
+
+                                    <td class="border-bottom-0"
+                                        style="width: 40%; white-space: pre-line; word-wrap: break-word; text-align: left; color: black;">
                                         <div class="p-3">
-                                            <h6 class="fw-semibold mb-1"> {{$dataAmi->isi_indikator_kinerja_unit_kerja}} </h6>
+                                            <h6 class="fw-semibold mb-1"> {{ $dataAmi->isi_indikator_kinerja_unit_kerja }}
+                                            </h6>
                                         </div>
                                     </td>
+
                                     <td class="border-bottom-0">
                                         <div class="p-3">
-                                            <h6 class="fw-semibold mb-1 text-center"> {{$dataAmi->satuan_ikuk}} </h6>
+                                            <h6 class="fw-semibold mb-1 text-center"> {{ $dataAmi->satuan_ikuk }} </h6>
                                         </div>
                                     </td>
+
                                     <td class="border-bottom-0">
                                         <div class="p-3">
-                                            <h6 class="fw-semibold mb-1 text-center"> {{$dataAmi->target_ikuk}} </h6>
+                                            <h6 class="fw-semibold mb-1 text-center"> {{ $dataAmi->target_ikuk }} </h6>
+                                        </div>
+                                    </td>
+
+                                    <td class="border-bottom-0">
+                                        <div class="p-3">
+                                            <h6 class="fw-semibold mb-1 text-center"> {{$dataAmi->nama_unit}} </h6>
                                         </div>
                                     </td>
 

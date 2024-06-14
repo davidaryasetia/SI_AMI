@@ -22,14 +22,14 @@ class AuditorSeeder extends Seeder
 
         Auditor::create([ // 2
             'unit_id' => 2, // P3M
-            'auditor_1' => null, // Hary
-            'auditor_2' => null, // Selvia
+            'auditor_1' => 3, // Hary
+            'auditor_2' => 5, // Selvia
         ]);
 
         Auditor::create([ // 3
             'unit_id' => 3,  // Penalaran
-            'auditor_1' => null, // Fitri
-            'auditor_2' => null, // Wenny
+            'auditor_1' => 5, // Fitri
+            'auditor_2' => 6, // Wenny
         ]);
 
         Auditor::create([ // 4

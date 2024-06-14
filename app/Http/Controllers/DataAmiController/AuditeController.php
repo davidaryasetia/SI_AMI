@@ -20,9 +20,11 @@ class AuditeController extends Controller
                         ->leftJoin('user', 'unit.unit_id', '=', 'user.unit_id')
                         ->get();
 
+        // $data_unit = Unit::with('UnitsCabang.users')->get();
+
         return view('data_ami.daftar_audite.audite', [
             'title' => 'Daftar Audite',
-            'daftar_audite' => $data_audite
+            'daftar_audite' => $data_audite, 
         ]);
     }
 

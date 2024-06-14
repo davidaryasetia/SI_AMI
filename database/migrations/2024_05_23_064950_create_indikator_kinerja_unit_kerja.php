@@ -19,6 +19,11 @@ return new class extends Migration
                     ->references('indikator_kinerja_sub_kegiatan_id')
                     ->on('indikator_kinerja_sub_kegiatan');
 
+            $table->unsignedBigInteger('unit_id');
+            $table->foreign('unit_id')
+                    ->references('unit_id')
+                    ->on('unit');
+
             $table->string('kode_ikuk')->unique();
             $table->longText('isi_indikator_kinerja_unit_kerja'); 
             $table->string('satuan_ikuk');

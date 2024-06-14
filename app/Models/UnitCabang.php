@@ -17,4 +17,10 @@ class UnitCabang extends Model
         'updated_at'
     ];
     
+    // // iterasi 2
+    // public function units(){
+    //     return $this->belongsTo(Unit::class, 'unit_id');
+    // }
+    
 }
+

@@ -66,12 +66,21 @@
                                 <?php foreach($daftar_audite as $audite): ?>
                                 <tr>
                                     <td class="border-bottom-0 text-center">
-                                        <h6 class="fw-semibold mb-0"> {{$no++}} </h6>
+                                        <h6 class="fw-semibold mb-0"> {{ $no++ }} </h6>
                                     </td>
                                     <td class="border-bottom-0">
                                         <div class="p-3">
-                                            <h6 class="fw-semibold mb-1 text-center"> {{$audite->nama_unit}} </h6>
+                                            <h6 class="fw-semibold mb-1"> {{ $audite->nama_unit }} </h6>
                                         </div>
+
+                                        {{-- <ul>
+                                            <?php $no_child = 1; ?>
+                                            @foreach ($audite->UnitsCabang as $unitCabang)
+                                                <li>
+                                                    {{ $no_child++ }}. ) {{ $unitCabang->nama_unit_cabang }}
+                                                </li>
+                                            @endforeach
+                                        </ul> --}}
                                     </td>
                                     <td class="border-bottom-0">
                                         <div class="p-3">

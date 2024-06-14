@@ -20,15 +20,19 @@ class Unit extends Model
     // relasi ke auditor 
     public function auditors()
     {
-        return $this->hasMany(Auditor::class);
+        return $this->hasOne(Auditor::class, 'unit_id');
     }
 
     // Relasi ke users
     public function users()
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(User::class, 'unit_id');
     }
 
+    // // iterasi 1
+    public function UnitsCabang(){
+        return $this->hasMany(UnitCabang::class, 'unit_id');
+    }
     
 
 

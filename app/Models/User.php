@@ -56,8 +56,18 @@ class User extends Authenticatable
 
     public function units()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Unit::class, 'unit_id');
     }
 
+    // auditor
+    public function auditors1()
+    {
+        return $this->hasMany(Auditor::class, 'auditor_1');
+    }
+    
+    public function auditors2()
+    {
+        return $this->hasMany(Auditor::class, 'auditor_2');
+    }
 }
 
