@@ -50,17 +50,22 @@ class UnitController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'nama_unit' => 'required|unique:unit|min:4'
+            'nama_unit' => 'required|array|min:1',
+            'nama_unit.*' => 'required|unique:unit,nama_unit|min:4'
         ]);
 
-        $unit = Unit::create($validatedData);
-
-        if($unit){
-            return redirect('/unit_kerja')->with('success', 'Data Unit Kerja Berhasil Ditambahkan');
-        } else {
-            return redirect('/unit_kerja')->with('error', 'Data Gagal Di input');
+        $units = [];
+        foreach ($validatedData['nama_unit'] as $nama_unit) {
+            $units[] = ['nama_unit' => $nama_unit, 'created_at' => now(), 'updated_at' => now()];
         }
-        
+
+        $insertUnits = Unit::insert($units);
+
+        if ($insertUnits) {
+            return redirect('/unit_kerja')->with('success', 'Data Unit Kerja Berhasil Ditambahkan !!!');
+        } else {
+            return redirect('/unit_kerja')->with('error', 'Data Unit Kerja Gagal Ditambahkan !!!');
+        }
     }
 
     /**
@@ -97,7 +102,7 @@ class UnitController extends Controller
         return view('data_ami.unit_kerja.edit', [
 
             'unit' => $unit,
-            'data_unit' => $data_unit, 
+            'data_unit' => $data_unit,
             'title' => 'Edit Unit',
         ]);
     }
@@ -117,8 +122,13 @@ class UnitController extends Controller
         }
 
         $validatedData = $request->validate($rules);
-        $unit->update($validatedData);
-        return redirect('/unit_kerja')->with('success', 'Unit Kerja Berhasil Diperbaharui');
+        $update_unit = $unit->update($validatedData);
+
+        if ($update_unit) {
+            return redirect('/unit_kerja')->with('success', 'Data Unit Kerja Berhasil Diperbarui !!!');
+        } else {
+            return redirect('/unit_kerja')->with('error', 'Data Unit Kerja Gagal Diperbarui !!!');
+        }
     }
 
     /**
@@ -126,7 +136,12 @@ class UnitController extends Controller
      */
     public function destroy($unit_id)
     {
-        Unit::destroy($unit_id);
-        return redirect('/unit_kerja');
+        $data_unit = Unit::destroy($unit_id);
+
+        if ($data_unit) {
+            return redirect('/unit_kerja')->with('success', 'Data Unit Kerja Berhasil Dihapus !!!');
+        } else {
+            return redirect('/unit_kerja')->with('error', 'Data Unit Kerja Gagal Dihapus !!!');
+        }
     }
 }

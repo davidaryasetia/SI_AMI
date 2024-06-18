@@ -4,12 +4,31 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>P4MP -  </title>
+    <title>P4MP - </title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
     <link rel="shortcut icon" type="image/png" href="{{ asset('assets/images/logos/short-logo.png') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/styles.min.css') }}" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
+    <style>
+        table.dataTable tbody td {
+            /* height: 10px; */
+            /* Atur tinggi sel sesuai keinginan Anda */
+            line-height: 10px;
+            /* Vertically center text if needed */
+        }
+
+        .alert-container {
+            position: fixed;
+            top: 90px;
+            right: 54px;
+            width: 320px;
+            z-index: 9999;
+        }
+
+        .alert {
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 
 <body>
@@ -55,10 +74,10 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.7/css/dataTables.dataTables.css" />
     <script src="https://cdn.datatables.net/2.0.7/js/dataTables.js"></script>
     <script>
-    //    ----------- Home ------------------------------
-    $('#table_status').DataTable({
+        //    ----------- Home ------------------------------
+        $('#table_status').DataTable({
             responsive: true,
-            
+
             columns: [{
                     width: '4px'
                 },
@@ -73,14 +92,17 @@
                 },
             ]
         });
-       
-       
-       // ------------- Data Audit Mutu Internal ------------
+
+
+        // ------------- Data Audit Mutu Internal ------------
         $('#table_unit').DataTable({
             responsive: true,
             "scrollY": "500px",
             "pageLength": 10, // Set initial page length to 5
-            "lengthMenu": [ [10, 15, 20], [10, 15, 20] ], 
+            "lengthMenu": [
+                [10, 15, 20, 30, 40, 50, 100],
+                [10, 15, 20, 30, 40, 50, 100],
+            ],
             columns: [{
                     width: '4px'
                 },
@@ -109,7 +131,10 @@
             responsive: true,
             "scrollY": "500px",
             "pageLength": 10, // Set initial page length to 5
-            "lengthMenu": [ [10, 15, 20], [10, 15, 20] ], 
+            "lengthMenu": [
+                [10, 15, 20, 30, 40, 50, 100],
+                [10, 15, 20, 30, 40, 50, 100],
+            ],
             columns: [{
                     width: '4px'
                 },
@@ -132,7 +157,10 @@
             responsive: true,
             "scrollY": "500px",
             "pageLength": 10, // Set initial page length to 5
-            "lengthMenu": [ [10, 15, 20], [10, 15, 20] ], 
+            "lengthMenu": [
+                [10, 15, 20, 30, 40, 50, 100],
+                [10, 15, 20, 30, 40, 50, 100],
+            ],
             columns: [{
                     width: '4px'
                 },
@@ -158,8 +186,14 @@
             responsive: true,
             "scrollY": "500px",
             "pageLength": 10, // Set initial page length to 5
-            "lengthMenu": [ [10, 15, 20], [10, 15, 20] ], 
+            "lengthMenu": [
+                [10, 15, 20, 30, 40, 50, 100],
+                [10, 15, 20, 30, 40, 50, 100],
+            ],
             columns: [{
+                    width: '6px'
+                },
+                {
                     width: '6px'
                 },
                 null,
@@ -187,7 +221,10 @@
             responsive: true,
             "scrollY": "500px",
             "pageLength": 10, // Set initial page length to 5
-            "lengthMenu": [ [10, 15, 20], [10, 15, 20] ], 
+            "lengthMenu": [
+                [10, 15, 20, 30, 40, 50, 100],
+                [10, 15, 20, 30, 40, 50, 100],
+            ],
             columns: [{
                     width: '6px'
                 },

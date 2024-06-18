@@ -16,7 +16,9 @@ return new class extends Migration
             $table->unsignedBigInteger('indikator_kinerja_kegiatan_id');
             $table->foreign('indikator_kinerja_kegiatan_id', 'fk_ikk_id')
                     ->references('indikator_kinerja_kegiatan_id')
-                    ->on('indikator_kinerja_kegiatan');
+                    ->on('indikator_kinerja_kegiatan')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
 
          
             $table->longText('isi_indikator_kinerja_sub_kegiatan');

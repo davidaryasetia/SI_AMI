@@ -22,11 +22,13 @@ class IndikatorKinerjaController extends Controller
         $unitId = $request->input('unit_id');
 
         $data_ami = IndikatorKinerjaUnitKerja::select(
+            'indikator_kinerja_unit_kerja_id', 
             'kode_ikuk',
             'isi_indikator_kinerja_unit_kerja',
             'satuan_ikuk',
             'target_ikuk',
-            'unit.nama_unit as nama_unit'
+            'unit.nama_unit as nama_unit', 
+            'unit.unit_id as unit_id'
         )
         ->join('unit', 'indikator_kinerja_unit_kerja.unit_id', '=', 'unit.unit_id');
         
@@ -56,12 +58,61 @@ class IndikatorKinerjaController extends Controller
         ]);
     }
 
+    public function create_ikuk_id(string $id)
+    {
+        $data_unit = Unit::select(
+            'unit_id', 
+            'nama_unit'
+        )
+        ->where('unit.unit_id', $id)
+        ->first();
+
+     return view('data_ami.indikator_unit_kerja.create', [
+        'title' => 'Tambah Indikator Kinerja Unit Kerja', 
+        'data' => $data_unit
+     ]);
+    }
+
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'unit_id' => 'required', 
+            'kode_ikuk' => 'required|array', 
+            'isi_indikator_kinerja_unit_kerja' => 'required|array', 
+            'satuan_ikuk' => 'required|array', 
+            'target_ikuk' => 'required|array', 
+            'target_ikuk.*' => 'required|integer' // memastikan setiap target_ikuk adalah integer
+        ]);
+    
+
+        $unit_id = $request->input('unit_id');
+        $kode_ikuk = $request->input('kode_ikuk');
+        $isi_indikator_kinerja_unit_kerja = $request->input('isi_indikator_kinerja_unit_kerja');
+        $satuan_ikuk = $request->input('satuan_ikuk');
+        $target_ikuk = $request->input('target_ikuk');
+    
+        $data_indikator_kinerja_unit = [];
+        foreach ($kode_ikuk as $index => $kode) {
+            $data_indikator_kinerja_unit[] = [
+                'unit_id' => $unit_id,
+                'kode_ikuk' => $kode,
+                'isi_indikator_kinerja_unit_kerja' => $isi_indikator_kinerja_unit_kerja[$index],
+                'satuan_ikuk' => $satuan_ikuk[$index],
+                'target_ikuk' => $target_ikuk[$index],
+                'created_at' => now(), 
+                'updated_at' => now()
+            ];
+        }
+    
+        $insert_ikuk = IndikatorKinerjaUnitKerja::insert($data_indikator_kinerja_unit);
+        if($insert_ikuk){
+            return redirect()->to('/indikator_unit_kerja?unit_id='. $unit_id )->with('success', 'Data Indikator Kinerja Unit Berhasil Ditambahkan !!!');
+        } else {
+            return redirect()->to('/indikator_unit_kerja?unit_id='. $unit_id )->with('error', 'Data Indikator Kinerja Unit Gagal Ditambahkan !!!');
+        }        
     }
 
     /**
@@ -77,7 +128,25 @@ class IndikatorKinerjaController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $edit_data_ami = IndikatorKinerjaUnitKerja::select(
+            'indikator_kinerja_unit_kerja_id', 
+            'kode_ikuk',
+            'isi_indikator_kinerja_unit_kerja',
+            'satuan_ikuk',
+            'target_ikuk',
+            'unit.nama_unit as nama_unit', 
+            'unit.unit_id as unit_id'
+        )
+        ->where('indikator_kinerja_unit_kerja_id', $id)
+        ->join('unit', 'indikator_kinerja_unit_kerja.unit_id', '=', 'unit.unit_id')
+        ->first();
+
+        $data_ikuk = IndikatorKinerjaUnitKerja::where('indikator_kinerja_unit_kerja_id', $id)->firstOrFail();
+        return view('data_ami.indikator_unit_kerja.edit', [
+            'title' => 'Edit Data Indikator', 
+            'data' => $edit_data_ami, 
+        ]);
+        
     }
 
     /**
@@ -85,7 +154,29 @@ class IndikatorKinerjaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'kode_ikuk' => 'required', 
+            'isi_indikator_kinerja_unit_kerja' => 'required', 
+            'satuan_ikuk' => 'required', 
+            'target_ikuk' => 'required|integer'
+        ]);
+
+        $data_indikator = IndikatorKinerjaUnitKerja::where('indikator_kinerja_unit_kerja_id', $id)->firstOrFail();
+        
+        $unit_id = $request->input('unit_id');
+
+        $data_indikator->update([
+            'kode_ikuk' => $request->input('kode_ikuk'),
+            'isi_indikator_kinerja_unit_kerja' => $request->input('isi_indikator_kinerja_unit_kerja'),
+            'satuan_ikuk' => $request->input('satuan_ikuk'),
+            'target_ikuk' => $request->input('target_ikuk')
+        ]);
+
+        if($data_indikator){
+            return redirect()->to('/indikator_unit_kerja?unit_id='. $unit_id )->with('success', 'Data Indikator Kinerja Unit Berhasil Diperbarui !!!');
+        } else {
+            return redirect()->to('/indikator_unit_kerja?unit_id='. $unit_id )->with('error', 'Data Indikator Kinerja Unit Gagal Diperbarui !!!');
+        }      
     }
 
     /**
@@ -94,5 +185,16 @@ class IndikatorKinerjaController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function destroyWithUnit($indikator_id, $unit_id)
+    {
+        $delete_data_ikuk = IndikatorKinerjaUnitKerja::destroy($indikator_id);
+
+        if($delete_data_ikuk){
+            return redirect()->to('/indikator_unit_kerja?unit_id='. $unit_id )->with('success', 'Data Indikator Kinerja Unit Berhasil Dihapus !!!');
+        } else {
+            return redirect()->to('/indikator_unit_kerja?unit_id='. $unit_id )->with('error', 'Data Indikator Kinerja Unit Gagal Dihapus !!!');
+        }      
     }
 }

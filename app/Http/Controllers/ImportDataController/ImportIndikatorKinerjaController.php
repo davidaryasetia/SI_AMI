@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\ImportDataController;
 
-use Illuminate\Http\Request;
-use PhpOffice\PhpSpreadsheet\IOFactory;
-use App\Models\Unit;
+use App\Http\Controllers\Controller;
 use App\Models\IndikatorKinerjaUnitKerja;
-use Illuminate\Support\Facades\Log; // Untuk logging
+use App\Models\Unit;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
-class ImportController extends Controller
+class ImportIndikatorKinerjaController extends Controller
 {
     public function importData(Request $request)
     {
@@ -66,6 +67,6 @@ class ImportController extends Controller
             }
         }
 
-        return redirect()->back()->with('success', 'Data berhasil diimport.');
+        return redirect()->back()->with('success', 'Data Indikator Kinerja Unit Kerja berhasil diimport !!!!');
     }
 }

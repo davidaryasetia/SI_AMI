@@ -15,7 +15,11 @@ return new class extends Migration
             $table->id('indikator_kinerja_kegiatan_id');
             
             $table->unsignedBigInteger('unit_id');
-            $table->foreign('unit_id')->references('unit_id')->on('unit');
+            $table->foreign('unit_id')
+                    ->references('unit_id')
+                    ->on('unit')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
 
             $table->string('kode_ikk');
             $table->longText('isi_indikator_kinerja_kegiatan');

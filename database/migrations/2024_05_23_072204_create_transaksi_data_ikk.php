@@ -17,22 +17,31 @@ return new class extends Migration
             $table->unsignedBigInteger('indikator_kinerja_kegiatan_id');
             $table->foreign('indikator_kinerja_kegiatan_id', 'fk_transaksi_ikk')
                     ->references('indikator_kinerja_kegiatan_id')
-                    ->on('indikator_kinerja_kegiatan');
+                    ->on('indikator_kinerja_kegiatan')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
+                    
 
             $table->unsignedBigInteger('auditor_id');
             $table->foreign('auditor_id')
                     ->references('auditor_id')
-                    ->on('auditor');
+                    ->on('auditor')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
 
             $table->unsignedBigInteger('unit_id');
             $table->foreign('unit_id')
                     ->references('unit_id')
-                    ->on('unit');
+                    ->on('unit')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
 
             $table->unsignedBigInteger('jadwal_ami_id');
             $table->foreign('jadwal_ami_id')
                     ->references('jadwal_ami_id')
-                    ->on('jadwal_ami');
+                    ->on('jadwal_ami')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
 
             $table->string('hasil_audit');
             $table->string('realisasi_ikk');

@@ -14,10 +14,12 @@ return new class extends Migration
         Schema::create('indikator_kinerja_unit_kerja', function (Blueprint $table) {
             $table->id('indikator_kinerja_unit_kerja_id');
             
-            // $table->unsignedBigInteger('indikator_kinerja_sub_kegiatan_id')->nullable(true);
-            // $table->foreign('indikator_kinerja_sub_kegiatan_id', 'fk_iksk_id')
-            //         ->references('indikator_kinerja_sub_kegiatan_id')
-            //         ->on('indikator_kinerja_sub_kegiatan');
+            $table->unsignedBigInteger('indikator_kinerja_sub_kegiatan_id')->nullable(true);
+            $table->foreign('indikator_kinerja_sub_kegiatan_id', 'fk_iksk_id')
+                    ->references('indikator_kinerja_sub_kegiatan_id')
+                    ->on('indikator_kinerja_sub_kegiatan')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
 
 
             $table->string('kode_ikuk');
@@ -28,7 +30,9 @@ return new class extends Migration
             $table->unsignedBigInteger('unit_id')->nullable(true);
             $table->foreign('unit_id')
                     ->references('unit_id')
-                    ->on('unit');
+                    ->on('unit')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -17,17 +17,23 @@ return new class extends Migration
             $table->unsignedBigInteger('unit_id');
             $table->foreign('unit_id')
                     ->references('unit_id')
-                    ->on('unit');
+                    ->on('unit')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
 
             $table->unsignedBigInteger('auditor_1')->nullable();
             $table->foreign('auditor_1')
                     ->references('user_id')
-                    ->on('user');
+                    ->on('user')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
             
             $table->unsignedBigInteger('auditor_2')->nullable();
             $table->foreign('auditor_2')
                     ->references('user_id')
-                    ->on('user');
+                    ->on('user')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
 
             $table->timestamps();
         });

@@ -13,6 +13,7 @@
                         <div class="table-responsive">
                             <table id="table_status" class="table table-hover table-bordered text-nowrap mb-0 align-middle">
                                 <thead class="text-dark fs-4">
+                                    <tr>
                                         <th class="border-bottom-0">
                                             <h6 class="fw-semibold mb-0">No</h6>
                                         </th>
@@ -30,9 +31,19 @@
                                 </thead>
                                 <tbody>
                                     <tr>
+                                        <td colspan="4" clasKs="border-bottom-0">
+                                            <h6 class="fw-semibold mb-0">Data Tidak Tersedia</h6>
+                                        </td>
                                         <td colspan="4" class="border-bottom-0">
                                             <h6 class="fw-semibold mb-0">Data Tidak Tersedia</h6>
                                         </td>
+                                        <td colspan="4" class="border-bottom-0">
+                                            <h6 class="fw-semibold mb-0">Data Tidak Tersedia</h6>
+                                        </td>
+                                        <td colspan="4" class="border-bottom-0">
+                                            <h6 class="fw-semibold mb-0">Data Tidak Tersedia</h6>
+                                        </td>
+                                    </tr>
                                         {{-- <td class="border-bottom-0">
                                             <h6 class="fw-semibold mb-1"></h6>
                                         </td>

@@ -11,6 +11,9 @@ use App\Http\Controllers\DataAmiController\UnitBranchController;
 use App\Http\Controllers\DataAmiController\UnitController;
 use App\Http\Controllers\HomeController\BerandaController;
 use App\Http\Controllers\ImportController;
+use App\Http\Controllers\ImportDataController\ImportIndikatorKinerjaController;
+use App\Http\Controllers\ImportDataController\ImportUnitController;
+use App\Models\IndikatorKinerjaKegiatan;
 use Illuminate\Support\Facades\Route;
 
 
@@ -37,10 +40,17 @@ Route::resource('/', BerandaController::class);
 // Make New Route Resource 
 Route::resource('/unit_kerja', UnitController::class);
 Route::resource('/unit_branch', UnitBranchController::class);
+
+// Indikator Kinerja Controller 
 Route::resource('/indikator_unit_kerja', IndikatorKinerjaController::class);
+Route::get('/indikator_unit_kerja/unit/create/{id}', [IndikatorKinerjaController::class, 'create_ikuk_id']);
+Route::delete('indikator_unit_kerja/delete/{indikator_id}/{unit_id}', [IndikatorKinerjaController::class, 'destroyWithUnit'])->name('indikator_unit_kerja.destroyWithUnit');
+
+
 Route::resource('/daftar_auditor', AuditorController::class);
 Route::resource('/daftar_audite', AuditeController::class);
 Route::resource('/jadwal_ami', JadwalAmiController::class);
 Route::resource('/profile', ProfileController::class);
 Route::resource('/daftar_user', DaftarUserController::class);
-Route::post('/import-data', [ImportController::class, 'importData'])->name('import.data');
+Route::post('/import_Indikator_Kinerja_Unit', [ImportIndikatorKinerjaController::class, 'importData'])->name('import.data');
+Route::post('/import_Unit_Kerja', [ImportUnitController::class, 'importDataUnit'])->name('import.dataUnit');

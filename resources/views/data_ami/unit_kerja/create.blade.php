@@ -15,6 +15,11 @@
                             <div>
                                 <span class="card-title fw-semibold me-3">Tambah Unit Kerja</span>
                             </div>
+                            <div class="" style="">
+                                <button type="button" class="btn rounded-pill btn-primary" id="addData">
+                                    <span class="tf-icons bx bx-plus"></span><i class="ti ti-plus me-1"></i>Tambah Data Form
+                                </button>
+                            </div>
                         </div>
 
                         <div>
@@ -42,15 +47,20 @@
 
                     <form action="{{ route('unit_kerja.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <div class="mb-4 col-lg-6">
-                            <label for="unit" class="form-label">Nama Unit</label>
-                            <input type="text" class="form-control @error('nama_unit') is-invalid @enderror" id="nama_unit" name="nama_unit"
-                                aria-describedby="emailHelp" placeholder="Masukkan Nama Unit........" required autofocus>
-                            @error('nama_unit')
-                                <div class="alert alert-danger mt-2">
-                                    {{ $message }}
+                        <div class="ikuk-fields">
+                            <div class="ikuk-template">
+                                <div class="mb-4 col-lg-4">
+                                    <label for="unit" class="form-label">Nama Unit</label>
+                                    <input type="text" class="form-control @error('nama_unit') is-invalid @enderror"
+                                        id="nama_unit" name="nama_unit[]" aria-describedby="emailHelp"
+                                        placeholder="Masukkan Nama Unit........" required autofocus>
+                                    @error('nama_unit')
+                                        <div class="alert alert-danger mt-2">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
-                            @enderror
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-primary">Tambah Unit</button>
                     </form>
@@ -59,4 +69,20 @@
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('addData').addEventListener('click', function() {
+                var indikatorTemplate = document.querySelector('.ikuk-template').cloneNode(true);
+
+                var inputs = indikatorTemplate.querySelectorAll('textarea, input');
+                inputs.forEach(function(input) {
+                    input.value = '';
+                });
+                
+                var indikatorFields = document.querySelector('.ikuk-fields');
+                indikatorFields.appendChild(indikatorTemplate);
+            });
+
+        });
+    </script>
 @endsection

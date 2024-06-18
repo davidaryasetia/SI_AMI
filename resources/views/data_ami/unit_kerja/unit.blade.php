@@ -6,14 +6,62 @@
             <div class="card w-100">
                 <div class="card-body p-4">
                     <div class="d-flex justify-content-between align-items-center">
-                        <div class="d-flex align-items-center mb-4">
-                            <div>
-                                <span class="card-title fw-semibold me-3">Daftar Unit Kerja</span>
+                        <div class="d-flex align-items-center mb-2">
+                            <div class="me-3">
+                                <span class="card-title fw-semibold">Daftar Unit Kerja</span>
                             </div>
-                            <div>
+                            <div class="me-2">
                                 <a href="unit_kerja/create" type="button" class="btn btn-primary"><i
-                                        class="ti ti-plus"></i>Tambah Unit</a>
+                                        class="ti ti-plus me-1"></i>Tambah Unit</a>
                             </div>
+                            <!-- Tombol Trigger Modal -->
+                            <div class="me-2">
+                                <a href="#" type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#importDataModal">
+                                    <i class="ti ti-upload me-1"></i>Import Data
+                                </a>
+                            </div>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="importDataModal" tabindex="-1"
+                                aria-labelledby="importDataModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="importDataModalLabel">Import Data Unit Kerja
+                                                </h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="{{ route('import.dataUnit') }}" method="POST" enctype="multipart/form-data">
+                                                @csrf
+                                                <div class="mb-3">
+                                                    <label for="excel_file" class="form-label">Pilih File Unit Kerja</label>
+                                                    <input type="file" name="excel_file" id="excel_file"
+                                                        class="form-control" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <span>Detail Aturan File :</span>
+                                                    <ul style="list-style-type: decimal; padding-left: 20px;">
+                                                        <li>Data Harus Berupa .xls | .xlxs</li>
+                                                        <li>Field Kolom Data:
+                                                            <ol class="data-list"
+                                                                style="list-style-type: disc; padding-left: 20px;">
+                                                                <li>Unit Kerja [Text]</li>
+                                                            </ol>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <button class="btn btn-primary" type="submit">
+                                                    <i class="ti ti-upload me-2"></i>Upload File
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal -->
                         </div>
 
                         <div>
@@ -58,7 +106,7 @@
                                     <th class="border-bottom-0">
                                         <h6 class="fw-semibold mb-0 text-center">Auditor 2</h6>
                                     </th>
-                                   
+
                                     <th class="border-bottom-0">
                                         <h6 class="fw-semibold mb-0">Edit</h6>
                                     </th>
@@ -76,24 +124,24 @@
                                         <h6 class="fw-semibold mb-0"> {{ $no++ }} </h6>
                                     </td>
                                     <td class="border-bottom-0">
-                                        <div class="p-3">
-                                            <h6 class="fw-semibold mb-1 text-center"> {{$unit->nama_unit}} </h6>
+                                        <div class="">
+                                            <h6 class="fw-semibold mb-1 text-center"> {{ $unit->nama_unit }} </h6>
                                         </div>
                                     </td>
 
                                     <td class="border-bottom-0">
-                                        <div class="p-3">
-                                            <h6 class="fw-semibold mb-1 text-center"> {{$unit->audite}} </h6>
+                                        <div class="">
+                                            <h6 class="fw-semibold mb-1 text-center"> {{ $unit->audite }} </h6>
                                         </div>
                                     </td>
                                     <td class="border-bottom-0">
-                                        <div class="p-3">
-                                            <h6 class="fw-semibold mb-1 text-center"> {{$unit->auditor1}} </h6>
+                                        <div class="">
+                                            <h6 class="fw-semibold mb-1 text-center"> {{ $unit->auditor1 }} </h6>
                                         </div>
                                     </td>
                                     <td class="border-bottom-0">
-                                        <div class="p-3">
-                                            <h6 class="fw-semibold mb-1 text-center"> {{$unit->auditor2}} </h6>
+                                        <div class="">
+                                            <h6 class="fw-semibold mb-1 text-center"> {{ $unit->auditor2 }} </h6>
                                         </div>
                                     </td>
                                     <td class="border-bottom-0">
@@ -103,7 +151,7 @@
                                     </td>
                                     <td class="border-bottom-0">
                                         <form action="{{ route('unit_kerja.destroy', $unit->unit_id) }}" method="POST"
-                                            onsubmit="return confirm('Apakah Anda Yakin Ingin Menghapus Data Unit : {{$unit->nama_unit}} ?')">
+                                            onsubmit="return confirm('Apakah Anda Yakin Ingin Menghapus Data Unit : {{ $unit->nama_unit }} ?')">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-link text-danger">

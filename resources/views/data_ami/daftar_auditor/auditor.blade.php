@@ -6,15 +6,70 @@
             <div class="card w-100">
                 <div class="card-body p-4">
                     <div class="d-flex justify-content-between align-items-center">
-                        <div class="d-flex align-items-center mb-4">
+                        <div class="d-flex align-items-center mb-2">
                             <div>
                                 <span class="card-title fw-semibold me-3">Daftar Auditor</span>
                             </div>
-                            <div>
+                            <div class="me-2">
                                 <a href="unit_kerja/create" type="button" class="btn btn-primary"><i
                                         class="ti ti-plus me-1"></i>Tambah List Auditor</a>
                             </div>
+
+                             <!-- Tombol Trigger Modal -->
+                             <div class="me-2">
+                                <a href="#" type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#importDataModal">
+                                    <i class="ti ti-upload me-2"></i>Import Data
+                                </a>
+                            </div>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="importDataModal" tabindex="-1"
+                                aria-labelledby="importDataModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="importDataModalLabel">Import Data Indikator Kinerja
+                                                Unit Kerja</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="{{ route('import.data') }}" method="POST"
+                                                enctype="multipart/form-data">
+                                                @csrf
+                                                <div class="mb-3">
+                                                    <label for="excel_file" class="form-label">Pilih File Data Indikator
+                                                        Kinerja Unit</label>
+                                                    <input type="file" name="excel_file" id="excel_file"
+                                                        class="form-control" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <span>Detail Aturan File :</span>
+                                                    <ul style="list-style-type: disc; padding-left: 20px;">
+                                                        <li>Data Harus Berupa .xls atau .xlsx</li>
+                                                        <li>Field Kolom Data:
+                                                            <ol disc; padding-left: 20px;">
+                                                                <li>Kode [string]</li>
+                                                                <li>Indikator Kinerja Unit Kerja [text]</li>
+                                                                <li>Satuan [string]</li>
+                                                                <li>Target [Integer]</li>
+                                                                <li>Unit [String]</li>
+                                                            </ol>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <button class="btn btn-primary" type="submit">
+                                                    <i class="ti ti-upload me-2"></i>Upload File
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+
+                        
 
                         <div>
                             @if (session('success'))
@@ -73,18 +128,18 @@
                                         <h6 class="fw-semibold mb-0"> {{$no++}} </h6>
                                     </td>
                                     <td class="border-bottom-0">
-                                        <div class="p-3">
+                                        <div class="">
                                             <h6 class="fw-semibold mb-1 text-center"> {{$auditor->nama_unit}} </h6>
                                         </div>
                                     </td>
 
                                     <td class="border-bottom-0">
-                                        <div class="p-3">
+                                        <div class="">
                                             <h6 class="fw-semibold mb-1 text-center"> {{$auditor->auditor1}} </h6>
                                         </div>
                                     </td>
                                     <td class="border-bottom-0">
-                                        <div class="p-3">
+                                        <div class="">
                                             <h6 class="fw-semibold mb-1 text-center"> {{$auditor->auditor2}} </h6>
                                         </div>
                                     </td>

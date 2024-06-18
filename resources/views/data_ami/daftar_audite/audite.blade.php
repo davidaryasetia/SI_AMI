@@ -6,13 +6,13 @@
             <div class="card w-100">
                 <div class="card-body p-4">
                     <div class="d-flex justify-content-between align-items-center">
-                        <div class="d-flex align-items-center mb-4">
+                        <div class="d-flex align-items-center mb-2">
                             <div>
-                                <span class="card-title fw-semibold me-3">Daftar Audite Unit</span>
+                                <span class="card-title fw-semibold me-3">Daftar Audite</span>
                             </div>
                             <div>
                                 <a href="daftar_audite/create" type="button" class="btn btn-primary"><i
-                                        class="ti ti-plus me-1"></i>Tambah List Audite</a>
+                                        class="ti ti-plus me-1"></i>Tambah Daftar Audite</a>
                             </div>
                         </div>
 
@@ -69,7 +69,7 @@
                                         <h6 class="fw-semibold mb-0"> {{ $no++ }} </h6>
                                     </td>
                                     <td class="border-bottom-0">
-                                        <div class="p-3">
+                                        <div class="">
                                             <h6 class="fw-semibold mb-1"> {{ $audite->nama_unit }} </h6>
                                         </div>
 
@@ -83,7 +83,7 @@
                                         </ul> --}}
                                     </td>
                                     <td class="border-bottom-0">
-                                        <div class="p-3">
+                                        <div class="">
                                             <h6 class="fw-semibold mb-1 text-center"> {{$audite->audite}} </h6>
                                         </div>
                                     </td>

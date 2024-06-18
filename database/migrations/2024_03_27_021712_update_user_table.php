@@ -11,15 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if(Schema::hasTable('unit')){
-            Schema::table('user', function(Blueprint $table){
+        if (Schema::hasTable('unit')) {
+            Schema::table('user', function (Blueprint $table) {
                 $table->foreign('unit_id')
-                        ->references('unit_id')
-                        ->on('unit');
-                
+                    ->references('unit_id')
+                    ->on('unit')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
+
                 $table->foreign('unit_cabang_id')
-                        ->references('unit_cabang_id')
-                        ->on('unit_cabang');
+                    ->references('unit_cabang_id')
+                    ->on('unit_cabang')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
             });
         }
     }
@@ -29,10 +33,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        if(Schema::hasTable('unit')){
-            Schema::table('users', function(Blueprint $table){
+        if (Schema::hasTable('unit')) {
+            Schema::table('users', function (Blueprint $table) {
                 $table->dropForeign(['unit_id']);
-               $table->dropColumn('unit_id');
+                $table->dropColumn('unit_id');
             });
         }
     }

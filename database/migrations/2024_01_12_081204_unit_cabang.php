@@ -14,7 +14,11 @@ return new class extends Migration
         Schema::create('unit_cabang', function (Blueprint $table) {
             $table->id('unit_cabang_id');
             $table->unsignedBigInteger('unit_id')->nullOnDelete();
-            $table->foreign('unit_id')->references('unit_id')->on('unit');
+            $table->foreign('unit_id')
+                    ->references('unit_id')
+                    ->on('unit')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
             
             $table->string('nama_unit_cabang')->lenght(64)->unique();
             $table->timestamps();
