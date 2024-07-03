@@ -18,12 +18,18 @@ class Unit extends Model
         'updated_at'
     ];
 
+    public function users(): HasMany
+    {
+        return $this->hasMany(User::class, 'unit_id', 'unit_id');
+    }
+
     public function unit_cabang(): HasMany
     {
         return $this->hasMany(UnitCabang::class, 'unit_id', 'unit_id');
     }
-    
 
-
-
+    public function indikator_ikuk():HasMany
+    {
+        return $this->hasMany(IndikatorKinerjaUnitKerja::class, 'unit_id', 'unit_id');
+    }
 }

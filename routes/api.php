@@ -1,7 +1,12 @@
 <?php
 
+use App\Http\Controllers\API\AuditeController;
 use App\Http\Controllers\Api\AuditorController;
+use App\Http\Controllers\Api\IndikatorKinerjaUnitKerjaController;
 use App\Http\Controllers\Api\TestApiController;
+use App\Http\Controllers\Api\UnitKerjaController;
+use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\DataAmiController\UnitController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,4 +26,8 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/test', [TestApiController::class, 'index']);
+Route::get('/unit_kerja',[UnitKerjaController::class, 'index']);
 Route::get('/auditor',[AuditorController::class, 'index']);
+Route::get('/audite', [AuditeController::class, 'index']);
+Route::get('/indikator_kinerja_unit_kerja', [IndikatorKinerjaUnitKerjaController::class, 'index']);
+Route::get('/daftar_user',[UserController::class, 'index']);
