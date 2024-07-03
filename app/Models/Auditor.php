@@ -5,6 +5,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use PhpOffice\PhpSpreadsheet\Calculation\Statistical\Distributions\Beta;
 
 class Auditor extends Model
 {
@@ -19,20 +21,19 @@ class Auditor extends Model
         'updated_at', 
     ];
 
-    // relasi ke user 
-    public function users1()
+    public function units(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(Unit::class, 'unit_id', 'unit_id');
+    }
+
+    // relasi ke user 
+    public function auditor1(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'auditor_1', 'user_id');
     }
     
-    public function users2()
+    public function auditor2(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'auditor_2', 'user_id');
     }
-
-    public function units()
-    {
-        return $this->belongsTo(Unit::class, 'unit_id');
-    }
-
 }

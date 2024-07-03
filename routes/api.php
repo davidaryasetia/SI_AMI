@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\AuditorController;
+use App\Http\Controllers\Api\TestApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::get('/test', [TestApiController::class, 'index']);
+Route::get('/auditor',[AuditorController::class, 'index']);

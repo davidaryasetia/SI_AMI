@@ -54,10 +54,10 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function units()
-    {
-        return $this->belongsTo(Unit::class, 'unit_id');
-    }
+    // public function units()
+    // {
+    //     return $this->belongsTo(Unit::class, 'unit_id');
+    // }
 
     // auditor
     public function auditors1()

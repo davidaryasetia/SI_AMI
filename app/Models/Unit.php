@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 // unit
 class Unit extends Model
@@ -17,21 +18,9 @@ class Unit extends Model
         'updated_at'
     ];
 
-    // relasi ke auditor 
-    public function auditors()
+    public function unit_cabang(): HasMany
     {
-        return $this->hasOne(Auditor::class, 'unit_id');
-    }
-
-    // Relasi ke users
-    public function users()
-    {
-        return $this->hasMany(User::class, 'unit_id');
-    }
-
-    // // iterasi 1
-    public function UnitsCabang(){
-        return $this->hasMany(UnitCabang::class, 'unit_id');
+        return $this->hasMany(UnitCabang::class, 'unit_id', 'unit_id');
     }
     
 
