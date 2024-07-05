@@ -14,18 +14,19 @@ class UnitController extends Controller
     public function index()
     {
 
-        $data_unit = Unit::select(
-            'unit.unit_id as unit_id',
-            'unit.nama_unit as nama_unit',
-            'usr.nama as audite',
-            'usr1.nama as auditor1',
-            'usr2.nama as auditor2'
-        )
-            ->leftJoin('auditor', 'unit.unit_id', '=', 'auditor.unit_id')
-            ->leftJoin('user as usr1', 'auditor.auditor_1', '=', 'usr1.user_id')
-            ->leftJoin('user as usr2', 'auditor.auditor_2', '=', 'usr2.user_id')
-            ->leftJoin('user as usr', 'unit.unit_id', '=', 'usr.unit_id')
-            ->get();
+        // $data_unit = Unit::select(
+        //     'unit.unit_id as unit_id',
+        //     'unit.nama_unit as nama_unit',
+        //     'usr.nama as audite',
+        //     'usr1.nama as auditor1',
+        //     'usr2.nama as auditor2'
+        // )
+        //     ->leftJoin('auditor', 'unit.unit_id', '=', 'auditor.unit_id')
+        //     ->leftJoin('user as usr1', 'auditor.auditor_1', '=', 'usr1.user_id')
+        //     ->leftJoin('user as usr2', 'auditor.auditor_2', '=', 'usr2.user_id')
+        //     ->leftJoin('user as usr', 'unit.unit_id', '=', 'usr.unit_id')
+        //     ->get();
+        $data_unit = Unit::with('unit_cabang:unit_id,unit_cabang_id,nama_unit_cabang')->get();
 
 
         return view('data_ami.unit_kerja.unit', [
