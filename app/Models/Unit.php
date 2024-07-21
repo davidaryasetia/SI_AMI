@@ -18,12 +18,13 @@ class Unit extends Model
         'updated_at'
     ];
 
-    public function users(): HasMany
+    public function users_audite(): HasMany
     {
         return $this->hasMany(User::class, 'unit_id', 'unit_id');
     }
 
-    public function unit_cabang(): HasMany
+    // unit cabang 
+    public function unita_cabang(): HasMany
     {
         return $this->hasMany(UnitCabang::class, 'unit_id', 'unit_id');
     }

@@ -70,7 +70,7 @@
                                     </td>
                                     <td class="border-bottom-0">
                                         <div class="">
-                                            <h6 class="fw-semibold mb-1"> {{ $audite->nama_unit }} </h6>
+                                            <h6 class="fw-semibold mb-1"> {{ $audite->units_audite->nama_unit }} </h6>
                                         </div>
 
                                         {{-- <ul>
@@ -84,7 +84,7 @@
                                     </td>
                                     <td class="border-bottom-0">
                                         <div class="">
-                                            <h6 class="fw-semibold mb-1 text-center"> {{$audite->audite}} </h6>
+                                            <h6 class="fw-semibold mb-1 text-center"> {{$audite->nama}} </h6>
                                         </div>
                                     </td>
                                     <td class="border-bottom-0">

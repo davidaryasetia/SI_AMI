@@ -41,7 +41,7 @@ class IndikatorKinerjaController extends Controller
         $filteredDataAMI = $data_ami->get();
 
         return view('data_ami.indikator_unit_kerja.indikator', [
-            'title' => 'Indikator Kinerja',
+            'title' => 'Instrument IKUK',
             'units' => $units, 
             'data_ami' => $filteredDataAMI, 
             'unit_id' => $unitId

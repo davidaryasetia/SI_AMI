@@ -13,7 +13,7 @@ class JadwalAmiController extends Controller
     public function index()
     {
         return view('data_ami.jadwal_ami.jadwal', [
-            'title' => 'Indikator Kinerja', 
+            'title' => 'Jadwal AMI', 
         ]);
     }
 

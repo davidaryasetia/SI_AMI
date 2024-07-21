@@ -4,6 +4,7 @@ namespace App\Http\Controllers\DataAmiController;
 
 use App\Http\Controllers\Controller;
 use App\Models\Unit;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AuditeController extends Controller
@@ -20,10 +21,10 @@ class AuditeController extends Controller
         //                 ->leftJoin('user', 'unit.unit_id', '=', 'user.unit_id')
         //                 ->get();
 
-        $data_audite = Unit::with([
-            'user:user_id,unit_id,unit_cabang_id,nama',
-            'unit_cabang:unit_cabang_id,unit_id,nama_unit_cabang'
-        ]);
+       $data_audite = User::with([
+        'units_audite:unit_id,nama_unit', 
+       ])->get();
+    //    dump($data_audite->toArray());
 
         return view('data_ami.daftar_audite.audite', [
             'title' => 'Daftar Audite',
