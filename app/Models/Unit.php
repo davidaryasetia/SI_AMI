@@ -24,7 +24,7 @@ class Unit extends Model
     }
 
     // unit cabang 
-    public function unita_cabang(): HasMany
+    public function units_cabang(): HasMany
     {
         return $this->hasMany(UnitCabang::class, 'unit_id', 'unit_id');
     }

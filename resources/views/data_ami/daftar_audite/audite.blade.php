@@ -62,6 +62,7 @@
                                 </tr>
                             </thead>
                             <tbody>
+
                                 <?php $no = 1; ?>
                                 <?php foreach($daftar_audite as $audite): ?>
                                 <tr>
@@ -69,27 +70,55 @@
                                         <h6 class="fw-semibold mb-0"> {{ $no++ }} </h6>
                                     </td>
                                     <td class="border-bottom-0">
-                                        <div class="">
-                                            <h6 class="fw-semibold mb-1"> {{ $audite->units_audite->nama_unit }} </h6>
+                                        <div class="mb-3">
+                                            <h6 class="fw-semibold mb-1"> {{ $audite->nama_unit }} </h6>
                                         </div>
 
-                                        {{-- <ul>
-                                            <?php $no_child = 1; ?>
-                                            @foreach ($audite->UnitsCabang as $unitCabang)
-                                                <li>
-                                                    {{ $no_child++ }}. ) {{ $unitCabang->nama_unit_cabang }}
+                                        <ul class="unit-list" style="color: black; ">
+                                            @foreach ($audite->units_cabang as $unitCabang)
+                                                <li class="mb-2" style="list-style-type: disc">
+                                                    {{ $unitCabang->nama_unit_cabang }}
                                                 </li>
                                             @endforeach
-                                        </ul> --}}
+                                        </ul>
+
                                     </td>
                                     <td class="border-bottom-0">
-                                        <div class="">
-                                            <h6 class="fw-semibold mb-1 text-center"> {{$audite->nama}} </h6>
+                                        @php
+                                            $user_audite = $audite->users_audite[0] ?? null;
+                                        @endphp
+
+                                        <div class="mb-3">
+                                            <h6 class="fw-semibold mb-1">
+                                                {{-- Audite --}}
+                                                @if ($user_audite)
+                                                    {{ $user_audite['nama'] }}
+                                                @else
+                                                <span style="color: red">
+                                                    User Audite Belum Di set !!!
+                                                </span>
+                                                @endif
+                                            </h6>
                                         </div>
+
+                                        <ul class="unit-list">
+                                            @foreach ($audite->units_cabang as $unitCabang)
+                                                <li class="mb-2">
+                                                    @if ($unitCabang['users_cabang'])
+                                                    <span style="color: black">
+                                                        {{ $unitCabang['users_cabang']['nama'] }}
+                                                    </span>
+                                                    @else
+                                                    <span style="color: red">
+                                                        User Audite Belum Di Set !!!
+                                                    </span>
+                                                    @endif
+                                                </li>
+                                            @endforeach
+                                        </ul>
                                     </td>
                                     <td class="border-bottom-0">
-                                        <p class="mb-0 fw-normal text-center"><a
-                                                href=""><i
+                                        <p class="mb-0 fw-normal text-center"><a href=""><i
                                                     class="ti ti-pencil"></i></a></p>
                                     </td>
                                     <td class="border-bottom-0">

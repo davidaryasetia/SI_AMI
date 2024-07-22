@@ -82,6 +82,15 @@ class UserSeeder extends Seeder
         // ----------- Departement Teknik Elektronika --------------------//
         User::create([ // 8
             'unit_id' => 8, // Departemen Teknik Elektronika
+            'unit_cabang_id' => NULL, // D4 Teknik Elektronika
+            'nama' => 'John',
+            'nip' => 1970221,
+            'status_admin' => false,
+            'email' => 'john@pens.ac.id',
+            'password' => bcrypt('john'),
+        ]);
+        User::create([ // 8
+            'unit_id' => 8, // Departemen Teknik Elektronika
             'unit_cabang_id' => 1, // D4 Teknik Elektronika
             'nama' => 'Elly Purwantini',
             'nip' => 1970521021,
@@ -121,6 +130,16 @@ class UserSeeder extends Seeder
 
 
         // ------------- Departement Teknik Informatika -------------------//
+        User::create([ // 12
+            'unit_id' => 9, // Departement Teknik Informatika
+            'unit_cabang_id' => null, // D4 Teknik Informatika
+            'nama' => 'Purwanto',
+            'nip' => 197323,
+            'status_admin' => false,
+            'email' => 'purwanto@pens.ac.id',
+            'password' => bcrypt('purwanto'),
+        ]);
+
         User::create([ // 12
             'unit_id' => 9, // Departement Teknik Informatika
             'unit_cabang_id' => 7, // D4 Teknik Informatika
@@ -165,6 +184,15 @@ class UserSeeder extends Seeder
 
 
         // ------------- Departement Teknik Mekanika Energi --------------//
+        User::create([ // 16
+            'unit_id' => 10, // Departement Teknik Mekanika Energi
+            'unit_cabang_id' => NULL, // D4 Teknik Mekatronika
+            'nama' => 'Purwo',
+            'nip' => 19721037,
+            'status_admin' => false,
+            'email' => 'purwo   @pens.ac.id',
+            'password' => bcrypt('purwo'),
+        ]);
         User::create([ // 16
             'unit_id' => 10, // Departement Teknik Mekanika Energi
             'unit_cabang_id' => 11, // D4 Teknik Mekatronika

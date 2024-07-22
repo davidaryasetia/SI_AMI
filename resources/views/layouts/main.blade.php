@@ -28,6 +28,23 @@
         .alert {
             margin-bottom: 10px;
         }
+
+        /* List Audite */
+        <style>
+        .unit-list {
+            padding-left: 0;
+            list-style: none;
+        }
+        .unit-list li {
+            padding: 8px;
+            border: 1px solid #8a8a8a;
+            margin-bottom: 5px;
+            border-radius: 4px;
+        }
+        .unit-list li:last-child {
+            margin-bottom: 0;
+        }
+    </style>
     </style>
 </head>
 

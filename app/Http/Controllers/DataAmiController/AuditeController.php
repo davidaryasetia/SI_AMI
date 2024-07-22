@@ -14,17 +14,13 @@ class AuditeController extends Controller
      */
     public function index()
     {
-        // $data_audite = Unit::select(
-        //                     'unit.nama_unit as nama_unit', 
-        //                     'user.nama as audite')
-        //                 ->distinct()
-        //                 ->leftJoin('user', 'unit.unit_id', '=', 'user.unit_id')
-        //                 ->get();
-
-       $data_audite = User::with([
-        'units_audite:unit_id,nama_unit', 
+        
+       $data_audite = Unit::with([
+        'units_cabang:unit_cabang_id,unit_id,nama_unit_cabang',
+        'users_audite:user_id,unit_id,unit_cabang_id,nama',
+        'units_cabang.users_cabang:user_id,unit_id,unit_cabang_id,nama',
        ])->get();
-    //    dump($data_audite->toArray());
+       dump($data_audite->toArray());
 
         return view('data_ami.daftar_audite.audite', [
             'title' => 'Daftar Audite',

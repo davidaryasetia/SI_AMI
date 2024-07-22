@@ -38,10 +38,8 @@ class UnitCabangSeeder extends Seeder
         UnitCabang::create([  // 6
             'unit_id' => '8',
             'nama_unit_cabang' => 'D4 Teknik Rekayasa Internet',
-
-
-            # Departement Teknik Informatika
         ]);
+        # Departement Teknik Informatika
         UnitCabang::create([ // 7
             'unit_id' => '9',
             'nama_unit_cabang' => 'D4 Teknik Informatika',
