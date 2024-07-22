@@ -13,8 +13,6 @@ return new class extends Migration
     {
         Schema::create('user', function (Blueprint $table) {
             $table->id('user_id');
-            $table->unsignedBigInteger('unit_id')->nullOnDelete()->nullable();
-            $table->unsignedBigInteger('unit_cabang_id')->nullOnDelete()->nullable();
             $table->string('nama')->unique();
             $table->integer('nip')->lenght(64)->unique();
             $table->boolean('status_admin');

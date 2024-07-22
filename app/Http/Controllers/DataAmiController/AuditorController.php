@@ -14,18 +14,15 @@ class AuditorController extends Controller
      */
     public function index()
     {
-        // Query Manual
-        // $data_auditor = Unit::select('unit.nama_unit', 'usr1.nama as auditor1', 'usr2.nama as auditor2')
-        // ->join('auditor', 'unit.unit_id', '=', 'auditor.unit_id')
-        // ->leftJoin('user as usr1', 'auditor.auditor_1', '=', 'usr1.user_id')
-        // ->leftJoin('user as usr2', 'auditor.auditor_2', '=', 'usr2.user_id')
-        // ->get();
 
         $data_auditor = Auditor::with([
             'units:unit_id,nama_unit',
-            'auditor1:user_id,nama',
-            'auditor2:user_id,nama',
-        ]);
+            'users_auditor1:user_id,nama', 
+            'users_auditor2:user_id,nama', 
+            'units.units_cabang:unit_cabang_id,unit_id,nama_unit_cabang'
+        ])->get();
+
+        // dump($data_auditor->toArray());
         return view('data_ami.daftar_auditor.auditor', [
             'title' => 'Daftar Auditor', 
             'daftar_auditor' => $data_auditor,

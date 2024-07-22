@@ -29,12 +29,13 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="importDataModalLabel">Import Data Unit Kerja
-                                                </h5>
+                                            </h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <form action="{{ route('import.dataUnit') }}" method="POST" enctype="multipart/form-data">
+                                            <form action="{{ route('import.dataUnit') }}" method="POST"
+                                                enctype="multipart/form-data">
                                                 @csrf
                                                 <div class="mb-3">
                                                     <label for="excel_file" class="form-label">Pilih File Unit Kerja</label>
@@ -124,24 +125,83 @@
                                         <h6 class="fw-semibold mb-0"> {{ $no++ }} </h6>
                                     </td>
                                     <td class="border-bottom-0">
-                                        <div class="">
-                                            <h6 class="fw-semibold mb-1 text-center"> {{ $unit->nama_unit }} </h6>
+                                        <div class="mb-3">
+                                            <h6 class="fw-semibold mb-1"> {{ $unit->nama_unit }} </h6>
                                         </div>
+
+                                        <ul class="unit-list" style="color: black;">
+                                            <?php $nomer = 1; ?>
+                                            @foreach ($unit->units_cabang as $unitCabang)
+                                                <li class="mb-2">
+                                                    {{ $nomer++ }} <span>.) {{ $unitCabang->nama_unit_cabang }} </span>
+                                                </li>
+                                            @endforeach
+                                        </ul>
                                     </td>
 
                                     <td class="border-bottom-0">
-                                        <div class="">
-                                            <h6 class="fw-semibold mb-1 text-center"> {{ $unit->audite }} </h6>
+                                        @php
+                                            $user_audite = $unit->users_audite[0] ?? null;
+                                        @endphp
+                                        <div class="mb-3">
+                                            <h6 class="fw-semibold mb-1">
+
+                                                {{-- Audite --}}
+                                                @if ($user_audite)
+                                                    {{ $user_audite['nama'] }}
+                                                @else
+                                                    <span style="color: red">
+                                                        User Audite Belum Di set !!!
+                                                    </span>
+                                                @endif
+                                            </h6>
                                         </div>
+
+                                        {{-- Audite Cabang --}}
+                                        <ul class="unit-list">
+                                            @foreach ($unit->units_cabang as $unitCabang)
+                                                <li class="mb-2">
+                                                    @if ($unitCabang['users_cabang'])
+                                                        <span style="color: black">
+                                                            {{ $unitCabang['users_cabang']['nama'] }}
+                                                        </span>
+                                                    @else
+                                                        <span style="color:red">
+                                                            User Audite Belum Di Set !!!
+                                                        </span>
+                                                    @endif
+                                                </li>
+                                            @endforeach
+                                        </ul>
                                     </td>
+
+                                    {{-- Auditor 1 --}}
                                     <td class="border-bottom-0">
                                         <div class="">
-                                            <h6 class="fw-semibold mb-1 text-center"> {{ $unit->auditor1 }} </h6>
+                                            @if ($unit->auditors->users_auditor1 ?? false)
+                                                <h6 class="fw-semibold mb-1">
+                                                    {{ $unit->auditors->users_auditor1->nama }}
+                                                </h6>
+                                            @else
+                                                <span style="color: red">
+                                                    User Auditor 1 Belum Di set !!!
+                                                </span>
+                                            @endif
                                         </div>
                                     </td>
+
+                                    {{-- Auditor 2 --}}
                                     <td class="border-bottom-0">
                                         <div class="">
-                                            <h6 class="fw-semibold mb-1 text-center"> {{ $unit->auditor2 }} </h6>
+                                            @if ($unit->auditors->users_auditor1 ?? false)
+                                                <h6 class="fw-semibold mb-1 text-center">
+                                                    {{ $unit->auditors->users_auditor2->nama }}
+                                                </h6>
+                                            @else
+                                                <span style="color: red">
+                                                    User Auditor 2 Belum Di Set
+                                                </span>
+                                            @endif
                                         </div>
                                     </td>
                                     <td class="border-bottom-0">

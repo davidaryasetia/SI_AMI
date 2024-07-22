@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 // unit
 class Unit extends Model
@@ -32,5 +33,10 @@ class Unit extends Model
     public function indikator_ikuk():HasMany
     {
         return $this->hasMany(IndikatorKinerjaUnitKerja::class, 'unit_id', 'unit_id');
+    }
+
+    public function auditors(): HasOne
+    {
+        return $this->hasOne(Auditor::class, 'unit_id', 'unit_id');
     }
 }

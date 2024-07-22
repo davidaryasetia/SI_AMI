@@ -11,21 +11,32 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (Schema::hasTable('unit')) {
-            Schema::table('user', function (Blueprint $table) {
-                $table->foreign('unit_id')
+        Schema::create('audite', function (Blueprint $table) {
+            $table->id('audite_id');
+
+            $table->unsignedBigInteger('unit_id');
+            $table->foreign('unit_id')
                     ->references('unit_id')
                     ->on('unit')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
 
-                $table->foreign('unit_cabang_id')
+            $table->unsignedBigInteger('unit_cabang_id');
+            $table->foreign('unit_cabang_id')
                     ->references('unit_cabang_id')
                     ->on('unit_cabang')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
-            });
-        }
+
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')
+                    ->references('user_id')
+                    ->on('user')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
+
+            $table->timestamps();
+        });
     }
 
     /**
@@ -33,11 +44,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        if (Schema::hasTable('unit')) {
-            Schema::table('users', function (Blueprint $table) {
-                $table->dropForeign(['unit_id']);
-                $table->dropColumn('unit_id');
-            });
-        }
+        Schema::dropIfExists('audite');
     }
 };

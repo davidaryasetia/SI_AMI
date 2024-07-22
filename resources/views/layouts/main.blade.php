@@ -37,7 +37,7 @@
         }
         .unit-list li {
             padding: 8px;
-            border: 1px solid #8a8a8a;
+            border: 1px solid #b8b6b6;
             margin-bottom: 5px;
             border-radius: 4px;
         }

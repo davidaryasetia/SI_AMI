@@ -26,13 +26,19 @@ class Auditor extends Model
         return $this->belongsTo(Unit::class, 'unit_id', 'unit_id');
     }
 
+    // // Relasi Ke unit cabang
+    // public function units_cabang(): BelongsTo
+    // {
+    //     return $this->belongsTo(UnitCabang::class, 'unit_cabang_id', 'unit_cabang_id');
+    // }
+
     // relasi ke user 
-    public function auditor1(): BelongsTo
+    public function users_auditor1(): BelongsTo
     {
         return $this->belongsTo(User::class, 'auditor_1', 'user_id');
     }
     
-    public function auditor2(): BelongsTo
+    public function users_auditor2(): BelongsTo
     {
         return $this->belongsTo(User::class, 'auditor_2', 'user_id');
     }

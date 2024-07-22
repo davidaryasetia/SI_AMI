@@ -75,9 +75,10 @@
                                         </div>
 
                                         <ul class="unit-list" style="color: black; ">
+                                            <?php $nomer=1; ?>
                                             @foreach ($audite->units_cabang as $unitCabang)
-                                                <li class="mb-2" style="list-style-type: disc">
-                                                    {{ $unitCabang->nama_unit_cabang }}
+                                                <li class="mb-2">
+                                                  {{$nomer++}} <span>.) </span>  {{ $unitCabang->nama_unit_cabang }}
                                                 </li>
                                             @endforeach
                                         </ul>

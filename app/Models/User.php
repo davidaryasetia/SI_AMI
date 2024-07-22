@@ -6,6 +6,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -23,8 +24,6 @@ class User extends Authenticatable
     protected $table = 'user';
     protected $primaryKey = 'user_id';
     protected $fillable = [
-        'unit_id', 
-        'unit_cabang_id', 
         'nama', 
         'nip', 
         'status_admin', 
@@ -67,7 +66,11 @@ class User extends Authenticatable
    {
     return $this->hasOne(UnitCabang::class, 'unit_cabang_id', 'unit_cabang_id');
    }
-  
 
+   // Auditor 
+   public function auditors(): HasMany
+   {
+    return $this->hasMany(Auditor::class, 'user_id', 'user_id');
+   }
 }
 

@@ -20,7 +20,7 @@ class AuditeController extends Controller
         'users_audite:user_id,unit_id,unit_cabang_id,nama',
         'units_cabang.users_cabang:user_id,unit_id,unit_cabang_id,nama',
        ])->get();
-       dump($data_audite->toArray());
+    //    dump($data_audite->toArray());
 
         return view('data_ami.daftar_audite.audite', [
             'title' => 'Daftar Audite',

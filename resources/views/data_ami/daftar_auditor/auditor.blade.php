@@ -15,8 +15,8 @@
                                         class="ti ti-plus me-1"></i>Tambah List Auditor</a>
                             </div>
 
-                             <!-- Tombol Trigger Modal -->
-                             <div class="me-2">
+                            <!-- Tombol Trigger Modal -->
+                            <div class="me-2">
                                 <a href="#" type="button" class="btn btn-primary" data-bs-toggle="modal"
                                     data-bs-target="#importDataModal">
                                     <i class="ti ti-upload me-2"></i>Import Data
@@ -69,7 +69,7 @@
                             </div>
                         </div>
 
-                        
+
 
                         <div>
                             @if (session('success'))
@@ -110,7 +110,7 @@
                                     <th class="border-bottom-0">
                                         <h6 class="fw-semibold mb-0 text-center">Auditor 2</h6>
                                     </th>
-                                   
+
                                     <th class="border-bottom-0">
                                         <h6 class="fw-semibold mb-0">Edit</h6>
                                     </th>
@@ -122,30 +122,56 @@
                             </thead>
                             <tbody>
                                 <?php $no = 1; ?>
-                               <?php foreach($daftar_auditor as $auditor): ?>
+                                <?php foreach($daftar_auditor as $auditor): ?>
                                 <tr>
                                     <td class="border-bottom-0 text-center">
-                                        <h6 class="fw-semibold mb-0"> {{$no++}} </h6>
+                                        <h6 class="fw-semibold mb-0"> {{ $no++ }} </h6>
                                     </td>
                                     <td class="border-bottom-0">
-                                        <div class="">
-                                            <h6 class="fw-semibold mb-1 text-center"> {{$auditor->nama_unit}} </h6>
+                                        <div class="mb-2">
+                                            <h6 class="fw-semibold mb-1"> {{ $auditor->units->nama_unit }} </h6>
                                         </div>
+
+                                       <ul class="unit-list" style="color: black">
+                                        <?php $nomer=1;?>
+                                        @foreach($auditor->units->units_cabang as $unitCabang)
+                                        <li class="mb-2">
+                                            {{$nomer++}}<span>.)</span>  {{$unitCabang->nama_unit_cabang}}
+                                        </li>
+                                        @endforeach
+                                       </ul>
                                     </td>
 
                                     <td class="border-bottom-0">
                                         <div class="">
-                                            <h6 class="fw-semibold mb-1 text-center"> {{$auditor->auditor1}} </h6>
+                                            <h6 class="fw-semibold mb-1">
+                                                @if (isset($auditor->users_auditor1) && $auditor->users_auditor1 && isset($auditor->users_auditor1->nama))
+                                                    {{ $auditor->users_auditor1->nama }}
+                                                @else
+                                                    <span style="color: red">
+                                                        User Auditor 1 Belum Di Set !!!
+                                                    </span>
+                                                @endif
+
+                                            </h6>
                                         </div>
                                     </td>
                                     <td class="border-bottom-0">
                                         <div class="">
-                                            <h6 class="fw-semibold mb-1 text-center"> {{$auditor->auditor2}} </h6>
+                                            <h6 class="fw-semibold mb-1">
+                                                @if (isset($auditor->users_auditor2) && $auditor->users_auditor2 && isset($auditor->users_auditor2->nama))
+                                                {{ $auditor->users_auditor2->nama }}
+                                            @else
+                                                <span style="color: red">
+                                                    User Auditor 2 Belum Di Set !!!
+                                                </span>
+                                            @endif
+
+                                            </h6>
                                         </div>
                                     </td>
                                     <td class="border-bottom-0">
-                                        <p class="mb-0 fw-normal text-center"><a
-                                                href=""><i
+                                        <p class="mb-0 fw-normal text-center"><a href=""><i
                                                     class="ti ti-pencil"></i></a></p>
                                     </td>
                                     <td class="border-bottom-0">
