@@ -39,4 +39,9 @@ class Unit extends Model
     {
         return $this->hasOne(Auditor::class, 'unit_id', 'unit_id');
     }
+
+    public function audites(): HasMany
+    {
+        return $this->hasMany(Audite::class, 'unit_id', 'unit_id');
+    }
 }

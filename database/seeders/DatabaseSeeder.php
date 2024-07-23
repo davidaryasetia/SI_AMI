@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             UnitCabangSeeder::class,
             UserSeeder::class,
             AuditorSeeder::class,
+            AuditeSeeder::class,
             IndikatorKinerjaKegiatanSeeder::class, 
             IndikatorKinerjaSubKegiatanSeeder::class, 
             IndikatorKinerjaUnitKerjaSeeder::class, 

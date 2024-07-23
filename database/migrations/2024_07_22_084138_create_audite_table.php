@@ -21,14 +21,14 @@ return new class extends Migration
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
 
-            $table->unsignedBigInteger('unit_cabang_id');
+            $table->unsignedBigInteger('unit_cabang_id')->nullable(true);
             $table->foreign('unit_cabang_id')
                     ->references('unit_cabang_id')
                     ->on('unit_cabang')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
 
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable(true);
             $table->foreign('user_id')
                     ->references('user_id')
                     ->on('user')
