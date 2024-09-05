@@ -61,38 +61,22 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 d-flex align-items-stretch">
-                <div class="card shadow-none border w-100" style="height:340px">
-                    <div class="card-body p-4">
-                        <h5 class="card-title fw-semibold mb-4">Pengumuman Pembukaan AMI</h5>
-                        {{-- Content  --}}
-                        <div class="row mb-3">
-                            <div class="col-lg-6 col-md-6 label"><span style="color: black; font-weight: bold">Tahun</span></div>
-                            <div class="col-lg-6 col-md-6"><span style="color: black">: -</span></div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-lg-6 col-md-6 label"><span style="color: black; font-weight: bold">Periode</span></div>
-                            <div class="col-lg-6 col-md-6"><span style="color: black">: -</span></div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-lg-6 col-md-6 label"><span style="color: black; font-weight: bold">Tanggal Pembukaan</span></div>
-                            <div class="col-lg-6 col-md-6"><span style="color: black">: -</span></div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-lg-6 col-md-6 label"><span style="color: black; font-weight: bold">Tanggal Penutupan</span></div>
-                            <div class="col-lg-6 col-md-6"><span style="color: black">: -</span></div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-lg-6 col-md-6 label"><span style="color: black; font-weight: bold">Keterangan</span></div>
-                            <div class="col-lg-6 col-md-6"><span style="color: black">: -</span></div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-lg-6 col-md-6 label"><span style="color: black; font-weight: bold">Status</span></div>
-                            <div class="col-lg-6 col-md-6"><span style="color: black">: -</span></div>
-                        </div>
-                        {{-- END - Content  --}}
+             <!-- Informasi Jadwal -->
+             <div class="col-lg-4">
+                <div class="card jadwal-pelaksanaan-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Jadwal Pelaksanaan AMI</h5>
+                        <ul class="jadwal-list">
+                            <li><span>Tahun:</span> -</li>
+                            <li><span>Periode:</span> -</li>
+                            <li><span>Tanggal Pembukaan:</span> -</li>
+                            <li><span>Tanggal Penutupan:</span> -</li>
+                            <li><span>Keterangan:</span> -</li>
+                            <li><span>Status:</span> <span class="status-label">Belum Di Buka</span></li>
+                        </ul>
                     </div>
                 </div>
+
             </div>
         </div>
 

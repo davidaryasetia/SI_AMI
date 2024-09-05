@@ -40,60 +40,66 @@
 
                     {{-- Content --}}
 
-                   {{-- Content --}}
-                   <div class="row">
-                    <div class="col-lg-7">
-                        <div id="calendar" class="calendar-container mb-4">
-                            <!-- FullCalendar akan diinisialisasi di sini -->
-                        </div>
-                    </div>
-                    
-                    <!-- Form Section -->
-                    <div class="col-lg-5">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5>Atur Tanggal Pelaksanaan AMI</h5>
-                            </div>
-                            <div class="card-body">
-                                <form action="/set-jadwal" method="POST">
-                                    @csrf
-                                    <div class="mb-3">
-                                        <label for="tahun" class="form-label">Tahun</label>
-                                        <input type="text" class="form-control" id="tahun" value="2024" readonly>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="periode" class="form-label">Periode</label>
-                                        <select class="form-select" id="periode" name="periode">
-                                            <option selected>Pilih Periode...</option>
-                                            <option value="1">Periode 1</option>
-                                            <option value="2">Periode 2</option>
-                                            <!-- Add more options as needed -->
-                                        </select>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="tanggal-pembukaan" class="form-label">Tanggal Pembukaan</label>
-                                        <input type="date" class="form-control" id="tanggal-pembukaan" name="tanggal_pembukaan">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="tanggal-penutupan" class="form-label">Tanggal Penutupan</label>
-                                        <input type="date" class="form-control" id="tanggal-penutupan" name="tanggal_penutupan">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="keterangan" class="form-label">Keterangan</label>
-                                        <textarea class="form-control" id="keterangan" name="keterangan" rows="3" placeholder="Masukkan Keterangan..."></textarea>
-                                    </div>
-
-                                    <button type="submit" class="btn btn-primary">Set Tanggal</button>
-                                </form>
+                    {{-- Content --}}
+                    <div class="row">
+                        <div class="col-lg-7">
+                            <div id="calendar" class="calendar-container mb-4">
+                                <!-- FullCalendar akan diinisialisasi di sini -->
                             </div>
                         </div>
+
+                        <!-- Form Section -->
+                        <div class="col-lg-5">
+                            <div class="card">
+                                <div class="card-header d-flex align-items-center">
+                                    <a href="{{ url()->previous() }}" class="d-flex align-items-center"><i
+                                            class="ti ti-arrow-left me-3" style="font-size: 20px; color: black"></i>
+                                    </a>
+                                    <h5>Atur Tanggal Pelaksanaan AMI</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form action="/set-jadwal" method="POST">
+                                        @csrf
+                                        <div class="mb-3">
+                                            <label for="tahun" class="form-label">Tahun</label>
+                                            <input type="text" class="form-control" id="tahun" value="2024"
+                                                readonly>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="periode" class="form-label">Periode</label>
+                                            <select class="form-select" id="periode" name="periode">
+                                                <option selected>Pilih Periode...</option>
+                                                <option value="1">Periode 1</option>
+                                                <option value="2">Periode 2</option>
+                                                <!-- Add more options as needed -->
+                                            </select>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="tanggal-pembukaan" class="form-label">Tanggal Pembukaan</label>
+                                            <input type="date" class="form-control" id="tanggal-pembukaan"
+                                                name="tanggal_pembukaan">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="tanggal-penutupan" class="form-label">Tanggal Penutupan</label>
+                                            <input type="date" class="form-control" id="tanggal-penutupan"
+                                                name="tanggal_penutupan">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="keterangan" class="form-label">Keterangan</label>
+                                            <textarea class="form-control" id="keterangan" name="keterangan" rows="3" placeholder="Masukkan Keterangan..."></textarea>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary">Set Tanggal</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                {{-- End-Content --}}
+                    {{-- End-Content --}}
                     {{-- End-Content --}}
                 </div>
             </div>
@@ -106,7 +112,7 @@
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.5/index.global.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
@@ -128,7 +134,7 @@
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 },
                 selectable: true,
-                select: function (info) {
+                select: function(info) {
                     var tanggalPembukaan = document.getElementById('tanggal-pembukaan');
                     tanggalPembukaan.value = info.startStr;
                 }
