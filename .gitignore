@@ -1,3 +1,4 @@
+composer.lock
 /.phpunit.cache
 /node_modules
 /public/build
