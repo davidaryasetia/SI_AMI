@@ -143,7 +143,7 @@
                 <!-- Form Login Admin -->
                 <div id="form-admin" class="form-login">
                     <h5>Login Admin</h5>
-                    <form action="/login-admin" method="POST">
+                    <form action="/home" method="">
                         <div class="form-group">
                             <label for="admin-user">User:</label>
                             <input type="text" class="form-control" id="admin-user" name="username">

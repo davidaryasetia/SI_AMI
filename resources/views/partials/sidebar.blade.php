@@ -18,7 +18,7 @@
                      <span class="hide-menu">Home</span>
                  </li>
                  <li class="sidebar-item">
-                     <a class="sidebar-link {{ Request::is('/') ? 'active' : '' }}" href="/"
+                     <a class="sidebar-link {{ Request::is('/home') ? 'active' : '' }}" href="/home"
                          aria-expanded="false">
                          <span>
                              <i class="ti ti-layout-dashboard"></i>
@@ -92,7 +92,7 @@
                      </a>
                  </li>
                  <li class="sidebar-item">
-                     <a class="sidebar-link {{ Request::is('logout*') ? 'active' : '' }}" href="/login" aria-expanded="false">
+                     <a class="sidebar-link {{ Request::is('logout*') ? 'active' : '' }}" href="/" aria-expanded="false">
                          <span>
                              <i class="ti ti-logout"></i>
                          </span>

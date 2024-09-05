@@ -22,7 +22,9 @@ class JadwalAmiController extends Controller
      */
     public function create()
     {
-        //
+        return view('data_ami.jadwal_ami.create', [
+            'title' => 'Buat Jadwal AMI'
+        ]);
     }
 
     /**

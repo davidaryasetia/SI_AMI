@@ -18,12 +18,10 @@ class AuditeController extends Controller
     {
         
        $data_audite = Unit::with([
-        'audites:audite_id,unit_id,user_id,unit_cabang_id', 
-        'audites.units:unit_id,nama_unit', 
-        'audites.units.units_cabang:unit_cabang_id,nama_unit_cabang'
+        'units_cabang:unit_cabang_id,unit_id,nama_unit_cabang'
        ])->get();
     //    dump($data_audite->toArray());
-    dd($data_audite->toArray());
+    // dd($data_audite->toArray());
 
         return view('data_ami.daftar_audite.audite', [
             'title' => 'Daftar Audite',

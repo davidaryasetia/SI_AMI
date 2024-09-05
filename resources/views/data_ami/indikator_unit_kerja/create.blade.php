@@ -107,8 +107,7 @@
             </div>
         </div>
     </div>
-2xw
-    <script>
+        <script>
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('addData').addEventListener('click', function() {
                 var indikatorTemplate = document.querySelector('.ikuk-template').cloneNode(true);
