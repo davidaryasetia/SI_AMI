@@ -35,7 +35,19 @@ use Illuminate\Support\Facades\Route;
 // });
 
 // Route::get('/', ['LoginController::class', 'index'])->name('loginForm');
-Route::resource('/', BerandaController::class);
+Route::get('/', function(){
+    return view('index',[
+        'title' => 'Dashboard'
+    ]);
+});
+
+Route::get('/login', function(){
+    return view('auth.login', [
+        'title' => 'Login'
+    ]);
+});
+
+Route::resource('/home', BerandaController::class);
 
 // Make New Route Resource 
 Route::resource('/unit_kerja', UnitController::class);
