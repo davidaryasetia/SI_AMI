@@ -9,7 +9,7 @@
             <div class="col-lg-8 d-flex align-items-stretch">
                 <div class="card w-100">
                     <div class="card-body p-4">
-                        <h5 class="card-title fw-semibold mb-4">Status Pengisian Data</h5>
+                        <h5 class="card-title fw-semibold mb-4">Status Pengisian Data Audit Mutu Internal</h5>
                         <div class="table-responsive">
                             <table id="table_status" class="table table-hover table-bordered text-nowrap mb-0 align-middle">
                                 <thead class="text-dark fs-4">
@@ -64,7 +64,7 @@
             <div class="col-lg-4 d-flex align-items-stretch">
                 <div class="card shadow-none border w-100" style="height:340px">
                     <div class="card-body p-4">
-                        <h5 class="card-title fw-semibold mb-4">Pengumuman Pelaksanaan AMI</h5>
+                        <h5 class="card-title fw-semibold mb-4">Pengumuman Pembukaan AMI</h5>
                         {{-- Content  --}}
                         <div class="row mb-3">
                             <div class="col-lg-6 col-md-6 label"><span style="color: black; font-weight: bold">Tahun</span></div>
