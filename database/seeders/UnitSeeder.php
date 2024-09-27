@@ -54,7 +54,6 @@ class UnitSeeder extends Seeder
             'nama_unit' => 'Departemen Teknik Mekanika Energi',
         ]);
 
-
         Unit::create([ // 11
             'nama_unit' => 'UPUK',
         ]);

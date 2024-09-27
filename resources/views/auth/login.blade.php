@@ -145,12 +145,14 @@
                     <h5>Login Admin</h5>
                     <form action="/home" method="">
                         <div class="form-group">
-                            <label for="admin-user">User:</label>
-                            <input type="text" class="form-control" id="admin-user" name="username">
+                            <label for="auditee-user">User:</label>
+                            <input type="text" class="form-control" id="auditee-user" name="username"
+                                placeholder="Masukkan Username.....">
                         </div>
                         <div class="form-group">
-                            <label for="admin-password">Password:</label>
-                            <input type="password" class="form-control" id="admin-password" name="password">
+                            <label for="auditee-password">Password:</label>
+                            <input type="password" class="form-control" id="auditee-password" name="password"
+                                placeholder="Masukkan Password....">
                         </div>
                         <button type="submit" class="btn btn-primary">Login</button>
                     </form>
@@ -161,12 +163,14 @@
                     <h5>Login Auditor</h5>
                     <form action="/login-auditor" method="POST">
                         <div class="form-group">
-                            <label for="auditor-user">User:</label>
-                            <input type="text" class="form-control" id="auditor-user" name="username">
+                            <label for="auditee-user">User:</label>
+                            <input type="text" class="form-control" id="auditee-user" name="username"
+                                placeholder="Masukkan Username.....">
                         </div>
                         <div class="form-group">
-                            <label for="auditor-password">Password:</label>
-                            <input type="password" class="form-control" id="auditor-password" name="password">
+                            <label for="auditee-password">Password:</label>
+                            <input type="password" class="form-control" id="auditee-password" name="password"
+                                placeholder="Masukkan Password....">
                         </div>
                         <button type="submit" class="btn btn-primary">Login</button>
                     </form>
@@ -178,11 +182,13 @@
                     <form action="/login-auditee" method="POST">
                         <div class="form-group">
                             <label for="auditee-user">User:</label>
-                            <input type="text" class="form-control" id="auditee-user" name="username">
+                            <input type="text" class="form-control" id="auditee-user" name="username"
+                                placeholder="Masukkan Username.....">
                         </div>
                         <div class="form-group">
                             <label for="auditee-password">Password:</label>
-                            <input type="password" class="form-control" id="auditee-password" name="password">
+                            <input type="password" class="form-control" id="auditee-password" name="password"
+                                placeholder="Masukkan Password....">
                         </div>
                         <button type="submit" class="btn btn-primary">Login</button>
                     </form>
