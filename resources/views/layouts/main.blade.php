@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
     <link rel="shortcut icon" type="image/png" href="{{ asset('assets/images/logos/short-logo.png') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/styles.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/customize.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         table.dataTable tbody td {
@@ -45,64 +46,8 @@
         .unit-list li:last-child {
             margin-bottom: 0;
         }
-
-        /* Styling for the Jadwal Card */
-        .jadwal-pelaksanaan-card {
-            border: 1px solid #e1e1e1;
-            border-radius: 8px;
-            padding: 15px;
-            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
-        }
-
-        .jadwal-pelaksanaan-card .card-title {
-            font-size: 18px;
-            font-weight: bold;
-            border-bottom: 2px solid #1d3b78;
-            /* Darker Blue */
-            padding-bottom: 10px;
-            margin-bottom: 15px;
-            color: #1d3b78;
-        }
-
-        /* List Styling */
-        .jadwal-list {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .jadwal-list li {
-            font-size: 16px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .jadwal-list li span:first-child {
-            font-weight: bold;
-            color: #1d3b78;
-            /* Darker Blue */
-        }
-
-        .status-label {
-            font-weight: bold;
-            color: #ff5c5c;
-            /* Red for the "Belum Di Buka" status */
-            background-color: rgba(255, 92, 92, 0.1);
-            /* Light red background */
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-
-        /* Make it responsive */
-        @media (max-width: 768px) {
-            .jadwal-pelaksanaan-card {
-                margin-bottom: 20px;
-            }
-        }
     </style>
-    </style>
+    @stack('css')
 </head>
 
 <body>
@@ -149,23 +94,7 @@
     <script src="https://cdn.datatables.net/2.0.7/js/dataTables.js"></script>
     <script>
         //    ----------- Home ------------------------------
-        $('#table_status').DataTable({
-            responsive: true,
-
-            columns: [{
-                    width: '4px'
-                },
-                {
-                    width: '32px'
-                },
-                {
-                    width: '12px'
-                },
-                {
-                    width: '12px'
-                },
-            ]
-        });
+        
 
 
         // ------------- Data Audit Mutu Internal ------------
@@ -319,7 +248,7 @@
             ]
         });
     </script>
-    @stack('scripts')
+    @stack('script')
 </body>
 
 </html>

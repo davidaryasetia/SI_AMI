@@ -4,8 +4,6 @@
     <div>
         <!--  Row 1 -->
         <div class="row">
-
-
             <div class="col-lg-8 d-flex align-items-stretch">
                 <div class="card w-100">
                     <div class="card-body p-4">
@@ -31,20 +29,20 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td colspan="4" clasKs="border-bottom-0">
+                                        <td colspan="1" clasKs="border-bottom-0">
                                             <h6 class="fw-semibold mb-0">Data Tidak Tersedia</h6>
                                         </td>
-                                        <td colspan="4" class="border-bottom-0">
+                                        <td colspan="1" class="border-bottom-0">
                                             <h6 class="fw-semibold mb-0">Data Tidak Tersedia</h6>
                                         </td>
-                                        <td colspan="4" class="border-bottom-0">
+                                        <td colspan="1" class="border-bottom-0">
                                             <h6 class="fw-semibold mb-0">Data Tidak Tersedia</h6>
                                         </td>
-                                        <td colspan="4" class="border-bottom-0">
+                                        <td colspan="1" class="border-bottom-0">
                                             <h6 class="fw-semibold mb-0">Data Tidak Tersedia</h6>
                                         </td>
                                     </tr>
-                                        {{-- <td class="border-bottom-0">
+                                    {{-- <td class="border-bottom-0">
                                             <h6 class="fw-semibold mb-1"></h6>
                                         </td>
                                         <td class="border-bottom-0">
@@ -61,8 +59,8 @@
                     </div>
                 </div>
             </div>
-             <!-- Informasi Jadwal -->
-             <div class="col-lg-4">
+            <!-- Informasi Jadwal -->
+            <div class="col-lg-4">
                 <div class="card jadwal-pelaksanaan-card">
                     <div class="card-body">
                         <h5 class="card-title">Jadwal Pelaksanaan AMI</h5>
@@ -79,6 +77,26 @@
 
             </div>
         </div>
-
     </div>
+    @push('script')
+        <script>
+            $('#table_status').DataTable({
+                responsive: true,
+
+                columns: [{
+                        width: '4px'
+                    },
+                    {
+                        width: '32px'
+                    },
+                    {
+                        width: '12px'
+                    },
+                    {
+                        width: '12px'
+                    },
+                ]
+            });
+        </script>
+    @endpush
 @endsection

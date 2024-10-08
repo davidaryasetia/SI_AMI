@@ -118,7 +118,7 @@
         <div class="row w-100 d-flex justify-content-center align-items-center">
             <!-- Left Side (Text and Buttons) -->
             <div class="col-md-5 hero-text">
-                <h1 class="hero-title">Halo, Selamat Datang !!!</h1>
+                <h1 class="hero-title">Hai, Selamat Datang !!!</h1>
                 <h4 class="hero-subtitle">Apa itu SIM-AMI?</h4>
                 <p class="hero-description">
                     SIM-AMI adalah sistem audit mutu internal yang diterapkan di lingkungan Politeknik Elektronika
