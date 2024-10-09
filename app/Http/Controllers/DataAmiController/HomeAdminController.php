@@ -1,34 +1,35 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\DataAmiController;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\Unit;
 use Illuminate\Http\Request;
 
-class DaftarUserController extends Controller
+class HomeAdminController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        $data_unit = Unit::with([
+            'units_cabang:unit_cabang_id,unit_id,nama_unit_cabang'
+        ])->get();
 
-        $data_user = User::get();
-        return view('auth.daftar_user.user', [
-            'title' => 'Data User', 
-            'data_user' => $data_user, 
+
+        // dump($data_unit->toArray());
+        return view('home.beranda', [
+            'title' => 'Home',
+            'data_unit' => $data_unit,
         ]);
     }
-
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        return view('auth.daftar_user.create', [
-            'title' => 'Tambah User Pengguna', 
-        ]);
+        //
     }
 
     /**

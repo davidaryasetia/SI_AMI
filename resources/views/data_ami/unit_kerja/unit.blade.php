@@ -12,7 +12,7 @@
                             </div>
                             <div class="me-2">
                                 <a href="unit_kerja/create" type="button" class="btn btn-primary"><i
-                                        class="ti ti-plus me-1"></i>Tambah Unit</a>
+                                        class="ti ti-plus me-1"></i>Tambah Unit | Departement</a>
                             </div>
                             <!-- Tombol Trigger Modal -->
                             <div class="me-2">
@@ -98,21 +98,12 @@
                                     <th class="border-bottom-0">
                                         <h6 class="fw-semibold mb-0 text-center">Unit Kerja</h6>
                                     </th>
-                                    <th class="border-bottom-0">
-                                        <h6 class="fw-semibold mb-0 text-center">Audite</h6>
-                                    </th>
-                                    <th class="border-bottom-0">
-                                        <h6 class="fw-semibold mb-0 text-center">Auditor 1</h6>
-                                    </th>
-                                    <th class="border-bottom-0">
-                                        <h6 class="fw-semibold mb-0 text-center">Auditor 2</h6>
-                                    </th>
 
                                     <th class="border-bottom-0">
-                                        <h6 class="fw-semibold mb-0">Edit</h6>
+                                        <h6 class="fw-semibold mb-0 text-center">Edit</h6>
                                     </th>
                                     <th class="border-bottom-0">
-                                        <h6 class="fw-semibold mb-0">Delete</h6>
+                                        <h6 class="fw-semibold mb-0 text-center">Delete</h6>
                                     </th>
 
                                 </tr>
@@ -128,88 +119,23 @@
                                         <div class="mb-3">
                                             <h6 class="fw-semibold mb-1"> {{ $unit->nama_unit }} </h6>
                                         </div>
-
-                                        <ul class="unit-list" style="color: black;">
-                                            <?php $nomer = 1; ?>
+                                        <ul class="unit-list fw-medium">
+                                            @php $nomor = 1; @endphp
                                             @foreach ($unit->units_cabang as $unitCabang)
                                                 <li class="mb-2">
-                                                    {{ $nomer++ }} <span>.) {{ $unitCabang->nama_unit_cabang }} </span>
+                                                    {{ $nomor++ }} ) {{ $unitCabang->nama_unit_cabang }}
                                                 </li>
                                             @endforeach
                                         </ul>
                                     </td>
 
-                                    <td class="border-bottom-0">
-                                        @php
-                                            $user_audite = $unit->users_audite[0] ?? null;
-                                        @endphp
-                                        <div class="mb-3">
-                                            <h6 class="fw-semibold mb-1">
 
-                                                {{-- Audite --}}
-                                                @if ($user_audite)
-                                                    {{ $user_audite['nama'] }}
-                                                @else
-                                                    <span style="color: red">
-                                                        User Audite Belum Di set !!!
-                                                    </span>
-                                                @endif
-                                            </h6>
-                                        </div>
-
-                                        {{-- Audite Cabang --}}
-                                        <ul class="unit-list">
-                                            @foreach ($unit->units_cabang as $unitCabang)
-                                                <li class="mb-2">
-                                                    @if ($unitCabang['users_cabang'])
-                                                        <span style="color: black">
-                                                            {{ $unitCabang['users_cabang']['nama'] }}
-                                                        </span>
-                                                    @else
-                                                        <span style="color:red">
-                                                            User Audite Belum Di Set !!!
-                                                        </span>
-                                                    @endif
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    </td>
-
-                                    {{-- Auditor 1 --}}
-                                    <td class="border-bottom-0">
-                                        <div class="">
-                                            @if ($unit->auditors->users_auditor1 ?? false)
-                                                <h6 class="fw-semibold mb-1">
-                                                    {{ $unit->auditors->users_auditor1->nama }}
-                                                </h6>
-                                            @else
-                                                <span style="color: red">
-                                                    User Auditor 1 Belum Di set !!!
-                                                </span>
-                                            @endif
-                                        </div>
-                                    </td>
-
-                                    {{-- Auditor 2 --}}
-                                    <td class="border-bottom-0">
-                                        <div class="">
-                                            @if ($unit->auditors->users_auditor1 ?? false)
-                                                <h6 class="fw-semibold mb-1 text-center">
-                                                    {{ $unit->auditors->users_auditor2->nama }}
-                                                </h6>
-                                            @else
-                                                <span style="color: red">
-                                                    User Auditor 2 Belum Di Set
-                                                </span>
-                                            @endif
-                                        </div>
-                                    </td>
                                     <td class="border-bottom-0">
                                         <p class="mb-0 fw-normal text-center"><a
                                                 href="{{ route('unit_kerja.edit', $unit->unit_id) }}"><i
                                                     class="ti ti-pencil"></i></a></p>
                                     </td>
-                                    <td class="border-bottom-0">
+                                    <td class="border-bottom-0 text-center">
                                         <form action="{{ route('unit_kerja.destroy', $unit->unit_id) }}" method="POST"
                                             onsubmit="return confirm('Apakah Anda Yakin Ingin Menghapus Data Unit : {{ $unit->nama_unit }} ?')">
                                             @csrf
@@ -228,4 +154,36 @@
             </div>
         </div>
     </div>
+    {{-- JS --}}
+    @push('script')
+        <script>
+            // ------------- Data Audit Mutu Internal ------------
+            $('#table_unit').DataTable({
+                responsive: true,
+                "scrollY": "500px",
+                "pageLength": 10, // Set initial page length to 10
+                "lengthMenu": [
+                    [10, 15, 20, 30, 40, 50, 100],
+                    [10, 15, 20, 30, 40, 50, 100],
+                ],
+                "columnDefs": [{
+                    targets: 0, // Target kolom "No"
+                    width: '2%' // Sesuaikan persentase lebar kolom
+                }],
+                columns: [{
+                        width: '2%' // Sesuaikan dengan kebutuhan (kolom No)
+                    },
+                    {
+                        width: '50%' // Sesuaikan dengan kebutuhan (kolom Unit Kerja)
+                    },
+                    {
+                        width: '15%' // Sesuaikan dengan kebutuhan (kolom Edit)
+                    },
+                    {
+                        width: '15%' // Sesuaikan dengan kebutuhan (kolom Delete)
+                    },
+                ]
+            });
+        </script>
+    @endpush
 @endsection

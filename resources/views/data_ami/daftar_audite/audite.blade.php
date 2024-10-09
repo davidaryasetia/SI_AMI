@@ -49,9 +49,9 @@
                                     <th class="border-bottom-0">
                                         <h6 class="fw-semibold mb-0 text-center">Unit Kerja</h6>
                                     </th>
-                                    <th class="border-bottom-0">
+                                    {{-- <th class="border-bottom-0">
                                         <h6 class="fw-semibold mb-0 text-center">Audite</h6>
-                                    </th>
+                                    </th> --}}
                                     <th class="border-bottom-0">
                                         <h6 class="fw-semibold mb-0">Edit</h6>
                                     </th>
@@ -75,23 +75,22 @@
                                         </div>
 
                                         <ul class="unit-list" style="color: black; ">
-                                            <?php $nomer=1; ?>
+                                            <?php $nomer = 1; ?>
                                             @foreach ($audite->units_cabang as $unitCabang)
                                                 <li class="mb-2">
-                                                  {{$nomer++}} <span>.) </span>  {{ $unitCabang->nama_unit_cabang }}
+                                                    {{ $nomer++ }} <span>.) </span> {{ $unitCabang->nama_unit_cabang }}
                                                 </li>
                                             @endforeach
                                         </ul>
 
                                     </td>
-                                    <td class="border-bottom-0">
+                                    {{-- <td class="border-bottom-0">
                                         @php
                                             $user_audite = $audite->users_audite[0] ?? null;
                                         @endphp
 
                                         <div class="mb-3">
                                             <h6 class="fw-semibold mb-1">
-                                                {{-- Audite --}}
                                                 @if ($user_audite)
                                                     {{ $user_audite['nama'] }}
                                                 @else
@@ -117,7 +116,7 @@
                                                 </li>
                                             @endforeach
                                         </ul>
-                                    </td>
+                                    </td> --}}
                                     <td class="border-bottom-0">
                                         <p class="mb-0 fw-normal text-center"><a href=""><i
                                                     class="ti ti-pencil"></i></a></p>
@@ -141,4 +140,34 @@
             </div>
         </div>
     </div>
+    @push('script')
+        <script>
+            $('#table_audite').DataTable({
+                responsive: true,
+                "scrollY": "500px",
+                "pageLength": 10, // Set initial page length to 5
+                "lengthMenu": [
+                    [10, 15, 20, 30, 40, 50, 100],
+                    [10, 15, 20, 30, 40, 50, 100],
+                ],
+                columns: [{
+                        width: '4px'
+                    },
+                    {
+                        width: '32px'
+                    },
+                    {
+                        width: '12px'
+                    },
+                    {
+                        width: '4px'
+                    },
+                    // {
+                    //     width: '4px'
+                    // },
+
+                ]
+            });
+        </script>
+    @endpush
 @endsection

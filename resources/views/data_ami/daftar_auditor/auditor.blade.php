@@ -132,14 +132,14 @@
                                             <h6 class="fw-semibold mb-1"> {{ $auditor->units->nama_unit }} </h6>
                                         </div>
 
-                                       <ul class="unit-list" style="color: black">
-                                        <?php $nomer=1;?>
-                                        @foreach($auditor->units->units_cabang as $unitCabang)
-                                        <li class="mb-2">
-                                            {{$nomer++}}<span>.)</span>  {{$unitCabang->nama_unit_cabang}}
-                                        </li>
-                                        @endforeach
-                                       </ul>
+                                        <ul class="unit-list" style="color: black">
+                                            <?php $nomer = 1; ?>
+                                            @foreach ($auditor->units->units_cabang as $unitCabang)
+                                                <li class="mb-2">
+                                                    {{ $nomer++ }}<span>.)</span> {{ $unitCabang->nama_unit_cabang }}
+                                                </li>
+                                            @endforeach
+                                        </ul>
                                     </td>
 
                                     <td class="border-bottom-0">
@@ -160,12 +160,12 @@
                                         <div class="">
                                             <h6 class="fw-semibold mb-1">
                                                 @if (isset($auditor->users_auditor2) && $auditor->users_auditor2 && isset($auditor->users_auditor2->nama))
-                                                {{ $auditor->users_auditor2->nama }}
-                                            @else
-                                                <span style="color: red">
-                                                    User Auditor 2 Belum Di Set !!!
-                                                </span>
-                                            @endif
+                                                    {{ $auditor->users_auditor2->nama }}
+                                                @else
+                                                    <span style="color: red">
+                                                        User Auditor 2 Belum Di Set !!!
+                                                    </span>
+                                                @endif
 
                                             </h6>
                                         </div>
@@ -193,4 +193,37 @@
             </div>
         </div>
     </div>
+    @push('script')
+        <script>
+            $('#table_auditor').DataTable({
+                responsive: true,
+                "scrollY": "500px",
+                "pageLength": 10, // Set initial page length to 5
+                "lengthMenu": [
+                    [10, 15, 20, 30, 40, 50, 100],
+                    [10, 15, 20, 30, 40, 50, 100],
+                ],
+                columns: [{
+                        width: '4px'
+                    },
+                    {
+                        width: '32px'
+                    },
+                    {
+                        width: '12px'
+                    },
+                    {
+                        width: '12px'
+                    },
+                    {
+                        width: '4px'
+                    },
+                    {
+                        width: '4px'
+                    },
+
+                ]
+            });
+        </script>
+    @endpush
 @endsection

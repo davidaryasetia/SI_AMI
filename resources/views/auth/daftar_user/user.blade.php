@@ -73,40 +73,39 @@
                                 <?php foreach($data_user as $dataUser): ?>
                                 <tr>
                                     <td class="border-bottom-0 text-center">
-                                        <h6 class="fw-semibold mb-0"> {{$no++}} </h6>
+                                        <h6 class="fw-semibold mb-0"> {{ $no++ }} </h6>
                                     </td>
                                     <td class="border-bottom-0">
                                         <div class="p-3">
-                                            <h6 class="fw-semibold mb-1 text-center"> {{$dataUser->nama}} </h6>
+                                            <h6 class="fw-semibold mb-1 text-center"> {{ $dataUser->nama }} </h6>
                                         </div>
                                     </td>
 
                                     <td class="border-bottom-0">
                                         <div class="p-3">
-                                            <h6 class="fw-semibold mb-1 text-center"> {{$dataUser->email}} </h6>
+                                            <h6 class="fw-semibold mb-1 text-center"> {{ $dataUser->email }} </h6>
                                         </div>
                                     </td>
                                     <td class="border-bottom-0">
                                         <div class="p-3">
                                             <h6 class="fw-semibold mb-1 text-center">
-                                                {{$dataUser->nama_unit}}
+                                                {{-- {{ $dataUser->nama_unit }}  --}}
                                             </h6>
                                         </div>
                                     </td>
                                     <td class="border-bottom-0">
                                         <div class="p-3">
-                                            <h6 class="fw-semibold mb-1 text-center"> 
-                                            @if($dataUser->status == true)
-                                                Ya    
-                                            @else
-                                                Tidak
-                                            @endif
+                                            <h6 class="fw-semibold mb-1 text-center">
+                                                @if ($dataUser->status == true)
+                                                    Ya
+                                                @else
+                                                    Tidak
+                                                @endif
                                             </h6>
                                         </div>
                                     </td>
                                     <td class="border-bottom-0">
-                                        <p class="mb-0 fw-normal text-center"><a
-                                                href=""><i
+                                        <p class="mb-0 fw-normal text-center"><a href=""><i
                                                     class="ti ti-pencil"></i></a></p>
                                     </td>
                                     <td class="border-bottom-0">
@@ -128,4 +127,36 @@
             </div>
         </div>
     </div>
+    @push('script')
+        <script>
+            $('#daftar_user').DataTable({
+                responsive: true,
+                "scrollY": "500px",
+                "pageLength": 10, // Set initial page length to 5
+                "lengthMenu": [
+                    [10, 15, 20, 30, 40, 50, 100],
+                    [10, 15, 20, 30, 40, 50, 100],
+                ],
+                columns: [{
+                        width: '6px'
+                    },
+                    null,
+                    null,
+                    {
+                        width: '10px'
+                    },
+                    {
+                        width: '4px'
+                    },
+                    {
+                        width: '4px'
+                    },
+                    {
+                        width: '4px'
+                    },
+                ]
+            });
+        </script>
+        </script>
+    @endpush
 @endsection

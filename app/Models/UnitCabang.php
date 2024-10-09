@@ -14,7 +14,7 @@ class UnitCabang extends Model
     protected $primaryKey='unit_cabang_id';
     protected $fillable=[
         'unit_id',
-        'nama_unit', 
+        'nama_unit_cabang', 
         'created_at', 
         'updated_at'
     ];

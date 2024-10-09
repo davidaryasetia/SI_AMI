@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Login</title>
+    <title>Login</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="{{ asset('assets/images/logos/short-logo.png') }}" />
     <style>
         body,
         html {
@@ -32,21 +33,6 @@
             width: 100%;
         }
 
-        .btn-custom {
-            background-color: #004f6e;
-            color: white;
-            width: 180px;
-            border-radius: 20px;
-            margin-bottom: 20px;
-            border: none;
-            padding: 10px;
-            transition: background-color 0.3s ease;
-        }
-
-        .btn-custom:hover {
-            background-color: #003d57;
-        }
-
         .form-group label {
             font-weight: bold;
             color: #003b54;
@@ -65,12 +51,9 @@
 
         .vertical-center {
             display: flex;
-            flex-direction: column;
             justify-content: center;
+            align-items: center;
             height: 100%;
-            /* Pastikan tombol berada di tengah vertikal */
-            min-height: 400px;
-            /* Tambahan untuk memastikan tinggi minimal */
         }
 
         /* UI Minimalis */
@@ -98,6 +81,15 @@
             padding: 10px;
         }
 
+        /* Style untuk gambar */
+        .login-image {
+            width: 300px;
+            height: auto; 
+            margin-bottom: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
         @media (max-width: 768px) {
             .login-container {
                 flex-direction: column;
@@ -113,11 +105,6 @@
             .vertical-center {
                 margin-bottom: 20px;
             }
-
-            .btn-custom {
-                width: 100%;
-                /* Tombol full-width di layar kecil */
-            }
         }
     </style>
 </head>
@@ -126,68 +113,32 @@
 
     <div class="login-container">
         <div class="row w-100">
-            <!-- Left Side: Buttons -->
-            <div class="col-md-4 vertical-center">
-                <button class="btn btn-custom" onclick="showForm('admin')">Admin</button>
-                <button class="btn btn-custom" onclick="showForm('auditor')">Auditor</button>
-                <button class="btn btn-custom" onclick="showForm('auditee')">Auditee</button>
+            <!-- Left Side: Image -->
+            <div class="col-md-4 d-flex justify-content-center align-items-center">
+                <div class="image-container">
+                    <img src="{{ asset('assets/img/PENS.jpg') }}" class="login-image" alt="Login">
+                </div>
             </div>
-
+            
             <div class="divider d-none d-md-block" style="border: 1px solid black; height: 400px"></div>
 
-            <!-- Right Side: Login Forms -->
+            <!-- Right Side: Single Login Form -->
             <div class="col-md-7">
                 <h3>Selamat datang di Sistem Informasi Audit Mutu Internal.</h3>
                 <p>Silahkan melakukan login.</p>
 
-                <!-- Form Login Admin -->
-                <div id="form-admin" class="form-login">
-                    <h5>Login Admin</h5>
+                <!-- Single Login Form -->
+                <div id="form-login" class="form-login">
+                    <h5>Login</h5>
                     <form action="/home" method="">
                         <div class="form-group">
-                            <label for="auditee-user">User:</label>
-                            <input type="text" class="form-control" id="auditee-user" name="username"
-                                placeholder="Masukkan Username.....">
+                            <label for="user">Email</label>
+                            <input type="email" class="form-control" id="email" name="email"
+                                placeholder="Masukkan Email.....">
                         </div>
                         <div class="form-group">
-                            <label for="auditee-password">Password:</label>
-                            <input type="password" class="form-control" id="auditee-password" name="password"
-                                placeholder="Masukkan Password....">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Login</button>
-                    </form>
-                </div>
-
-                <!-- Form Login Auditor -->
-                <div id="form-auditor" class="form-login" style="display:none;">
-                    <h5>Login Auditor</h5>
-                    <form action="/login-auditor" method="POST">
-                        <div class="form-group">
-                            <label for="auditee-user">User:</label>
-                            <input type="text" class="form-control" id="auditee-user" name="username"
-                                placeholder="Masukkan Username.....">
-                        </div>
-                        <div class="form-group">
-                            <label for="auditee-password">Password:</label>
-                            <input type="password" class="form-control" id="auditee-password" name="password"
-                                placeholder="Masukkan Password....">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Login</button>
-                    </form>
-                </div>
-
-                <!-- Form Login Auditee -->
-                <div id="form-auditee" class="form-login" style="display:none;">
-                    <h5>Login Auditee</h5>
-                    <form action="/login-auditee" method="POST">
-                        <div class="form-group">
-                            <label for="auditee-user">User:</label>
-                            <input type="text" class="form-control" id="auditee-user" name="username"
-                                placeholder="Masukkan Username.....">
-                        </div>
-                        <div class="form-group">
-                            <label for="auditee-password">Password:</label>
-                            <input type="password" class="form-control" id="auditee-password" name="password"
+                            <label for="password">Password:</label>
+                            <input type="password" class="form-control" id="password" name="password"
                                 placeholder="Masukkan Password....">
                         </div>
                         <button type="submit" class="btn btn-primary">Login</button>
@@ -196,21 +147,6 @@
             </div>
         </div>
     </div>
-
-    <script>
-        function showForm(role) {
-            // Hide all forms
-            document.querySelectorAll('.form-login').forEach(form => {
-                form.style.display = 'none';
-            });
-
-            // Show the selected form
-            document.getElementById(`form-${role}`).style.display = 'block';
-        }
-
-        // Default to showing the Admin form
-        showForm('admin');
-    </script>
 
 </body>
 

@@ -235,4 +235,41 @@
             </div>
         </div>
     </div>
+    @push('script')
+        <script>
+            
+        $('#table_indikator').DataTable({
+            responsive: true,
+            "scrollY": "500px",
+            "pageLength": 10, // Set initial page length to 5
+            "lengthMenu": [
+                [10, 15, 20, 30, 40, 50, 100],
+                [10, 15, 20, 30, 40, 50, 100],
+            ],
+            columns: [{
+                    width: '6px'
+                },
+                {
+                    width: '6px'
+                },
+                null,
+                {
+                    width: '10px'
+                },
+                {
+                    width: '10px'
+                },
+                {
+                    width: '10px'
+                },
+                {
+                    width: '10px'
+                },
+                {
+                    width: '10px'
+                },
+            ]
+        });
+        </script>
+    @endpush
 @endsection

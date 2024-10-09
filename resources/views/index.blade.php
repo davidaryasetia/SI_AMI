@@ -4,8 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SI-AM</title>
+    <title>SIM-AMI</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="{{ asset('assets/images/logos/short-logo.png') }}" />
+    <link rel="shortcut icon" type="image/png" href="{{ asset('assets/images/logos/short-logo.png') }}" />
     <style>
         /* Custom CSS */
         body,
@@ -46,6 +48,7 @@
         .hero-description {
             font-size: 1rem;
             margin-bottom: 30px;
+            text-align: justify;
         }
 
         .btn-custom {
@@ -70,7 +73,6 @@
             gap: 12px;
             /* Jarak antar tombol lebih kecil */
         }
-
 
         .image-container {
             max-width: 600px;
@@ -126,9 +128,7 @@
                     efisien.
                 </p>
                 <div class="d-grid gap-2">
-                    <a href="/login" class="btn btn-custom mb-2">Login Admin</a>
-                    <a href="/login" class="btn btn-custom mb-2">Login Auditor</a>
-                    <a href="/login" class="btn btn-custom mb-2">Login Auditee</a>
+                    <a href="/login" class="btn btn-custom mb-2">Login Account</a>
                 </div>
             </div>
 
