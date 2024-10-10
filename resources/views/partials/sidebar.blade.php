@@ -26,7 +26,7 @@
                     </div>
                 </li>
 
-                <!-- Menu for Admin -->
+                <!-------------------------------- Menu for Admin ------------------------------->
                 <li class="sidebar-item role-admin">
                     <a class="sidebar-link {{ Request::is('/home') ? 'active' : '' }}" href="/home" aria-expanded="false">
                         <span>
@@ -36,47 +36,72 @@
                     </a>
                 </li>
                 <li class="sidebar-item role-admin">
-                    <a class="sidebar-link {{ Request::is('unit_kerja*') ? 'active' : '' }}" href="/unit_kerja" aria-expanded="false">
+                    <a class="sidebar-link {{ Request::is('data_unit*') ? 'active' : '' }}" href="/data_unit" aria-expanded="false">
                         <span>
                             <i class="ti ti-article"></i>
                         </span>
-                        <span class="hide-menu">Daftar Unit Kerja</span>
+                        <span class="hide-menu">Data Unit</span>
                     </a>
                 </li>
                 <li class="sidebar-item role-admin">
-                    <a class="sidebar-link {{ Request::is('daftar_audite*') ? 'active' : '' }}" href="/daftar_audite" aria-expanded="false">
+                    <a class="sidebar-link {{ Request::is('data_user*') ? 'active' : '' }}" href="/data_user" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-users-group"></i>
+                        </span>
+                        <span class="hide-menu">Data User</span>
+                    </a>
+                </li>
+                <li class="sidebar-item role-admin">
+                    <a class="sidebar-link {{ Request::is('ploting_ami*') ? 'active' : '' }}" href="/ploting_ami" aria-expanded="false">
                         <span>
                             <i class="ti ti-users"></i>
                         </span>
-                        <span class="hide-menu">Data Auditee</span>
+                        <span class="hide-menu">Ploating AMI</span>
                     </a>
                 </li>
-                <li class="sidebar-item role-admin">
+                {{-- <li class="sidebar-item role-admin">
                     <a class="sidebar-link {{ Request::is('daftar_auditor*') ? 'active' : '' }}" href="/daftar_auditor" aria-expanded="false">
                         <span>
                             <i class="ti ti-users"></i>
                         </span>
                         <span class="hide-menu">Data Auditor</span>
                     </a>
-                </li>
+                </li> --}}
                 <li class="sidebar-item role-admin">
-                    <a class="sidebar-link {{ Request::is('indikator_unit_kerja*') ? 'active' : '' }}" href="/indikator_unit_kerja" aria-expanded="false">
+                    <a class="sidebar-link {{ Request::is('data_indikator*') ? 'active' : '' }}" href="/data_indikator" aria-expanded="false">
                         <span>
                             <i class="ti ti-table"></i>
                         </span>
-                        <span class="hide-menu">Indikator Kinerja</span>
+                        <span class="hide-menu">Data Indikator</span>
                     </a>
                 </li>
                 <li class="sidebar-item role-admin">
-                    <a class="sidebar-link {{ Request::is('jadwal_ami*') ? 'active' : '' }}" href="/jadwal_ami" aria-expanded="false">
+                    <a class="sidebar-link {{ Request::is('periode_audit*') }}" href="/periode_audit" aria-expanded="false">
                         <span>
                             <i class="ti ti-calendar-event"></i>
                         </span>
                         <span class="hide-menu">Periode Audit</span>
                     </a>
                 </li>
+                <li class="sidebar-item role-admin">
+                    <a class="sidebar-link {{ Request::is('progres_audit*') }}" href="/progres_audit" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-calendar-event"></i>
+                        </span>
+                        <span class="hide-menu">Progress Audit</span>
+                    </a>
+                </li>
+                <li class="sidebar-item role-admin">
+                    <a class="sidebar-link {{ Request::is('rekap_audit*') }}" href="/rekap_audit" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-chart-dots"></i>
+                        </span>
+                        <span class="hide-menu">Rekap Audit</span>
+                    </a>
+                </li>
 
-                <!-- Menu Audite -->
+
+                <!----------------------------------------Menu Audite-------------------------------------------------------->
                 <li class="sidebar-item role-audite" style="display: none;">
                     <a class="sidebar-link {{ Request::is('/home') ? 'active' : '' }}" href="/home" aria-expanded="false">
                         <span>
@@ -93,8 +118,24 @@
                         <span class="hide-menu">Pengisian Kinerja</span>
                     </a>
                 </li>
+                <li class="sidebar-item role-audite" style="display: none;">
+                    <a class="sidebar-link {{ Request::is('rekap_pengisian*') ? 'active' : '' }}" href="/rekap_pengisian" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-file"></i>
+                        </span>
+                        <span class="hide-menu">Rekap Capaian</span>
+                    </a>
+                </li>
+                <li class="sidebar-item role-audite" style="display: none;">
+                    <a class="sidebar-link {{ Request::is('rekap_pengisian*') ? 'active' : '' }}" href="/rekap_pengisian" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-file"></i>
+                        </span>
+                        <span class="hide-menu">Persetujuan</span>
+                    </a>
+                </li>
 
-                <!-- Menu for Auditor -->
+                <!-----------------------------------------Menu for Auditor----------------------------->
                 <li class="sidebar-item role-auditor" style="display: none;">
                     <a class="sidebar-link {{ Request::is('/home') ? 'active' : '' }}" href="/home" aria-expanded="false">
                         <span>
@@ -119,14 +160,7 @@
                         <span class="hide-menu">Rekap & Persetujuan</span>
                     </a>
                 </li>
-                <li class="sidebar-item role-admin">
-                    <a class="sidebar-link {{ Request::is('daftar_user*') ? 'active' : '' }}" href="/daftar_user" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-users-group"></i>
-                        </span>
-                        <span class="hide-menu">Daftar User</span>
-                    </a>
-                </li>
+                
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ Request::is('/profile*') ? 'active' : '' }}" href="/profile" aria-expanded="false">
                         <span>

@@ -35,7 +35,7 @@
                                                 aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <form action="{{ route('import.data') }}" method="POST"
+                                            <form action="{{ route('import.dataIndikator') }}" method="POST"
                                                 enctype="multipart/form-data">
                                                 @csrf
                                                 <div class="mb-3">
@@ -47,6 +47,7 @@
                                                 <div class="mb-3">
                                                     <span>Detail Aturan File :</span>
                                                     <ul style="list-style-type: decimal; padding-left: 20px;">
+                                                        <li>Conth sample File : </li>
                                                         <li>Data Harus Berupa .xls</li>
                                                         <li>Field Kolom Data:
                                                             <ol class="data-list"
@@ -71,7 +72,7 @@
                             <!-- Modal -->
 
                             <div class="d-flex justify-content-start">
-                                <form action="{{ route('indikator_unit_kerja.index') }}" method="GET" class="col-lg-8"
+                                <form action="{{ route('data_indikator.index') }}" method="GET" class="col-lg-8"
                                     id="unitForm">
                                     <div class="d-flex align-items-center">
                                         <div class="me-2">
@@ -122,13 +123,13 @@
                                     tambahIkukBtn.disabled = true;
                                 } else {
                                     tambahIkukBtn.disabled = false;
-                                    tambahIkukBtn.href = `/indikator_unit_kerja/unit/create/${unitSelect.value}`;
+                                    tambahIkukBtn.href = `/data_indikator/unit/create/${unitSelect.value}`;
                                 }
 
                                 unitSelect.addEventListener('change', (event) => {
                                     if (event.target.value) {
                                         tambahIkukBtn.disabled = false;
-                                        tambahIkukBtn.href = `/indikator_unit_kerja/unit/create/${event.target.value}`;
+                                        tambahIkukBtn.href = `/data_indikator/unit/create/${event.target.value}`;
                                     } else {
                                         tambahIkukBtn.disabled = true;
                                         tambahIkukBtn.onclick = null;
@@ -213,11 +214,11 @@
 
                                     <td class="border-bottom-0">
                                         <p class="mb-0 fw-normal text-center"><a
-                                                href="{{ route('indikator_unit_kerja.edit', $dataAmi->indikator_kinerja_unit_kerja_id) }}"><i
+                                                href="{{ route('data_indikator.edit', $dataAmi->indikator_kinerja_unit_kerja_id) }}"><i
                                                     class="ti ti-pencil"></i></a></p>
                                     </td>
                                     <td class="border-bottom-0">
-                                        <form action="{{ route('indikator_unit_kerja.destroyWithUnit', ['indikator_id' => $dataAmi->indikator_kinerja_unit_kerja_id, 'unit_id' => $dataAmi->unit_id]) }}" method="POST"
+                                        <form action="{{ route('data_indikator.destroyWithUnit', ['indikator_id' => $dataAmi->indikator_kinerja_unit_kerja_id, 'unit_id' => $dataAmi->unit_id]) }}" method="POST"
                                             onsubmit="return confirm('Apakah Anda Yakin Ingin Menghapus Data Indikator Unit Kerja : <?php echo   $dataAmi->isi_indikator_kinerja_unit_kerja ?> ?')">
                                             @csrf
                                             @method('DELETE')

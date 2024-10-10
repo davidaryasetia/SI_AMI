@@ -1,19 +1,17 @@
 <?php
 
-use App\Http\Controllers\Auth\DaftarUserController;
+use App\Http\Controllers\DataAmiController\DataUserController;
 use App\Http\Controllers\Auth\ProfileController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\DataAmiController\AuditeController;
 use App\Http\Controllers\DataAmiController\AuditorController;
-use App\Http\Controllers\DataAmiController\IndikatorKinerjaController;
-use App\Http\Controllers\DataAmiController\JadwalAmiController;
-use App\Http\Controllers\DataAmiController\UnitBranchController;
-use App\Http\Controllers\DataAmiController\UnitController;
-use App\Http\Controllers\HomeController\BerandaController;
-use App\Http\Controllers\ImportController;
+use App\Http\Controllers\DataAmiController\DataIndikatorController;
+use App\Http\Controllers\DataAmiController\DataUnitController;
+use App\Http\Controllers\DataAmiController\HomeController;
+use App\Http\Controllers\DataAmiController\PeriodeAuditController;
+use App\Http\Controllers\DataAmiController\PlotingAmiController;
+use App\Http\Controllers\DataAmiController\ProgresAuditController;
+use App\Http\Controllers\DataAmiController\RekapAuditController;
 use App\Http\Controllers\ImportDataController\ImportIndikatorKinerjaController;
 use App\Http\Controllers\ImportDataController\ImportUnitController;
-use App\Models\IndikatorKinerjaKegiatan;
 use Illuminate\Support\Facades\Route;
 
 
@@ -47,22 +45,18 @@ Route::get('/login', function(){
     ]);
 });
 
-Route::resource('/home', BerandaController::class);
-
-// Make New Route Resource 
-Route::resource('/unit_kerja', UnitController::class);
-Route::resource('/unit_branch', UnitBranchController::class);
-
-// Indikator Kinerja Controller 
-Route::resource('/indikator_unit_kerja', IndikatorKinerjaController::class);
-Route::get('/indikator_unit_kerja/unit/create/{id}', [IndikatorKinerjaController::class, 'create_ikuk_id']);
-Route::delete('indikator_unit_kerja/delete/{indikator_id}/{unit_id}', [IndikatorKinerjaController::class, 'destroyWithUnit'])->name('indikator_unit_kerja.destroyWithUnit');
-
-
+// Administrator
+Route::resource('/home', HomeController::class);
+Route::resource('/data_unit',  DataUnitController::class);
+Route::resource('/data_user', DataUserController::class);
+Route::resource('/ploting_ami', PlotingAmiController::class);
+Route::resource('/data_indikator', DataIndikatorController::class);
+Route::get('/data_indikator/unit/create/{id}', [DataIndikatorController::class, 'create_ikuk_id']);
+Route::delete('data_indikator/delete/{indikator_id}/{unit_id}', [DataIndikatorController::class, 'destroyWithUnit'])->name('data_indikator.destroyWithUnit');
 Route::resource('/daftar_auditor', AuditorController::class);
-Route::resource('/daftar_audite', AuditeController::class);
-Route::resource('/jadwal_ami', JadwalAmiController::class);
+Route::resource('/periode_audit', PeriodeAuditController::class);
 Route::resource('/profile', ProfileController::class);
-Route::resource('/daftar_user', DaftarUserController::class);
-Route::post('/import_Indikator_Kinerja_Unit', [ImportIndikatorKinerjaController::class, 'importData'])->name('import.data');
+Route::resource('/progres_audit', ProgresAuditController::class);
+Route::resource('/rekap_audit', RekapAuditController::class);
+Route::post('/import_Indikator_Kinerja_Unit', [ImportIndikatorKinerjaController::class, 'importData'])->name('import.dataIndikator');
 Route::post('/import_Unit_Kerja', [ImportUnitController::class, 'importDataUnit'])->name('import.dataUnit');

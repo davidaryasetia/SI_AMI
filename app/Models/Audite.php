@@ -17,7 +17,7 @@ class Audite extends Model
         'user_id',
     ];
 
-    public function users_audite(): BelongsTo
+    public function user_audite(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'user_id');
     }

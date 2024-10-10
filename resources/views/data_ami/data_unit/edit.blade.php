@@ -6,14 +6,14 @@
             <div class="card w-100">
                 <div class="card-body p-4">
                     <div class="d-flex justify-content-start align-items-center mb-4">
-                        <a href="/unit_kerja" class="d-flex align-items-center">
+                        <a href="/data_unit" class="d-flex align-items-center">
                             <i class="ti ti-arrow-left me-3" style="font-size: 20px; color: black"></i>
                         </a>
                         <span class="fw-semibold me-3" style="font-size: 16px; color: black">Edit Unit Kerja</span>
                     </div>
 
                     {{-- Content --}}
-                    <form action="{{ route('unit_kerja.update', $data_unit->unit_id) }}" method="POST"
+                    <form action="{{ route('data_unit.update', $data_unit->unit_id) }}" method="POST"
                         enctype="multipart/form-data">
                         @csrf
                         @method('PUT')

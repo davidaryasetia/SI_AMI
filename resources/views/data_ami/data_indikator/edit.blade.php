@@ -38,7 +38,7 @@
                     </div>
                     {{-- Content --}}
 
-                    <form action="/indikator_unit_kerja/{{$data['indikator_kinerja_unit_kerja_id']}}" method="POST" enctype="multipart/form-data">
+                    <form action="/data_indikator/{{$data['indikator_kinerja_unit_kerja_id']}}" method="POST" enctype="multipart/form-data">
                         @method('put')
                         @csrf
                         <input type="hidden" class="form-control @error('nama_unit') is-invalid @enderror" id="unit_id" name="unit_id"

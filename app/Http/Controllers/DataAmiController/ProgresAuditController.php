@@ -3,27 +3,20 @@
 namespace App\Http\Controllers\DataAmiController;
 
 use App\Http\Controllers\Controller;
-use App\Models\Unit;
 use Illuminate\Http\Request;
 
-class HomeAdminController extends Controller
+class ProgresAuditController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data_unit = Unit::with([
-            'units_cabang:unit_cabang_id,unit_id,nama_unit_cabang'
-        ])->get();
-
-
-        // dump($data_unit->toArray());
-        return view('home.beranda', [
-            'title' => 'Home',
-            'data_unit' => $data_unit,
+        return view("data_ami.progres_audit.progres", [
+            'title' => 'Progress Audit'
         ]);
     }
+
     /**
      * Show the form for creating a new resource.
      */

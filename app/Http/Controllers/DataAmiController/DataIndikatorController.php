@@ -8,7 +8,7 @@ use App\Models\IndikatorKinerjaUnitKerja;
 use App\Models\Unit;
 use Illuminate\Http\Request;
 
-class IndikatorKinerjaController extends Controller
+class DataIndikatorController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -40,7 +40,7 @@ class IndikatorKinerjaController extends Controller
         // Ambil data yang sudah difilter dan kirimkan ke view
         $filteredDataAMI = $data_ami->get();
 
-        return view('data_ami.indikator_unit_kerja.indikator', [
+        return view('data_ami.data_indikator.indikator', [
             'title' => 'Instrument IKUK',
             'units' => $units, 
             'data_ami' => $filteredDataAMI, 
@@ -53,7 +53,7 @@ class IndikatorKinerjaController extends Controller
      */
     public function create()
     {
-        return view('data_ami.indikator_unit_kerja.create', [
+        return view('data_ami.data_indikator.create', [
             'title' => 'Tambah Indikator Unit Kerja',
         ]);
     }
@@ -67,7 +67,7 @@ class IndikatorKinerjaController extends Controller
         ->where('unit.unit_id', $id)
         ->first();
 
-     return view('data_ami.indikator_unit_kerja.create', [
+     return view('data_ami.data_indikator.create', [
         'title' => 'Tambah Indikator Kinerja Unit Kerja', 
         'data' => $data_unit
      ]);
@@ -109,9 +109,9 @@ class IndikatorKinerjaController extends Controller
     
         $insert_ikuk = IndikatorKinerjaUnitKerja::insert($data_indikator_kinerja_unit);
         if($insert_ikuk){
-            return redirect()->to('/indikator_unit_kerja?unit_id='. $unit_id )->with('success', 'Data Indikator Kinerja Unit Berhasil Ditambahkan !!!');
+            return redirect()->to('/data_indikator?unit_id='. $unit_id )->with('success', 'Data Indikator Kinerja Unit Berhasil Ditambahkan !!!');
         } else {
-            return redirect()->to('/indikator_unit_kerja?unit_id='. $unit_id )->with('error', 'Data Indikator Kinerja Unit Gagal Ditambahkan !!!');
+            return redirect()->to('/data_indikator?unit_id='. $unit_id )->with('error', 'Data Indikator Kinerja Unit Gagal Ditambahkan !!!');
         }        
     }
 
@@ -142,7 +142,7 @@ class IndikatorKinerjaController extends Controller
         ->first();
 
         $data_ikuk = IndikatorKinerjaUnitKerja::where('indikator_kinerja_unit_kerja_id', $id)->firstOrFail();
-        return view('data_ami.indikator_unit_kerja.edit', [
+        return view('data_ami.data_indikator.edit', [
             'title' => 'Edit Data Indikator', 
             'data' => $edit_data_ami, 
         ]);
@@ -173,9 +173,9 @@ class IndikatorKinerjaController extends Controller
         ]);
 
         if($data_indikator){
-            return redirect()->to('/indikator_unit_kerja?unit_id='. $unit_id )->with('success', 'Data Indikator Kinerja Unit Berhasil Diperbarui !!!');
+            return redirect()->to('/data_indikator?unit_id='. $unit_id )->with('success', 'Data Indikator Kinerja Unit Berhasil Diperbarui !!!');
         } else {
-            return redirect()->to('/indikator_unit_kerja?unit_id='. $unit_id )->with('error', 'Data Indikator Kinerja Unit Gagal Diperbarui !!!');
+            return redirect()->to('/data_indikator?unit_id='. $unit_id )->with('error', 'Data Indikator Kinerja Unit Gagal Diperbarui !!!');
         }      
     }
 
@@ -192,9 +192,9 @@ class IndikatorKinerjaController extends Controller
         $delete_data_ikuk = IndikatorKinerjaUnitKerja::destroy($indikator_id);
 
         if($delete_data_ikuk){
-            return redirect()->to('/indikator_unit_kerja?unit_id='. $unit_id )->with('success', 'Data Indikator Kinerja Unit Berhasil Dihapus !!!');
+            return redirect()->to('/data_indikator?unit_id='. $unit_id )->with('success', 'Data Indikator Kinerja Unit Berhasil Dihapus !!!');
         } else {
-            return redirect()->to('/indikator_unit_kerja?unit_id='. $unit_id )->with('error', 'Data Indikator Kinerja Unit Gagal Dihapus !!!');
+            return redirect()->to('/data_indikator?unit_id='. $unit_id )->with('error', 'Data Indikator Kinerja Unit Gagal Dihapus !!!');
         }      
     }
 }

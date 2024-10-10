@@ -15,6 +15,7 @@ class Unit extends Model
     protected $primaryKey = 'unit_id';
     protected $fillable = [
         'nama_unit',
+        'tipe_data', 
         'created_at',
         'updated_at'
     ];
@@ -35,12 +36,12 @@ class Unit extends Model
         return $this->hasMany(IndikatorKinerjaUnitKerja::class, 'unit_id', 'unit_id');
     }
 
-    public function auditors(): HasOne
+    public function auditor(): HasOne
     {
         return $this->hasOne(Auditor::class, 'unit_id', 'unit_id');
     }
 
-    public function audites(): HasMany
+    public function audite(): HasMany
     {
         return $this->hasMany(Audite::class, 'unit_id', 'unit_id');
     }

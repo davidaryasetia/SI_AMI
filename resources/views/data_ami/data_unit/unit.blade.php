@@ -11,7 +11,7 @@
                                 <span class="card-title fw-semibold">Daftar Unit Kerja</span>
                             </div>
                             <div class="me-2">
-                                <a href="unit_kerja/create" type="button" class="btn btn-primary"><i
+                                <a href="data_unit/create" type="button" class="btn btn-primary"><i
                                         class="ti ti-plus me-1"></i>Tambah Unit | Departement</a>
                             </div>
                             <!-- Tombol Trigger Modal -->
@@ -132,11 +132,11 @@
 
                                     <td class="border-bottom-0">
                                         <p class="mb-0 fw-normal text-center"><a
-                                                href="{{ route('unit_kerja.edit', $unit->unit_id) }}"><i
+                                                href="{{ route('data_unit.edit', $unit->unit_id) }}"><i
                                                     class="ti ti-pencil"></i></a></p>
                                     </td>
                                     <td class="border-bottom-0 text-center">
-                                        <form action="{{ route('unit_kerja.destroy', $unit->unit_id) }}" method="POST"
+                                        <form action="{{ route('data_unit.destroy', $unit->unit_id) }}" method="POST"
                                             onsubmit="return confirm('Apakah Anda Yakin Ingin Menghapus Data Unit : {{ $unit->nama_unit }} ?')">
                                             @csrf
                                             @method('DELETE')

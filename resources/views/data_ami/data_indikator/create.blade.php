@@ -46,7 +46,7 @@
                     </div>
                     {{-- Content --}}
 
-                    <form action="{{ route('indikator_unit_kerja.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('data_indikator.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" class="form-control @error('nama_unit') is-invalid @enderror" id="unit_id"
                             name="unit_id" aria-describedby="emailHelp" value="{{ $data['unit_id'] }}"

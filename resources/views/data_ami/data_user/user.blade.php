@@ -6,13 +6,13 @@
             <div class="card w-100">
                 <div class="card-body p-4">
                     <div class="d-flex justify-content-between align-items-center">
-                        <div class="d-flex align-items-center mb-2">
+                        <div class="d-flex align-items-center mb-4">
                             <div>
-                                <span class="card-title fw-semibold me-3">Daftar Audite</span>
+                                <span class="card-title fw-semibold me-3">Daftar User</span>
                             </div>
                             <div>
-                                <a href="daftar_audite/create" type="button" class="btn btn-primary"><i
-                                        class="ti ti-plus me-1"></i>Tambah Daftar Audite</a>
+                                <a href="data_user/create" type="button" class="btn btn-primary"><i
+                                        class="ti ti-plus"></i>Tambah User</a>
                             </div>
                         </div>
 
@@ -39,7 +39,7 @@
                     </div>
 
                     <div class="table-responsive">
-                        <table id="table_audite" class="table table-hover table-bordered text-nowrap mb-0 align-middle">
+                        <table id="daftar_user" class="table table-hover table-bordered text-nowrap mb-0 align-middle">
 
                             <thead class="text-dark fs-4">
                                 <tr>
@@ -47,11 +47,18 @@
                                         <h6 class="fw-semibold mb-0">No</h6>
                                     </th>
                                     <th class="border-bottom-0">
-                                        <h6 class="fw-semibold mb-0 text-center">Unit Kerja</h6>
+                                        <h6 class="fw-semibold mb-0 text-center">Nama User</h6>
                                     </th>
-                                    {{-- <th class="border-bottom-0">
-                                        <h6 class="fw-semibold mb-0 text-center">Audite</h6>
-                                    </th> --}}
+
+                                    <th class="border-bottom-0">
+                                        <h6 class="fw-semibold mb-0 text-center">Email</h6>
+                                    </th>
+                                    <th class="border-bottom-0">
+                                        <h6 class="fw-semibold mb-0 text-center">Unit</h6>
+                                    </th>
+                                    <th class="border-bottom-0">
+                                        <h6 class="fw-semibold mb-0 text-center">Role</h6>
+                                    </th>
                                     <th class="border-bottom-0">
                                         <h6 class="fw-semibold mb-0">Edit</h6>
                                     </th>
@@ -62,68 +69,48 @@
                                 </tr>
                             </thead>
                             <tbody>
-
                                 <?php $no = 1; ?>
-                                <?php foreach($daftar_audite as $audite): ?>
+                                <?php foreach($data_user as $dataUser): ?>
                                 <tr>
                                     <td class="border-bottom-0 text-center">
                                         <h6 class="fw-semibold mb-0"> {{ $no++ }} </h6>
                                     </td>
                                     <td class="border-bottom-0">
-                                        <div class="mb-3">
-                                            <h6 class="fw-semibold mb-1"> {{ $audite->nama_unit }} </h6>
+                                        <div class="p-3">
+                                            <h6 class="fw-semibold mb-1 text-center"> {{ $dataUser->nama }} </h6>
                                         </div>
-
-                                        <ul class="unit-list" style="color: black; ">
-                                            <?php $nomer = 1; ?>
-                                            @foreach ($audite->units_cabang as $unitCabang)
-                                                <li class="mb-2">
-                                                    {{ $nomer++ }} <span>.) </span> {{ $unitCabang->nama_unit_cabang }}
-                                                </li>
-                                            @endforeach
-                                        </ul>
-
                                     </td>
-                                    {{-- <td class="border-bottom-0">
-                                        @php
-                                            $user_audite = $audite->users_audite[0] ?? null;
-                                        @endphp
 
-                                        <div class="mb-3">
-                                            <h6 class="fw-semibold mb-1">
-                                                @if ($user_audite)
-                                                    {{ $user_audite['nama'] }}
+                                    <td class="border-bottom-0">
+                                        <div class="p-3">
+                                            <h6 class="fw-semibold mb-1 text-center"> {{ $dataUser->email }} </h6>
+                                        </div>
+                                    </td>
+                                    <td class="border-bottom-0">
+                                        <div class="p-3">
+                                            <h6 class="fw-semibold mb-1 text-center">
+                                                {{-- {{ $dataUser->nama_unit }}  --}}
+                                            </h6>
+                                        </div>
+                                    </td>
+                                    <td class="border-bottom-0">
+                                        <div class="p-3">
+                                            <h6 class="fw-semibold mb-1 text-center">
+                                                @if ($dataUser->status == true)
+                                                    Ya
                                                 @else
-                                                <span style="color: red">
-                                                    User Audite Belum Di set !!!
-                                                </span>
+                                                    Tidak
                                                 @endif
                                             </h6>
                                         </div>
-
-                                        <ul class="unit-list">
-                                            @foreach ($audite->units_cabang as $unitCabang)
-                                                <li class="mb-2">
-                                                    @if ($unitCabang['users_cabang'])
-                                                    <span style="color: black">
-                                                        {{ $unitCabang['users_cabang']['nama'] }}
-                                                    </span>
-                                                    @else
-                                                    <span style="color: red">
-                                                        User Audite Belum Di Set !!!
-                                                    </span>
-                                                    @endif
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    </td> --}}
+                                    </td>
                                     <td class="border-bottom-0">
                                         <p class="mb-0 fw-normal text-center"><a href=""><i
                                                     class="ti ti-pencil"></i></a></p>
                                     </td>
                                     <td class="border-bottom-0">
                                         <form action="" method="POST"
-                                            onsubmit="return confirm('Apakah Anda Yakin Ingin Menghapus Data Unit : ?')">
+                                            onsubmit="return confirm('Apakah Anda Yakin Ingin Menghapus Data Unit :  ?')">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-link text-danger">
@@ -142,7 +129,7 @@
     </div>
     @push('script')
         <script>
-            $('#table_audite').DataTable({
+            $('#daftar_user').DataTable({
                 responsive: true,
                 "scrollY": "500px",
                 "pageLength": 10, // Set initial page length to 5
@@ -151,23 +138,25 @@
                     [10, 15, 20, 30, 40, 50, 100],
                 ],
                 columns: [{
+                        width: '6px'
+                    },
+                    null,
+                    null,
+                    {
+                        width: '10px'
+                    },
+                    {
                         width: '4px'
                     },
                     {
-                        width: '32px'
-                    },
-                    {
-                        width: '12px'
+                        width: '4px'
                     },
                     {
                         width: '4px'
                     },
-                    // {
-                    //     width: '4px'
-                    // },
-
                 ]
             });
+        </script>
         </script>
     @endpush
 @endsection

@@ -1,19 +1,24 @@
 <?php
 
-namespace App\Http\Controllers\DataAmiController;
+namespace App\Http\Controllers\DataAmiController 
+;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 
-class JadwalAmiController extends Controller
+class DataUserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('data_ami.jadwal_ami.jadwal', [
-            'title' => 'Jadwal AMI', 
+
+        $data_user = User::get();
+        return view('data_ami.data_user.user', [
+            'title' => 'Data User', 
+            'data_user' => $data_user, 
         ]);
     }
 
@@ -22,8 +27,8 @@ class JadwalAmiController extends Controller
      */
     public function create()
     {
-        return view('data_ami.jadwal_ami.create', [
-            'title' => 'Buat Jadwal AMI'
+        return view('data_ami.data_user.create', [
+            'title' => 'Tambah User Pengguna', 
         ]);
     }
 

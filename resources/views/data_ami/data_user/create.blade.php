@@ -8,7 +8,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="d-flex align-items-center mb-4">
                             <div>
-                                <a href="/daftar_user" class="d-flex align-items-center"><i class="ti ti-arrow-left me-3"
+                                <a href="/data_user" class="d-flex align-items-center"><i class="ti ti-arrow-left me-3"
                                         style="font-size: 20px; color: black"></i>
                                 </a>
                             </div>
@@ -40,7 +40,7 @@
                     </div>
                     {{-- Content --}}
 
-                    <form action="{{ route('unit_kerja.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('data_user.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-4 col-lg-6">
                             <label for="unit" class="form-label">Nama Unit</label>

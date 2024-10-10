@@ -7,7 +7,7 @@ use App\Models\Unit;
 use App\Models\UnitCabang;
 use Illuminate\Http\Request;
 
-class UnitController extends Controller
+class DataUnitController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,7 +20,7 @@ class UnitController extends Controller
 
 
         // dump($data_unit->toArray());
-        return view('data_ami.unit_kerja.unit', [
+        return view('data_ami.data_unit.unit', [
             'title' => 'Unit Kerja',
             'data_unit' => $data_unit,
         ]);
@@ -31,7 +31,7 @@ class UnitController extends Controller
      */
     public function create()
     {
-        return view('data_ami.unit_kerja.create', [
+        return view('data_ami.data_unit.create', [
             'title' => 'Tambah Unit Kerja',
         ]);
     }
@@ -53,11 +53,16 @@ class UnitController extends Controller
 
             $units = [];
             foreach ($validatedData['nama_unit_kerja'] as $nama_unit) {
-                $units[] = ['nama_unit' => $nama_unit, 'created_at' => now(), 'updated_at' => now()];
+                $units[] = [
+                    'nama_unit' => $nama_unit,
+                    'tipe_data' => $tipe_data,
+                    ',created_at' => now(),
+                    'updated_at' => now()
+                ];
             }
             Unit::insert($units);
 
-            return redirect('/unit_kerja')->with('success', 'Unit Kerja berhasil ditambahkan');
+            return redirect('/data_unit')->with('success', 'Unit Kerja berhasil ditambahkan');
         } elseif ($tipe_data === 'departemen_kerja') {
 
             $validatedData = $request->validate([
@@ -69,6 +74,7 @@ class UnitController extends Controller
             // Simpan departemen
             $unit = Unit::create([
                 'nama_unit' => $validatedData['nama_departemen'],
+                'tipe_data' => $tipe_data,
                 'created_at' => now(),
                 'updated_at' => now()
             ]);
@@ -89,9 +95,9 @@ class UnitController extends Controller
                 UnitCabang::insert($unitCabangs);
             }
 
-            return redirect('/unit_kerja')->with('success', 'Departemen dan Prodi berhasil ditambahkan');
+            return redirect('/data_unit')->with('success', 'Departemen dan Prodi berhasil ditambahkan');
         } else {
-            return redirect('/unit_kerja')->with('error', 'Tipe data tidak valid');
+            return redirect('/data_unit')->with('error', 'Tipe data tidak valid');
         }
     }
 
@@ -110,7 +116,7 @@ class UnitController extends Controller
     {
         $data_unit = Unit::with('units_cabang')->findOrFail($id);
 
-        return view('data_ami.unit_kerja.edit', [
+        return view('data_ami.data_unit.edit', [
             'title' => 'P4MP - Edit',
             'data_unit' => $data_unit
         ]);
@@ -142,7 +148,7 @@ class UnitController extends Controller
             $unit->save();
 
             // Update unit cabang jika tipe data adalah departemen_kerja
-            if ($request->tipe_data == 'departement_kerja') {
+            if ($request->tipe_data == 'departemen_kerja') {
                 // Simpan atau perbarui data unit cabang (prodi)
                 if ($request->has('nama_unit_cabang')) {
                     foreach ($request->nama_unit_cabang as $key => $nama_unit_cabang) {
@@ -171,11 +177,11 @@ class UnitController extends Controller
             }
 
             // Jika berhasil melakukan update
-            return redirect('/unit_kerja')->with('success', 'Data Unit Kerja Berhasil Diperbarui !!!');
+            return redirect('/data_unit')->with('success', 'Data Unit Kerja Berhasil Diperbarui !!!');
 
         } catch (\Exception $e) {
             // Jika terjadi kesalahan, logika gagal
-            return redirect('/unit_kerja')->with('error', 'Data Unit Kerja Gagal Diperbarui !!!');
+            return redirect('/data_unit')->with('error', 'Data Unit Kerja Gagal Diperbarui !!!');
         }
     }
 
@@ -189,9 +195,9 @@ class UnitController extends Controller
         $data_unit = Unit::destroy($unit_id);
 
         if ($data_unit) {
-            return redirect('/unit_kerja')->with('success', 'Data Unit Kerja Berhasil Dihapus !!!');
+            return redirect('/data_unit')->with('success', 'Data Unit Kerja Berhasil Dihapus !!!');
         } else {
-            return redirect('/unit_kerja')->with('error', 'Data Unit Kerja Gagal Dihapus !!!');
+            return redirect('/data_unit')->with('error', 'Data Unit Kerja Gagal Dihapus !!!');
         }
     }
 }

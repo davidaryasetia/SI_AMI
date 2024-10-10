@@ -1,23 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\DataAmiController;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use Illuminate\Http\Request;
 
-class DaftarUserController extends Controller
+class RekapAuditController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-
-        $data_user = User::get();
-        return view('auth.daftar_user.user', [
-            'title' => 'Data User', 
-            'data_user' => $data_user, 
+        return view('data_ami.rekap_audit.rekap', [
+            'title' => 'Rekap Audit', 
         ]);
     }
 
@@ -26,9 +22,7 @@ class DaftarUserController extends Controller
      */
     public function create()
     {
-        return view('auth.daftar_user.create', [
-            'title' => 'Tambah User Pengguna', 
-        ]);
+        //
     }
 
     /**

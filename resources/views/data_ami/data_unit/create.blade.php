@@ -8,7 +8,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="d-flex align-items-center mb-4">
                             <div>
-                                <a href="/unit_kerja" class="d-flex align-items-center"><i class="ti ti-arrow-left me-3"
+                                <a href="/data_unit" class="d-flex align-items-center"><i class="ti ti-arrow-left me-3"
                                         style="font-size: 20px; color: black"></i></a>
                             </div>
                             <div>
@@ -19,7 +19,7 @@
 
                     <!-- Form Pilihan Tipe Unit Kerja atau Departemen -->
                     <!-- Form Pilihan Tipe Unit Kerja atau Departemen -->
-                    <form action="{{ route('unit_kerja.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('data_unit.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row mb-4">
                             <div class="col-md-12 position-relative">

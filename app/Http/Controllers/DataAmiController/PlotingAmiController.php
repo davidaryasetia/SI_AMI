@@ -9,7 +9,7 @@ use App\Models\Unit;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class AuditeController extends Controller
+class PlotingAmiController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,15 +17,16 @@ class AuditeController extends Controller
     public function index()
     {
         
-       $data_audite = Unit::with([
-        'units_cabang:unit_cabang_id,unit_id,nama_unit_cabang'
+       $data_ploting = Unit::with([
+        'units_cabang:unit_cabang_id,unit_id,nama_unit_cabang', 
+        'audite.user_audite:user_id,nama,nip'
        ])->get();
-    //    dump($data_audite->toArray());
+       dump($data_ploting->toArray());
     // dd($data_audite->toArray());
 
-        return view('data_ami.daftar_audite.audite', [
+        return view('data_ami.ploating_ami.ploting', [
             'title' => 'Daftar Audite',
-            'daftar_audite' => $data_audite, 
+            'data_ploting' => $data_ploting, 
         ]);
     }
 
@@ -34,7 +35,7 @@ class AuditeController extends Controller
      */
     public function create()
     {
-        return view('data_ami.daftar_audite.create', [
+        return view('data_ami.ploating_ami.ploating', [
             'title' => 'Tambah Audite',
 
         ]);

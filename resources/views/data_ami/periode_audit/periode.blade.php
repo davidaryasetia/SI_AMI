@@ -11,7 +11,7 @@
                                 <span class="card-title fw-semibold me-3">Jadwal Pengisian AMI</span>
                             </div>
                             <div class="me-2">
-                                <a href="{{route('jadwal_ami.create')}}" id="tambahIkukBtn" type="button" class="btn btn-primary" disabled><i
+                                <a href="{{route('periode_audit.create')}}" id="tambahIkukBtn" type="button" class="btn btn-primary" disabled><i
                                         class="ti ti-plus me-1"></i>Buat Jadwal</a>
                             </div>
                         </div>
