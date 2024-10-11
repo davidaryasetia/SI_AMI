@@ -89,11 +89,12 @@
 
                                     <!-- Tampilkan Audite -->
                                     <td class="border-bottom-0">
-                                        <div class="mb-3">
+                                        <div class="">
                                             <h6 class="fw-semibold mb-1">
                                                 @if (isset($ploting->audite[0]) && $ploting->audite[0]['unit_cabang_id'] === null)
-                                                    {{ $ploting->audite[0]['user_audite']['nama'] }} (NIP :
-                                                    {{ $ploting->audite[0]['user_audite']['nip'] }})
+                                                    {{ $ploting->audite[0]['user_audite']['nama'] }} <br>
+                                                    <span style="font-weight: normal;">(NIP:
+                                                        {{ $ploting->audite[0]['user_audite']['nip'] }})</span>
                                                 @else
                                                     <span style="color: red">User Audite Belum di set!!!</span>
                                                 @endif
@@ -120,8 +121,11 @@
                                     <!-- Tampilkan Auditor 1 -->
                                     <td class="border-bottom-0">
                                         @if ($ploting->auditor && $ploting->auditor->auditor1)
-                                            <h6 class="fw-semibold">{{ $ploting->auditor->auditor1->nama }} (NIP:
-                                                {{ $ploting->auditor->auditor1->nip }})</h6>
+                                            <h6 class="fw-semibold">
+                                                {{ $ploting->auditor->auditor1->nama }} <br>
+                                                <span style="font-weight: normal;">(NIP:
+                                                    {{ $ploting->auditor->auditor1->nip }})</span>
+                                            </h6>
                                         @else
                                             <span style="color: red">Auditor 1 Belum Di set !!!</span>
                                         @endif
@@ -130,8 +134,11 @@
                                     <!-- Tampilkan Auditor 2 -->
                                     <td class="border-bottom-0">
                                         @if ($ploting->auditor && $ploting->auditor->auditor2)
-                                            <h6 class="fw-semibold">{{ $ploting->auditor->auditor2->nama }} (NIP:
-                                                {{ $ploting->auditor->auditor2->nip }})</h6>
+                                            <h6 class="fw-semibold">
+                                                {{ $ploting->auditor->auditor2->nama }} <br>
+                                                <span style="font-weight: normal;">(NIP:
+                                                    {{ $ploting->auditor->auditor2->nip }})</span>
+                                            </h6>
                                         @else
                                             <span style="color: red">Auditor 2 Belum Di set !!!</span>
                                         @endif
@@ -167,7 +174,7 @@
                         width: '4px'
                     },
                     {
-                        width: '32px'
+                        width: '20px'
                     },
                     {
                         width: '12px'

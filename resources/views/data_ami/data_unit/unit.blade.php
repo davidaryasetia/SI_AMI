@@ -161,10 +161,10 @@
             $('#table_unit').DataTable({
                 responsive: true,
                 "scrollY": "500px",
-                "pageLength": 10, // Set initial page length to 10
+                "pageLength": 20, // Set initial page length to 10
                 "lengthMenu": [
-                    [10, 15, 20, 30, 40, 50, 100],
-                    [10, 15, 20, 30, 40, 50, 100],
+                    [20, 30, 40, 50, 100],
+                    [20, 30, 40, 50, 100],
                 ],
                 "columnDefs": [{
                     targets: 0, // Target kolom "No"

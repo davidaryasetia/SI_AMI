@@ -56,7 +56,7 @@ class DataUnitController extends Controller
                 $units[] = [
                     'nama_unit' => $nama_unit,
                     'tipe_data' => $tipe_data,
-                    ',created_at' => now(),
+                    'created_at' => now(),
                     'updated_at' => now()
                 ];
             }
@@ -149,41 +149,42 @@ class DataUnitController extends Controller
 
             // Update unit cabang jika tipe data adalah departemen_kerja
             if ($request->tipe_data == 'departemen_kerja') {
+                // Hapus unit cabang jika ID tidak ada dalam request
+                UnitCabang::where('unit_id', $unit->unit_id)
+                    ->whereNotIn('unit_cabang_id', $request->unit_cabang_id ?? [])
+                    ->delete();
+
                 // Simpan atau perbarui data unit cabang (prodi)
                 if ($request->has('nama_unit_cabang')) {
                     foreach ($request->nama_unit_cabang as $key => $nama_unit_cabang) {
-                        if (!is_null($nama_unit_cabang)) {
-                            // Cek apakah unit cabang dengan ID tertentu sudah ada
-                            $existingCabang = UnitCabang::where('unit_id', $unit->unit_id)->skip($key)->first();
+                        $unitCabangId = $request->unit_cabang_id[$key] ?? null;
 
+                        if ($unitCabangId) {
+                            // Jika ada unit cabang ID, maka update
+                            $existingCabang = UnitCabang::find($unitCabangId);
                             if ($existingCabang) {
-                                // Update unit cabang yang ada
                                 $existingCabang->update([
                                     'nama_unit_cabang' => $nama_unit_cabang,
-                                    'updated_at' => now(),
-                                ]);
-                            } else {
-                                // Insert data baru untuk unit cabang
-                                UnitCabang::create([
-                                    'unit_id' => $unit->unit_id,
-                                    'nama_unit_cabang' => $nama_unit_cabang,
-                                    'created_at' => now(),
-                                    'updated_at' => now(),
                                 ]);
                             }
+                        } else {
+                            // Jika tidak ada unit cabang ID, buat baru
+                            UnitCabang::create([
+                                'unit_id' => $unit->unit_id,
+                                'nama_unit_cabang' => $nama_unit_cabang,
+                            ]);
                         }
                     }
                 }
             }
 
-            // Jika berhasil melakukan update
             return redirect('/data_unit')->with('success', 'Data Unit Kerja Berhasil Diperbarui !!!');
 
         } catch (\Exception $e) {
-            // Jika terjadi kesalahan, logika gagal
             return redirect('/data_unit')->with('error', 'Data Unit Kerja Gagal Diperbarui !!!');
         }
     }
+
 
 
 

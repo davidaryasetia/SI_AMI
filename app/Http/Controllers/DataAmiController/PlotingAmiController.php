@@ -70,7 +70,7 @@ class PlotingAmiController extends Controller
 
         // Ambil semua user untuk pilihan dropdown Audite dan Auditor
         $users = User::all();
-        dump($data_unit->toArray());
+        // dump($data_unit->toArray());
         return view('data_ami.ploating_ami.edit', [
             'data_unit' => $data_unit,
             'users' => $users,

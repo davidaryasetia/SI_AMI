@@ -24,18 +24,19 @@
                                 name="tipe_data" disabled>
                                 <option value="unit_kerja" {{ $data_unit->tipe_data == 'unit_kerja' ? 'selected' : '' }}>
                                     Unit Kerja</option>
-                                <option value="departement_kerja" {{ $data_unit->tipe_data == 'departemen_kerja' ? 'selected' : '' }}>
+                                <option value="departement_kerja"
+                                    {{ $data_unit->tipe_data == 'departemen_kerja' ? 'selected' : '' }}>
                                     Departement Kerja</option>
                             </select>
-                            
+
                             {{-- Hidden field to retain the selected value --}}
                             <input type="hidden" name="tipe_data" value="{{ $data_unit->tipe_data }}">
-                        
+
                             @error('tipe_data')
                                 <div class="alert alert-danger mt-2">{{ $message }}</div>
                             @enderror
                         </div>
-                        
+
 
                         {{-- Form Unit Kerja --}}
                         <div class="unit-field"
@@ -53,15 +54,26 @@
 
                         {{-- Form Departement Kerja --}}
                         <div class="department-field"
-                            style="display: {{ $data_unit->tipe_data == 'departement_kerja' ? 'block' : 'none' }};">
-                            <div class="mb-4 col-lg-12">
-                                <label for="nama_unit_dept" class="form-label">Nama Unit Departement</label>
-                                <input type="text" class="form-control @error('nama_unit_dept') is-invalid @enderror"
-                                    id="nama_unit_dept" name="nama_unit_dept" value="{{ $data_unit->nama_unit }}" required>
-                                @error('nama_unit_dept')
-                                    <div class="alert alert-danger mt-2">{{ $message }}</div>
-                                @enderror
+                            style="display: {{ $data_unit->tipe_data == 'departemen_kerja' ? 'block' : 'none' }};">
+
+                            {{-- Content Here --}}
+                            <div class="d-flex align-items-center">
+                                <div class="mb-4 col-lg-9">
+                                    <label for="nama_unit_dept" class="form-label">Nama Unit Departement</label>
+                                    <input type="text" class="form-control @error('nama_unit_dept') is-invalid @enderror"
+                                        id="nama_unit_dept" name="nama_unit_dept" value="{{ $data_unit->nama_unit }}"
+                                        required>
+                                    @error('nama_unit_dept')
+                                        <div class="alert alert-danger mt-2">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="ms-3 mt-4">
+                                    <button type="button" class="btn btn-secondary mb-4" id="addBranch">Tambah Unit
+                                        Cabang</button>
+                                </div>
                             </div>
+                            {{-- End Content Here --}}
 
                             <div class="department-fields">
                                 @if ($data_unit->units_cabang->isNotEmpty())
@@ -70,18 +82,27 @@
                                             <label for="nama_unit_cabang" class="form-label">Nama Prodi</label>
                                             <input type="text"
                                                 class="form-control @error('nama_unit_cabang') is-invalid @enderror"
-                                                name="nama_unit_cabang[]" value="{{ $unitCabang->nama_unit_cabang }}" placeholder="Masukkan Nama Prodi...">
+                                                name="nama_unit_cabang[]" value="{{ $unitCabang->nama_unit_cabang }}"
+                                                placeholder="Masukkan Nama Prodi...">
                                             @error('nama_unit_cabang')
                                                 <div class="alert alert-danger mt-2">{{ $message }}</div>
                                             @enderror
+
+                                            {{-- Tombol Hapus --}}
+                                            <button type="button" class="btn btn-danger mt-1"
+                                                onclick="this.parentElement.remove()">Hapus Prodi</button>
+
+                                            {{-- Hidden field untuk ID unit cabang yang ada --}}
+                                            <input type="hidden" name="unit_cabang_id[]"
+                                                value="{{ $unitCabang->unit_cabang_id }}">
                                         </div>
                                     @endforeach
                                 @else
                                     <div class="mb-4 col-lg-4 department-template">
                                         <label for="nama_unit_cabang" class="form-label">Nama Prodi</label>
                                         <input type="text"
-                                            class="form-control @error('nama_unit_cabang') is-invalid @enderror" placeholder="Masukkan Nama Prodi...."
-                                            name="nama_unit_cabang[]" placeholder="Masukkan Nama Unit Cabang">
+                                            class="form-control @error('nama_unit_cabang') is-invalid @enderror"
+                                            placeholder="Masukkan Nama Prodi...." name="nama_unit_cabang[]">
                                         @error('nama_unit_cabang')
                                             <div class="alert alert-danger mt-2">{{ $message }}</div>
                                         @enderror
@@ -89,8 +110,9 @@
                                 @endif
                             </div>
 
-                            <button type="button" class="btn btn-secondary mb-4" id="addBranch">Tambah Unit Cabang</button>
+
                         </div>
+
 
                         <button type="submit" class="btn btn-primary">Update Data</button>
                     </form>
@@ -100,38 +122,55 @@
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const typeSelect = document.getElementById('tipe_data');
-            const unitField = document.querySelector('.unit-field');
-            const departmentField = document.querySelector('.department-field');
-            const addBranchBtn = document.getElementById('addBranch');
-            const departmentTemplate = document.querySelector('.department-template');
+    @push('script')
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const typeSelect = document.getElementById('tipe_data');
+                const unitField = document.querySelector('.unit-field');
+                const departmentField = document.querySelector('.department-field');
+                const addBranchBtn = document.getElementById('addBranch');
+                const departmentTemplate = document.querySelector('.department-template');
 
-            function toggleFields() {
-                if (typeSelect.value === 'departement_kerja') {
-                    unitField.style.display = 'none';
-                    departmentField.style.display = 'block';
-                } else {
-                    unitField.style.display = 'block';
-                    departmentField.style.display = 'none';
+                function toggleFields() {
+                    if (typeSelect.value === 'departement_kerja') {
+                        unitField.style.display = 'none';
+                        departmentField.style.display = 'block';
+                    } else {
+                        unitField.style.display = 'block';
+                        departmentField.style.display = 'none';
+                    }
                 }
-            }
 
-            // Toggle fields on page load
-            toggleFields();
+                // Toggle fields on page load
+                toggleFields();
 
-            // Listen for changes on the select box
-            typeSelect.addEventListener('change', toggleFields);
+                // Listen for changes on the select box
+                typeSelect.addEventListener('change', toggleFields);
 
-            addBranchBtn.addEventListener('click', function() {
-                const clone = departmentTemplate.cloneNode(true);
-                const inputs = clone.querySelectorAll('input');
-                inputs.forEach(function(input) {
-                    input.value = '';
+                // Fungsi untuk menambahkan prodi baru
+                addBranchBtn.addEventListener('click', function() {
+                    const clone = departmentTemplate.cloneNode(true);
+                    const inputs = clone.querySelectorAll('input');
+                    inputs.forEach(function(input) {
+                        input.value = '';
+                    });
+
+                    // Hapus semua tombol "Hapus Prodi" yang ada sebelum menambah elemen baru
+                    const deleteButton = clone.querySelector('.btn-danger');
+                    if (!deleteButton) {
+                        const newDeleteButton = document.createElement('button');
+                        newDeleteButton.type = 'button';
+                        newDeleteButton.classList.add('btn', 'btn-danger', 'mb-4');
+                        newDeleteButton.innerText = 'Hapus Prodi';
+                        newDeleteButton.addEventListener('click', function() {
+                            clone.remove();
+                        });
+                        clone.appendChild(newDeleteButton);
+                    }
+
+                    document.querySelector('.department-fields').appendChild(clone);
                 });
-                document.querySelector('.department-fields').appendChild(clone);
             });
-        });
-    </script>
+        </script>
+    @endpush
 @endsection

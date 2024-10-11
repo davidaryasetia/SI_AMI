@@ -44,7 +44,7 @@
                                 </div>
                             </div>
                             <div class="col-md-3 d-flex align-items-start mt-9">
-                                <button type="button" class="btn btn-secondary mt-1" id="addNamaUnit">Tambah Unit</button>
+                                <button type="button" class="btn btn-secondary mt-1" id="addNamaUnit">Tambah Unit Kerja</button>
                             </div>
                         </div>
 
@@ -71,10 +71,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3 d-flex align-items-start mt-9">
-                                    <button type="button" class="btn btn-secondary mt-1" id="addUnitCabang">Tambah Unit
-                                        Cabang</button>
-                                </div>
+                               </div>
                             </div>
                         </div>
 
