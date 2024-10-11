@@ -10,10 +10,10 @@
                             <div>
                                 <span class="card-title fw-semibold me-3">Ploating AMI</span>
                             </div>
-                            <div>
+                            {{-- <div>
                                 <a href="daftar_audite/create" type="button" class="btn btn-primary"><i
                                         class="ti ti-plus me-1"></i>Ploating AMI</a>
-                            </div>
+                            </div> --}}
                         </div>
 
                         <div>
@@ -61,20 +61,17 @@
                                     <th class="border-bottom-0">
                                         <h6 class="fw-semibold mb-0">Edit</h6>
                                     </th>
-                                    <th class="border-bottom-0">
-                                        <h6 class="fw-semibold mb-0">Delete</h6>
-                                    </th>
-
                                 </tr>
                             </thead>
                             <tbody>
-
                                 <?php $no = 1; ?>
                                 <?php foreach($data_ploting as $ploting): ?>
                                 <tr>
                                     <td class="border-bottom-0 text-center">
                                         <h6 class="fw-semibold mb-0"> {{ $no++ }} </h6>
                                     </td>
+
+                                    <!-- Tampilkan Nama Unit dan Unit Cabang -->
                                     <td class="border-bottom-0">
                                         <div class="mb-3">
                                             <h6 class="fw-semibold mb-1"> {{ $ploting->nama_unit }} </h6>
@@ -85,59 +82,71 @@
                                                 <li class="mb-2">
                                                     {{ $nomor }} ) {{ $unitCabang->nama_unit_cabang }}
                                                 </li>
+                                                @php $nomor++; @endphp
                                             @endforeach
                                         </div>
                                     </td>
-                                    {{-- <td class="border-bottom-0">
-                                        @php
-                                            $user_audite = $audite->users_audite[0] ?? null;
-                                        @endphp
 
+                                    <!-- Tampilkan Audite -->
+                                    <td class="border-bottom-0">
                                         <div class="mb-3">
                                             <h6 class="fw-semibold mb-1">
-                                                @if ($user_audite)
-                                                    {{ $user_audite['nama'] }}
+                                                @if (isset($ploting->audite[0]) && $ploting->audite[0]['unit_cabang_id'] === null)
+                                                    {{ $ploting->audite[0]['user_audite']['nama'] }} (NIP :
+                                                    {{ $ploting->audite[0]['user_audite']['nip'] }})
                                                 @else
-                                                <span style="color: red">
-                                                    User Audite Belum Di set !!!
-                                                </span>
+                                                    <span style="color: red">User Audite Belum di set!!!</span>
                                                 @endif
                                             </h6>
                                         </div>
 
-                                        <ul class="unit-list">
-                                            @foreach ($audite->units_cabang as $unitCabang)
+                                        <div class="unit-list fw-medium">
+                                            @php $number = 1; @endphp
+                                            @foreach ($ploting->units_cabang as $auditeUnit)
                                                 <li class="mb-2">
-                                                    @if ($unitCabang['users_cabang'])
-                                                    <span style="color: black">
-                                                        {{ $unitCabang['users_cabang']['nama'] }}
-                                                    </span>
+                                                    {{ $number++ }} )
+                                                    @if (!empty($auditeUnit->audites) && isset($auditeUnit->audites[0]['user_audite']))
+                                                        {{ $auditeUnit->audites[0]['user_audite']['nama'] }} (NIP :
+                                                        {{ $auditeUnit->audites[0]['user_audite']['nip'] }})
                                                     @else
-                                                    <span style="color: red">
-                                                        User Audite Belum Di Set !!!
-                                                    </span>
+                                                        <span style="color: red">Audite Belum di Set !!!</span>
                                                     @endif
                                                 </li>
                                             @endforeach
-                                        </ul>
-                                    </td> --}}
-                                    <td class="border-bottom-0">
-                                        <p class="mb-0 fw-normal text-center"><a href=""><i
-                                                    class="ti ti-pencil"></i></a></p>
+                                        </div>
+
                                     </td>
+
+                                    <!-- Tampilkan Auditor 1 -->
                                     <td class="border-bottom-0">
-                                        <form action="" method="POST"
-                                            onsubmit="return confirm('Apakah Anda Yakin Ingin Menghapus Data Unit : ?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-link text-danger">
-                                                <i class="ti ti-trash"></i>
-                                            </button>
-                                        </form>
+                                        @if ($ploting->auditor && $ploting->auditor->auditor1)
+                                            <h6 class="fw-semibold">{{ $ploting->auditor->auditor1->nama }} (NIP:
+                                                {{ $ploting->auditor->auditor1->nip }})</h6>
+                                        @else
+                                            <span style="color: red">Auditor 1 Belum Di set !!!</span>
+                                        @endif
+                                    </td>
+
+                                    <!-- Tampilkan Auditor 2 -->
+                                    <td class="border-bottom-0">
+                                        @if ($ploting->auditor && $ploting->auditor->auditor2)
+                                            <h6 class="fw-semibold">{{ $ploting->auditor->auditor2->nama }} (NIP:
+                                                {{ $ploting->auditor->auditor2->nip }})</h6>
+                                        @else
+                                            <span style="color: red">Auditor 2 Belum Di set !!!</span>
+                                        @endif
+                                    </td>
+
+                                    <!-- Edit Button -->
+                                    <td class="border-bottom-0">
+                                        <p class="mb-0 fw-normal text-center"><a
+                                                href="{{ route('ploting_ami.edit', $ploting->unit_id) }}"><i
+                                                    class="ti ti-pencil"></i></a></p>
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>
                             </tbody>
+
                         </table>
                     </div>
                 </div>
@@ -149,10 +158,10 @@
             $('#table_audite').DataTable({
                 responsive: true,
                 "scrollY": "500px",
-                "pageLength": 10, // Set initial page length to 5
+                "pageLength": 20, // Set initial page length to 5
                 "lengthMenu": [
-                    [10, 15, 20, 30, 40, 50, 100],
-                    [10, 15, 20, 30, 40, 50, 100],
+                    [20, 30, 40, 50, 100],
+                    [20, 30, 40, 50, 100],
                 ],
                 columns: [{
                         width: '4px'
@@ -166,10 +175,12 @@
                     {
                         width: '4px'
                     },
-                    // {
-                    //     width: '4px'
-                    // },
-
+                    {
+                        width: '4px'
+                    },
+                    {
+                        width: '4px'
+                    },
                 ]
             });
         </script>

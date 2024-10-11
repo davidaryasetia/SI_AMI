@@ -67,10 +67,10 @@
                                 @if ($data_unit->units_cabang->isNotEmpty())
                                     @foreach ($data_unit->units_cabang as $key => $unitCabang)
                                         <div class="mb-4 col-lg-4 department-template">
-                                            <label for="nama_unit_cabang" class="form-label">Nama Unit Cabang</label>
+                                            <label for="nama_unit_cabang" class="form-label">Nama Prodi</label>
                                             <input type="text"
                                                 class="form-control @error('nama_unit_cabang') is-invalid @enderror"
-                                                name="nama_unit_cabang[]" value="{{ $unitCabang->nama_unit_cabang }}">
+                                                name="nama_unit_cabang[]" value="{{ $unitCabang->nama_unit_cabang }}" placeholder="Masukkan Nama Prodi...">
                                             @error('nama_unit_cabang')
                                                 <div class="alert alert-danger mt-2">{{ $message }}</div>
                                             @enderror
@@ -78,9 +78,9 @@
                                     @endforeach
                                 @else
                                     <div class="mb-4 col-lg-4 department-template">
-                                        <label for="nama_unit_cabang" class="form-label">Nama Unit Cabang</label>
+                                        <label for="nama_unit_cabang" class="form-label">Nama Prodi</label>
                                         <input type="text"
-                                            class="form-control @error('nama_unit_cabang') is-invalid @enderror"
+                                            class="form-control @error('nama_unit_cabang') is-invalid @enderror" placeholder="Masukkan Nama Prodi...."
                                             name="nama_unit_cabang[]" placeholder="Masukkan Nama Unit Cabang">
                                         @error('nama_unit_cabang')
                                             <div class="alert alert-danger mt-2">{{ $message }}</div>
