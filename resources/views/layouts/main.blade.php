@@ -35,6 +35,9 @@
             padding-left: 0;
             list-style: none;
         }
+        .card-title{
+            color: black;
+        }
 
         .unit-list li {
             padding: 8px;
@@ -48,6 +51,34 @@
         .unit-list li:last-child {
             margin-bottom: 0;
         }
+
+        /* Layout Section  */
+        .body-wrapper {
+            padding-top: 70px !important;
+        }
+        .app-header{
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        #main.container-fluid {
+            padding: 12px 0px !important;
+        }
+
+        @media(max-width: 1200px){
+            #main.container-fluid {
+                padding: 10px 5px !important;
+            }
+        }
+
+        @media(max-width: 992px){
+            #main.container-fluid {
+                padding: 5px !important;
+            }
+        }
+        /* End Layout Section */
     </style>
     @stack('css')
 </head>

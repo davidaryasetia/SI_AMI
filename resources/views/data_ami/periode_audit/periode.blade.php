@@ -3,8 +3,7 @@
 @section('row')
     <div class="container-fluid">
         <div class="col-lg-12 d-flex align-items-stretch">
-            <div class="card w-100">
-                <div class="card-body p-4">
+            <div class="w-100">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="d-flex align-items-center mb-4">
                             <div>
@@ -64,7 +63,6 @@
                         </div>
                     </div>
                     {{-- End-Content --}}
-                </div>
             </div>
         </div>
     </div>
