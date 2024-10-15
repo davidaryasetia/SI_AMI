@@ -44,7 +44,7 @@
                         <div class="unit-field"
                             style="display: {{ $data_unit->tipe_data == 'unit_kerja' ? 'block' : 'none' }};">
 
-                            <div class="d-flex justify-content-between">
+                            <div class="row">
                                 <div class="mb-4 col-lg-6">
                                     <label for="nama_unit" class="form-label">Nama Unit</label>
                                     <input type="text" class="form-control @error('nama_unit') is-invalid @enderror"
@@ -56,7 +56,7 @@
                                 </div>
 
                                 {{-- Dropdowns for audite, auditor1, and auditor2 --}}
-                                <div class="mb-4 col-lg-5">
+                                <div class="mb-4 col-lg-6">
                                     {{-- Audite --}}
                                     <label for="audite" class="form-label">Audite</label>
                                     <select class="form-select" name="audite"
@@ -75,25 +75,25 @@
                                 </div>
                             </div>
 
-                            <div class="d-flex justify-content-between">
+                            <div class="row">
                                 <div class="mb-4 col-lg-6">
                                     <label for="auditor1" class="form-label">Auditor 1</label>
                                     <select name="auditor1_unit" id="auditor1" class="form-select"
                                         style="{{ isset($data_unit->auditor->auditor1) ? '' : 'border-color: red; color: black;' }}">
-                                        <option value="" style="color: red;"
+                                        <option value="" style="color: black;"
                                             {{ !isset($data_unit->auditor->auditor1) ? 'selected' : '' }}>
                                             Auditor 1 Belum Di Set
                                         </option>
                                         @foreach ($users as $user)
                                             <option value="{{ $user->user_id }}"
                                                 {{ isset($data_unit->auditor->auditor1) && $data_unit->auditor->auditor1->user_id == $user->user_id ? 'selected' : '' }}>
-                                                {{ $user->nama }}
+                                                {{ $user->nama }} (NIP: {{ $user->nip }})
                                             </option>
                                         @endforeach
                                     </select>
                                 </div>
 
-                                <div class="mb-4 col-lg-5">
+                                <div class="mb-4 col-lg-6">
                                     <label for="auditor2_unit" class="form-label">Auditor 2</label>
                                     <select name="auditor2_unit" id="auditor2" class="form-select"
                                         style="{{ isset($data_unit->auditor->auditor2) ? '' : 'border-color: red; color: red;' }}">
@@ -104,7 +104,7 @@
                                         @foreach ($users as $user)
                                             <option value="{{ $user->user_id }}"
                                                 {{ isset($data_unit->auditor->auditor2) && $data_unit->auditor->auditor2->user_id == $user->user_id ? 'selected' : '' }}>
-                                                {{ $user->nama }}
+                                                {{ $user->nama }} (NIP: {{ $user->nip }})
                                             </option>
                                         @endforeach
                                     </select>
@@ -121,7 +121,8 @@
                                     <label for="nama_unit_dept" class="form-label">Nama Unit Departement</label>
                                     <input type="text" class="form-control @error('nama_unit_dept') is-invalid @enderror"
                                         id="nama_unit_dept" name="nama_unit_dept" value="{{ $data_unit->nama_unit }}"
-                                        required>
+                                        required disabled>
+                                        <input type="hidden" value="{{ $data_unit->nama_unit }}">
                                     @error('nama_unit_dept')
                                         <div class="alert alert-danger mt-2">{{ $message }}</div>
                                     @enderror
@@ -157,7 +158,8 @@
                                                 <input type="text"
                                                     class="form-control @error('nama_unit_cabang') is-invalid @enderror"
                                                     name="nama_unit_cabang[]" value="{{ $unitCabang->nama_unit_cabang }}"
-                                                    placeholder="Masukkan Nama Prodi...">
+                                                    placeholder="Masukkan Nama Prodi..." disabled>
+                                                    <input type="hidden" value="{{ $unitCabang->nama_unit_cabang }}">
                                                 @error('nama_unit_cabang')
                                                     <div class="alert alert-danger mt-2">{{ $message }}</div>
                                                 @enderror
@@ -169,7 +171,7 @@
                                                 <select name="audite_cabang[{{ $unitCabang->unit_cabang_id }}]"
                                                     id="audite_cabang_{{ $key }}" class="form-select"
                                                     style="{{ isset($unitCabang->audites[0]->user_id) ? '' : 'border-color: red; color: black;' }}">
-                                                    <option value="" style="color: red;"
+                                                    <option value="" 
                                                         {{ !isset($unitCabang->audites[0]->user_id) ? 'selected' : '' }}>
                                                         Audite Belum Di Set
                                                     </option>

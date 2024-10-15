@@ -1,4 +1,21 @@
 @extends('layouts.main')
+@push('css')
+    <style>
+        .unit-list {
+            list-style-type: decimal;
+            /* Menggunakan angka numerik */
+            list-style-position: inside;
+            /* Menempatkan angka di dalam kotak */
+        }
+
+        .unit-list li {
+            border: 1px solid #ddd;
+            padding: 8px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+    </style>
+@endpush
 
 @section('row')
     <div class="container-fluid">
@@ -72,50 +89,49 @@
 
                                 <!-- Tampilkan Nama Unit dan Unit Cabang -->
                                 <td class="border-bottom-0">
-                                    <div class="mb-3">
-                                        <h6 class="fw-semibold mb-1"> {{ $ploting->nama_unit }} </h6>
-                                    </div>
-                                    <div class="unit-list fw-medium">
-                                        @php $nomor = 1; @endphp
+                                    <h6 class="fw-semibold mb-4"> {{ $ploting->nama_unit }} </h6>
+                                    <ol class="unit-list fw-medium" style="list-style-position: inside; padding-left: 0;">
+                                        <!-- Gaya CSS untuk daftar numerik -->
                                         @foreach ($ploting->units_cabang as $unitCabang)
-                                            <li class="mb-2">
-                                                {{ $nomor }} ) {{ $unitCabang->nama_unit_cabang }}
+                                            <li class="mb-2"
+                                                style="border: 1px solid #ddd; padding: 5px; border-radius: 5px;">
+                                                {{ $unitCabang->nama_unit_cabang }}
                                             </li>
-                                            @php $nomor++; @endphp
                                         @endforeach
-                                    </div>
+                                    </ol>
                                 </td>
 
                                 <!-- Tampilkan Audite -->
                                 <td class="border-bottom-0">
                                     <div class="">
                                         <h6 class="fw-semibold mb-1">
-                                            @if (isset($ploting->audite[0]) && $ploting->audite[0]['unit_cabang_id'] === null)
+                                            @if (!empty($ploting->audite) && isset($ploting->audite[0]['user_audite']['nama']))
                                                 {{ $ploting->audite[0]['user_audite']['nama'] }} <br>
                                                 <span style="font-weight: normal;">(NIP:
                                                     {{ $ploting->audite[0]['user_audite']['nip'] }})</span>
                                             @else
-                                                <span style="color: red">User Audite Belum di set!!!</span>
+                                                <span style="color: red">User Audite Belum di set!</span>
                                             @endif
+
                                         </h6>
                                     </div>
 
-                                    <div class="unit-list fw-medium">
-                                        @php $number = 1; @endphp
+                                    <ol class="unit-list fw-medium" style="list-style-position: inside; padding-left: 0;">
+                                        <!-- Gaya CSS untuk daftar numerik -->
                                         @foreach ($ploting->units_cabang as $auditeUnit)
-                                            <li class="mb-2">
-                                                {{ $number++ }} )
+                                            <li class="mb-2"
+                                                style="border: 1px solid #ddd; padding: 5px; border-radius: 5px;">
                                                 @if (!empty($auditeUnit->audites) && isset($auditeUnit->audites[0]['user_audite']))
                                                     {{ $auditeUnit->audites[0]['user_audite']['nama'] }} (NIP :
                                                     {{ $auditeUnit->audites[0]['user_audite']['nip'] }})
                                                 @else
-                                                    <span style="color: red">Audite Belum di Set !!!</span>
+                                                    <span style="color: red">Audite Belum di Set !</span>
                                                 @endif
                                             </li>
                                         @endforeach
-                                    </div>
-
+                                    </ol>
                                 </td>
+
 
                                 <!-- Tampilkan Auditor 1 -->
                                 <td class="border-bottom-0">
@@ -126,7 +142,7 @@
                                                 {{ $ploting->auditor->auditor1->nip }})</span>
                                         </h6>
                                     @else
-                                        <span style="color: red">Auditor 1 Belum Di set !!!</span>
+                                        <span style="color: red">Auditor 1 Belum Di set !</span>
                                     @endif
                                 </td>
 
@@ -139,7 +155,7 @@
                                                 {{ $ploting->auditor->auditor2->nip }})</span>
                                         </h6>
                                     @else
-                                        <span style="color: red">Auditor 2 Belum Di set !!!</span>
+                                        <span style="color: red">Auditor 2 Belum Di set !</span>
                                     @endif
                                 </td>
 
@@ -163,7 +179,7 @@
         <script>
             $('#table_audite').DataTable({
                 responsive: true,
-                "scrollY": "500px",
+                "scrollY": "480px",
                 "pageLength": 20, // Set initial page length to 5
                 "lengthMenu": [
                     [20, 30, 40, 50, 100],

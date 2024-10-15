@@ -5,7 +5,7 @@
         <div class="col-lg-12 d-flex align-items-stretch">
             <div class="w-100">
                     <div class="d-flex justify-content-between align-items-center">
-                        <div class="d-flex align-items-center mb-4">
+                        <div class="d-flex align-items-center mb-2">
                             <div>
                                 <span class="card-title fw-semibold me-3">Data Profile</span>
                             </div>

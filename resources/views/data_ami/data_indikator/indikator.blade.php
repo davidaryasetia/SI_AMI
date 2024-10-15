@@ -1,11 +1,21 @@
 @extends('layouts.main')
+@push('css')
+    <style>
+        table#table_indikator tbody td{
+            padding: 0px 8px;
+        }
+        table#table_indikator tbody td th{
+            margin: 0;
+        }
+    </style>
+@endpush
 
 @section('row')
     <div class="container-fluid">
         <div class="col-lg-12 d-flex align-items-stretch">
             <div class="w-100">
                 <div class="d-flex justify-content-between align-items-center">
-                    <div class="d-flex align-items-center mb-4">
+                    <div class="d-flex align-items-center mb-2">
                         <div>
                             <span class="card-title fw-semibold me-2">Indikator Kinerja Unit Kerja</span>
                         </div>
@@ -240,11 +250,11 @@
         <script>
             $('#table_indikator').DataTable({
                 responsive: true,
-                "scrollY": "500px",
-                "pageLength": 10, // Set initial page length to 5
+                "scrollY": "480px",
+                "pageLength": 20, // Set initial page length to 5
                 "lengthMenu": [
-                    [10, 15, 20, 30, 40, 50, 100],
-                    [10, 15, 20, 30, 40, 50, 100],
+                    [20, 30, 40, 50, 100],
+                    [20, 30, 40, 50, 100],
                 ],
                 columns: [{
                         width: '6px'

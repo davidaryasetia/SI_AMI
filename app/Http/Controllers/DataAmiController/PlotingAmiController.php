@@ -23,8 +23,7 @@ class PlotingAmiController extends Controller
             'auditor.auditor1:user_id,nama,nip',
             'auditor.auditor2:user_id,nama,nip'
         ])->get();
-        // dump($data_ploting->toArray());
-        // dd($data_audite->toArray());
+        // dd($data_ploting->toArray());
 
         return view('data_ami.ploating_ami.ploting', [
             'title' => 'Daftar Audite',

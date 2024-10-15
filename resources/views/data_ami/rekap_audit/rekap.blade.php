@@ -3,17 +3,16 @@
 @section('row')
     <div class="container-fluid">
         <div class="col-lg-12 d-flex align-items-stretch">
-            <div class="card w-100">
-                <div class="card-body p-3">
+            <div class="w-100">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="d-flex align-items-center mb-2">
                             <div class="me-3">
                                 <span class="card-title fw-semibold">Rekap Audit</span>
                             </div>
-                            <div class="me-2">
+                            {{-- <div class="me-2">
                                 <a href="data_unit/create" type="button" class="btn btn-primary"><i
                                         class="ti ti-plus me-1"></i>Tambah Unit | Departement</a>
-                            </div>
+                            </div> --}}
                         </div>
 
                         <div>
@@ -44,7 +43,6 @@
 
                     {{-- End - Content --}}
 
-                </div>
             </div>
         </div>
     </div>

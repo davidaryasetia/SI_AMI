@@ -24,14 +24,14 @@ class User extends Authenticatable
     protected $table = 'user';
     protected $primaryKey = 'user_id';
     protected $fillable = [
-        'nama', 
-        'nip', 
-        'status_admin', 
-        'email', 
-        'password', 
-        'email_verified_at', 
-        'remember_token', 
-        'created_at', 
+        'nama',
+        'nip',
+        'status_admin',
+        'email',
+        'password',
+        'email_verified_at',
+        'remember_token',
+        'created_at',
         'updated_at'
     ];
 
@@ -45,7 +45,7 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-/**
+    /**
      * The attributes that should be cast.
      *
      * @var array<string, string>
@@ -56,21 +56,32 @@ class User extends Authenticatable
     ];
 
     // Audite
-   public function units_audite(): BelongsTo
-   {
-    return $this->belongsTo(Unit::class, 'unit_id', 'unit_id');
-   }
+    public function units_audite(): BelongsTo
+    {
+        return $this->belongsTo(Unit::class, 'unit_id', 'unit_id');
+    }
 
     // Unit Cabang
-   public function units_cabang(): HasOne
-   {
-    return $this->hasOne(UnitCabang::class, 'unit_cabang_id', 'unit_cabang_id');
-   }
+    public function units_cabang(): HasOne
+    {
+        return $this->hasOne(UnitCabang::class, 'unit_cabang_id', 'unit_cabang_id');
+    }
 
-   // Auditor 
-   public function auditors(): HasMany
-   {
-    return $this->hasMany(Auditor::class, 'user_id', 'user_id');
-   }
+    // Auditor 
+    public function auditor1(): HasMany
+    {
+        return $this->hasMany(Auditor::class, 'auditor_1', 'user_id');
+    }
+
+    public function auditor2(): HasMany
+    {
+        return $this->hasMany(Auditor::class, 'auditor_2', 'user_id');
+    }
+
+
+    public function audite(): HasOne
+    {
+        return $this->hasOne(Audite::class, 'user_id', 'user_id');
+    }
 }
 

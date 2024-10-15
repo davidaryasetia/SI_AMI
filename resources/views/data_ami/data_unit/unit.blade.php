@@ -114,15 +114,13 @@
                                 <td class="border-bottom-0 text-center">
                                     <h6 class="fw-semibold mb-0"> {{ $no++ }} </h6>
                                 </td>
-                                <td class="border-bottom-0">
-                                    <div class="mb-3">
-                                        <h6 class="fw-semibold mb-1"> {{ $unit->nama_unit }} </h6>
-                                    </div>
+                                <td class="border-bottom-0 ">
+                                    <h6 class="fw-semibold mb-2"> {{ $unit->nama_unit }} </h6>
                                     <ul class="unit-list fw-medium">
                                         @php $nomor = 1; @endphp
                                         @foreach ($unit->units_cabang as $unitCabang)
                                             <li class="mb-2">
-                                                {{ $nomor++ }} ) {{ $unitCabang->nama_unit_cabang }}
+                                                {{ $nomor++ }}. {{ $unitCabang->nama_unit_cabang }}
                                             </li>
                                         @endforeach
                                     </ul>
@@ -158,11 +156,11 @@
             // ------------- Data Audit Mutu Internal ------------
             $('#table_unit').DataTable({
                 responsive: true,
-                "scrollY": "500px",
+                "scrollY": "480px",
                 "pageLength": 20, // Set initial page length to 10
                 "lengthMenu": [
-                    [20, 30, 40, 50, 100],
-                    [20, 30, 40, 50, 100],
+                    [20, 40, 50, 100],
+                    [20, 40, 50, 100],
                 ],
                 "columnDefs": [{
                     targets: 0, // Target kolom "No"

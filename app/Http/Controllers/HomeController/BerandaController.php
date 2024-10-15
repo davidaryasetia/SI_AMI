@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\HomeController;
 
 use App\Http\Controllers\Controller;
+use App\Models\Unit;
 use Illuminate\Http\Request;
 
 class BerandaController extends Controller
@@ -12,8 +13,13 @@ class BerandaController extends Controller
      */
     public function index()
     {
+        $data_unit = Unit::with([
+            'units_cabang:unit_cabang_id,unit_id,nama_unit_cabang', 
+        ])->get();
         return view('home.beranda', [
-            'title' => 'Beranda'
+            'title' => 'Beranda', 
+            'data_unit' => $data_unit,
+
         ]);
     }
 

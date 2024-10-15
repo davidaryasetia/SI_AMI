@@ -1,5 +1,16 @@
 @extends('layouts.main')
 
+@push('css')
+    <style>
+        #submitBtn {
+            width: fit-content;
+            padding-left: 10px;
+            padding-right: 10px;
+
+        }
+    </style>
+@endpush
+
 @section('row')
     <div class="container-fluid">
         <div class="col-lg-12 d-flex align-items-stretch">
@@ -44,7 +55,8 @@
                                 </div>
                             </div>
                             <div class="col-md-3 d-flex align-items-start mt-9">
-                                <button type="button" class="btn btn-secondary mt-1" id="addNamaUnit">Tambah Unit Kerja</button>
+                                <button type="button" class="btn btn-secondary mt-1" id="addNamaUnit">Tambah Unit
+                                    Kerja</button>
                             </div>
                         </div>
 
@@ -67,21 +79,25 @@
                                                 placeholder="Masukkan Nama Prodi...">
                                         </div>
                                         <div class="d-flex align-items-start mt-9">
-                                            <button type="button" class="btn btn-danger mt-2 btn-sm ms-2 remove-btn">X</button>
+                                            <button type="button"
+                                                class="btn btn-danger mt-2 btn-sm ms-2 remove-btn">X</button>
                                         </div>
                                     </div>
                                 </div>
-                               </div>
+                                <div class="col-md-3 d-flex align-items-start mt-9">
+                                    <button type="button" class="btn btn-secondary mt-1" id="addUnitCabang">Tambah Prodi</button>
+                                </div>
                             </div>
+                           
                         </div>
 
-                        <button type="submit" class="btn btn-primary mt-3">Tambah Unit</button>
-                    </form>
+                <button type="submit" id="submitBtn" class="btn btn-primary mt-3">Tambah Unit</button>
+                </form>
 
-                    <!-- END Content -->
-                </div>
+                <!-- END Content -->
             </div>
         </div>
+    </div>
     </div>
 
     <!-- Script untuk Menampilkan dan Menyembunyikan Form Berdasarkan Pilihan -->
@@ -96,9 +112,11 @@
                     if (this.value === 'unit_kerja') {
                         unitKerjaForm.style.display = 'block';
                         departemenKerjaForm.style.display = 'none';
+                        submitBtn.textContent = 'Tambah Unit Kerja';
                     } else if (this.value === 'departemen_kerja') {
                         unitKerjaForm.style.display = 'none';
                         departemenKerjaForm.style.display = 'block';
+                        submitBtn.textContent = 'Tambah Departement Kerja';
                     }
                 });
 
