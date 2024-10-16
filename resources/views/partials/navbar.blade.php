@@ -23,7 +23,7 @@
                             class="rounded-circle">
                     </a>
                     <div class="flex-grow-1 me-3">
-                        <span class="fw-semibold d-block" id="navbar-username">Hary Oktavianto</span>
+                        <span class="fw-semibold d-block" id="navbar-username">{{ Auth::user()->nama }}</span>
                         <small class="text-muted" id="navbar-status"></small>
                     </div>
                     <span>

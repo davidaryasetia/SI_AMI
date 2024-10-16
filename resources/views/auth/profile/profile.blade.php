@@ -45,10 +45,10 @@
                                 <div class="pt-4 d-flex flex-column align-items-center">
                                     <img src="{{ asset('assets/images/profile/user-1.jpg') }}" alt="Profile" width="86"
                                         class="rounded-circle mb-3">
-                                    <h4>Hary Oktavianto</h4>
-                                    <h5>
+                                    <h4>{{ Auth::user()->nama }}</h4>
+                                    {{-- <h5>
                                         Unit PJM
-                                    </h5>
+                                    </h5> --}}
                                 </div>
                             </div>
 
@@ -68,15 +68,14 @@
                                                 <div class="row mb-3">
                                                     <div class="col-lg-3 col-md-4 label"><span
                                                             style="color: black">Nama</span></div>
-                                                    <div class="col-lg-9 col-md-8"><span style="color: black">Hary
-                                                            Oktavianto</span></div>
+                                                    <div class="col-lg-9 col-md-8"><span style="color: black">{{ Auth::user()->nama }}</span></div>
                                                 </div>
 
                                                 <div class="row mb-3">
                                                     <div class="col-lg-3 col-md-4 label"><span
                                                             style="color: black">NIP</span></div>
                                                     <div class="col-lg-9 col-md-8"><span
-                                                            style="color: black">197610012001121001</span></div>
+                                                            style="color: black">{{ Auth::user()->nip }}</span></div>
                                                 </div>
 
                                                 <div class="row mb-3">
@@ -89,7 +88,7 @@
                                                 <div class="row mb-3">
                                                     <div class="col-lg-3 col-md-4 label"><span style="color: black">Status
                                                             Admin</span></div>
-                                                    <div class="col-lg-9 col-md-8"><span style="color: black">Ya</span>
+                                                    <div class="col-lg-9 col-md-8"><span style="color: black">{{ Auth::user()->status_admin == 1 ? 'Ya' : '-' }}</span>
                                                     </div>
                                                 </div>
 
@@ -97,15 +96,21 @@
                                                 <div class="row mb-3">
                                                     <div class="col-lg-3 col-md-4 label"><span style="color: black">Status
                                                             Auditor</span></div>
-                                                    <div class="col-lg-9 col-md-8"><span style="color: black">Ya</span>
+                                                    <div class="col-lg-9 col-md-8"><span style="color: black">{{ Auth::user()->isAuditor() ? 'Ya' : '-' }}</span>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-3">
+                                                    <div class="col-lg-3 col-md-4 label"><span style="color: black">Status
+                                                            Audite</span></div>
+                                                    <div class="col-lg-9 col-md-8"><span style="color: black">{{ Auth::user()->isAudite() ? 'Ya' : '-' }}</span>
+                                                    </div>
+                                                </div>
+                                                {{-- <div class="row mb-3">
                                                     <div class="col-lg-3 col-md-4 label"><span style="color: black">Unit
                                                             yang Diaudit</span></div>
                                                     <div class="col-lg-9 col-md-8"><span style="color: black">BAAK</span>
                                                     </div>
-                                                </div>
+                                                </div> --}}
 
                                             </div>
                                         </div>

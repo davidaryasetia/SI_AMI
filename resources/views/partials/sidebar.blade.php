@@ -13,7 +13,7 @@
         <!-- Sidebar navigation-->
         <nav class="sidebar-nav scroll-sidebar" data-simplebar="" style="margin-top: 32px   ">
             <ul id="sidebarnav">
-                
+
                 <!-- Dropdown Select Role -->
                 <li class="sidebar-item" style="margin-bottom: 24px">
                     <div class="dropdown">
@@ -28,7 +28,8 @@
 
                 <!-------------------------------- Menu for Admin ------------------------------->
                 <li class="sidebar-item role-admin">
-                    <a class="sidebar-link {{ Request::is('/home') ? 'active' : '' }}" href="/home" aria-expanded="false">
+                    <a class="sidebar-link {{ Request::is('/home') ? 'active' : '' }}" href="/home"
+                        aria-expanded="false">
                         <span>
                             <i class="ti ti-layout-dashboard"></i>
                         </span>
@@ -36,7 +37,8 @@
                     </a>
                 </li>
                 <li class="sidebar-item role-admin">
-                    <a class="sidebar-link {{ Request::is('data_unit*') ? 'active' : '' }}" href="/data_unit" aria-expanded="false">
+                    <a class="sidebar-link {{ Request::is('data_unit*') ? 'active' : '' }}" href="/data_unit"
+                        aria-expanded="false">
                         <span>
                             <i class="ti ti-article"></i>
                         </span>
@@ -44,7 +46,8 @@
                     </a>
                 </li>
                 <li class="sidebar-item role-admin">
-                    <a class="sidebar-link {{ Request::is('data_user*') ? 'active' : '' }}" href="/data_user" aria-expanded="false">
+                    <a class="sidebar-link {{ Request::is('data_user*') ? 'active' : '' }}" href="/data_user"
+                        aria-expanded="false">
                         <span>
                             <i class="ti ti-users-group"></i>
                         </span>
@@ -52,7 +55,8 @@
                     </a>
                 </li>
                 <li class="sidebar-item role-admin">
-                    <a class="sidebar-link {{ Request::is('ploting_ami*') ? 'active' : '' }}" href="/ploting_ami" aria-expanded="false">
+                    <a class="sidebar-link {{ Request::is('ploting_ami*') ? 'active' : '' }}" href="/ploting_ami"
+                        aria-expanded="false">
                         <span>
                             <i class="ti ti-users"></i>
                         </span>
@@ -68,7 +72,8 @@
                     </a>
                 </li> --}}
                 <li class="sidebar-item role-admin">
-                    <a class="sidebar-link {{ Request::is('data_indikator*') ? 'active' : '' }}" href="/data_indikator" aria-expanded="false">
+                    <a class="sidebar-link {{ Request::is('data_indikator*') ? 'active' : '' }}" href="/data_indikator"
+                        aria-expanded="false">
                         <span>
                             <i class="ti ti-table"></i>
                         </span>
@@ -76,7 +81,8 @@
                     </a>
                 </li>
                 <li class="sidebar-item role-admin">
-                    <a class="sidebar-link {{ Request::is('periode_audit*') }}" href="/periode_audit" aria-expanded="false">
+                    <a class="sidebar-link {{ Request::is('periode_audit*') }}" href="/periode_audit"
+                        aria-expanded="false">
                         <span>
                             <i class="ti ti-calendar-event"></i>
                         </span>
@@ -84,9 +90,10 @@
                     </a>
                 </li>
                 <li class="sidebar-item role-admin">
-                    <a class="sidebar-link {{ Request::is('progres_audit*') }}" href="/progres_audit" aria-expanded="false">
+                    <a class="sidebar-link {{ Request::is('progres_audit*') }}" href="/progres_audit"
+                        aria-expanded="false">
                         <span>
-                            <i class="ti ti-calendar-event"></i>
+                            <i class="ti ti-clipboard-data"></i>
                         </span>
                         <span class="hide-menu">Progress Audit</span>
                     </a>
@@ -103,7 +110,8 @@
 
                 <!----------------------------------------Menu Audite-------------------------------------------------------->
                 <li class="sidebar-item role-audite" style="display: none;">
-                    <a class="sidebar-link {{ Request::is('/home') ? 'active' : '' }}" href="/home" aria-expanded="false">
+                    <a class="sidebar-link {{ Request::is('/home') ? 'active' : '' }}" href="/home"
+                        aria-expanded="false">
                         <span>
                             <i class="ti ti-layout-dashboard"></i>
                         </span>
@@ -111,7 +119,8 @@
                     </a>
                 </li>
                 <li class="sidebar-item role-audite" style="display: none;">
-                    <a class="sidebar-link {{ Request::is('rekap_pengisian*') ? 'active' : '' }}" href="/rekap_pengisian" aria-expanded="false">
+                    <a class="sidebar-link {{ Request::is('rekap_pengisian*') ? 'active' : '' }}"
+                        href="/rekap_pengisian" aria-expanded="false">
                         <span>
                             <i class="ti ti-file"></i>
                         </span>
@@ -119,7 +128,8 @@
                     </a>
                 </li>
                 <li class="sidebar-item role-audite" style="display: none;">
-                    <a class="sidebar-link {{ Request::is('rekap_pengisian*') ? 'active' : '' }}" href="/rekap_pengisian" aria-expanded="false">
+                    <a class="sidebar-link {{ Request::is('rekap_pengisian*') ? 'active' : '' }}"
+                        href="/rekap_pengisian" aria-expanded="false">
                         <span>
                             <i class="ti ti-file"></i>
                         </span>
@@ -127,7 +137,8 @@
                     </a>
                 </li>
                 <li class="sidebar-item role-audite" style="display: none;">
-                    <a class="sidebar-link {{ Request::is('rekap_pengisian*') ? 'active' : '' }}" href="/rekap_pengisian" aria-expanded="false">
+                    <a class="sidebar-link {{ Request::is('rekap_pengisian*') ? 'active' : '' }}"
+                        href="/rekap_pengisian" aria-expanded="false">
                         <span>
                             <i class="ti ti-file"></i>
                         </span>
@@ -137,7 +148,8 @@
 
                 <!-----------------------------------------Menu for Auditor----------------------------->
                 <li class="sidebar-item role-auditor" style="display: none;">
-                    <a class="sidebar-link {{ Request::is('/home') ? 'active' : '' }}" href="/home" aria-expanded="false">
+                    <a class="sidebar-link {{ Request::is('/home') ? 'active' : '' }}" href="/home"
+                        aria-expanded="false">
                         <span>
                             <i class="ti ti-layout-dashboard"></i>
                         </span>
@@ -145,7 +157,8 @@
                     </a>
                 </li>
                 <li class="sidebar-item role-auditor" style="display: none;">
-                    <a class="sidebar-link {{ Request::is('penilaian_kinerja*') ? 'active' : '' }}" href="/penilaian_kinerja" aria-expanded="false">
+                    <a class="sidebar-link {{ Request::is('penilaian_kinerja*') ? 'active' : '' }}"
+                        href="/penilaian_kinerja" aria-expanded="false">
                         <span>
                             <i class="ti ti-file-description"></i>
                         </span>
@@ -153,16 +166,18 @@
                     </a>
                 </li>
                 <li class="sidebar-item role-auditor" style="display: none;">
-                    <a class="sidebar-link {{ Request::is('penilaian_kinerja*') ? 'active' : '' }}" href="/penilaian_kinerja" aria-expanded="false">
+                    <a class="sidebar-link {{ Request::is('penilaian_kinerja*') ? 'active' : '' }}"
+                        href="/penilaian_kinerja" aria-expanded="false">
                         <span>
                             <i class="ti ti-checkup-list"></i>
                         </span>
                         <span class="hide-menu">Rekap & Persetujuan</span>
                     </a>
                 </li>
-                
+
                 <li class="sidebar-item">
-                    <a class="sidebar-link {{ Request::is('/profile*') ? 'active' : '' }}" href="/profile" aria-expanded="false">
+                    <a class="sidebar-link {{ Request::is('/profile*') ? 'active' : '' }}" href="/profile"
+                        aria-expanded="false">
                         <span>
                             <i class="ti ti-user"></i>
                         </span>
@@ -170,7 +185,11 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link {{ Request::is('logout*') ? 'active' : '' }}" href="/" aria-expanded="false">
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                    <a class="sidebar-link" href="#" aria-expanded="false"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <span>
                             <i class="ti ti-logout"></i>
                         </span>
@@ -187,35 +206,32 @@
 
 <!-- Script to dynamically change menu based on role -->
 <script>
-    const roleSelect = document.getElementById('roleSelect');
+    window.onload = function() {
+        roleSelect.addEventListener('change', function() {
+            const selectedRole = this.value;
 
-    roleSelect.addEventListener('change', function() {
-        const selectedRole = this.value;
+            // Hide all role-based menus
+            document.querySelectorAll('.role-admin, .role-audite, .role-auditor').forEach(item => {
+                item.style.display = 'none';
+            });
 
-        // Hide all role-based menus
-        document.querySelectorAll('.role-admin, .role-audite, .role-auditor').forEach(item => {
-            item.style.display = 'none';
+            // Show selected role's menus and redirect
+            if (selectedRole === 'admin') {
+                document.querySelectorAll('.role-admin').forEach(item => {
+                    item.style.display = 'block';
+                });
+                window.location.href = '/home';
+            } else if (selectedRole === 'audite') {
+                document.querySelectorAll('.role-audite').forEach(item => {
+                    item.style.display = 'block';
+                });
+                window.location.href = '/home/audite';
+            } else if (selectedRole === 'auditor') {
+                document.querySelectorAll('.role-auditor').forEach(item => {
+                    item.style.display = 'block';
+                });
+                window.location.href = '/home/auditor';
+            }
         });
-
-        // Show selected role's menus
-        if (selectedRole === 'admin') {
-            document.querySelectorAll('.role-admin').forEach(item => {
-                item.style.display = 'block';
-            });
-        } else if (selectedRole === 'audite') {
-            document.querySelectorAll('.role-audite').forEach(item => {
-                item.style.display = 'block';
-            });
-        } else if (selectedRole === 'auditor') {
-            document.querySelectorAll('.role-auditor').forEach(item => {
-                item.style.display = 'block';
-            });
-        }
-    });
-
-    // Set default role on page load
-    window.onload = function () {
-        roleSelect.value = 'admin'; // Default role is admin
-        roleSelect.dispatchEvent(new Event('change')); // Trigger the change event to show the admin menu
     };
 </script>

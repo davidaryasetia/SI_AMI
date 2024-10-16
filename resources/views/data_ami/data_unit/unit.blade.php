@@ -89,7 +89,7 @@
                 <div class="table-responsive">
                     <table id="table_unit" class="table table-hover table-bordered text-nowrap mb-0 align-middle">
 
-                        <thead class="text-dark fs-4">
+                        <thead class="text-dark fs-4 table-light">
                             <tr>
                                 <th class="border-bottom-0 text-center" style="width: 10px">
                                     <h6 class="fw-semibold mb-0">No</h6>

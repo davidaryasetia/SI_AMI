@@ -10,7 +10,7 @@
                         <h5 class="card-title fw-semibold">Status Pengisian Data Audit Mutu Internal</h5>
                         <div class="table-responsive">
                             <table id="table_status" class="table table-hover table-bordered text-nowrap mb-0 align-middle">
-                                <thead class="text-dark fs-4">
+                                <thead class="text-dark fs-4 table-light">
                                     <tr>
                                         <th class="border-bottom-0">
                                             <h6 class="fw-semibold mb-0">Unit/Kegiatan</h6>

@@ -83,5 +83,43 @@ class User extends Authenticatable
     {
         return $this->hasOne(Audite::class, 'user_id', 'user_id');
     }
+
+    // Login Audite Auditor 
+    // Mengecek apakah user adalah admin
+    public function isAdmin()
+    {
+        return $this->status_admin == 1;
+    }
+
+    // Mengecek apakah user adalah audite
+    public function isAudite()
+    {
+        return $this->audite()->exists();
+    }
+
+    // Mengecek apakah user adalah auditor
+    public function isAuditor()
+    {
+        return $this->auditor1()->exists() || $this->auditor2()->exists();
+    }
+
+    // Cek apakah user memiliki peran tertentu
+    // Periksa apakah user memiliki role tertentu
+    public function hasRole($role)
+    {
+        if ($role === 'admin') {
+            return $this->isAdmin();
+        }
+
+        if ($role === 'audite') {
+            return $this->isAudite();
+        }
+
+        if ($role === 'auditor') {
+            return $this->isAuditor();
+        }
+
+        return false;
+    }
 }
 

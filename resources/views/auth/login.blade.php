@@ -130,7 +130,8 @@
                 <!-- Single Login Form -->
                 <div id="form-login" class="form-login">
                     <h5>Login</h5>
-                    <form action="/home" method="">
+                    <form action="{{ route('login.submit') }}" method="POST">
+                        @csrf
                         <div class="form-group">
                             <label for="user">Email</label>
                             <input type="email" class="form-control" id="email" name="email"

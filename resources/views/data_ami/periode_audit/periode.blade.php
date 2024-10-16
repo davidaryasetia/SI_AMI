@@ -1,68 +1,97 @@
 @extends('layouts.main')
+@push('css')
+    <style>
+        table td,
+        table th {
+            vertical-align: middle;
+            /* Align center vertically */
+            /* Align center horizontally */
+        }
 
+        .btn-sm {
+            padding: 4px 10px;
+            /* Adjust button padding for consistency */
+        }
+    </style>
+@endpush
 @section('row')
     <div class="container-fluid">
         <div class="col-lg-12 d-flex align-items-stretch">
             <div class="w-100">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="d-flex align-items-center mb-2">
-                            <div>
-                                <span class="card-title fw-semibold me-3">Jadwal Pengisian AMI</span>
-                            </div>
-                            <div class="me-2">
-                                <a href="{{route('periode_audit.create')}}" id="tambahIkukBtn" type="button" class="btn btn-primary" disabled><i
-                                        class="ti ti-plus me-1"></i>Buat Jadwal</a>
-                            </div>
-                        </div>
-                        <div>
-                            @if (session('success'))
-                                <div class="alert alert-primary" style role="alert">
-                                    {{ session('success') }}
-                                </div>
-                            @endif
-                            @if (session('error'))
-                                <div class="alert alert-danger" style role="alert">
-                                    {{ session('error') }}
-                                </div>
-                            @endif
-                        </div>
-                        <script>
-                            setTimeout(function() {
-                                document.querySelectorAll('.alert').forEach(function(alert) {
-                                    alert.style.display = "none";
-                                });
-                            }, 5000);
-                        </script>
-                    </div>
+                {{-- Header --}}
+                <div class="d-flex align-items-center mb-4">
+                    <h4 class="card-title fw-semibold">Pengaturan Periode Audit</h4>
+                    {{-- <a href="{{route('periode_audit.create')}}" id="tambahIkukBtn" class="btn btn-primary ms-3">
+                        <i class="ti ti-plus me-1"></i> Tambah Periode
+                    </a> --}}
+                </div>
 
-                    {{-- Content --}}
-                    <div class="row">
-                        <!-- Kalender Jadwal Pengisian AMI -->
-                        <div class="col-lg-7">
-                            <div id="calendar" class="calendar-container mb-4">
-                                <!-- FullCalendar akan diinisialisasi di sini -->
-                            </div>
+                {{-- Form Input Periode --}}
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group mb-3">
+                            <label for="namaPeriode" class="form-label">Nama Periode AMI</label>
+                            <input type="text" class="form-control" id="namaPeriode" placeholder="Nama Periode AMI">
                         </div>
-
-                        <!-- Informasi Jadwal -->
-                        <div class="col-lg-5">
-                            <div class="card jadwal-pelaksanaan-card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Jadwal Pelaksanaan AMI</h5>
-                                    <ul class="jadwal-list">
-                                        <li><span>Tahun:</span> -</li>
-                                        <li><span>Periode:</span> -</li>
-                                        <li><span>Tanggal Pembukaan:</span> -</li>
-                                        <li><span>Tanggal Penutupan:</span> -</li>
-                                        <li><span>Keterangan:</span> -</li>
-                                        <li><span>Status:</span> <span class="status-label">Belum Di Buka</span></li>
-                                    </ul>
-                                </div>
-                            </div>
-
+                        <div class="form-group mb-3">
+                            <label for="mulai" class="form-label">Mulai</label>
+                            <input type="date" class="form-control" id="mulai">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="selesai" class="form-label">Selesai</label>
+                            <input type="date" class="form-control" id="selesai">
                         </div>
                     </div>
-                    {{-- End-Content --}}
+                    <div class="col-lg-6">
+                        <div class="form-group mb-3">
+                            <label for="tahun" class="form-label">Tahun</label>
+                            <select class="form-select" id="tahun">
+                                <option value="2023">2023</option>
+                                <option value="2024">2024</option>
+                                <option value="2025">2025</option>
+                                <!-- Tambahkan tahun sesuai kebutuhan -->
+                            </select>
+                        </div>
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="button" class="btn btn-primary">Tambah Periode</button>
+                        </div>
+                    </div>
+                </div>
+
+
+                {{-- Tabel Periode AMI --}}
+                <div class="table-responsive mt-4">
+                    <table class="table table-hover table-bordered">
+                        <thead class="table-light">
+                            <tr class="">
+                                <th>No.</th>
+                                <th>Nama Periode AMI</th>
+                                <th>Mulai</th>
+                                <th>Selesai</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Tahun 2024</td>
+                                <td>1 Jan 2024</td>
+                                <td>10 Jan 2024</td>
+                                <td><a href="#" class="btn btn-sm btn-warning">V</a></td>
+                                <td><a href="#" class="btn btn-sm btn-danger">X</a></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Tahun 2023</td>
+                                <td>10 Nov 2023</td>
+                                <td>1 Des 2023</td>
+                                <td><a href="#" class="btn btn-sm btn-warning">V</a></td>
+                                <td><a href="#" class="btn btn-sm btn-danger">X</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -70,35 +99,4 @@
 
 {{-- FullCalendar JavaScript --}}
 @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.5/index.global.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                events: [{
-                        title: 'Jadwal Pembukaan AMI',
-                        start: '2024-02-05',
-                        end: '2024-02-07'
-                    },
-                    {
-                        title: 'Jadwal Penutupan AMI',
-                        start: '2024-02-10'
-                    }
-                ],
-                headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                },
-                selectable: true,
-                select: function(info) {
-                    var tanggalPembukaan = document.getElementById('tanggal-pembukaan');
-                    tanggalPembukaan.value = info.startStr;
-                }
-            });
-
-            calendar.render();
-        });
-    </script>
 @endpush
