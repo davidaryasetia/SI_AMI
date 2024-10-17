@@ -64,7 +64,9 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/home', HomeController::class);
         Route::resource('/data_unit', DataUnitController::class);
         Route::resource('/data_user', DataUserController::class);
+        Route::post('/data_user/reset', [DataUserController::class, 'resetStatus'])->name('data_user.reset');
         Route::resource('/ploting_ami', PlotingAmiController::class);
+        Route::post('/ploting_ami/reset', [PlotingAmiController::class, 'resetPloting'])->name('ploting_ami.reset');
         Route::resource('/data_indikator', DataIndikatorController::class);
         Route::get('/data_indikator/unit/create/{id}', [DataIndikatorController::class, 'create_ikuk_id']);
         Route::delete('data_indikator/delete/{indikator_id}/{unit_id}', [DataIndikatorController::class, 'destroyWithUnit'])->name('data_indikator.destroyWithUnit');

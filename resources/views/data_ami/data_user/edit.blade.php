@@ -13,7 +13,7 @@
                                 </a>
                             </div>
                             <div>
-                                <span class="card-title fw-semibold me-3">Tambah User Pengguna</span>
+                                <span class="card-title fw-semibold me-3">Edit User Pengguna</span>
                             </div>
                         </div>
 
@@ -47,8 +47,8 @@
                         <div class="row">
                             <div class="mb-4 col-lg-6">
                                 <label for="unit" class="form-label">Nama User</label>
-                                <input type="text" class="form-control @error('nama') is-invalid @enderror"
-                                    id="nama" name="nama" aria-describedby="emailHelp" value="{{ old('nama', $data_user->nama) }}"
+                                <input type="text" class="form-control @error('nama') is-invalid @enderror "
+                                    id="nama" name="nama" value="{{ $data_user->nama }}" aria-describedby="emailHelp"
                                     placeholder="Masukkan Nama User........" required autofocus>
                                 @error('nama')
                                     <div class="alert alert-danger mt-2">
@@ -59,7 +59,7 @@
                             <div class="mb-4 col-lg-6">
                                 <label for="unit" class="form-label">Email</label>
                                 <input type="email" class="form-control @error('email') is-invalid @enderror"
-                                    id="email" name="email" aria-describedby="emailHelp" value="{{ old('email', $data_user->email) }}"
+                                    id="email" name="email" value="{{ $data_user->email }}" aria-describedby="emailHelp"
                                     placeholder="Masukkan Email........" required autofocus>
                                 @error('email')
                                     <div class="alert alert-danger mt-2">
@@ -70,37 +70,11 @@
                         </div>
                         <div class="row">
                             <div class="mb-4 col-lg-6">
-                                <label for="unit" class="form-label">NIP</label>
-                                <input type="text" class="form-control @error('nip') is-invalid @enderror" id="nip"
-                                    name="nip" value="{{ old('nip', $data_user->nip) }}" aria-describedby="emailHelp" placeholder="Masukkan NIP........" required
-                                    autofocus>
-                                @error('nip')
-                                    <div class="alert alert-danger mt-2">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="mb-4 col-lg-6">
-                                <label for="status_admin" class="form-label">Pilih Status Admin</label>
-                                <select class="form-select" id="status_admin" name="status_admin">
-                                    <option value="">Pilih Status Admin....</option>
-                                    <option value=1 {{ $data_user->status_admin == 1 ? 'selected' : '' }}>Admin</option>
-                                    <option value=0 {{ $data_user->status_admin == 0 ? 'selected' : '' }}>Bukan</option>
-                                </select>
-                                @error('status_admin')
-                                    <div class="alert alert-danger mt-2">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="mb-4 col-lg-6">
                                 <label for="password" class="form-label">Password</label>
-                                <input type="password" class="form-control @error('password') is-invalid @enderror"
-                                    id="password" name="password" aria-describedby="emailHelp" value="{{ old('password', $data_user->password) }}"
-                                    placeholder="Masukkan Password........" required autofocus>
-                                <span id="password_error" style="color: red; display: none">Password Tidak sama</span>
+                                <input type="text" class="form-control @error('password') is-invalid @enderror"
+                                    id="password" name="password" aria-describedby="emailHelp"
+                                    placeholder="Masukkan Password........" value="1234" required autofocus disabled>
+                                <input type="hidden" name="password" value="1234">
                                 @error('password')
                                     <div class="alert alert-danger mt-2">
                                         {{ $message }}
@@ -108,11 +82,23 @@
                                 @enderror
                             </div>
                             <div class="mb-4 col-lg-6">
-                                <label for="unit" class="form-label">Konfirmasi Password</label>
-                                <input type="password" class="form-control @error('password') is-invalid @enderror"
-                                    id="confirm_password" name="confirm_password" aria-describedby="emailHelp" value="{{ old('password', $data_user->password) }}"
-                                    placeholder="Masukkan Konfirmasi Password........" required autofocus>
-                                @error('password')
+                                <label for="status" class="form-label">Pilih Peran</label><br>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="is_admin" name="roles[]"
+                                        value="admin" {{ $data_user->is_admin ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="is_admin">Admin</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="is_audite" name="roles[]"
+                                        value="audite" {{ $data_user->is_audite ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="is_audite">Audite</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="is_auditor" name="roles[]"
+                                        value="auditor" {{ $data_user->is_auditor ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="is_auditor">Auditor</label>
+                                </div>
+                                @error('roles')
                                     <div class="alert alert-danger mt-2">
                                         {{ $message }}
                                     </div>
@@ -120,7 +106,8 @@
                             </div>
 
                         </div>
-                        <button type="submit" class="btn btn-primary">Tambah User</button>
+
+                        <button type="submit" class="btn btn-primary">Edit User</button>
                     </form>
 
                     {{-- END-Content --}}
@@ -130,42 +117,5 @@
     </div>
 
     @push('script')
-        <script>
-            function validatePasswords() {
-                var password = document.getElementById('password').value;
-                var confirmPassword = document.getElementById('confirm_password').value;
-                var passwordError = document.getElementById('password_error');
-
-                if (password !== confirmPassword) {
-                    passwordError.style.display = 'block';
-                    document.getElementById('password').style.borderColor = 'red';
-                    document.getElementById('confirm_password').style.borderColor = 'red';
-                } else {
-                    passwordError.style.display = 'none';
-                    document.getElementById('password').style.borderColor = '';
-                    document.getElementById('confirm_password').style.borderColor = '';
-                }
-            }
-
-            document.getElementById('DataUserForm').addEventListener('submit', function(event) {
-                var password = document.getElementById('password').value;
-                var confirmPassword = document.getElementById('confirm_password').value;
-                var passwordError = document.getElementById('password_error');
-
-                if (password !== confirmPassword) {
-                    passwordError.style.display = 'block';
-                    document.getElementById('password').style.borderColor = 'red';
-                    document.getElementById('confirm_password').style.borderColor = 'red';
-                    event.preventDefault();
-                } else {
-                    passwordError.style.display = 'none';
-                    document.getElementById('password').style.borderColor = '';
-                    document.getElementById('confirm_password').style.borderColor = '';
-                };
-            });
-
-            document.getElementById('password').addEventListener('input', validatePasswords);
-            document.getElementById('confirm_password').addEventListener('input', validatePasswords);
-        </script>
     @endpush
 @endsection

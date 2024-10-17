@@ -49,11 +49,11 @@ class AuthController extends Controller
 
             // Jika user hanya memiliki satu role, arahkan langsung ke halaman role tersebut
             if ($user->isAdmin()) {
-                return redirect()->route('admin.home');
+                return redirect()->route('home.index');
             } elseif ($user->isAudite()) {
-                return redirect()->route('audite.home');
+                return redirect()->route('home.audite');
             } elseif ($user->isAuditor()) {
-                return redirect()->route('auditor.home');
+                return redirect()->route('home.auditor');
             }
 
             return redirect()->route('home.index')->with('error', 'Tidak memiliki akses role yang valid.');

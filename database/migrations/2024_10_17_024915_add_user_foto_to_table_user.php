@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('jadwal_ami', function (Blueprint $table) {
-            $table->id('jadwal_ami_id');
-            $table->string('nama_periode_ami');
-            $table->date('tanggal_pembukaan_ami');
-            $table->date('tanggal_penutupan_ami');
-            $table->timestamps();
+        Schema::table('user', function (Blueprint $table) {
+            $table->string('foto_gambar')->nullable();
         });
     }
 
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('waktu_pelaksanaan');
+        Schema::table('user', function (Blueprint $table) {
+            $table->dropColumn('foto_gambar');
+        });
     }
 };

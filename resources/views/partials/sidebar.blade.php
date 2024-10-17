@@ -176,7 +176,7 @@
                 </li>
 
                 <li class="sidebar-item">
-                    <a class="sidebar-link {{ Request::is('/profile*') ? 'active' : '' }}" href="/profile"
+                    <a class="sidebar-link {{ Request::is('profile*') ? 'active' : '' }}" href="/profile"
                         aria-expanded="false">
                         <span>
                             <i class="ti ti-user"></i>

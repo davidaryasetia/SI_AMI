@@ -13,6 +13,16 @@
                             <a href="data_user/create" type="button" class="btn btn-primary"><i class="ti ti-plus"></i>Tambah
                                 User</a>
                         </div>
+                        <div class="ms-2">
+                            <form action="{{ route('data_user.reset') }}" method="POST"
+                                onsubmit="return confirm('Apakah Anda yakin ingin mereset semua status data user?')">
+                                @csrf
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="ti ti-refresh-alert me-2"></i> Reset Status
+                                </button>
+                            </form>
+                        </div>
+
                     </div>
 
                     <div>
@@ -86,46 +96,42 @@
                                 </td>
 
                                 {{-- Status Admin --}}
-                                <td class="border-bottom-0">
-                                    <h6 class="fw-semibold mb-1 text-center">
-                                        @if ($dataUser->status_admin == 1)
-                                            Ya
-                                        @else
-                                            -
-                                        @endif
-                                    </h6>
+                                <td class="border-bottom-0 text-center">
+                                    @if ($dataUser->is_admin == 1)
+                                        <i class="ti ti-check text-success"></i> {{-- Checklist Hijau untuk Ya --}}
+                                    @else
+                                        <i class="ti ti-x text-danger"></i> {{-- X Merah untuk Tidak --}}
+                                    @endif
                                 </td>
 
-                                {{-- Audite --}}
-                                <td class="border-bottom-0">
-                                    <h6 class="fw-semibold mb-1 text-center">
-                                        @if ($dataUser->audite !== null)
-                                            Ya
-                                        @else
-                                            -
-                                        @endif
-                                    </h6>
+                                {{-- Status Audite --}}
+                                <td class="border-bottom-0 text-center">
+                                    @if ($dataUser->is_audite == 1)
+                                        <i class="ti ti-check text-success"></i> {{-- Checklist Hijau untuk Ya --}}
+                                    @else
+                                        <i class="ti ti-x text-danger"></i> {{-- X Merah untuk Tidak --}}
+                                    @endif
                                 </td>
 
-                                {{-- Auditor --}}
-                                <td class="border-bottom-0">
-                                    <h6 class="fw-semibold mb-1 text-center">
-                                        @if (
-                                            (!empty($dataUser->auditor1) && count($dataUser->auditor1) > 0) ||
-                                                (!empty($dataUser->auditor2) && count($dataUser->auditor2) > 0))
-                                            Ya
-                                        @else
-                                            -
-                                        @endif
-                                    </h6>
+                                {{-- Status Auditor --}}
+                                <td class="border-bottom-0 text-center">
+                                    @if ($dataUser->is_auditor == 1)
+                                        <i class="ti ti-check text-success"></i> {{-- Checklist Hijau untuk Ya --}}
+                                    @else
+                                        <i class="ti ti-x text-danger"></i> {{-- X Merah untuk Tidak --}}
+                                    @endif
                                 </td>
-                                <td class="border-bottom-0">
-                                    <p class="mb-0 fw-normal text-center"><a href="{{ route('data_user.edit', $dataUser->user_id) }}"><i class="ti ti-pencil"></i></a>
-                                    </p>
+
+                                {{-- Edit Button --}}
+                                <td class="border-bottom-0 text-center">
+                                    <a href="{{ route('data_user.edit', $dataUser->user_id) }}"><i
+                                            class="ti ti-pencil"></i></a>
                                 </td>
-                                <td class="border-bottom-0">
+
+                                {{-- Delete Button --}}
+                                <td class="border-bottom-0 text-center">
                                     <form action="{{ route('data_user.destroy', $dataUser->user_id) }}" method="POST"
-                                        onsubmit="return confirm('Apakah Anda Yakin Ingin Menghapus Data User : {{ $dataUser->nama }}  ?')">
+                                        onsubmit="return confirm('Apakah Anda Yakin Ingin Menghapus Data User : {{ $dataUser->nama }} ?')">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-link text-danger">

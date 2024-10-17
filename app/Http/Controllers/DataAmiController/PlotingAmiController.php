@@ -18,10 +18,10 @@ class PlotingAmiController extends Controller
     public function index()
     {
         $data_ploting = Unit::with([
-            'units_cabang.audites.user_audite:user_id,nama,nip',
-            'audite.user_audite:user_id,nama,nip',
-            'auditor.auditor1:user_id,nama,nip',
-            'auditor.auditor2:user_id,nama,nip'
+            'units_cabang.audites.user_audite:user_id,nama',
+            'audite.user_audite:user_id,nama',
+            'auditor.auditor1:user_id,nama',
+            'auditor.auditor2:user_id,nama'
         ])->get();
         // dd($data_ploting->toArray());
 
@@ -64,18 +64,22 @@ class PlotingAmiController extends Controller
     public function edit(string $id)
     {
         // Ambil data unit berdasarkan ID
-        $data_unit = Unit::with(['units_cabang.audites.user_audite', 'audite.user_audite', 'auditor.auditor1', 'auditor.auditor2'])
-            ->findOrFail($id);
+        $data_unit = Unit::findOrFail($id);
 
-        // Ambil semua user untuk pilihan dropdown Audite dan Auditor
-        $users = User::all();
-        // dump($data_unit->toArray());
+        // Ambil user yang memiliki is_audite = true
+        $audite_users = User::where('is_audite', true)->get();
+
+        // Ambil user yang memiliki is_auditor = true
+        $auditor_users = User::where('is_auditor', true)->get();
+
         return view('data_ami.ploating_ami.edit', [
+            'title' => 'Edit Data Unit',
             'data_unit' => $data_unit,
-            'users' => $users,
-            'title' => 'Edit Ploting'
+            'audite_users' => $audite_users,  // Pass user dengan is_audite = true ke view
+            'auditor_users' => $auditor_users, // Pass user dengan is_auditor = true ke view
         ]);
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -132,15 +136,15 @@ class PlotingAmiController extends Controller
 
 
         if ($unit->tipe_data == 'departemen_kerja') {
-            if ($request->has('kadep')){
+            if ($request->has('kadep')) {
                 $auditeKadep = Audite::where('unit_id', $unit->unit_id)->whereNull('unit_cabang_id')->first();
-                if ($auditeKadep){
+                if ($auditeKadep) {
                     $auditeKadep->update(['user_id' => $request->kadep]);
                 } else {
                     Audite::create([
-                        'unit_id' => $unit->unit_id, 
-                        'unit_cabang_id' => null, 
-                        'user_id' => $request->kadep, 
+                        'unit_id' => $unit->unit_id,
+                        'unit_cabang_id' => null,
+                        'user_id' => $request->kadep,
                     ]);
                 }
             }
@@ -190,5 +194,14 @@ class PlotingAmiController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    // Reset semua data ploting 
+    public function resetPloting()
+    {
+        Audite::query()->update(['user_id' => null]);
+        Auditor::query()->update(['auditor_1' => null, 'auditor_2' => null]);
+
+        return redirect()->route('ploting_ami.index')->with('success', 'Ploting Ami Berhasil Di reset');
     }
 }

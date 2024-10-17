@@ -25,8 +25,9 @@ class User extends Authenticatable
     protected $primaryKey = 'user_id';
     protected $fillable = [
         'nama',
-        'nip',
-        'status_admin',
+        'is_admin', 
+        'is_audite', 
+        'is_auditor', 
         'email',
         'password',
         'email_verified_at',
@@ -88,7 +89,7 @@ class User extends Authenticatable
     // Mengecek apakah user adalah admin
     public function isAdmin()
     {
-        return $this->status_admin == 1;
+        return $this->is_admin == 1;
     }
 
     // Mengecek apakah user adalah audite

@@ -59,11 +59,12 @@
                                 <div class="mb-4 col-lg-6">
                                     {{-- Audite --}}
                                     <label for="audite" class="form-label">Audite</label>
-                                    <select class="form-select" name="audite">
-                                        @foreach ($audite_users as $user)
+                                    <select class="form-select" name="audite"
+                                        style="{{ isset($data_unit->audite[0]) ? '' : 'border-color:red; color:black' }}">
+                                        @foreach ($users as $user)
                                             <option value="{{ $user->user_id }}"
                                                 {{ isset($data_unit->audite[0]) && $data_unit->audite[0]->user_id == $user->user_id ? 'selected' : '' }}>
-                                                {{ $user->nama }}
+                                                {{ $user->nama }} (NIP: {{ $user->nip }})
                                             </option>
                                         @endforeach
                                         {{-- Jika user_id null, tambahkan opsi default --}}
@@ -79,14 +80,14 @@
                                     <label for="auditor1" class="form-label">Auditor 1</label>
                                     <select name="auditor1_unit" id="auditor1" class="form-select"
                                         style="{{ isset($data_unit->auditor->auditor1) ? '' : 'border-color: red; color: black;' }}">
-                                        <option value=""
+                                        <option value="" style="color: black;"
                                             {{ !isset($data_unit->auditor->auditor1) ? 'selected' : '' }}>
                                             Auditor 1 Belum Di Set
                                         </option>
-                                        @foreach ($auditor_users as $user)
+                                        @foreach ($users as $user)
                                             <option value="{{ $user->user_id }}"
                                                 {{ isset($data_unit->auditor->auditor1) && $data_unit->auditor->auditor1->user_id == $user->user_id ? 'selected' : '' }}>
-                                                {{ $user->nama }}
+                                                {{ $user->nama }} (NIP: {{ $user->nip }})
                                             </option>
                                         @endforeach
                                     </select>
@@ -95,21 +96,20 @@
                                 <div class="mb-4 col-lg-6">
                                     <label for="auditor2_unit" class="form-label">Auditor 2</label>
                                     <select name="auditor2_unit" id="auditor2" class="form-select"
-                                        style="{{ isset($data_unit->auditor->auditor2) ? '' : 'border-color: red;' }}">
+                                        style="{{ isset($data_unit->auditor->auditor2) ? '' : 'border-color: red; color: red;' }}">
                                         <option value="" style="color: red;"
                                             {{ !isset($data_unit->auditor->auditor2) ? 'selected' : '' }}>
                                             Auditor 2 Belum Di Set
                                         </option>
-                                        @foreach ($auditor_users as $user)
+                                        @foreach ($users as $user)
                                             <option value="{{ $user->user_id }}"
                                                 {{ isset($data_unit->auditor->auditor2) && $data_unit->auditor->auditor2->user_id == $user->user_id ? 'selected' : '' }}>
-                                                {{ $user->nama }}
+                                                {{ $user->nama }} (NIP: {{ $user->nip }})
                                             </option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
-
                         </div>
 
                         {{-- Form for Departement Kerja --}}
@@ -122,7 +122,7 @@
                                     <input type="text" class="form-control @error('nama_unit_dept') is-invalid @enderror"
                                         id="nama_unit_dept" name="nama_unit_dept" value="{{ $data_unit->nama_unit }}"
                                         required disabled>
-                                    <input type="hidden" value="{{ $data_unit->nama_unit }}">
+                                        <input type="hidden" value="{{ $data_unit->nama_unit }}">
                                     @error('nama_unit_dept')
                                         <div class="alert alert-danger mt-2">{{ $message }}</div>
                                     @enderror
@@ -132,10 +132,10 @@
                                     <label for="audite" class="form-label">Kepala Departement</label>
                                     <select class="form-select" name="kadep"
                                         style="{{ isset($data_unit->audite[0]) ? '' : 'border-color:red; color:black' }}">
-                                        @foreach ($audite_users as $user)
+                                        @foreach ($users as $user)
                                             <option value="{{ $user->user_id }}"
                                                 {{ isset($data_unit->audite[0]) && $data_unit->audite[0]->user_id == $user->user_id ? 'selected' : '' }}>
-                                                {{ $user->nama }}
+                                                {{ $user->nama }} (NIP: {{ $user->nip }})
                                             </option>
                                         @endforeach
                                         {{-- Jika user_id null, tambahkan opsi default --}}
@@ -159,7 +159,7 @@
                                                     class="form-control @error('nama_unit_cabang') is-invalid @enderror"
                                                     name="nama_unit_cabang[]" value="{{ $unitCabang->nama_unit_cabang }}"
                                                     placeholder="Masukkan Nama Prodi..." disabled>
-                                                <input type="hidden" value="{{ $unitCabang->nama_unit_cabang }}">
+                                                    <input type="hidden" value="{{ $unitCabang->nama_unit_cabang }}">
                                                 @error('nama_unit_cabang')
                                                     <div class="alert alert-danger mt-2">{{ $message }}</div>
                                                 @enderror
@@ -171,14 +171,14 @@
                                                 <select name="audite_cabang[{{ $unitCabang->unit_cabang_id }}]"
                                                     id="audite_cabang_{{ $key }}" class="form-select"
                                                     style="{{ isset($unitCabang->audites[0]->user_id) ? '' : 'border-color: red; color: black;' }}">
-                                                    <option value=""
+                                                    <option value="" 
                                                         {{ !isset($unitCabang->audites[0]->user_id) ? 'selected' : '' }}>
                                                         Audite Belum Di Set
                                                     </option>
-                                                    @foreach ($audite_users as $user)
+                                                    @foreach ($users as $user)
                                                         <option value="{{ $user->user_id }}"
                                                             {{ isset($unitCabang->audites[0]->user_id) && $unitCabang->audites[0]->user_id == $user->user_id ? 'selected' : '' }}>
-                                                            {{ $user->nama }}
+                                                            {{ $user->nama }} (NIP: {{ $user->nip }})
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -200,10 +200,10 @@
                                             {{ !isset($data_unit->auditor->auditor1) ? 'selected' : '' }}>
                                             Auditor 1 Belum Di Set
                                         </option>
-                                        @foreach ($auditor_users as $user)
+                                        @foreach ($users as $user)
                                             <option value="{{ $user->user_id }}"
                                                 {{ isset($data_unit->auditor->auditor1) && $data_unit->auditor->auditor1->user_id == $user->user_id ? 'selected' : '' }}>
-                                                {{ $user->nama }}
+                                                {{ $user->nama }} (NIP: {{ $user->nip }})
                                             </option>
                                         @endforeach
                                     </select>
@@ -218,7 +218,7 @@
                                             {{ !isset($data_unit->auditor->auditor2) ? 'selected' : '' }}>
                                             Auditor 2 Belum Di Set
                                         </option>
-                                        @foreach ($auditor_users as $user)
+                                        @foreach ($users as $user)
                                             <option value="{{ $user->user_id }}"
                                                 {{ isset($data_unit->auditor->auditor2) && $data_unit->auditor->auditor2->user_id == $user->user_id ? 'selected' : '' }}>
                                                 {{ $user->nama }} (NIP: {{ $user->nip }})

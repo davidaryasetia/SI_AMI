@@ -16,12 +16,7 @@ class DataUserController extends Controller
     public function index()
     {
 
-        $data_user = User::with([
-            'audite:audite_id,user_id,unit_id',
-            'auditor1:auditor_id,auditor_1,unit_id',
-            'auditor2:auditor_id,auditor_2,unit_id'
-        ])->get();
-        // dump($data_user->toArray());
+        $data_user = User::get();
         return view('data_ami.data_user.user', [
             'title' => 'Data User',
             'data_user' => $data_user,
@@ -44,34 +39,24 @@ class DataUserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required|string|max:255',
-            'nip' => 'required',
-            'email' => 'required|string|max:255',
-            'status_admin' => 'required',
-            'password' => 'required|string|max:255',
+            'nama' => 'required',
+            'email' => 'required|email',
+            'password' => 'required',
         ]);
 
-        $exist_email = User::where('email', $request->input('email'))->first();
+        $user = new User();
+        $user->nama = $request->nama;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
 
-        if ($exist_email) {
-            return redirect('/data_user')->with(['error' => 'Username Email Sudah Ada !!!']);
-        }
+        // Set nilai boolean berdasarkan checkbox
+        $user->is_admin = in_array('admin', $request->roles) ? true : false;
+        $user->is_audite = in_array('audite', $request->roles) ? true : false;
+        $user->is_auditor = in_array('auditor', $request->roles) ? true : false;
 
-        $data_user = [
-            'nama' => $request->input('nama'),
-            'email' => $request->input('email'),
-            'nip' => $request->input('nip'),
-            'status_admin' => $request->input('status_admin'),
-            'password' => Hash::make($request->password),
-        ];
+        $user->save();
 
-        $insert_data_user = User::create($data_user);
-
-        if ($insert_data_user) {
-            return redirect('/data_user')->with(['success' => 'User Register Sukses !!!']);
-        } else {
-            return redirect('/data_user')->with(['error' => 'Error Register Data User !!!']);
-        }
+        return redirect()->route('data_user.index')->with('success', 'User berhasil ditambahkan');
     }
 
     /**
@@ -90,7 +75,7 @@ class DataUserController extends Controller
         $data_user = User::findOrFail($id);
 
         return view('data_ami.data_user.edit', [
-            'title' => 'Edit Data User', 
+            'title' => 'Edit Data User',
             'data_user' => $data_user,
         ]);
     }
@@ -100,31 +85,46 @@ class DataUserController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        // Validasi input
         $request->validate([
-            'nama' => 'required|string|max:255', 
-            'nip' => 'required|string|max:20', 
-            'email' => 'required|string|email', 
-            'status_admin' => 'required|boolean', 
-            'password' => 'nullable|string', 
+            'nama' => 'required|string|max:255',
+            'email' => 'required|string|email',
+            'roles' => 'nullable|array', // roles bisa kosong jika tidak memilih apapun
+            'password' => 'nullable|string',
         ]);
 
         $data_user = User::findOrFail($id);
 
+        // Set nilai yang diinput
         $data_user->nama = $request->input('nama');
         $data_user->email = $request->input('email');
-        $data_user->nip = $request->input('nip');
-        $data_user->status_admin = $request->input('status_admin');
 
-        if ($request->filled('password')){
+        // Reset kolom boolean
+        $data_user->is_admin = false;
+        $data_user->is_audite = false;
+        $data_user->is_auditor = false;
+
+        // Jika ada role yang dipilih, atur nilai boolean sesuai pilihan
+        if ($request->has('roles')) {
+            $roles = $request->input('roles');
+            $data_user->is_admin = in_array('admin', $roles) ? true : false;
+            $data_user->is_audite = in_array('audite', $roles) ? true : false;
+            $data_user->is_auditor = in_array('auditor', $roles) ? true : false;
+        }
+
+        // Jika password diisi, update password
+        if ($request->filled('password')) {
             $data_user->password = Hash::make($request->password);
         }
 
-        if ($data_user->save()){
+        // Simpan perubahan ke database
+        if ($data_user->save()) {
             return redirect('/data_user')->with(['success' => 'Data User Berhasil Diperbarui !!']);
         } else {
             return redirect('/data_user')->with(['error' => 'Data User Gagal Diperbarui !!!']);
         }
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -133,10 +133,26 @@ class DataUserController extends Controller
     {
         $data_user = User::destroy($id);
 
-        if ($data_user){
+        if ($data_user) {
             return redirect('/data_user')->with('success', 'Data User Berhasil Dihapus !!!');
         } else {
             return redirect('/data_user')->with('error', 'Data User Berhasil Dihapus !!!');
         }
     }
+
+    public function resetStatus()
+    {
+        // Dapatkan user_id dari user yang sedang login
+        $currentUserId = auth()->user()->user_id;
+
+        // Reset semua status kecuali untuk user yang sedang login
+        User::where('user_id', '!=', $currentUserId)->update([
+            'is_admin' => false,
+            'is_audite' => false,
+            'is_auditor' => false
+        ]);
+
+        return redirect()->route('data_user.index')->with('success', 'Status user berhasil direset kecuali user yang sedang login.');
+    }
+
 }

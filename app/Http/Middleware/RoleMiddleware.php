@@ -20,7 +20,7 @@ class RoleMiddleware
 
         if ($user) {
             foreach ($roles as $role) {
-                if ($user->hasRole($role)) {
+                if ($user->hasRole(role: $role)) {
                     return $next($request);
                 }
             }
@@ -29,3 +29,4 @@ class RoleMiddleware
         return redirect('/login')->with('error', 'Anda tidak memiliki akses.');
     }
 }
+ 

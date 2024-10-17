@@ -26,10 +26,16 @@
                         <div>
                             <span class="card-title fw-semibold me-3">Ploating AMI</span>
                         </div>
-                        {{-- <div>
-                                <a href="daftar_audite/create" type="button" class="btn btn-primary"><i
-                                        class="ti ti-plus me-1"></i>Ploating AMI</a>
-                            </div> --}}
+                        <div>
+                            <form action="{{ route('ploting_ami.reset') }}" method="POST"
+                                onsubmit="return confirm('Apakah Anda yakin ingin mereset semua data ploting? Data Audite dan Auditor akan dihapus.')">
+                                @csrf
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="ti ti-refresh-alert me-2"></i> Reset Ploting
+                                </button>
+                            </form>
+                        </div>
+
                     </div>
 
                     <div>
@@ -103,12 +109,10 @@
 
                                 <!-- Tampilkan Audite -->
                                 <td class="border-bottom-0">
-                                    <div class="">
+                                    <div class="mb-4">
                                         <h6 class="fw-semibold mb-1">
                                             @if (!empty($ploting->audite) && isset($ploting->audite[0]['user_audite']['nama']))
                                                 {{ $ploting->audite[0]['user_audite']['nama'] }} <br>
-                                                <span style="font-weight: normal;">(NIP:
-                                                    {{ $ploting->audite[0]['user_audite']['nip'] }})</span>
                                             @else
                                                 <span style="color: red">User Audite Belum di set!</span>
                                             @endif
@@ -122,8 +126,7 @@
                                             <li class="mb-2"
                                                 style="border: 1px solid #ddd; padding: 5px; border-radius: 5px;">
                                                 @if (!empty($auditeUnit->audites) && isset($auditeUnit->audites[0]['user_audite']))
-                                                    {{ $auditeUnit->audites[0]['user_audite']['nama'] }} (NIP :
-                                                    {{ $auditeUnit->audites[0]['user_audite']['nip'] }})
+                                                    {{ $auditeUnit->audites[0]['user_audite']['nama'] }}
                                                 @else
                                                     <span style="color: red">Audite Belum di Set !</span>
                                                 @endif
@@ -138,8 +141,6 @@
                                     @if ($ploting->auditor && $ploting->auditor->auditor1)
                                         <h6 class="fw-semibold">
                                             {{ $ploting->auditor->auditor1->nama }} <br>
-                                            <span style="font-weight: normal;">(NIP:
-                                                {{ $ploting->auditor->auditor1->nip }})</span>
                                         </h6>
                                     @else
                                         <span style="color: red">Auditor 1 Belum Di set !</span>
@@ -151,8 +152,6 @@
                                     @if ($ploting->auditor && $ploting->auditor->auditor2)
                                         <h6 class="fw-semibold">
                                             {{ $ploting->auditor->auditor2->nama }} <br>
-                                            <span style="font-weight: normal;">(NIP:
-                                                {{ $ploting->auditor->auditor2->nip }})</span>
                                         </h6>
                                     @else
                                         <span style="color: red">Auditor 2 Belum Di set !</span>
