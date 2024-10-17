@@ -11,9 +11,11 @@ use App\Http\Controllers\DataAmiController\PeriodeAuditController;
 use App\Http\Controllers\DataAmiController\PlotingAmiController;
 use App\Http\Controllers\DataAmiController\ProgresAuditController;
 use App\Http\Controllers\DataAmiController\RekapAuditController;
-use App\Http\Controllers\HomeController\HomeBaseController;
+use App\Http\Controllers\HomeController\HomeAuditeController;
+use App\Http\Controllers\HomeController\HomeAuditorController;
 use App\Http\Controllers\ImportDataController\ImportIndikatorKinerjaController;
 use App\Http\Controllers\ImportDataController\ImportUnitController;
+use App\Http\Controllers\YourController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -28,35 +30,48 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index', [
-        'title' => 'Welcome'
-    ]);
-});
-
 Route::middleware(['guest'])->group(function () {
-
+    Route::get('/', function () {
+        return view('index', [
+            'title' => 'Welcome'
+        ]);
+    });
+    Route::get('/login', function () {
+        return view('auth.login', [
+            'title' => 'Login'
+        ]);
+    })->name('login');
+    Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 });
+// Route untuk mengubah active_role
+Route::post('/set-active-role', [YourController::class, 'setActiveRole'])->name('set-active-role');
 
-// Login
-Route::get('/login', function () {
-    return view('auth.login', [
-        'title' => 'Login'
-    ]);
-})->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
+// Testing Set Active Role 
+// Route untuk menyimpan role aktif ke session
+
+
+
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
- // Route Sementara 
- Route::middleware(['role:audite'])->group(function () {
-    Route::get('/home/audite', [HomeBaseController::class, 'HomeAudite'])->name('home.audite');
+Route::middleware(['auth', 'role:auditor'])->group(function () {
+    Route::get('/home/auditor', [HomeAuditorController::class, 'HomeAuditor'])->name('home.auditor');
 });
 
-Route::middleware(['role:auditor'])->group(function () {
-    Route::get('/home/auditor', [HomeBaseController::class, 'HomeAuditor'])->name('home.auditor');
+Route::middleware(['auth', 'role:audite'])->group(function () {
+    Route::get('/home/audite', [HomeAuditeController::class, 'HomeAudite'])->name('home.audite');
 });
 
- 
+Route::post('/set-active-role', function (Request $request) {
+    $request->validate(['active_role' => 'required']);
+    session(['active_role' => $request->active_role]);
+
+    // Debug: Lihat apakah role tersimpan di session
+    dd(session('active_role'));  // Akan menampilkan role aktif yang tersimpan
+
+    return response()->json(['success' => true]);
+});
+
+
 // Auth Middleware
 Route::middleware(['auth'])->group(function () {
     // Route Admin 
@@ -78,22 +93,5 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/import_Indikator_Kinerja_Unit', [ImportIndikatorKinerjaController::class, 'importData'])->name('import.dataIndikator');
         Route::post('/import_Unit_Kerja', [ImportUnitController::class, 'importDataUnit'])->name('import.dataUnit');
     });
-    
-    
 });
 
-// Administrator
-
-// Route::resource('/data_unit', DataUnitController::class);
-// Route::resource('/data_user', DataUserController::class);
-// Route::resource('/ploting_ami', PlotingAmiController::class);
-// Route::resource('/data_indikator', DataIndikatorController::class);
-// Route::get('/data_indikator/unit/create/{id}', [DataIndikatorController::class, 'create_ikuk_id']);
-// Route::delete('data_indikator/delete/{indikator_id}/{unit_id}', [DataIndikatorController::class, 'destroyWithUnit'])->name('data_indikator.destroyWithUnit');
-// Route::resource('/daftar_auditor', AuditorController::class);
-// Route::resource('/periode_audit', PeriodeAuditController::class);
-// Route::resource('/profile', ProfileController::class);
-// Route::resource('/progres_audit', ProgresAuditController::class);
-// Route::resource('/rekap_audit', RekapAuditController::class);
-// Route::post('/import_Indikator_Kinerja_Unit', [ImportIndikatorKinerjaController::class, 'importData'])->name('import.dataIndikator');
-// Route::post('/import_Unit_Kerja', [ImportUnitController::class, 'importDataUnit'])->name('import.dataUnit');

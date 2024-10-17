@@ -11,22 +11,25 @@ class RoleMiddleware
 {
     /**
      * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next, ...$roles)
     {
         $user = Auth::user();
 
-        if ($user) {
-            foreach ($roles as $role) {
-                if ($user->hasRole(role: $role)) {
-                    return $next($request);
-                }
+        // Jika user tidak login, redirect ke login
+        if (!$user) {
+            return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
+        // Cek apakah user memiliki salah satu dari roles yang diterima
+        foreach ($roles as $role) {
+            if ($user->hasRole($role)) {
+                // dd('Role matched: ' . $role);
+                return $next($request); // Lanjutkan jika role sesuai
             }
         }
 
-        return redirect('/login')->with('error', 'Anda tidak memiliki akses.');
+        // Jika user tidak memiliki role yang sesuai, arahkan ke halaman forbidden
+        return response()->view('errors.403', [], 403);
     }
 }
- 

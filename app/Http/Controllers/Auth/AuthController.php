@@ -12,56 +12,42 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
+        // Validasi input
         $request->validate([
             'email' => 'required|email',
             'password' => 'required'
         ]);
 
+        // Cari user berdasarkan email
         $user = User::where('email', $request->email)->first();
 
+        // Jika user ditemukan dan password benar
         if ($user && Hash::check($request->password, $user->password)) {
+            // Login user
             Auth::login($user);
 
-            // Simpan role ke session
-            $roles = [];
-            if ($user->isAdmin())
-                $roles[] = 'admin';
-            if ($user->isAudite())
-                $roles[] = 'audite';
-            if ($user->isAuditor())
-                $roles[] = 'auditor';
+            // Tentukan role yang dimiliki user dan simpan di session
+            $roles = $user->hasMultipleRoles();
+            session(['roles' => $roles, 'active_role' => $roles[0]]);
 
-            session([
-                'nama' => $user->nama,
-                'email' => $user->email,
-                'nip' => $user->nip,
-                // 'roles' => $roles, // Simpan semua roles yang dimiliki user
-                'is_admin' => in_array('admin', $roles) ? 'Yes' : 'No',
-                'is_auditor' => in_array('auditor', $roles) ? 'Yes' : 'No',
-                'is_audite' => in_array('audite', $roles) ? 'Yes' : 'No',
-            ]);
 
-            session(['roles' => $roles]);
-            // Jika user memiliki lebih dari satu role, arahkan ke halaman pemilihan role
-            if (count($roles) > 1) {
-                return redirect()->route('home.index')->with('multiple_roles', true); // Tampilkan dropdown role di halaman home
+            // Redirect sesuai role yang aktif
+            $activeRole = session('active_role');
+            if ($activeRole == 'admin') {
+                return redirect('/home');
+            } elseif ($activeRole == 'auditor') {
+                return redirect('/home/auditor');
+            } elseif ($activeRole == 'audite') {
+                return redirect('/home/audite');
             }
 
-            // Jika user hanya memiliki satu role, arahkan langsung ke halaman role tersebut
-            if ($user->isAdmin()) {
-                return redirect()->route('home.index');
-            } elseif ($user->isAudite()) {
-                return redirect()->route('home.audite');
-            } elseif ($user->isAuditor()) {
-                return redirect()->route('home.auditor');
-            }
-
-            return redirect()->route('home.index')->with('error', 'Tidak memiliki akses role yang valid.');
+            // Jika user tidak memiliki role yang valid
+            return redirect()->route('login')->with('error', 'Anda tidak memiliki akses role yang valid.');
         } else {
+            // Jika email atau password salah
             return redirect()->back()->with('error', 'Email atau password salah.');
         }
     }
-
 
 
     public function showLoginForm()

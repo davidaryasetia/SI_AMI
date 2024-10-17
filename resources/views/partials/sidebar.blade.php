@@ -19,9 +19,13 @@
                     <div class="dropdown">
                         <label for="roleSelect" style="margin-bottom: 8px">Role:</label>
                         <select id="roleSelect" class="form-select">
-                            <option value="admin">Admin</option>
-                            <option value="audite">Audite</option>
-                            <option value="auditor">Auditor</option>
+                            @if (session('roles')) {{-- Mengecek apakah roles ada di session --}}
+                                @foreach (session('roles') as $role)
+                                    <option value="{{ $role }}" {{ session('active_role') == $role ? 'selected' : '' }}>
+                                        {{ ucfirst($role) }}
+                                    </option>
+                                @endforeach
+                            @endif
                         </select>
                     </div>
                 </li>
@@ -99,17 +103,18 @@
                     </a>
                 </li>
                 <li class="sidebar-item role-admin">
-                    <a class="sidebar-link {{ Request::is('rekap_audit*') }}" href="/rekap_audit" aria-expanded="false">
+                    <a class="sidebar-link {{ Request::is('rekap_audit*') }}" href="/rekap_audit"
+                        aria-expanded="false">
                         <span>
                             <i class="ti ti-chart-dots"></i>
                         </span>
                         <span class="hide-menu">Rekap Audit</span>
                     </a>
                 </li>
-
+                {{-- 
 
                 <!----------------------------------------Menu Audite-------------------------------------------------------->
-                <li class="sidebar-item role-audite" style="display: none;">
+                <li class="sidebar-item role-audite" >
                     <a class="sidebar-link {{ Request::is('/home') ? 'active' : '' }}" href="/home"
                         aria-expanded="false">
                         <span>
@@ -118,7 +123,7 @@
                         <span class="hide-menu">Home</span>
                     </a>
                 </li>
-                <li class="sidebar-item role-audite" style="display: none;">
+                <li class="sidebar-item role-audite" >
                     <a class="sidebar-link {{ Request::is('rekap_pengisian*') ? 'active' : '' }}"
                         href="/rekap_pengisian" aria-expanded="false">
                         <span>
@@ -127,7 +132,7 @@
                         <span class="hide-menu">Pengisian Kinerja</span>
                     </a>
                 </li>
-                <li class="sidebar-item role-audite" style="display: none;">
+                <li class="sidebar-item role-audite" >
                     <a class="sidebar-link {{ Request::is('rekap_pengisian*') ? 'active' : '' }}"
                         href="/rekap_pengisian" aria-expanded="false">
                         <span>
@@ -136,7 +141,7 @@
                         <span class="hide-menu">Rekap Capaian</span>
                     </a>
                 </li>
-                <li class="sidebar-item role-audite" style="display: none;">
+                <li class="sidebar-item role-audite" >
                     <a class="sidebar-link {{ Request::is('rekap_pengisian*') ? 'active' : '' }}"
                         href="/rekap_pengisian" aria-expanded="false">
                         <span>
@@ -147,7 +152,7 @@
                 </li>
 
                 <!-----------------------------------------Menu for Auditor----------------------------->
-                <li class="sidebar-item role-auditor" style="display: none;">
+                <li class="sidebar-item role-auditor" >
                     <a class="sidebar-link {{ Request::is('/home') ? 'active' : '' }}" href="/home"
                         aria-expanded="false">
                         <span>
@@ -156,7 +161,7 @@
                         <span class="hide-menu">Home</span>
                     </a>
                 </li>
-                <li class="sidebar-item role-auditor" style="display: none;">
+                <li class="sidebar-item role-auditor" >
                     <a class="sidebar-link {{ Request::is('penilaian_kinerja*') ? 'active' : '' }}"
                         href="/penilaian_kinerja" aria-expanded="false">
                         <span>
@@ -165,7 +170,7 @@
                         <span class="hide-menu">Evaluasi Kinerja Unit</span>
                     </a>
                 </li>
-                <li class="sidebar-item role-auditor" style="display: none;">
+                <li class="sidebar-item role-auditor" >
                     <a class="sidebar-link {{ Request::is('penilaian_kinerja*') ? 'active' : '' }}"
                         href="/penilaian_kinerja" aria-expanded="false">
                         <span>
@@ -173,8 +178,9 @@
                         </span>
                         <span class="hide-menu">Rekap & Persetujuan</span>
                     </a>
-                </li>
+                </li> --}}
 
+                {{-- -------------------------------------------------------------------------------------- --}}
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ Request::is('profile*') ? 'active' : '' }}" href="/profile"
                         aria-expanded="false">
@@ -185,7 +191,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST">
                         @csrf
                     </form>
                     <a class="sidebar-link" href="#" aria-expanded="false"
@@ -206,30 +212,46 @@
 
 <!-- Script to dynamically change menu based on role -->
 <script>
+    function showRoleMenus(role) {
+        // Sembunyikan semua menu role
+        document.querySelectorAll('.role-admin, .role-audite, .role-auditor').forEach(item => {
+            item.style.display = 'none';
+        });
+
+        // Tampilkan menu sesuai dengan role yang dipilih
+        if (role === 'admin') {
+            document.querySelectorAll('.role-admin').forEach(item => {
+                item.style.display = 'block';
+            });
+        } else if (role === 'audite') {
+            document.querySelectorAll('.role-audite').forEach(item => {
+                item.style.display = 'block';
+            });
+        } else if (role === 'auditor') {
+            document.querySelectorAll('.role-auditor').forEach(item => {
+                item.style.display = 'block';
+            });
+        }
+    }
     window.onload = function() {
+        const roleSelect = document.getElementById('roleSelect');
+        const currentRole = roleSelect.value; // Dapatkan role aktif saat halaman pertama kali dimuat
+
+        // Tampilkan menu sesuai dengan role aktif
+        showRoleMenus(currentRole);
+
         roleSelect.addEventListener('change', function() {
             const selectedRole = this.value;
 
-            // Hide all role-based menus
-            document.querySelectorAll('.role-admin, .role-audite, .role-auditor').forEach(item => {
-                item.style.display = 'none';
-            });
+            // Tampilkan menu sesuai dengan role yang dipilih
+            showRoleMenus(selectedRole);
 
-            // Show selected role's menus and redirect
+            // Redirect ke halaman sesuai dengan role yang dipilih
             if (selectedRole === 'admin') {
-                document.querySelectorAll('.role-admin').forEach(item => {
-                    item.style.display = 'block';
-                });
                 window.location.href = '/home';
             } else if (selectedRole === 'audite') {
-                document.querySelectorAll('.role-audite').forEach(item => {
-                    item.style.display = 'block';
-                });
                 window.location.href = '/home/audite';
             } else if (selectedRole === 'auditor') {
-                document.querySelectorAll('.role-auditor').forEach(item => {
-                    item.style.display = 'block';
-                });
                 window.location.href = '/home/auditor';
             }
         });

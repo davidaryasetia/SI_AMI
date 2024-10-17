@@ -122,5 +122,22 @@ class User extends Authenticatable
 
         return false;
     }
+
+    public function hasMultipleRoles()
+    {
+        $roles = [];
+        if ($this->isAdmin()) {
+            $roles[] = 'admin';
+        }
+        if ($this->isAudite()) {
+            $roles[] = 'audite';
+        }
+        if ($this->isAuditor()) {
+            $roles[] = 'auditor';
+        }
+
+        return $roles;  // Akan mengembalikan array berisi role yang dimiliki
+    }
 }
+
 

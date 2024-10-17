@@ -9,8 +9,6 @@
     <link rel="shortcut icon" type="image/png" href="{{ asset('assets/images/logos/short-logo.png') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/styles.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/customize.css') }}">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         table.dataTable tbody td {
@@ -90,7 +88,7 @@
     <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed">
         <!-- Sidebar Start -->
-        @include('partials.sidebar')
+        @include('partials.sidebar_auditor')
         <!-- Sidebar End -->
 
         <!--  Main wrapper -->

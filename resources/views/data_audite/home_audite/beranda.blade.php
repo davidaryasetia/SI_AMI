@@ -1,4 +1,5 @@
-@extends('layouts.main')
+
+@extends('layouts.main_audite')
 
 @section('row')
     <div class="container-fluid">
