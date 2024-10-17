@@ -43,8 +43,8 @@
                     </a>
                 </li>
                 <li class="sidebar-item role-audite">
-                    <a class="sidebar-link {{ Request::is('rekap_pengisian*') ? 'active' : '' }}"
-                        href="/rekap_pengisian" aria-expanded="false">
+                    <a class="sidebar-link {{ Request::is('pengisian_kinerja*') ? 'active' : '' }}"
+                        href="/pengisian_kinerja" aria-expanded="false">
                         <span>
                             <i class="ti ti-file"></i>
                         </span>
@@ -52,34 +52,35 @@
                     </a>
                 </li>
                 <li class="sidebar-item role-audite">
-                    <a class="sidebar-link {{ Request::is('rekap_pengisian*') ? 'active' : '' }}"
-                        href="/rekap_pengisian" aria-expanded="false">
+                    <a class="sidebar-link {{ Request::is('rekap_capaian*') ? 'active' : '' }}"
+                        href="/rekap_capaian" aria-expanded="false">
                         <span>
-                            <i class="ti ti-file"></i>
+                            <i class="ti ti-file-analytics"></i>
                         </span>
                         <span class="hide-menu">Rekap Capaian</span>
                     </a>
                 </li>
                 <li class="sidebar-item role-audite">
-                    <a class="sidebar-link {{ Request::is('rekap_pengisian*') ? 'active' : '' }}"
-                        href="/rekap_pengisian" aria-expanded="false">
+                    <a class="sidebar-link {{ Request::is('persetujuan*') ? 'active' : '' }}"
+                        href="/persetujuan" aria-expanded="false">
                         <span>
-                            <i class="ti ti-file"></i>
+                            <i class="ti ti-checkup-list"></i>
                         </span>
                         <span class="hide-menu">Persetujuan</span>
                     </a>
                 </li>
-
-                {{-- -------------------------------------------------------------------------------------- --}}
-                <li class="sidebar-item">
-                    <a class="sidebar-link {{ Request::is('profile*') ? 'active' : '' }}" href="/profile"
-                        aria-expanded="false">
+                <li class="sidebar-item role-audite">
+                    <a class="sidebar-link {{ Request::is('profile_audite*') ? 'active' : '' }}"
+                        href="/profile_audite" aria-expanded="false">
                         <span>
                             <i class="ti ti-user"></i>
                         </span>
-                        <span class="hide-menu">Profile</span>
+                        <span class="hide-menu">Profile Audite</span>
                     </a>
                 </li>
+
+                {{-- -------------------------------------------------------------------------------------- --}}
+                
                 <li class="sidebar-item">
                     <form id="logout-form" action="{{ route('logout') }}" method="POST">
                         @csrf

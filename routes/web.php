@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\ProfileAuditeController;
 use App\Http\Controllers\DataAmiController\DataUserController;
 use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\DataAmiController\AuditorController;
@@ -11,6 +12,9 @@ use App\Http\Controllers\DataAmiController\PeriodeAuditController;
 use App\Http\Controllers\DataAmiController\PlotingAmiController;
 use App\Http\Controllers\DataAmiController\ProgresAuditController;
 use App\Http\Controllers\DataAmiController\RekapAuditController;
+use App\Http\Controllers\DataAuditeController\PengisianKinerjaController;
+use App\Http\Controllers\DataAuditeController\PersetujuanController;
+use App\Http\Controllers\DataAuditeController\RekapCapaianController;
 use App\Http\Controllers\HomeController\HomeAuditeController;
 use App\Http\Controllers\HomeController\HomeAuditorController;
 use App\Http\Controllers\ImportDataController\ImportIndikatorKinerjaController;
@@ -59,16 +63,11 @@ Route::middleware(['auth', 'role:auditor'])->group(function () {
 
 Route::middleware(['auth', 'role:audite'])->group(function () {
     Route::get('/home/audite', [HomeAuditeController::class, 'HomeAudite'])->name('home.audite');
-});
+    Route::resource('/pengisian_kinerja', PengisianKinerjaController::class);
+    Route::resource('/rekap_capaian', RekapCapaianController::class);
+    Route::resource('/persetujuan', PersetujuanController::class);
+    Route::resource('/profile_audite', ProfileAuditeController::class);
 
-Route::post('/set-active-role', function (Request $request) {
-    $request->validate(['active_role' => 'required']);
-    session(['active_role' => $request->active_role]);
-
-    // Debug: Lihat apakah role tersimpan di session
-    dd(session('active_role'));  // Akan menampilkan role aktif yang tersimpan
-
-    return response()->json(['success' => true]);
 });
 
 

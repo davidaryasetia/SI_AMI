@@ -1,17 +1,19 @@
-
 @extends('layouts.main_audite')
 
 @section('row')
     <div class="container-fluid">
+        <!-- Welcome Text -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <h5 class="">Hai, {{ Auth::user()->nama }}! Selamat datang di Dashboard Audite</h5>
+            </div>
+        </div>
+
         <!-- Pengumuman Kegiatan AMI -->
         <div class="row mb-4">
             <div class="col-12">
                 <div class="alert alert-success text-center" role="alert">
-                    <h5 class="fw-bold mb-3">Kegiatan AMI yang Sedang Berlangsung</h5>
-                    <p class="mb-1">AMI <strong>Tahun 2024</strong></p>
-                    <p class="mb-1">Mulai: <strong>1 Januari 2025</strong></p>
-                    <p class="mb-1">Selesai: <strong>11 Januari 2025</strong></p>
-                    <p class="mb-0">Progres Pengisian Kinerja: <strong>0%</strong></p>
+                    <h5 class="fw-bold mb-3">Kegiatan AMI Sedang Berlangsung</h5>
                 </div>
             </div>
         </div>
@@ -20,9 +22,9 @@
         <div class="row">
             <!-- Tabel Data Audite -->
             <div class="col-lg-8 mb-4">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="card-title mb-0">Data Audite</h5>
+                <div class="card shadow-sm">
+                    <div class="card-header bg-light">
+                        <h5 class="card-title mb-0 text-black">Data Audite</h5>
                     </div>
                     <div class="card-body p-0">
                         <div class="table-responsive">
@@ -59,15 +61,15 @@
 
             <!-- Informasi Jadwal AMI -->
             <div class="col-lg-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-header">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header text-white">
                         <h5 class="card-title mb-0">Informasi Jadwal AMI</h5>
                     </div>
                     <div class="card-body">
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">Tahun: <strong>2024</strong></li>
                             <li class="list-group-item">Periode: <strong>1 Januari - 10 Januari</strong></li>
-                            <li class="list-group-item">Status: <span class="badge bg-info text-dark">Dalam Proses</span></li>
+                            <li class="list-group-item">Status: <span class="badge bg-info text-white ms-2">Dalam Proses</span></li>
                         </ul>
                     </div>
                 </div>
