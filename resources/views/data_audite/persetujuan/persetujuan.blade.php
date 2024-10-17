@@ -1,67 +1,158 @@
 @extends('layouts.main_audite')
 @push('css')
     <style>
-        table td,
-        table th {
-            vertical-align: middle;
+        .approval-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+        }
+
+        .approval-box {
+            width: 100%;
+            max-width: 800px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
             text-align: center;
-            padding: 12px;
         }
 
-        .progress {
-            height: 25px;
+        .approval-text {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 30px;
+            color: #333;
         }
 
-        .btn-export {
-            padding: 10px 20px;
+        .approval-signature {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .signature-section {
+            text-align: center;
+        }
+
+        .signature-icon {
+            font-size: 40px;
+            color: #f03e3e; /* Warna lebih kalem */
+        }
+
+        .signature-approved {
+            font-size: 40px;
+            color: #38c172; /* Warna hijau lebih soft */
+        }
+
+        .signature-text {
             font-size: 16px;
+            font-weight: bold;
+            margin-top: 10px;
+            color: #333;
         }
 
-        /* Responsive Table */
+        .signature-details {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .form-section {
+            margin-top: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .btn-submit {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .btn-submit:hover {
+            background-color: #0056b3;
+        }
+
         @media (max-width: 768px) {
-            table thead {
-                display: none;
+            .approval-box {
+                width: 90%;
             }
 
-            table tr {
-                display: block;
-                margin-bottom: 10px;
+            .approval-signature {
+                flex-direction: column;
             }
 
-            table td {
-                display: block;
-                text-align: right;
-                font-size: 14px;
-                border-bottom: 1px solid #ddd;
-            }
-
-            table td::before {
-                content: attr(data-label);
-                float: left;
-                text-transform: capitalize;
-                font-weight: bold;
+            .signature-section {
+                margin-bottom: 20px;
             }
         }
     </style>
 @endpush
 
 @section('row')
-    <div class="container-fluid">
-        <div class="col-lg-12 d-flex align-items-stretch">
-            <div class="w-100">
-                {{-- Header --}}
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h4 class="card-title fw-semibold">Persetujuan</h4>
+    <div class="container-fluid approval-container">
+        <div class="approval-box">
+            <h4 class="card-title fw-semibold">Persetujuan Evaluasi Kinerja Unit</h4>
+            <p class="approval-text">
+                “Dengan ini saya menyatakan bahwa data yang telah dimasukkan adalah benar. 
+                Proses evaluasi oleh auditor telah dijalankan dan saya menyetujui hasil evaluasi.”
+            </p>
+            
+            <div class="approval-signature">
+                {{-- Signature 1 --}}
+                <div class="signature-section">
+                    <div class="signature-icon">⭕</div>
+                    <div class="signature-text">Setuju</div>
+                    <div class="signature-details">
+                        Surabaya, 11 Januari 2025 <br>
+                        P4MP, David
+                    </div>
                 </div>
-                {{-- Content --}}
+                
+                {{-- Signature 2 --}}
+                <div class="signature-section">
+                    <div class="signature-icon">⭕</div>
+                    <div class="signature-text">Setuju</div>
+                    <div class="signature-details">
+                        Surabaya, 11 Januari 2025 <br>
+                        Ketua Auditor, Hary
+                    </div>
+                </div>
+                
+                {{-- Signature 3 --}}
+                <div class="signature-section">
+                    <div class="signature-approved">✅</div>
+                    <div class="signature-text">Setuju</div>
+                    <div class="signature-details">
+                        Surabaya, 11 Januari 2025 <br>
+                        Anggota Auditor, Tita
+                    </div>
+                </div>
+            </div>
 
+            {{-- Form Section --}}
+            <div class="form-section">
+                <form action="" method="POST">
+                    @csrf
+                    <div class="form-group">
+                        <label for="comment">Komentar (Opsional):</label>
+                        <textarea class="form-control" id="comment" name="comment" rows="3" placeholder="Tambahkan komentar jika perlu"></textarea>
+                    </div>
 
-                {{-- END  Content --}}
+                    <div class="form-group">
+                        <button type="submit" class="btn-submit">Kirim Persetujuan</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 @endsection
 
 @push('script')
-    {{-- Add necessary scripts here --}}
 @endpush
