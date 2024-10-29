@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Auth;
 use Hash;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -14,8 +16,10 @@ class ProfileController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
         return view('auth.profile.profile', [
-            'title' => 'Profile'
+            'title' => 'Profile',
+            'user' => $user,
         ]);
     }
 
@@ -50,7 +54,6 @@ class ProfileController extends Controller
     {
         // Dapatkan user berdasarkan ID yang sedang login
         $user = Auth::user();
-
         return view('auth.profile.edit', [
             'title' => 'Edit Profile',
             'user' => $user,
@@ -80,21 +83,15 @@ class ProfileController extends Controller
 
         // Jika gambar di-upload, cek apakah ada foto lama, lalu hapus sebelum menyimpan yang baru
         if ($request->hasFile('foto_gambar')) {
-            // Hapus foto lama jika ada
-            if ($user->foto_gambar && \Storage::exists('public/profile/' . $user->foto_gambar)) {
-                \Storage::delete('public/profile/' . $user->foto_gambar);
+            if (Auth::user()->foto_gambar) {
+                Storage::disk('s3')->delete(Auth::user()->foto_gambar);
             }
 
-            // Simpan foto baru
-            $file = $request->file('foto_gambar');
-            $fileName = time() . '.' . $file->getClientOriginalExtension();
-            $file->storeAs('public/profile', $fileName);  // Simpan di folder storage/app/public/profile
-            $user->foto_gambar = $fileName;
+            $filePath = $request->file('foto_gambar')->store('profile_user', 's3', );
+            $user->foto_gambar = $filePath;
         }
-
         // Simpan perubahan
         $user->save();
-
         return redirect()->route('profile.index')->with('success', 'Profil berhasil diperbarui');
     }
 

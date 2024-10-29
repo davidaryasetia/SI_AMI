@@ -1,4 +1,4 @@
-@extends('layouts.main_audite')
+@extends('layouts.main')
 @push('css')
     <style>
         .card-title {

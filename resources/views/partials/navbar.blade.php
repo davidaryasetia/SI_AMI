@@ -19,7 +19,7 @@
                 <li class="nav-item dropdown d-flex align-items-center">
                     <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="{{ Auth::user()->foto_gambar ? asset('storage/profile/' . Auth::user()->foto_gambar) : asset('assets/images/profile/user-profile.png') }}"
+                        <img src="{{ Auth::user()->foto_gambar ? Storage::disk('s3')->url(Auth::user()->foto_gambar) : asset('assets/images/profile/user-profile.png') }}"
                                     alt="Profile" width="35" height="35" class="rounded-circle">
 
                     </a>

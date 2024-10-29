@@ -44,9 +44,7 @@
                         <div
                             class="col-xl-4 card shadow-none border d-flex flex-column align-items-center justify-content-center">
                             <div class="pt-4 d-flex flex-column align-items-center">
-                                <img src="{{ Auth::user()->foto_gambar ? asset('storage/profile/' . Auth::user()->foto_gambar) : asset('assets/images/profile/user-profile.png') }}"
-                                    alt="Profile" width="86" class="rounded-circle mb-3">
-
+                                <img src="{{ Auth::user()->foto_gambar ? Storage::disk('s3')->url(Auth::user()->foto_gambar) :  asset('assets/images/profile/user-profile.png')}}" alt="Profile" width="86" class="rounded-circle mb-3">
                                 <h4>{{ Auth::user()->nama }}</h4>
                                 {{-- <h5>
                                         Unit PJM

@@ -77,7 +77,7 @@
                             <label for="foto_gambar" class="form-label">Upload Gambar</label>
                             <input type="file" class="form-control" name="foto_gambar">
                             @if ($user->foto_gambar)
-                                <img src="{{ asset('storage/profile/' . $user->foto_gambar) }}" alt="Profile Image"
+                                <img src="{{ Auth::user()->foto_gambar ? Storage::disk('s3')->url(Auth::user()->foto_gambar) : asset('images/user-profile.png') }}" alt="Profile Image"
                                     width="100" class="mt-2">
                             @endif
                         </div>
