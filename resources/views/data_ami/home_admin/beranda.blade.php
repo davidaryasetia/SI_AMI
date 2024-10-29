@@ -66,21 +66,20 @@
                 </div>
             </div>
             <!-- Informasi Jadwal -->
-            <div class="col-lg-4">
-                <div class="card jadwal-pelaksanaan-card">
-                    <div class="card-body">
-                        <h5 class="card-title">Jadwal Pelaksanaan AMI</h5>
-                        <ul class="jadwal-list">
-                            <li><span>Tahun:</span> -</li>
-                            <li><span>Periode:</span> -</li>
-                            <li><span>Tanggal Pembukaan:</span> -</li>
-                            <li><span>Tanggal Penutupan:</span> -</li>
-                            <li><span>Keterangan:</span> -</li>
-                            <li><span>Status:</span> <span class="status-label">Belum Di Buka</span></li>
+            <div class="col-lg-4 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-header text-white">
+                        <h5 class="card-title mb-0">Informasi Jadwal AMI</h5>
+                    </div>
+                    <div class="card-body" style="padding: 16px">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Tahun: <strong>2024</strong></li>
+                            <li class="list-group-item">Periode: <strong>1 Januari - 10 Januari</strong></li>
+                            <li class="list-group-item">Keterangan: <strong>Pembukaan AMI</strong></li>
+                            <li class="list-group-item">Status: <span class="badge bg-info text-white ms-2">Dalam Proses</span></li>
                         </ul>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

@@ -28,26 +28,69 @@ class AuthController extends Controller
 
             // Tentukan role yang dimiliki user dan simpan di session
             $roles = $user->hasMultipleRoles();
-            session(['roles' => $roles, 'active_role' => $roles[0]]);
+            session(['roles' => $roles]);
 
-
-            // Redirect sesuai role yang aktif
-            $activeRole = session('active_role');
-            if ($activeRole == 'admin') {
-                return redirect('/home');
-            } elseif ($activeRole == 'auditor') {
-                return redirect('/home/auditor');
-            } elseif ($activeRole == 'audite') {
-                return redirect('/home/audite');
+            if (count($roles) > 1) {
+                return redirect()->route('choose.role');
+            } else {
+                session(['active_role' => $roles[0]]);
+                return $this->redirectToRole($roles[0]);
             }
 
             // Jika user tidak memiliki role yang valid
-            return redirect()->route('login')->with('error', 'Anda tidak memiliki akses role yang valid.');
+            // return redirect()->route('login')->with('error', 'Anda tidak memiliki akses role yang valid.');
         } else {
             // Jika email atau password salah
             return redirect()->back()->with('error', 'Email atau password salah.');
         }
     }
+
+    private function redirectToRole($role)
+    {
+        switch ($role) {
+            case 'admin':
+                return redirect('/home');
+            case 'auditor':
+                return redirect('/home/auditor');
+            case 'audite':
+                return redirect('/home/audite');
+            default:
+                return redirect()->route('login')->with('error', 'Anda tidak memiliki akses role yang valid');
+        }
+    }
+
+    public function chooseRole()
+    {
+        $roles = session('roles', []);
+
+        if (count($roles) === 1) {
+            return $this->redirectToRole($roles[0]);
+        }
+        return view('choose_role.choose_role', compact('roles'));
+    }
+
+    public function selectRole(Request $request)
+    {
+        $role = $request->input('role');
+        session(['active_role' => $role]);
+
+        return $this->redirectToRole($role);
+    }
+
+    // Tambahkan di controller Anda, misalnya di UserController atau AuthController
+    public function switchRole(Request $request)
+    {
+        $newRole = $request->input('role');
+
+        // Cek apakah role baru ini ada di array roles dalam session
+        if (in_array($newRole, session('roles', []))) {
+            session(['active_role' => $newRole]);
+            return response()->json(['status' => 'success', 'message' => 'Role changed successfully.']);
+        }
+
+        return response()->json(['status' => 'error', 'message' => 'Invalid role.'], 400);
+    }
+
 
 
     public function showLoginForm()

@@ -65,7 +65,7 @@
                     <div class="card-header text-white">
                         <h5 class="card-title mb-0">Informasi Jadwal AMI</h5>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" style="padding: 16px">
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">Tahun: <strong>2024</strong></li>
                             <li class="list-group-item">Periode: <strong>1 Januari - 10 Januari</strong></li>

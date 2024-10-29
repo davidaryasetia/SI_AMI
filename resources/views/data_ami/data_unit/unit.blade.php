@@ -62,6 +62,33 @@
                             </div>
                         </div>
                         <!-- Modal -->
+                        <div class="d-flex justify-content-start">
+                            <form action="{{ route('data_unit.index') }}" method="GET" class="col-lg-10" id="unitForm">
+                                <div class="d-flex align-items-center">
+                                    <div class="me-2">
+                                        <div class="">
+                                            <select id="unit_type" name="unit_type" class="form-select">
+                                                <option value="all"
+                                                    {{ request('unit_type') == 'all' ? 'selected' : '' }}>Filter Unit /
+                                                    Departement....</option>
+                                                <option value="unit_kerja"
+                                                    {{ request('unit_type') == 'unit_kerja' ? 'selected' : '' }}>Unit Kerja
+                                                </option>
+                                                <option value="departemen_kerja"
+                                                    {{ request('unit_type') == 'departemen_kerja' ? 'selected' : '' }}>
+                                                    Departement Kerja</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <script>
+                                document.getElementById('unit_type').addEventListener('change', function() {
+                                    document.getElementById('unitForm').submit();
+                                })
+                            </script>
+                        </div>
+
                     </div>
 
                     <div>

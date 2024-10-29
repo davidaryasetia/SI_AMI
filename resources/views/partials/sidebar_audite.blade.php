@@ -21,8 +21,7 @@
                         <select id="roleSelect" class="form-select">
                             @if (session('roles')) {{-- Mengecek apakah roles ada di session --}}
                                 @foreach (session('roles') as $role)
-                                    <option value="{{ $role }}"
-                                        {{ session('active_role') == $role ? 'selected' : '' }}>
+                                    <option value="{{ $role }}" {{ session('active_role') == $role ? 'selected' : '' }}>
                                         {{ ucfirst($role) }}
                                     </option>
                                 @endforeach
@@ -30,6 +29,7 @@
                         </select>
                     </div>
                 </li>
+
 
 
                 <!----------------------------------------Menu Audite-------------------------------------------------------->
@@ -105,32 +105,66 @@
 
 <!-- Script to dynamically change menu based on role -->
 <script>
+    function showRoleMenus(role) {
+        // Sembunyikan semua menu role
+        document.querySelectorAll('.role-admin, .role-audite, .role-auditor').forEach(item => {
+            item.style.display = 'none';
+        });
+
+        // Tampilkan menu sesuai dengan role yang dipilih
+        if (role === 'admin') {
+            document.querySelectorAll('.role-admin').forEach(item => {
+                item.style.display = 'block';
+            });
+        } else if (role === 'audite') {
+            document.querySelectorAll('.role-audite').forEach(item => {
+                item.style.display = 'block';
+            });
+        } else if (role === 'auditor') {
+            document.querySelectorAll('.role-auditor').forEach(item => {
+                item.style.display = 'block';
+            });
+        }
+    }
+
     window.onload = function() {
+        const roleSelect = document.getElementById('roleSelect');
+        const currentRole = roleSelect.value;
+
+        // Tampilkan menu sesuai dengan role aktif
+        showRoleMenus(currentRole);
+
         roleSelect.addEventListener('change', function() {
             const selectedRole = this.value;
 
-            // Hide all role-based menus
-            document.querySelectorAll('.role-admin, .role-audite, .role-auditor').forEach(item => {
-                item.style.display = 'none';
-            });
+            // Kirim AJAX request ke server untuk mengubah session role
+            fetch('{{ route('switch.role') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ role: selectedRole })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    // Tampilkan menu sesuai dengan role yang dipilih
+                    showRoleMenus(selectedRole);
 
-            // Show selected role's menus and redirect
-            if (selectedRole === 'admin') {
-                document.querySelectorAll('.role-admin').forEach(item => {
-                    item.style.display = 'block';
-                });
-                window.location.href = '/home';
-            } else if (selectedRole === 'audite') {
-                document.querySelectorAll('.role-audite').forEach(item => {
-                    item.style.display = 'block';
-                });
-                window.location.href = '/home/audite';
-            } else if (selectedRole === 'auditor') {
-                document.querySelectorAll('.role-auditor').forEach(item => {
-                    item.style.display = 'block';
-                });
-                window.location.href = '/home/auditor';
-            }
+                    // Redirect ke halaman sesuai dengan role yang dipilih
+                    if (selectedRole === 'admin') {
+                        window.location.href = '/home';
+                    } else if (selectedRole === 'audite') {
+                        window.location.href = '/home/audite';
+                    } else if (selectedRole === 'auditor') {
+                        window.location.href = '/home/auditor';
+                    }
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
         });
     };
 </script>

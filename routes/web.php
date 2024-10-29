@@ -15,6 +15,8 @@ use App\Http\Controllers\DataAmiController\RekapAuditController;
 use App\Http\Controllers\DataAuditeController\PengisianKinerjaController;
 use App\Http\Controllers\DataAuditeController\PersetujuanController;
 use App\Http\Controllers\DataAuditeController\RekapCapaianController;
+use App\Http\Controllers\DataAuditorController\PengisianKinerjaAuditorController;
+use App\Http\Controllers\DataAuditorController\RekapPersetujuanAuditorController;
 use App\Http\Controllers\HomeController\HomeAuditeController;
 use App\Http\Controllers\HomeController\HomeAuditorController;
 use App\Http\Controllers\ImportDataController\ImportIndikatorKinerjaController;
@@ -34,6 +36,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::middleware(['auth'])->group(function(){
+    Route::get('/choose_role', [AuthController::class, 'chooseRole'])->name('choose.role');
+    Route::post('/select_role', [AuthController::class, 'selectRole'])->name('select.role'); 
+    Route::post('/switch-role', [AuthController::class, 'switchRole'])->name('switch.role');
+    Route::resource('/profile', ProfileController::class);
+});
+
 Route::middleware(['guest'])->group(function () {
     Route::get('/', function () {
         return view('index', [
@@ -50,15 +59,14 @@ Route::middleware(['guest'])->group(function () {
 // Route untuk mengubah active_role
 Route::post('/set-active-role', [YourController::class, 'setActiveRole'])->name('set-active-role');
 
-// Testing Set Active Role 
-// Route untuk menyimpan role aktif ke session
-
 
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth', 'role:auditor'])->group(function () {
     Route::get('/home/auditor', [HomeAuditorController::class, 'HomeAuditor'])->name('home.auditor');
+    Route::resource('/pengisian_kinerja_auditor', PengisianKinerjaAuditorController::class );
+    Route::resource('/rekap_persetujuan_auditor', RekapPersetujuanAuditorController::class);
 });
 
 Route::middleware(['auth', 'role:audite'])->group(function () {
@@ -86,7 +94,6 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('data_indikator/delete/{indikator_id}/{unit_id}', [DataIndikatorController::class, 'destroyWithUnit'])->name('data_indikator.destroyWithUnit');
         Route::resource('/daftar_auditor', AuditorController::class);
         Route::resource('/periode_audit', PeriodeAuditController::class);
-        Route::resource('/profile', ProfileController::class);
         Route::resource('/progres_audit', ProgresAuditController::class);
         Route::resource('/rekap_audit', RekapAuditController::class);
         Route::post('/import_Indikator_Kinerja_Unit', [ImportIndikatorKinerjaController::class, 'importData'])->name('import.dataIndikator');

@@ -1,29 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\DataAmiController;
+namespace App\Http\Controllers\DataAuditorController;
 
 use App\Http\Controllers\Controller;
-use App\Models\Unit;
 use Illuminate\Http\Request;
 
-class HomeController extends Controller
+class RekapPersetujuanAuditorController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data_unit = Unit::with([
-            'units_cabang:unit_cabang_id,unit_id,nama_unit_cabang'
-        ])->get();
-
-
-        // dump($data_unit->toArray());
-        return view('data_ami.home_admin.beranda', [
-            'title' => 'Home',
-            'data_unit' => $data_unit,
-        ]);
+        //
     }
+
     /**
      * Show the form for creating a new resource.
      */

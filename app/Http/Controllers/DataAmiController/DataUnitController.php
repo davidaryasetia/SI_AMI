@@ -12,17 +12,20 @@ class DataUnitController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data_unit = Unit::with([
-            'units_cabang:unit_cabang_id,unit_id,nama_unit_cabang'
-        ])->get();
-
+        $unit_type = $request->input('unit_type');
+        $query = Unit::with(['units_cabang:unit_cabang_id,unit_id,nama_unit_cabang']);
+        if($unit_type && $unit_type !== 'all'){
+            $query->where('tipe_data', $unit_type);
+        }
+        $data_unit = $query->get();
 
         // dump($data_unit->toArray());
         return view('data_ami.data_unit.unit', [
             'title' => 'Unit Kerja',
             'data_unit' => $data_unit,
+            'unit_type' => $unit_type, 
         ]);
     }
 
