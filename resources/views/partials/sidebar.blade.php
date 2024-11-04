@@ -69,14 +69,7 @@
                             <span class="hide-menu">Ploating AMI</span>
                         </a>
                     </li>
-                    {{-- <li class="sidebar-item role-admin">
-                    <a class="sidebar-link {{ Request::is('daftar_auditor*') ? 'active' : '' }}" href="/daftar_auditor" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-users"></i>
-                        </span>
-                        <span class="hide-menu">Data Auditor</span>
-                    </a>
-                </li> --}}
+                  
                     <li class="sidebar-item role-admin">
                         <a class="sidebar-link {{ Request::is('data_indikator*') ? 'active' : '' }}"
                             href="/data_indikator" aria-expanded="false">
@@ -170,8 +163,8 @@
                         </a>
                     </li>
                     <li class="sidebar-item role-auditor">
-                        <a class="sidebar-link {{ Request::is('penilaian_kinerja*') ? 'active' : '' }}"
-                            href="/penilaian_kinerja" aria-expanded="false">
+                        <a class="sidebar-link {{ Request::is('pengisian_kinerja_auditor*') ? 'active' : '' }}"
+                            href="/pengisian_kinerja_auditor" aria-expanded="false">
                             <span>
                                 <i class="ti ti-file-description"></i>
                             </span>
@@ -179,8 +172,8 @@
                         </a>
                     </li>
                     <li class="sidebar-item role-auditor">
-                        <a class="sidebar-link {{ Request::is('penilaian_kinerja*') ? 'active' : '' }}"
-                            href="/penilaian_kinerja" aria-expanded="false">
+                        <a class="sidebar-link {{ Request::is('rekap_persetujuan_auditor*') ? 'active' : '' }}"
+                            href="/rekap_persetujuan_auditor" aria-expanded="false">
                             <span>
                                 <i class="ti ti-checkup-list"></i>
                             </span>

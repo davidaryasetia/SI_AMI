@@ -92,19 +92,19 @@
         var performanceChart = new Chart(ctx, {
             type: 'pie',
             data: {
-                labels: ['Mencapai target', 'Melebihi target', 'Belum mencapai target'],
+                labels: ['Belum Mencapai Target', 'Mencapai Target', 'Melebihi'],
                 datasets: [{
                     label: 'Rekap Capaian',
                     data: [30, 40, 30], // Example data
                     backgroundColor: [
-                        'rgba(75, 192, 192, 0.6)',
-                        'rgba(255, 99, 132, 0.6)',
-                        'rgba(54, 162, 235, 0.6)'
+                        'rgba(255, 43, 43, 1)',
+                        'rgba(44, 42, 255, 0.8)',
+                        'rgba(45, 255, 42, 1)',
                     ],
                     borderColor: [
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)'
+                        'rgba(212, 0, 0, 1)',
+                        'rgba(1, 0, 171, 0.8)',
+                        'rgba(2, 181, 0, 1)',
                     ],
                     borderWidth: 1
                 }]

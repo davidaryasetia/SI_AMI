@@ -74,9 +74,8 @@ Route::middleware(['auth', 'role:audite'])->group(function () {
     Route::resource('/pengisian_kinerja', PengisianKinerjaController::class);
     Route::resource('/rekap_capaian', RekapCapaianController::class);
     Route::resource('/persetujuan', PersetujuanController::class);
-    Route::resource('/profile_audite', ProfileAuditeController::class);
 
-});
+}); 
 
 
 // Auth Middleware

@@ -12,7 +12,9 @@ class RekapPersetujuanAuditorController extends Controller
      */
     public function index()
     {
-        //
+        return view('data_auditor.rekap_persetujuan.rekap_persetujuan_auditor', [
+            "title" => "Rekap Persetujuan Auditor", 
+        ]);
     }
 
     /**

@@ -10,7 +10,7 @@ class UnitKerjaController extends Controller
 {
     public function index()
     {
-        $unit_kerja = Unit::with('unit_cabang:unit_id,unit_cabang_id,nama_unit_cabang')->get();
+        $unit_kerja = Unit::with(['units_cabang:unit_cabang_id,unit_id,nama_unit_cabang'])->get();
         return response()->json(['data_unit_kerja' => $unit_kerja]);
     }
 }
