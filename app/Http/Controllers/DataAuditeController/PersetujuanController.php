@@ -21,7 +21,7 @@ class PersetujuanController extends Controller
         $auditorData = Auditor::where('unit_id', $unitId)->first();
         if ($auditorData) {
             $auditor_1 = User::find($auditorData->auditor_1);
-            $auditor_2 = User::find($auditorData->auditor2);
+            $auditor_2 = User::find($auditorData->auditor_2);
 
             $auditor1 = $auditor_1 ? $auditor_1->nama : null;
             $auditor2 = $auditor_2 ? $auditor_2->nama : null;
