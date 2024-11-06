@@ -66,6 +66,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware(['auth', 'role:auditor'])->group(function () {
     Route::get('/home/auditor', [HomeAuditorController::class, 'HomeAuditor'])->name('home.auditor');
     Route::resource('/pengisian_kinerja_auditor', PengisianKinerjaAuditorController::class );
+    Route::get('/data_indikator_auditor', [PengisianKinerjaAuditorController::class, 'index'])->name('data_indikator_auditor.index');
     Route::resource('/rekap_persetujuan_auditor', RekapPersetujuanAuditorController::class);
 });
 

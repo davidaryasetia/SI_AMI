@@ -110,8 +110,8 @@
                 {{-- Header --}}
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <div>
-                        <h5>Sistem Informasi Audit Mutu Internal</h5>
-                        <p>Pengisian evaluasi unit P4MP.</p>
+                        <h5 style="color: black">Sistem Informasi Audit Mutu Internal</h5>
+                        <p style="color: black">Pengisian evaluasi unit : <span id="unit-name-display"></span></p>
                     </div>
                 </div>
                 {{-- End Header --}}
@@ -130,15 +130,15 @@
                         <tbody>
                             <?php $no = 1; ?>
                             @foreach (session('auditor') as $auditor)
-                            <tr>
-                                <td>{{ $no++ }}</td>
-                                <td>{{ $auditor['units']['nama_unit'] }}</td>
-                                <td>-</td>
-                                <td><span class="icon-cross"><i class="ti ti-x"></i></span></td>
-                            </tr>
+                                <tr>
+                                    <td>{{ $no++ }}</td>
+                                    <td>{{ $auditor['units']['nama_unit'] }}</td>
+                                    <td>-</td>
+                                    <td><span class="icon-cross"><i class="ti ti-x"></i></span></td>
+                                </tr>
                             @endforeach
-                           
-                            
+
+
                         </tbody>
                     </table>
                 </div>
@@ -147,14 +147,18 @@
                 {{-- Approval Content --}}
                 <div class="approval-box">
                     <div class="col-lg-2">
-                        <select id="unitSelect" class="form-select text-white bg-primary" style="border-radius: 12px; color: white">
-                            <option selected style="color: white">Pilih Unit Kerja</option>
+                        <select id="unit-select" class="form-select text-black bg-primary"
+                            style="border-radius: 12px; color: white">
+                            <option class="text-white" value="" style="color: white">Pilih Unit Kerja</option>
                             @foreach (session('auditor') as $auditor)
-                                <option value="{{ $auditor['units']['unit_id'] }}" style="color: white">{{ $auditor['units']['nama_unit'] }}</option>
+                                <option class="text-white" value="{{ $auditor['units']['unit_id'] }}"
+                                    data-unit-name="{{ $auditor['units']['nama_unit'] }}">
+                                    {{ $auditor['units']['nama_unit'] }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
-                   
+
 
                     <div class="d-flex flex-column align-items-center">
                         <p class="approval-text mt-3">
@@ -187,8 +191,20 @@
             </div>
         </div>
     </div>
-@endsection
+    @push('script')
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const unitSelect = document.getElementById('unit-select');
+                const unitNameDisplay = document.getElementById('unit-name-display'); // Pastikan penamaan ini sesuai
 
-@push('script')
-    {{-- Add necessary scripts here --}}
-@endpush
+                unitSelect.addEventListener('change', function() {
+                    const selectedOption = unitSelect.options[unitSelect.selectedIndex];
+                    const unitName = selectedOption.getAttribute('data-unit-name') || '-';
+
+                    // Perbarui teks unit di bagian "Pengisian evaluasi unit"
+                    unitNameDisplay.textContent = unitName;
+                });
+            });
+        </script>
+    @endpush
+@endsection

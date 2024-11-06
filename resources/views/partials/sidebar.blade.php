@@ -69,7 +69,7 @@
                             <span class="hide-menu">Ploating AMI</span>
                         </a>
                     </li>
-                  
+
                     <li class="sidebar-item role-admin">
                         <a class="sidebar-link {{ Request::is('data_indikator*') ? 'active' : '' }}"
                             href="/data_indikator" aria-expanded="false">
