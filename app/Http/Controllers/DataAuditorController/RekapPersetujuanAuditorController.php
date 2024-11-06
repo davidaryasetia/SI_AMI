@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\DataAuditorController;
 
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class RekapPersetujuanAuditorController extends Controller
@@ -12,8 +13,10 @@ class RekapPersetujuanAuditorController extends Controller
      */
     public function index()
     {
+        $date = Carbon::now()->format('d F y');
         return view('data_auditor.rekap_persetujuan.rekap_persetujuan_auditor', [
             "title" => "Rekap Persetujuan Auditor", 
+            'date' => $date, 
         ]);
     }
 

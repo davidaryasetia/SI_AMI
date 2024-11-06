@@ -128,24 +128,17 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <?php $no = 1; ?>
+                            @foreach (session('auditor') as $auditor)
                             <tr>
-                                <td>1</td>
-                                <td>P4MP</td>
-                                <td>100%</td>
-                                <td><span class="icon-check">✔</span></td>
+                                <td>{{ $no++ }}</td>
+                                <td>{{ $auditor['units']['nama_unit'] }}</td>
+                                <td>-</td>
+                                <td><span class="icon-cross"><i class="ti ti-x"></i></span></td>
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Prodi TI</td>
-                                <td>0%</td>
-                                <td><span class="icon-cross">✘</span></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Departemen TIK</td>
-                                <td>0%</td>
-                                <td><span class="icon-cross">✘</span></td>
-                            </tr>
+                            @endforeach
+                           
+                            
                         </tbody>
                     </table>
                 </div>
@@ -153,13 +146,15 @@
 
                 {{-- Approval Content --}}
                 <div class="approval-box">
-                    <div class="form-group col-lg-3">
-                        <select class="form-select bg-primary text-white" id="unitSelect" aria-label="Select Unit">
-                            <option value="P4MP" selected>Unit P4MP</option>
-                            <option value="Prodi TI">Prodi TI</option>
-                            <option value="Departemen TIK">Departemen TIK</option>
+                    <div class="col-lg-2">
+                        <select id="unitSelect" class="form-select text-white bg-primary" style="border-radius: 12px; color: white">
+                            <option selected style="color: white">Pilih Unit Kerja</option>
+                            @foreach (session('auditor') as $auditor)
+                                <option value="{{ $auditor['units']['unit_id'] }}" style="color: white">{{ $auditor['units']['nama_unit'] }}</option>
+                            @endforeach
                         </select>
                     </div>
+                   
 
                     <div class="d-flex flex-column align-items-center">
                         <p class="approval-text mt-3">
@@ -167,7 +162,7 @@
                             disepakati bersama dengan auditee."
                         </p>
                         <p>{{ Auth::user()->nama }}</p>
-                        <p class="approval-date">Surabaya, 11 Januari 2025</p>
+                        <p class="approval-date">Surabaya, {{ $date }}</p>
                     </div>
 
                     <form action="" method="POST">

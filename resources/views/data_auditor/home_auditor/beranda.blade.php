@@ -57,7 +57,6 @@
                                         <th>No</th>
                                         <th>Unit</th>
                                         <th>Status Auditor</th>
-                                        <th>Progress Pengisian</th>
                                         <th>Status</th>
                                     </tr>
                                 </thead>
@@ -73,8 +72,7 @@
                                                 @else
                                                     Anggota Auditor
                                                 @endif
-                                            </td> <!-- Sesuaikan dengan data sebenarnya jika berbeda -->
-                                            <td>-</td> <!-- Sesuaikan dengan data sebenarnya jika berbeda -->
+                                            </td> 
                                             <td><span class="badge bg-warning text-dark" style="font-weight: bold">Dalam
                                                 Proses</span></td>
                                         </tr>

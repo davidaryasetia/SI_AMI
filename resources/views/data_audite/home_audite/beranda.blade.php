@@ -62,8 +62,7 @@
                                         <th>No</th>
                                         <th>Nama Auditor</th>
                                         <th>Status Auditor</th>
-                                        <th>Progres Approval</th>
-                                        <th>Status</th>
+                                        <th>Status Approval</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -78,7 +77,6 @@
                                             @endif
                                         </td>
                                         <td>Ketua Auditor</td>
-                                        <td>-</td>
                                         <td><span class="badge bg-warning text-dark" style="font-weight: bold">Dalam
                                             Proses</span></td>
                                     </tr>
@@ -93,7 +91,6 @@
                                             {{ $auditor2 }}
                                         </td>
                                         <td>Anggota Auditor</td>
-                                        <td>-</td>
                                         <td><span class="badge bg-warning text-dark" style="font-weight: bold">Dalam
                                                 Proses</span></td>
                                     </tr>

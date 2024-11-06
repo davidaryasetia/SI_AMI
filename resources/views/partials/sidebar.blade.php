@@ -126,7 +126,7 @@
                         <a class="sidebar-link {{ Request::is('pengisian_kinerja*') ? 'active' : '' }}"
                             href="/pengisian_kinerja" aria-expanded="false">
                             <span>
-                                <i class="ti ti-file"></i>
+                                <i class="ti ti-file-description"></i>
                             </span>
                             <span class="hide-menu">Pengisian Kinerja</span>
                         </a>

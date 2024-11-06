@@ -24,7 +24,7 @@
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <div>
                         <h5>Sistem Informasi Audit Mutu Internal</h5>
-                        <p>Pengisian evaluasi unit -.</p>
+                        <p>Pengisian evaluasi unit : -</p>
                     </div>
                 </div>
                 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -38,9 +38,6 @@
                                 <option value="{{ $auditor['units']['unit_id'] }}">{{ $auditor['units']['nama_unit'] }}</option>
                             @endforeach
                         </select>
-                        
-                        
-                        
                     </div>
                 </div>
                 {{-- End Header --}}
