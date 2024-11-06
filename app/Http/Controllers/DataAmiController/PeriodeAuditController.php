@@ -11,19 +11,32 @@ class PeriodeAuditController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data_periode = PeriodePelaksanaan::all(); // Mengambil semua data dari tabel periode audit
+        $data_periode = PeriodePelaksanaan::orderBy('tanggal_pembukaan_ami', 'desc')->get(); // Mengurutkan data secara ascending
+
+        // Edit Data Periode
+        $editPeriode = null;
+        if ($request->has('id')){
+            $editPeriode = PeriodePelaksanaan::find($request->id);
+        } 
+
         return view('data_ami.periode_audit.periode', [
             'data_periode' => $data_periode,
-            'title' => 'Pengaturan Periode Audit'
+            'title' => 'Pengaturan Periode Audit', 
+            'edit_periode' => $editPeriode, 
         ]);
     }
 
+    // Ambil data 
     // Fungsi untuk menyimpan data periode baru
     public function store(Request $request)
     {
-        // dd($request->all());
+        $existingPeriode = PeriodePelaksanaan::where('status', 'Sedang Berjalan')->exists();
+
+        if ($existingPeriode){
+            return redirect()->route('periode_audit.index')->with('error', 'Tidak dapat menambah periode baru. Masih ada periode dengan status "Sedang Berjalan".');    
+        }
         $request->validate([
             'nama_periode_ami' => 'required|string|max:255',
             'tanggal_pembukaan_ami' => 'required|date',
@@ -61,11 +74,11 @@ class PeriodeAuditController extends Controller
         $periode = PeriodePelaksanaan::findOrFail($id);
         $periode->update([
             'nama_periode_ami' => $request->nama_periode_ami,
-            'tanggal_pembukaan_ami' => $request->mulai,
-            'tanggal_penutupan_ami' => $request->selesai,
+            'tanggal_pembukaan_ami' => $request->tanggal_pembukaan_ami,
+            'tanggal_penutupan_ami' => $request->tanggal_penutupan_ami,
         ]);
 
-        return redirect()->route('periode_audit.edit')->with('success', 'Periode audit berhasil diperbarui.');
+        return redirect()->route('periode_audit.index')->with('success', 'Periode audit berhasil diperbarui.');
     }
 
     // Fungsi untuk menghapus data
@@ -75,5 +88,16 @@ class PeriodeAuditController extends Controller
         $periode->delete();
 
         return redirect()->route('periode_audit.index')->with('success', 'Periode audit berhasil dihapus.');
+    }
+
+    // Tutup jadwal 
+    public function close($id)
+    {
+        $periode = PeriodePelaksanaan::findOrFail($id);
+        $periode->update([
+            'status' => 'Tutup'
+        ]);
+
+        return redirect()->route(route: 'periode_audit.index')->with('success', 'Periode audit berhasil ditutup');
     }
 }

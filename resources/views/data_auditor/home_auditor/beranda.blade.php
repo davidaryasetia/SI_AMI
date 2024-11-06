@@ -1,14 +1,22 @@
 @extends('layouts.main')
 @push('css')
-   <style>
-            .alert-custom {
+    <style>
+        .alert-custom {
             background-color: #d1ecf1;
             color: #0c5460;
             border-color: #bee5eb;
             padding: 15px;
             border-radius: 8px;
         }
-   </style>
+
+        .alert-custom-danger {
+            background-color: #ff1c1c;
+            color: #ffffff;
+            border-color: #dd8d8d;
+            padding: 15px;
+            border-radius: 8px;
+        }
+    </style>
 @endpush
 
 @section('row')
@@ -18,9 +26,16 @@
             <div class="col-12">
                 <h5 class="fw-normal text-dark">Hai, {{ Auth::user()->nama }}! Selamat datang di Dashboard Auditor</h5>
                 <div class="col-lg-3">
-                    <div class="alert alert-custom mt-3" role="alert">
-                        <strong>Kegiatan AMI Sedang Berlangsung</strong>
-                    </div>
+                    @if ($current_periode->status == 'Sedang Berjalan')
+                        <div class="alert alert-custom mt-3" role="alert">
+                            <strong>Kegiatan AMI Sedang Berlangsung</strong>
+                        </div>
+                    @else
+                        <div class="alert alert-custom-danger mt-3" role="alert">
+                            <strong>Kegiatan AMI Telah Ditutup</strong>
+                        </div>
+                    @endif
+
                 </div>
             </div>
         </div>
@@ -41,27 +56,30 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Unit</th>
-                                        <th>Audite</th>
+                                        <th>Status Auditor</th>
                                         <th>Progress Pengisian</th>
                                         <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- Contoh Data -->
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Ukarni</td>
-                                        <td>Selvia</td>
-                                        <td>70%</td>
-                                        <td><span class="badge" style=" background-color: #d1ecf1; color: #0c5460; border-color: #bee5eb; font-weight: bold">Selesai</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>BAAK</td>
-                                        <td>Pindarwati</td>
-                                        <td>100%</td>
-                                        <td><span class="badge bg-warning text-dark">Dalam Proses</span></td>
-                                    </tr>
+                                    <?php $nomer=1; ?>
+                                    @foreach (session('auditor') as $auditor)
+                                        <tr>
+                                            <td>{{ $nomer++ }}</td>
+                                            <td>{{ $auditor['units']['nama_unit'] }}</td>
+                                            <td>
+                                                @if ($auditor['units']['status_auditor'] == 'auditor_1')
+                                                    Ketua Auditor
+                                                @else
+                                                    Anggota Auditor
+                                                @endif
+                                            </td> <!-- Sesuaikan dengan data sebenarnya jika berbeda -->
+                                            <td>-</td> <!-- Sesuaikan dengan data sebenarnya jika berbeda -->
+                                            <td><span class="badge bg-warning text-dark" style="font-weight: bold">Dalam
+                                                Proses</span></td>
+                                        </tr>
+                                    @endforeach
+
                                     <!-- Tambahkan data sesuai kebutuhan -->
                                 </tbody>
                             </table>
@@ -78,9 +96,28 @@
                     </div>
                     <div class="card-body">
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Tahun: <strong>2024</strong></li>
-                            <li class="list-group-item">Periode: <strong>1 Januari - 10 Januari</strong></li>
-                            <li class="list-group-item">Status: <span class="badge text-dark" style=" background-color: #d1ecf1; color: #0c5460; border-color: #bee5eb; font-weight: bold">Dalam Proses</span></li>
+                            <li class="list-group-item">Tahun:
+                                <strong><strong>{{ \Carbon\Carbon::parse($current_periode->tanggal_pembukaan_ami)->translatedFormat('Y') }}</strong></strong>
+                            </li>
+                            <li class="list-group-item">Periode:
+                                <strong>{{ \Carbon\Carbon::parse($current_periode->tanggal_pembukaan_ami)->translatedFormat('d M') }}
+                                    -
+                                    {{ \Carbon\Carbon::parse($current_periode->tanggal_penutupan_ami)->translatedFormat('d M') }}</strong>
+                            </li>
+                            <li class="list-group-item">Jumlah Unit: <strong>{{ count(session('auditor')) }}</strong></li>
+                            <li class="list-group-item">Progress Evaluasi Kinerja: -</strong></li>
+                            <li class="list-group-item">Status:
+                                @if ($current_periode->status == 'Sedang Berjalan')
+                                    <span class="badge ms-2"
+                                        style="background-color: #d1ecf1; color: #0c5460; border-color: #bee5eb; font-weight: bold">{{ $current_periode->status }}
+                                    </span>
+                                @else
+                                    <span class="badge ms-2"
+                                        style="background-color: #ff0000; color: #ffffff; border-color: #dd8d8d; font-weight: bold">{{ $current_periode->status }}
+                                    </span>
+                                @endif
+
+                            </li>
                         </ul>
                     </div>
                 </div>

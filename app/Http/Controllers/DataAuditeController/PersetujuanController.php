@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\DataAuditeController;
 
 use App\Http\Controllers\Controller;
+use App\Models\Auditor;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PersetujuanController extends Controller
@@ -12,8 +15,25 @@ class PersetujuanController extends Controller
      */
     public function index()
     {
+        $date = Carbon::now()->format('d F Y');
+        $unitId = session('audite.unit.unit_id');
+
+        $auditorData = Auditor::where('unit_id', $unitId)->first();
+        if ($auditorData) {
+            $auditor_1 = User::find($auditorData->auditor_1);
+            $auditor_2 = User::find($auditorData->auditor2);
+
+            $auditor1 = $auditor_1 ? $auditor_1->nama : null;
+            $auditor2 = $auditor_2 ? $auditor_2->nama : null;
+        }
+
+
+
         return view('data_audite.persetujuan.persetujuan', [
             'title' => 'persetujuan',
+            'date' => $date,
+            'auditor1' => $auditor1,
+            'auditor2' => $auditor2,
         ]);
     }
 

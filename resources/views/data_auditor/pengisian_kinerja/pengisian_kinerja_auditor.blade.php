@@ -24,7 +24,7 @@
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <div>
                         <h5>Sistem Informasi Audit Mutu Internal</h5>
-                        <p>Pengisian evaluasi unit P4MP.</p>
+                        <p>Pengisian evaluasi unit -.</p>
                     </div>
                 </div>
                 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -32,12 +32,15 @@
                         <span>Progres evaluasi: 60% (2 dari 3)</span>
                     </div>
                     <div class="col-lg-2">
-                        <select class="form-select text-black" style="border-radius: 12px;">
-                            <option selected>Unit Prodi TI</option>
-                            <option value="ukarni">Ukarni</option>
-                            <option value="p3m">P3M</option>
-                            <option value="baak">BAAK</option>
+                        <select id="unitSelect" class="form-select text-black" style="border-radius: 12px;">
+                            <option selected>Pilih Unit Kerja</option>
+                            @foreach (session('auditor') as $auditor)
+                                <option value="{{ $auditor['units']['unit_id'] }}">{{ $auditor['units']['nama_unit'] }}</option>
+                            @endforeach
                         </select>
+                        
+                        
+                        
                     </div>
                 </div>
                 {{-- End Header --}}

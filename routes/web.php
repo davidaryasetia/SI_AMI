@@ -93,6 +93,7 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('data_indikator/delete/{indikator_id}/{unit_id}', [DataIndikatorController::class, 'destroyWithUnit'])->name('data_indikator.destroyWithUnit');
         Route::resource('/daftar_auditor', AuditorController::class);
         Route::resource('/periode_audit', PeriodeAuditController::class);
+        Route::post('/periode_audit/close/{id}', [PeriodeAuditController::class, 'close'])->name('periode_audit.close');
         Route::resource('/progres_audit', ProgresAuditController::class);
         Route::resource('/rekap_audit', RekapAuditController::class);
         Route::post('/import_Indikator_Kinerja_Unit', [ImportIndikatorKinerjaController::class, 'importData'])->name('import.dataIndikator');

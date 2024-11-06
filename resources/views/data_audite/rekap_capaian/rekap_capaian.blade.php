@@ -58,7 +58,11 @@
                 {{-- Header --}}
                 <div class="content-header">
                     <h4 class="card-title fw-semibold">Rekap Capaian</h4>
-                    <p>Unit P4MP</p>
+                    <p style="font-weight: bold">Unit
+                        @if (session()->has('audite.unit.nama_unit'))
+                            {{ session('audite.unit.nama_unit') }}
+                        @endif
+                    </p>
                 </div>
                 {{-- Content --}}
                 <div class="pie-chart-container">
@@ -71,10 +75,10 @@
                 {{-- Keterangan Deskripsi --}}
                 <div class="chart-description">
                     <p>
-                        Grafik di atas menunjukkan distribusi kinerja dari Unit P4MP berdasarkan pencapaian target. 
-                        Sebesar 30% dari unit telah berhasil mencapai target yang ditentukan, sementara 40% melebihi target, 
-                        dan sisanya sebesar 30% belum mencapai target yang telah ditetapkan. 
-                        Hasil ini menggambarkan bahwa sebagian besar unit mampu memenuhi atau melebihi target, 
+                        Grafik di atas menunjukkan distribusi kinerja dari Unit P4MP berdasarkan pencapaian target.
+                        Sebesar 30% dari unit telah berhasil mencapai target yang ditentukan, sementara 40% melebihi target,
+                        dan sisanya sebesar 30% belum mencapai target yang telah ditetapkan.
+                        Hasil ini menggambarkan bahwa sebagian besar unit mampu memenuhi atau melebihi target,
                         namun masih ada beberapa unit yang perlu ditingkatkan kinerjanya.
                     </p>
                 </div>

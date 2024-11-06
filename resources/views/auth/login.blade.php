@@ -84,12 +84,24 @@
         /* Style untuk gambar */
         .login-image {
             width: 300px;
-            height: auto; 
+            height: auto;
             margin-bottom: 15px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        
+
+        .position-absolute { 
+            position: absolute !important;
+            top: 20px;
+            right: 20px;
+            z-index: 1050;
+        }
+
+        .alert { 
+            width: 250px;
+            text-align: left;
+            opacity: 0.9
+        }
         @media (max-width: 768px) {
             .login-container {
                 flex-direction: column;
@@ -110,6 +122,28 @@
 </head>
 
 <body>
+     {{-- Failed Login Message --}}
+     <div class="position-absolute top-0 end-0 p-3">
+        @if (session('success'))
+            <div class="alert alert-primary" style role="alert">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session('login_failed'))
+            <div class="alert alert-danger" style role="alert">
+                {{ session('login_failed') }}
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger" style role="alert">
+                {{ session('error') }}
+            </div>
+        @endif
+    </div>
+    {{-- End Failed Login Message --}}
+
 
     <div class="login-container">
         <div class="row w-100">
@@ -119,7 +153,7 @@
                     <img src="{{ asset('assets/img/PENS.jpg') }}" class="login-image" alt="Login">
                 </div>
             </div>
-            
+
             <div class="divider d-none d-md-block" style="border: 1px solid black; height: 400px"></div>
 
             <!-- Right Side: Single Login Form -->
@@ -145,10 +179,21 @@
                         <button type="submit" class="btn btn-primary">Login</button>
                     </form>
                 </div>
+
+               
             </div>
         </div>
     </div>
 
 </body>
+<script>
+    setTimeout(function() {
+        document.querySelectorAll('.alert').forEach(function(alert) {
+            alert.style.display = "none";
+        });
+    }, 5000);
+</script>
+<script src="{{ asset('assets/libs/jquery/dist/jquery.min.js') }}"></script>
+<script src="{{ asset('assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
 
 </html>

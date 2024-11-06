@@ -14,6 +14,7 @@ class PeriodePelaksanaan extends Model
         'nama_periode_ami', 
         'tanggal_pembukaan_ami', 
         'tanggal_penutupan_ami', 
+        'status', 
         'created_at', 
         'updated_at'
     ];

@@ -66,7 +66,11 @@
                 <div class="d-flex justify-content-between align-items-center mb-4 content-header">
                     <h4 class="card-title fw-semibold">Progress Pengisian Kinerja Audite</h4>
                 </div>
-                <p class="unit-info">Unit P4MP</p> <!-- Keterangan Unit P4MP -->
+                <p class="unit-info" style="font-weight: bold; color: black">Unit
+                    @if (session()->has('audite.unit.nama_unit'))
+                        {{ session('audite.unit.nama_unit') }}
+                    @endif
+                </p> <!-- Keterangan Unit P4MP -->
 
                 {{-- Table Content --}}
                 <div class="table-responsive">
@@ -74,7 +78,8 @@
                         <thead class="table-light">
                             <tr>
                                 <th>No</th>
-                                <th>Kode Indikator</th>
+                                <th>Kode</th>
+                                <th>Indikator</th>
                                 <th>Target</th>
                                 <th>Capaian</th>
                                 <th>Analisis Keberhasilan</th>
@@ -88,48 +93,28 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td data-label="No">1</td>
-                                <td data-label="Kode Indikator">IK2.2</td>
-                                <td data-label="Target">20</td>
-                                <td data-label="Capaian">15</td>
-                                <td data-label="Analisis Keberhasilan">Telah mencapai 75% target.</td>
-                                <td data-label="Usulan Target Tahun Depan">25</td>
-                                <td data-label="Strategi Pencapaian">Meningkatkan kualitas SDM.</td>
-                                <td data-label="Sarpras Yang Dibutuhkan">Laboratorium tambahan.</td>
-                                <td data-label="Faktor Pendukung">Dukungan manajemen.</td>
-                                <td data-label="Faktor Penghambat">Keterbatasan anggaran.</td>
-                                <td data-label="Akar Masalah">Kurangnya pendanaan.</td>
-                                <td data-label="Tindak Lanjut">Mengajukan tambahan anggaran.</td>
-                            </tr>
-                            <tr>
-                                <td data-label="No">2</td>
-                                <td data-label="Kode Indikator">IK2.3</td>
-                                <td data-label="Target">5</td>
-                                <td data-label="Capaian">4</td>
-                                <td data-label="Analisis Keberhasilan">Hampir mencapai target.</td>
-                                <td data-label="Usulan Target Tahun Depan">6</td>
-                                <td data-label="Strategi Pencapaian">Menambah kegiatan penelitian.</td>
-                                <td data-label="Sarpras Yang Dibutuhkan">Peralatan riset terbaru.</td>
-                                <td data-label="Faktor Pendukung">Kerjasama dengan pihak eksternal.</td>
-                                <td data-label="Faktor Penghambat">Kurangnya waktu pelaksanaan.</td>
-                                <td data-label="Akar Masalah">Keterbatasan sumber daya manusia.</td>
-                                <td data-label="Tindak Lanjut">Merekrut tenaga ahli tambahan.</td>
-                            </tr>
-                            <tr>
-                                <td data-label="No">3</td>
-                                <td data-label="Kode Indikator">IK2.4</td>
-                                <td data-label="Target">5</td>
-                                <td data-label="Capaian">6</td>
-                                <td data-label="Analisis Keberhasilan">Melebihi target.</td>
-                                <td data-label="Usulan Target Tahun Depan">7</td>
-                                <td data-label="Strategi Pencapaian">Meningkatkan efektivitas kerja.</td>
-                                <td data-label="Sarpras Yang Dibutuhkan">Alat monitoring tambahan.</td>
-                                <td data-label="Faktor Pendukung">Kerja sama tim yang solid.</td>
-                                <td data-label="Faktor Penghambat">Keterbatasan waktu.</td>
-                                <td data-label="Akar Masalah">Manajemen waktu yang kurang optimal.</td>
-                                <td data-label="Tindak Lanjut">Melakukan pelatihan manajemen waktu.</td>
-                            </tr>
+                            @php
+                                $no = 1;
+                            @endphp
+                            @foreach ($data_indikator['indikator_ikuk'] as $dataIndikator)
+                                <tr>
+                                    <td data-label="No">{{ $no++ }}</td>
+                                    <td data-label="Kode Indikator">{{ $dataIndikator['kode_ikuk'] }}</td>
+                                    <td data-label="Indikator" style="width: 40%; white-space: pre-line; word-wrap: break-word; text-align: left; color: black;">{{ $dataIndikator['isi_indikator_kinerja_unit_kerja'] }}</td>
+                                    <td data-label="Target">{{ $dataIndikator['target_ikuk'] }}</td>
+                                    <td data-label="Capaian">-</td>
+                                    <td data-label="Analisis Keberhasilan">-</td>
+                                    <td data-label="Usulan Target Tahun Depan">-</td>
+                                    <td data-label="Strategi Pencapaian">-</td>
+                                    <td data-label="Sarpras Yang Dibutuhkan">-</td>
+                                    <td data-label="Faktor Pendukung">-</td>
+                                    <td data-label="Faktor Penghambat">-</td>
+                                    <td data-label="Akar Masalah">-</td>
+                                    <td data-label="Tindak Lanjut">-</td>
+                                </tr>
+                            @endforeach
+
+
                         </tbody>
                     </table>
                 </div>

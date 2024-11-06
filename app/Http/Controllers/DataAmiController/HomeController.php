@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\DataAmiController;
 
 use App\Http\Controllers\Controller;
+use App\Models\PeriodePelaksanaan;
 use App\Models\Unit;
 use Illuminate\Http\Request;
 
@@ -15,13 +16,22 @@ class HomeController extends Controller
     {
         $data_unit = Unit::with([
             'units_cabang:unit_cabang_id,unit_id,nama_unit_cabang'
-        ])->get();
+        ])->get(); 
 
+        // Ambil periode yang sedang berjalan 
+        $currentPeriode = PeriodePelaksanaan::where('status', 'Sedang Berjalan')
+            ->orderBy('tanggal_pembukaan_ami','desc')
+            ->first();
+        
+        if (!$currentPeriode){
+            $currentPeriode = PeriodePelaksanaan::orderBy('tanggal_pembukaan_ami', 'desc')->first();
+        }
 
         // dump($data_unit->toArray());
         return view('data_ami.home_admin.beranda', [
             'title' => 'Home',
             'data_unit' => $data_unit,
+            'current_periode' => $currentPeriode, 
         ]);
     }
     /**

@@ -28,7 +28,89 @@ class AuthController extends Controller
 
             // Tentukan role yang dimiliki user dan simpan di session
             $roles = $user->hasMultipleRoles();
+            // dd($roles);
             session(['roles' => $roles]);
+
+            $unitData = [];
+
+            // Data Unit audite
+            if (in_array('audite', $roles)) {
+                $auditeData = $user->audite()->with('units', 'units_cabang')->first();
+                if ($auditeData){
+                    $unit = [
+                     'unit_id' => $auditeData->units->unit_id ?? null, 
+                     'nama_unit' => $auditeData->units->nama_unit ?? null,    
+                    ];
+
+                    if ($auditeData->units->tipe_data === 'departemen_kerja'){
+                        $unit['units_cabang'] = $auditeData->units_cabang ? [
+                            'unit_cabang_id' => $auditeData->units_cabang->unit_cabang_id ?? null, 
+                            'nama_unit_cabang' => $auditeData->units_cabang->nama_unit_cabang ?? null,
+                        ] : null;
+                    } else {
+                        $unit['units_cabang'] = null;
+                    }
+
+                    $unitData['audite'] = ['unit'=>$unit];
+                }
+
+            }
+
+
+            // Data Unit auditor 
+            if (in_array('auditor', $roles)){
+                $auditorData1Units = $user->auditor1()->with('units')->get();
+                $auditorData2Units = $user->auditor2()->with('units')->get();
+
+                $unitData['auditor'] = [];
+
+                // Loop untuk unit auditor 1
+                foreach ($auditorData1Units as $auditorData){
+                    if ($auditorData->units){
+                        $unit = [
+                            'unit_id' => $auditorData->units->unit_id ?? null, 
+                            'nama_unit' => $auditorData->units->nama_unit ?? null, 
+                            'status_auditor' => 'auditor_1'
+                        ];
+
+                        if ($auditorData->units->tipe_data == 'departemen_kerja'){
+                            $unit['unit_cabang'] = $auditorData->units->units_cabang ? [
+                                'unit_cabang_id' => $auditorData->units->units_cabang->unit_cabang_id ?? null, 
+                                'nama_unit_cabang' => $auditorData->units->units_cabang->nama_unit_cabang ?? null, 
+                            ] : null;
+                        } else {
+                            $unit['unit_cabang'] = null;
+                        }
+
+                        $unitData['auditor'][] = ['units' => $unit];
+                    }
+                }
+
+                // Loop untuk unit dimana user adalah auditor_2
+                foreach ($auditorData2Units as $auditorData){
+                    if ($auditorData->units){
+                        $unit = [
+                            'unit_id' => $auditorData->units->unit_id ?? null, 
+                            'nama_unit' => $auditorData->units->nama_unit ?? null, 
+                            'status_auditor' => 'auditor_2', 
+                        ];  
+
+                        if ($auditorData->units->tipe_data === 'departemen_kerja'){
+                            $unit['units_cabang'] = $auditorData->units->units_cabang ? [
+                                'unit_cabang_id' => $auditorData->units_cabang->unit_cabang_id ?? null, 
+                                'nama_unit_cabang' => $auditorData->units_cabang->nama_unit_cabang ?? null, 
+                            ] : null;
+                        } else {
+                            $unit['unit_cabang'] = null;
+                        }
+
+                        $unitData['auditor'][] = ['units' => $unit];
+                    }
+                }
+            }
+
+            session($unitData);
+            // dd($unitData);
 
             if (count($roles) > 1) {
                 return redirect()->route('choose.role');
@@ -41,9 +123,10 @@ class AuthController extends Controller
             // return redirect()->route('login')->with('error', 'Anda tidak memiliki akses role yang valid.');
         } else {
             // Jika email atau password salah
-            return redirect()->back()->with('error', 'Email atau password salah.');
+            return redirect()->back()->with('error', 'Email atau password salah !!!');
         }
     }
+
 
     private function redirectToRole($role)
     {
@@ -90,8 +173,6 @@ class AuthController extends Controller
 
         return response()->json(['status' => 'error', 'message' => 'Invalid role.'], 400);
     }
-
-
 
     public function showLoginForm()
     {

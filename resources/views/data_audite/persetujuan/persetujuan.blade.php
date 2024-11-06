@@ -98,7 +98,7 @@
 @section('row')
     <div class="container-fluid approval-container">
         <div class="approval-box">
-            <h4 class="card-title fw-semibold">Persetujuan Evaluasi Kinerja Unit</h4>
+            <h4 class="card-title fw-semibold">Persetujuan Evaluasi Kinerja Unit {{ session('audite.unit.nama_unit') }}</h4>
             <p class="approval-text">
                 “Dengan ini saya menyatakan bahwa data yang telah dimasukkan adalah benar. 
                 Proses evaluasi oleh auditor telah dijalankan dan saya menyetujui hasil evaluasi.”
@@ -108,30 +108,41 @@
                 {{-- Signature 1 --}}
                 <div class="signature-section">
                     <div class="signature-icon">⭕</div>
-                    <div class="signature-text">Setuju</div>
+                    <div class="signature-text">Proses</div>
                     <div class="signature-details">
-                        Surabaya, 11 Januari 2025 <br>
-                        P4MP, David
+                        Surabaya, {{ $date }} <br>
+                        Unit {{ session('audite.unit.nama_unit') }}, {{ Auth::user()->nama }}
                     </div>
                 </div>
                 
                 {{-- Signature 2 --}}
                 <div class="signature-section">
                     <div class="signature-icon">⭕</div>
-                    <div class="signature-text">Setuju</div>
+                    <div class="signature-text">Proses</div>
                     <div class="signature-details">
-                        Surabaya, 11 Januari 2025 <br>
-                        Ketua Auditor, Hary
+                        Surabaya, {{ $date }} <br>
+                        Ketua Auditor, 
+                        @if ($auditor1 == null)
+                            <span style="color: red">Auditor 1 Belum di Set</span>
+                        @else
+                        {{ $auditor1 }}
+                        @endif
                     </div>
                 </div>
                 
                 {{-- Signature 3 --}}
                 <div class="signature-section">
-                    <div class="signature-approved">✅</div>
-                    <div class="signature-text">Setuju</div>
+                    <div class="signature-approved">⭕</div>
+                    <div class="signature-text">Proses</div>
                     <div class="signature-details">
-                        Surabaya, 11 Januari 2025 <br>
-                        Anggota Auditor, Tita
+                        Surabaya, {{ $date }} <br>
+                        Anggota Auditor, 
+                        @if ($auditor2 == null)
+                            <span style="color: red">Auditor 2 Belum Di Atur</span>
+                        @else
+                        {{ $auditor2 }}
+                            
+                        @endif
                     </div>
                 </div>
             </div>
