@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\DataAuditorController;
 
 use App\Http\Controllers\Controller;
+use App\Models\Unit;
 use Illuminate\Http\Request;
 
 class PengisianKinerjaAuditorController extends Controller
@@ -10,8 +11,13 @@ class PengisianKinerjaAuditorController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $unitId = $request->input('unit_id');
+        
+        // dump($unitId);
+        
+
         return view('data_auditor.pengisian_kinerja.pengisian_kinerja_auditor', [
             'title' => 'Pengisian Kinerja Auditor', 
         ]);

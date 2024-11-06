@@ -32,12 +32,15 @@
                         <span>Progres evaluasi: 60% (2 dari 3)</span>
                     </div>
                     <div class="col-lg-2">
-                        <select id="unitSelect" class="form-select text-black" style="border-radius: 12px;">
-                            <option selected>Pilih Unit Kerja</option>
-                            @foreach (session('auditor') as $auditor)
-                                <option value="{{ $auditor['units']['unit_id'] }}">{{ $auditor['units']['nama_unit'] }}</option>
-                            @endforeach
-                        </select>
+                        <form action="{{ route('pengisian_kinerja_auditor.index') }}"  method="GET" id="unitForm">
+                            <select id="unit_id" name="unit_id" class="form-select text-black" style="border-radius: 12px;">
+                                <option selected>Pilih Unit Kerja</option>
+                                @foreach (session('auditor') as $auditor)
+                                    <option value="{{ $auditor['units']['unit_id'] }}" {{  }}>{{ $auditor['units']['nama_unit'] }}</option>
+                                @endforeach
+                            </select>
+                        </form>
+                        
                     </div>
                 </div>
                 {{-- End Header --}}
