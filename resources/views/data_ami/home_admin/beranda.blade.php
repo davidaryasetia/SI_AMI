@@ -17,10 +17,10 @@
                                                 <h6 class="fw-semibold mb-0">Unit/Kegiatan</h6>
                                             </th>
                                             <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Status Audite</h6>
+                                                <h6 class="fw-semibold mb-0">Status Verifikasi Audite</h6>
                                             </th>
                                             <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Status Auditor</h6>
+                                                <h6 class="fw-semibold mb-0">Status Verifikasi Auditor</h6>
                                             </th>
 
                                         </tr>
@@ -42,10 +42,12 @@
                                                     </ul>
                                                 </td>
                                                 <td colspan="1" class="border-bottom-0">
-                                                    <h6 class="fw-semibold mb-0">Data Tidak Tersedia</h6>
+                                                    <h6 class="fw-semibold mb-0"><span class="badge bg-warning text-dark" style="font-weight: bold">Dalam
+                                                        Proses</span></h6>
                                                 </td>
                                                 <td colspan="1" class="border-bottom-0">
-                                                    <h6 class="fw-semibold mb-0">Data Tidak Tersedia</h6>
+                                                    <h6 class="fw-semibold mb-0"><span class="badge bg-warning text-dark" style="font-weight: bold">Dalam
+                                                        Proses</span></h6>
                                                 </td>
                                             </tr>
                                             

@@ -30,6 +30,20 @@
             margin-bottom: 20px;
         }
 
+        .ikuk-btn {
+            display: inline-block;
+            margin: 3px;
+            padding: 10px 12px;
+            font-size: 12px;
+            width: auto;
+            text-align: center;
+            font-weight: bold;
+            color: white;
+            background-color: #007bff;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
         /* Responsive Table */
         @media (max-width: 768px) {
             table thead {
@@ -64,13 +78,59 @@
             <div class="w-100">
                 {{-- Header --}}
                 <div class="d-flex justify-content-between align-items-center mb-4 content-header">
-                    <h4 class="card-title fw-semibold">Progress Pengisian Kinerja Audite</h4>
+                    <h4 class="card-title fw-semibold">Progress Pengisian Kinerja Audite - Unit @if (session()->has('audite.unit.nama_unit'))
+                            {{ session('audite.unit.nama_unit') }}
+                        @endif
+                    </h4>
                 </div>
-                <p class="unit-info" style="font-weight: bold; color: black">Unit
-                    @if (session()->has('audite.unit.nama_unit'))
-                        {{ session('audite.unit.nama_unit') }}
-                    @endif
-                </p> <!-- Keterangan Unit P4MP -->
+                {{-- Button untuk setiap kode IKUK --}}
+                <div class="d-flex flex-wrap" style="margin-bottom: 8px">
+                    @foreach ($data_indikator['indikator_ikuk'] as $dataIndikator)
+                        <div class="ikuk-btn" data-bs-toggle="modal" data-bs-target="#modal{{ $dataIndikator['kode_ikuk'] }}">
+                            {{ $dataIndikator['kode_ikuk'] }}
+                        </div>
+                    @endforeach
+                </div>
+
+                {{-- Modal untuk setiap IKUK --}}
+                @foreach ($data_indikator['indikator_ikuk'] as $dataIndikator)
+                    <div class="modal fade" id="modal{{ $dataIndikator['kode_ikuk'] }}" tabindex="-1"
+                        aria-labelledby="modalLabel{{ $dataIndikator['kode_ikuk'] }}" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header bg-primary text-white">
+                                    <h5 class="modal-title text-white" style="color: white; font-weight: bold"
+                                        id="modalLabel{{ $dataIndikator['kode_ikuk'] }}">Detail Kode
+                                        IKUK: {{ $dataIndikator['kode_ikuk'] }}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <h6 class="text-primary"><strong>Indikator</strong></h6>
+                                        <p>{{ $dataIndikator['isi_indikator_kinerja_unit_kerja'] }}</p>
+                                    </div>
+                                    <div class="mb-3">
+                                        <h6 class="text-primary"><strong>Target</strong></h6>
+                                        <p>{{ $dataIndikator['target_ikuk'] }}</p>
+                                    </div>
+                                    <div class="mb-3">
+                                        <h6 class="text-primary"><strong>Capaian</strong></h6>
+                                        <input type="text" class="form-control" placeholder="Masukkan Jumlah Capaian">
+                                    </div>
+                                </div>
+                                <hr>
+
+                                <div class="modal-footer d-flex justify-content-between">
+                                    <button type="button" class="btn btn-outline-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+
 
                 {{-- Table Content --}}
                 <div class="table-responsive">
@@ -100,7 +160,9 @@
                                 <tr>
                                     <td data-label="No">{{ $no++ }}</td>
                                     <td data-label="Kode Indikator">{{ $dataIndikator['kode_ikuk'] }}</td>
-                                    <td data-label="Indikator" style="width: 40%; white-space: pre-line; word-wrap: break-word; text-align: left; color: black;">{{ $dataIndikator['isi_indikator_kinerja_unit_kerja'] }}</td>
+                                    <td data-label="Indikator"
+                                        style="width: 40%; white-space: pre-line; word-wrap: break-word; text-align: left; color: black;">
+                                        {{ $dataIndikator['isi_indikator_kinerja_unit_kerja'] }}</td>
                                     <td data-label="Target">{{ $dataIndikator['target_ikuk'] }}</td>
                                     <td data-label="Capaian">-</td>
                                     <td data-label="Analisis Keberhasilan">-</td>

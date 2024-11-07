@@ -58,7 +58,7 @@
                                 <th>Satuan</th>
                                 <th>Target</th>
                                 <th>Capaian</th>
-                                <th style="padding: 10px 64px;">Status Capaian</th>
+                                <th>Status Capaian</th>
                                 <th>Analisis Keberhasilan</th>
                                 <th>Usulan Target Tahun Depan</th>
                                 <th>Strategi Pencapaian</th>
@@ -79,12 +79,7 @@
                                     <td>{{ $data['satuan_ikuk'] }}</td>
                                     <td>{{ $data['target_ikuk'] }}</td>
                                     <td>
-                                        <select class="form-select w-100" style="border-radius: 12px;">
-                                            <option selected>Pilih Status</option>
-                                            <option value="tercapai">Tercapai</option>
-                                            <option value="belum">Belum Tercapai</option>
-                                            <option value="proses">Dalam Proses</option>
-                                        </select>
+
                                     </td>
                                     <td></td>
                                     <td></td>

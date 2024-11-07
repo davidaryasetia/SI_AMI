@@ -16,32 +16,34 @@
         </ul>
         <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
             <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
-                <li class="nav-item dropdown d-flex align-items-center">
-                    <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2"
-                        data-bs-toggle="dropdown" aria-expanded="false">
+                <li class="nav-item dropdown d-flex align-items-center" style="backgroun">
+                    <a class="nav-link d-flex align-items-center" href="javascript:void(0)"
+                        id="drop2" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="{{ Auth::user()->foto_gambar ? Storage::disk('s3')->url(Auth::user()->foto_gambar) : asset('assets/images/profile/user-profile.png') }}"
-                                    alt="Profile" width="35" height="35" class="rounded-circle">
-
+                            alt="Profile" width="35" height="35" class="rounded-circle">
+                        <div class="flex-grow-1 ms-2">
+                            <span class="fw-semibold d-block" id="navbar-username" style="font-size: 14px">{{ Auth::user()->nama }}</span>
+                        </div>
+                        <i class="ti ti-chevron-down ms-2" style="font-size: 16px"></i>
                     </a>
-                    <div class="flex-grow-1 me-3">
-                        <span class="fw-semibold d-block" id="navbar-username">{{ Auth::user()->nama }}</span>
-                        <small class="text-muted" id="navbar-status"></small>
-                    </div>
-                    <span>
-                        <i class="ti ti-chevron-down" style="font-size: 16px"></i>
-                    </span>
+
                     <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
                         <div class="message-body">
                             <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
                                 <i class="ti ti-user fs-6"></i>
                                 <p class="mb-0 fs-3">Profile</p>
                             </a>
-                            <a href="./authentication-login.html"
-                                class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                            <a href="#" class="btn btn-outline-primary mx-3 mt-2 d-block"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
                         </div>
                     </div>
                 </li>
             </ul>
+
         </div>
     </nav>
 </header>
