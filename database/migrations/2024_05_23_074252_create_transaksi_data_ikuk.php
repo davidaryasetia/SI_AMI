@@ -28,29 +28,29 @@ return new class extends Migration
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
 
-            $table->unsignedBigInteger('laporan_auditor_id');
+            $table->unsignedBigInteger('laporan_auditor_id')->nullable();
             $table->foreign('laporan_auditor_id')
                     ->references('laporan_auditor_id')
                     ->on('laporan_auditor')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
 
-            $table->string('riwayat_nama_unit');
-            $table->string('hasil_audit');
-            $table->boolean('status_pengisian_audite');
-            $table->boolean('status_verifikasi_auditor');
-            $table->string('realisasi_ikuk');
-            $table->longText('analisis');
-            $table->longText('target_lama');
-            $table->longText('target_tahun_depan');
-            $table->longText('strategi_pencapaian');
-            $table->longText('sarpras_yang_dibutuhkan');
-            $table->longText('faktor_pendukung');
-            $table->longText('faktor_penghambat');
-            $table->longText('akar_masalah');
-            $table->longText('tindak_lanjut');
-            $table->longText('status');
-            $table->string('data_dukung');
+            $table->string('riwayat_nama_unit')->nullable();
+            $table->string('hasil_audit')->nullable();
+            $table->boolean('status_pengisian_audite')->nullable();
+            $table->boolean('status_verifikasi_auditor')->nullable();
+            $table->string('realisasi_ikuk')->nullable();
+            $table->longText('analisis')->nullable();
+            $table->longText('target_lama')->nullable();
+            $table->longText('target_tahun_depan')->nullable();
+            $table->longText('strategi_pencapaian')->nullable();
+            $table->longText('sarpras_yang_dibutuhkan')->nullable();
+            $table->longText('faktor_pendukung')->nullable();
+            $table->longText('faktor_penghambat')->nullable();
+            $table->longText('akar_masalah')->nullable();
+            $table->longText('tindak_lanjut')->nullable();
+            $table->longText('status')->nullable();
+            $table->string('data_dukung')->nullable();
             $table->timestamps();
         });
     }

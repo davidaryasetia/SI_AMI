@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class IndikatorKinerjaUnitKerja extends Model
 {
@@ -20,4 +21,9 @@ class IndikatorKinerjaUnitKerja extends Model
         'created_at', 
         'updated_at'
     ];
+
+    public function transaksiDataIkuk(): HasMany
+    {
+        return $this->hasMany(TransaksiData::class, 'indikator_kinerja_unit_kerja_id', 'indikator_kinerja_unit_kerja_id');
+    }
 }

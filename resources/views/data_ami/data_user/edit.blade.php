@@ -47,9 +47,9 @@
                         <div class="row">
                             <div class="mb-4 col-lg-6">
                                 <label for="unit" class="form-label">Nama User</label>
-                                <input type="text" class="form-control @error('nama') is-invalid @enderror "
-                                    id="nama" name="nama" value="{{ $data_user->nama }}" aria-describedby="emailHelp"
-                                    placeholder="Masukkan Nama User........" required autofocus>
+                                <input type="text" class="form-control @error('nama') is-invalid @enderror"
+                                    id="nama" name="nama" value="{{ $data_user->nama }}"
+                                    aria-describedby="emailHelp" placeholder="Masukkan Nama User..." required autofocus>
                                 @error('nama')
                                     <div class="alert alert-danger mt-2">
                                         {{ $message }}
@@ -59,8 +59,8 @@
                             <div class="mb-4 col-lg-6">
                                 <label for="unit" class="form-label">Email</label>
                                 <input type="email" class="form-control @error('email') is-invalid @enderror"
-                                    id="email" name="email" value="{{ $data_user->email }}" aria-describedby="emailHelp"
-                                    placeholder="Masukkan Email........" required autofocus>
+                                    id="email" name="email" value="{{ $data_user->email }}"
+                                    aria-describedby="emailHelp" placeholder="Masukkan Email..." required autofocus>
                                 @error('email')
                                     <div class="alert alert-danger mt-2">
                                         {{ $message }}
@@ -72,14 +72,22 @@
                             <div class="mb-4 col-lg-6">
                                 <label for="password" class="form-label">Password</label>
                                 <input type="text" class="form-control @error('password') is-invalid @enderror"
-                                    id="password" name="password" aria-describedby="emailHelp"
-                                    placeholder="Masukkan Password........" value="1234" required autofocus disabled>
+                                    id="password" name="password" placeholder="Masukkan Password..." value="1234"
+                                    disabled>
                                 <input type="hidden" name="password" value="1234">
                                 @error('password')
                                     <div class="alert alert-danger mt-2">
                                         {{ $message }}
                                     </div>
                                 @enderror
+                                <!-- Tambahkan Checkbox Reset Password -->
+                                <div class="form-check mt-2">
+                                    <input class="form-check-input" type="checkbox" id="resetPasswordCheckbox"
+                                        name="reset_password">
+                                    <label class="form-check-label" for="resetPasswordCheckbox">
+                                        Reset Password
+                                    </label>
+                                </div>
                             </div>
                             <div class="mb-4 col-lg-6">
                                 <label for="status" class="form-label">Pilih Peran</label><br>
@@ -104,11 +112,17 @@
                                     </div>
                                 @enderror
                             </div>
-
                         </div>
 
                         <button type="submit" class="btn btn-primary">Edit User</button>
                     </form>
+
+                    <script>
+                        // Script untuk mengaktifkan field password saat checkbox di-check
+                        document.getElementById('resetPasswordCheckbox').addEventListener('change', function() {
+                            document.getElementById('password').disabled = !this.checked;
+                        });
+                    </script>
 
                     {{-- END-Content --}}
                 </div>

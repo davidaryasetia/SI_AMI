@@ -112,8 +112,8 @@ class DataUserController extends Controller
             $data_user->is_auditor = in_array('auditor', $roles) ? true : false;
         }
 
-        // Jika password diisi, update password
-        if ($request->filled('password')) {
+        // Update password hanya jika checkbox reset_password di-check
+        if ($request->has('reset_password') && $request->filled('password')) {
             $data_user->password = Hash::make($request->password);
         }
 
@@ -124,6 +124,7 @@ class DataUserController extends Controller
             return redirect('/data_user')->with(['error' => 'Data User Gagal Diperbarui !!!']);
         }
     }
+
 
 
     /**

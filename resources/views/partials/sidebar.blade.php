@@ -131,7 +131,7 @@
                             <span class="hide-menu">Pengisian Kinerja</span>
                         </a>
                     </li>
-                    <li class="sidebar-item role-audite">
+                    {{-- <li class="sidebar-item role-audite">
                         <a class="sidebar-link {{ Request::is('rekap_capaian*') ? 'active' : '' }}"
                             href="/rekap_capaian" aria-expanded="false">
                             <span>
@@ -139,7 +139,7 @@
                             </span>
                             <span class="hide-menu">Rekap Capaian</span>
                         </a>
-                    </li>
+                    </li> --}}
                     <li class="sidebar-item role-audite">
                         <a class="sidebar-link {{ Request::is('persetujuan*') ? 'active' : '' }}" href="/persetujuan"
                             aria-expanded="false">

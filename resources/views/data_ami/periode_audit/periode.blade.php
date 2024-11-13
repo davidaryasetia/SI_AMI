@@ -29,35 +29,27 @@
             <div class="w-100">
                 {{-- Header --}}
                 <div class="d-flex justify-content-between align-items-center mb-4">
-
                     <div class="d-flex align-items-center">
-                        <a href="/periode_audit" class=" {{ isset($edit_periode) ? '' : 'd-none' }}">
+                        <a href="/periode_audit" class="{{ isset($edit_periode) ? '' : 'd-none' }}">
                             <i class="ti ti-arrow-left me-3" style="font-size: 20px; color: black"></i>
                         </a>
                         <h4 class="card-title fw-semibold">
-                            {{ isset($edit_periode) ? 'Edit Jadwal Pengisian AMI' : 'Buat Jadwal Pengisian AMI' }}</h4>
+                            {{ isset($edit_periode) ? 'Edit Jadwal Pengisian AMI' : 'Buat Jadwal Pengisian AMI' }}
+                        </h4>
                     </div>
 
                     <div>
                         @if (session('success'))
-                            <div class="alert alert-primary" style role="alert">
+                            <div class="alert alert-primary" role="alert">
                                 {{ session('success') }}
                             </div>
                         @endif
                         @if (session('error'))
-                            <div class="alert alert-danger" style role="alert">
+                            <div class="alert alert-danger" role="alert">
                                 {{ session('error') }}
                             </div>
                         @endif
                     </div>
-
-                    <script>
-                        setTimeout(function() {
-                            document.querySelectorAll('.alert').forEach(function(alert) {
-                                alert.style.display = "none";
-                            });
-                        }, 5000);
-                    </script>
                 </div>
 
                 {{-- Form Input Periode --}}
@@ -69,31 +61,28 @@
                         @method('PUT')
                     @endif
 
+                    
                     <div class="form-group mb-3">
                         <label for="namaPeriode" class="form-label">Nama Periode AMI</label>
                         <input type="text" class="form-control" name="nama_periode_ami" id="namaPeriode"
                             placeholder="Nama Periode AMI"
                             value="{{ old('nama_periode_ami', $edit_periode->nama_periode_ami ?? '') }}" required>
-
                     </div>
                     <div class="form-group mb-3">
                         <label for="tanggal_pembukaan_ami" class="form-label">Mulai</label>
                         <input type="date" class="form-control" name="tanggal_pembukaan_ami" id="tanggal_pembukaan_ami"
                             value="{{ old('tanggal_pembukaan_ami', $edit_periode->tanggal_pembukaan_ami ?? '') }}" required>
-
                     </div>
                     <div class="form-group mb-3">
                         <label for="tanggal_penutupan_ami" class="form-label">Selesai</label>
                         <input type="date" class="form-control" name="tanggal_penutupan_ami" id="tanggal_penutupan_ami"
                             value="{{ old('tanggal_penutupan_ami', $edit_periode->tanggal_penutupan_ami ?? '') }}" required>
-
                     </div>
                     <div class="d-grid col-lg-4 gap-2 mt-4">
                         <button type="submit"
                             class="btn btn-primary">{{ isset($edit_periode) ? 'Update Periode' : 'Tambah Periode' }}</button>
                     </div>
                 </form>
-
 
                 {{-- Tabel Periode AMI --}}
                 <div class="table-responsive mt-4">
@@ -130,7 +119,6 @@
                                                 style="background-color: #ff0000; color: #ffffff; border-color: #dd8d8d; font-weight: bold">{{ $periode->status }}</span>
                                         @endif
                                     </td>
-
                                     <td>
                                         <form action="{{ route('periode_audit.close', $periode->jadwal_ami_id) }}"
                                             method="POST"
@@ -145,18 +133,78 @@
                                             class="btn btn-sm" style="background-color: rgb(255, 255, 6); color: black"><i
                                                 class="ti ti-pencil"></i></a></td>
                                     <td>
-                                        <form action="{{ route('periode_audit.destroy', $periode->jadwal_ami_id) }}"
-                                            method="POST"
-                                            onsubmit="return confirm('Apakah anda yakin ingin menghapus jadwal pada periode ini ?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm"
-                                                style="background-color: rgb(255, 0, 0); color: white">
-                                                <i class="ti ti-x"></i>
-                                            </button>
-                                        </form>
+                                        <button class="btn btn-sm" style="background-color: rgb(255, 0, 0); color: white"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#deleteModal{{ $periode->jadwal_ami_id }}">
+                                            <i class="ti ti-x"></i>
+                                        </button>
+
+                                        <!-- Modal Konfirmasi Hapus -->
+                                        <div class="modal fade" id="deleteModal{{ $periode->jadwal_ami_id }}"
+                                            tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Untuk menghapus periode pelaksanaan AMI ini, harap masukkan nama
+                                                            periode:</p>
+                                                        <strong
+                                                            style="display: block">{{ $periode->nama_periode_ami }}</strong>
+                                                        <input type="text" class="form-control mt-2 confirm-name-input"
+                                                            placeholder="Masukkan nama periode untuk konfirmasi"
+                                                            data-expected="{{ $periode->nama_periode_ami }}">
+                                                        <div
+                                                            style="background-color: #fff3cd; color: #856404; padding: 15px; border: 1px solid #ffeeba; border-radius: 5px; margin-top: 15px;">
+                                                            <strong>!! Perhatian !!</strong> Menghapus Periode AMI ini akan
+                                                            menghapus seluruh riwayat pelaksanaan AMI pada periode tanggal
+                                                            tersebut.
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Batal</button>
+                                                        <form
+                                                            action="{{ route('periode_audit.destroy', $periode->jadwal_ami_id) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <!-- Tambahkan kelas `delete-button` untuk dikontrol melalui JavaScript -->
+                                                            <button type="submit" class="btn btn-danger delete-button"
+                                                                style="display: none;">Hapus</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
+                                <script>
+                                    document.addEventListener('input', function(event) {
+                                        // Cek apakah input yang diubah adalah input konfirmasi
+                                        if (event.target.classList.contains('confirm-name-input')) {
+                                            // Ambil nilai yang diharapkan dari atribut data-expected
+                                            const expectedName = event.target.getAttribute('data-expected').trim();
+                                            // Ambil tombol hapus terkait
+                                            const deleteButton = event.target.closest('.modal').querySelector('.delete-button');
+
+                                            console.log("Expected Name:", expectedName); // Debugging
+                                            console.log("Input Value:", event.target.value.trim()); // Debugging
+
+                                            // Aktifkan (tampilkan) atau nonaktifkan (sembunyikan) tombol hapus berdasarkan kesesuaian input
+                                            if (event.target.value.trim() === expectedName) {
+                                                deleteButton.style.display = 'inline-block'; // Tampilkan tombol
+                                                console.log("Button 'Hapus' ditampilkan"); // Debugging
+                                            } else {
+                                                deleteButton.style.display = 'none'; // Sembunyikan tombol
+                                                console.log("Button 'Hapus' disembunyikan"); // Debugging
+                                            }
+                                        }
+                                    });
+                                </script>
                             @endforeach
                         </tbody>
                     </table>
@@ -167,5 +215,4 @@
 @endsection
 
 @push('scripts')
-    {{-- JavaScript untuk keperluan tambahan jika ada --}}
 @endpush

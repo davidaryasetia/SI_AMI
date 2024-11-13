@@ -17,6 +17,11 @@
             padding: 15px;
             border-radius: 8px;
         }
+
+        .pie-chart-container {
+            height: 500px;
+            /* Sesuaikan tinggi sesuai kebutuhan */
+        }
     </style>
 @endpush
 
@@ -78,7 +83,7 @@
                                         </td>
                                         <td>Ketua Auditor</td>
                                         <td><span class="badge bg-warning text-dark" style="font-weight: bold">Dalam
-                                            Proses</span></td>
+                                                Proses</span></td>
                                     </tr>
                                     <tr>
                                         <td>2</td>
@@ -127,7 +132,7 @@
                             </li>
                             <li class="list-group-item">Progress Pengisian:
                                 <strong>
-                                  -
+                                    -
                                 </strong>
                             </li>
                             <li class="list-group-item">Status:
@@ -147,9 +152,71 @@
                 </div>
             </div>
         </div>
+
+
+        <!-- Tambahan Grafik Rekap Capaian -->
+        <div class="row mt-4">
+            <div class="col-lg-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-light">
+                        <h5 class="card-title mb-0 text-black">Rekap Capaian Unit
+                            @if (session()->has('audite.unit.nama_unit'))
+                                {{ session('audite.unit.nama_unit') }}
+                            @endif
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="pie-chart-container" style="height: 400px;">
+                            <canvas id="performanceChart"></canvas>
+                        </div>
+                        <div class="chart-label text-center mt-3">
+                            <span>Mencapai target, Melebihi target, Belum mencapai target</span>
+                        </div>
+                        <div class="chart-description mt-3">
+                            <p>
+                                Grafik di atas menunjukkan distribusi kinerja dari Unit P4MP berdasarkan pencapaian target.
+                                Sebesar 30% dari unit telah berhasil mencapai target yang ditentukan, sementara 40% melebihi
+                                target,
+                                dan sisanya sebesar 30% belum mencapai target yang telah ditetapkan.
+                                Hasil ini menggambarkan bahwa sebagian besar unit mampu memenuhi atau melebihi target,
+                                namun masih ada beberapa unit yang perlu ditingkatkan kinerjanya.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     @push('script')
-        <!-- Script tambahan jika diperlukan -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            var ctx = document.getElementById('performanceChart').getContext('2d');
+            var performanceChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Belum Mencapai Target', 'Mencapai Target', 'Melebihi'],
+                    datasets: [{
+                        label: 'Rekap Capaian',
+                        data: [30, 40, 30], // Example data
+                        backgroundColor: [
+                            'rgba(255, 43, 43, 1)',
+                            'rgba(44, 42, 255, 0.8)',
+                            'rgba(45, 255, 42, 1)',
+                        ],
+                        borderColor: [
+                            'rgba(212, 0, 0, 1)',
+                            'rgba(1, 0, 171, 0.8)',
+                            'rgba(2, 181, 0, 1)',
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                }
+            });
+        </script>
     @endpush
 @endsection

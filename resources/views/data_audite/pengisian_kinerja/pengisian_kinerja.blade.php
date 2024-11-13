@@ -94,9 +94,13 @@
 
                 {{-- Modal untuk setiap IKUK --}}
                 @foreach ($data_indikator['indikator_ikuk'] as $dataIndikator)
+                    @php
+                        $transaksi = $dataIndikator->transaksiDataIkuk->first();
+                    @endphp
                     <div class="modal fade" id="modal{{ $dataIndikator['kode_ikuk'] }}" tabindex="-1"
                         aria-labelledby="modalLabel{{ $dataIndikator['kode_ikuk'] }}" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
+                            <!-- Modal Konten -->
                             <div class="modal-content">
                                 <div class="modal-header bg-primary text-white">
                                     <h5 class="modal-title text-white" style="color: white; font-weight: bold"
@@ -105,36 +109,160 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
-                                <div class="modal-body">
-                                    <div class="mb-3">
-                                        <h6 class="text-primary"><strong>Indikator</strong></h6>
-                                        <p>{{ $dataIndikator['isi_indikator_kinerja_unit_kerja'] }}</p>
-                                    </div>
-                                    <div class="mb-3">
-                                        <h6 class="text-primary"><strong>Target</strong></h6>
-                                        <p>{{ $dataIndikator['target_ikuk'] }}</p>
-                                    </div>
-                                    <div class="mb-3">
-                                        <h6 class="text-primary"><strong>Capaian</strong></h6>
-                                        <input type="text" class="form-control" placeholder="Masukkan Jumlah Capaian">
-                                    </div>
-                                </div>
-                                <hr>
 
-                                <div class="modal-footer d-flex justify-content-between">
-                                    <button type="button" class="btn btn-outline-secondary"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
-                                </div>
+                                <!-- Form utama untuk update -->
+                                <form id="updateForm{{ $dataIndikator['kode_ikuk'] }}" method="POST"
+                                    action="{{ route('pengisian_kinerja.update', $dataIndikator['kode_ikuk']) }}">
+                                    @csrf
+                                    @method('PUT')
+                                    <div class="modal-body">
+                                        <input type="hidden" name="transaksi_data_ikuk_id"
+                                            value="{{ $transaksi['transaksi_data_ikuk_id'] }}">
+                                        <div class="mb-3">
+                                            <h6 class="text-primary"><strong>Indikator</strong></h6>
+                                            <p>{{ $dataIndikator['isi_indikator_kinerja_unit_kerja'] }}</p>
+                                        </div>
+                                        <div class="mb-3">
+                                            <h6 class="text-primary"><strong>Target</strong></h6>
+                                            <p id="target{{ $dataIndikator['kode_ikuk'] }}">
+                                                {{ $dataIndikator['target_ikuk'] }}</p>
+                                        </div>
+                                        <div class="mb-3">
+                                            <h6 class="text-primary"><strong>Capaian</strong></h6>
+                                            <input type="number" class="form-control capaian-input"
+                                                placeholder="Masukkan Jumlah Capaian"
+                                                id="capaian{{ $dataIndikator['kode_ikuk'] }}"
+                                                data-target="{{ $dataIndikator['target_ikuk'] }}">
+                                        </div>
+
+                                        <!-- Form A: Ditampilkan jika capaian >= target -->
+                                        <div class="form-a" id="formA{{ $dataIndikator['kode_ikuk'] }}"
+                                            style="display: none;">
+                                            <h6 class="text-primary"><strong>Form 1 (Capaian >= Target)</strong></h6>
+                                            <input type="hidden" name="transaksi_data_ikuk_id"
+                                                value="{{ $transaksi['transaksi_data_ikuk_id'] }}">
+                                            <div class="mb-3">
+                                                <label>Analisis Keberhasilan</label>
+                                                <input type="text" class="form-control" name="analisis">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label>Target Tahun Depan</label>
+                                                <input type="text" class="form-control" name="target_tahun_depan">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label>Strategi Pencapaian</label>
+                                                <input type="text" class="form-control" name="strategi_pencapaian">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label>Sarpras Yang Dibutuhkan</label>
+                                                <input type="text" class="form-control" name="sarpras_yang_dibutuhkan">
+                                            </div>
+                                            <hr>
+                                            <div class="mb-3">
+                                                <label>Link Data Dukung</label>
+                                                <input type="file" class="form-control" name="sarpras_yang_dibutuhkan">
+                                            </div>
+                                        </div>
+
+                                        <!-- Form B: Ditampilkan jika capaian < target -->
+                                        <div class="form-b" id="formB{{ $dataIndikator['kode_ikuk'] }}"
+                                            style="display: none;">
+                                            <h6 class="text-primary"><strong>Form 2 (Capaian < Target)</strong>
+                                            </h6>
+                                            <div class="mb-3">
+                                                <label>Faktor Pendukung</label>
+                                                <input type="text" class="form-control" name="faktor_pendukung">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label>Faktor Penghambat</label>
+                                                <input type="text" class="form-control" name="faktor_penghambat">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label>Akar Masalah</label>
+                                                <input type="text" class="form-control" name="akar_masalah">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label>Tindak Lanjut</label>
+                                                <input type="text" class="form-control" name="tindak_lanjut">
+                                            </div>
+                                            <hr>
+                                            <div class="mb-3">
+                                                <label>Link Data Dukung</label>
+                                                <input type="file" class="form-control" name="sarpras_yang_dibutuhkan">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer d-flex justify-content-between">
+                                        <button type="button" class="btn btn-outline-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary save-button">Save</button>
+                                    </div>
+                                </form>
                             </div>
+
                         </div>
                     </div>
                 @endforeach
 
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // Dapatkan semua input capaian
+                        const capaianInputs = document.querySelectorAll('.capaian-input');
+
+                        capaianInputs.forEach(input => {
+                            input.addEventListener('input', function() {
+                                const target = parseFloat(input.getAttribute('data-target'));
+                                const capaian = parseFloat(input.value);
+
+                                // Ambil form A dan form B berdasarkan ID input
+                                const formA = document.getElementById('formA' + input.id.replace('capaian',
+                                    ''));
+                                const formB = document.getElementById('formB' + input.id.replace('capaian',
+                                    ''));
+
+                                formA.style.display = 'none';
+                                formB.style.display = 'none';
+
+                                if (!isNaN(capaian)) {
+                                    if (capaian >= target) {
+                                        formA.style.display = 'block';
+                                        formB.style.display = 'none';
+                                    } else {
+                                        formA.style.display = 'none';
+                                        formB.style.display = 'block';
+                                    }
+                                }
+                            });
+                        });
+
+                        // Tambahkan listener untuk submit hanya form yang tampil
+                        const saveButtons = document.querySelectorAll('.save-button');
+
+                        saveButtons.forEach(button => {
+                            button.addEventListener('click', function(event) {
+                                const form = button.closest('form');
+                                const formA = form.querySelector('.form-a');
+                                const formB = form.querySelector('.form-b');
+
+                                // Cek form mana yang aktif, jika tidak aktif hapus input dari form
+                                if (formA.style.display === 'none') {
+                                    formA.querySelectorAll('input').forEach(input => {
+                                        input.disabled = true;
+                                    });
+                                } else {
+                                    formB.querySelectorAll('input').forEach(input => {
+                                        input.disabled = true;
+                                    });
+                                }
+                            });
+                        });
+                    });
+                </script>
 
                 {{-- Table Content --}}
                 <div class="table-responsive">
-                    <table class="table table-bordered table-hover">
+                    <table id="tabel_kinerja_audite" class="table table-bordered table-hover">
                         <thead class="table-light">
                             <tr>
                                 <th>No</th>
@@ -150,34 +278,93 @@
                                 <th>Faktor Penghambat</th>
                                 <th>Akar Masalah</th>
                                 <th>Tindak Lanjut</th>
+                                <th>Data Dukung</th>
                             </tr>
                         </thead>
                         <tbody>
                             @php
                                 $no = 1;
                             @endphp
-                            @foreach ($data_indikator['indikator_ikuk'] as $dataIndikator)
+                            @foreach ($data_indikator->indikator_ikuk as $dataIndikator)
+                                @php
+                                    $transaksi = $dataIndikator->transaksiDataIkuk->first();
+                                @endphp
+
                                 <tr>
                                     <td data-label="No">{{ $no++ }}</td>
-                                    <td data-label="Kode Indikator">{{ $dataIndikator['kode_ikuk'] }}</td>
+                                    <td data-label="Kode Indikator">
+                                        <a href="javascript:void(0);" data-bs-toggle="modal"
+                                            data-bs-target="#modal{{ $dataIndikator['kode_ikuk'] }}"
+                                            class="text-primary fw-bold">
+                                            {{ $dataIndikator['kode_ikuk'] }}
+                                        </a>
+                                    </td>
                                     <td data-label="Indikator"
                                         style="width: 40%; white-space: pre-line; word-wrap: break-word; text-align: left; color: black;">
-                                        {{ $dataIndikator['isi_indikator_kinerja_unit_kerja'] }}</td>
+                                        {{ $dataIndikator['isi_indikator_kinerja_unit_kerja'] }}
+                                    </td>
                                     <td data-label="Target">{{ $dataIndikator['target_ikuk'] }}</td>
-                                    <td data-label="Capaian">-</td>
-                                    <td data-label="Analisis Keberhasilan">-</td>
-                                    <td data-label="Usulan Target Tahun Depan">-</td>
-                                    <td data-label="Strategi Pencapaian">-</td>
-                                    <td data-label="Sarpras Yang Dibutuhkan">-</td>
-                                    <td data-label="Faktor Pendukung">-</td>
-                                    <td data-label="Faktor Penghambat">-</td>
-                                    <td data-label="Akar Masalah">-</td>
-                                    <td data-label="Tindak Lanjut">-</td>
+
+                                    {{-- @foreach ($dataIndikator->transaksiDataIkuk as $transaksiIkuk)
+                                        <td data-label="Analisis Keberhasilan">
+                                            {{ $transaksiIkuk->capaian }}
+                                        </td>
+                                    @endforeach --}}
+
+
+                                    <!-- Capaian -->
+                                    <td data-label="Capaian" style="">
+                                        {{ $transaksi['capaian'] ?? '' }}
+                                    </td>
+
+                                    <!-- Analisis Keberhasilan -->
+                                    <td data-label="Analisis Keberhasilan" style="">
+                                        {{ $transaksi['analisis'] ?? '' }}
+                                    </td>
+
+                                    <!-- Usulan Target Tahun Depan -->
+                                    <td data-label="Usulan Target Tahun Depan" style="">
+                                        {{ $transaksi['target_tahun_depan'] ?? '' }}
+                                    </td>
+
+                                    <!-- Strategi Pencapaian -->
+                                    <td data-label="Strategi Pencapaian" style="">
+                                        {{ $transaksi['strategi_pencapaian'] ?? '' }}
+                                    </td>
+
+                                    <!-- Sarpras Yang Dibutuhkan -->
+                                    <td data-label="Sarpras Yang Dibutuhkan" style="">
+                                        {{ $transaksi['sarpras_yang_dibutuhkan'] ?? '' }}
+                                    </td>
+
+                                    <!-- Faktor Pendukung -->
+                                    <td data-label="Faktor Pendukung" style="">
+                                        {{ $transaksi['faktor_pendukung'] ?? '' }}
+                                    </td>
+
+                                    <!-- Faktor Penghambat -->
+                                    <td data-label="Faktor Penghambat" style="">
+                                        {{ $transaksi['faktor_penghambat'] ?? '' }}
+                                    </td>
+
+                                    <!-- Akar Masalah -->
+                                    <td data-label="Akar Masalah" style="">
+                                        {{ $transaksi['akar_masalah'] ?? '' }}
+                                    </td>
+
+                                    <!-- Tindak Lanjut -->
+                                    <td data-label="Tindak Lanjut" style="">
+                                        {{ $transaksi['tindak_lanjut'] ?? '' }}
+                                    </td>
+
+                                    <!-- Data Dukung -->
+                                    <td data-label="Data Dukung" style="">
+
+                                    </td>
                                 </tr>
                             @endforeach
-
-
                         </tbody>
+
                     </table>
                 </div>
 
@@ -188,5 +375,5 @@
 @endsection
 
 @push('script')
-    {{-- Add necessary scripts here --}}
+    <script></script>
 @endpush

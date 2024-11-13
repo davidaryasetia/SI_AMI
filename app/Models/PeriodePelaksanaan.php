@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class PeriodePelaksanaan extends Model
 {
@@ -18,4 +19,9 @@ class PeriodePelaksanaan extends Model
         'created_at', 
         'updated_at'
     ];
+
+    public function transaksiData(): HasMany
+    {
+        return $this->hasMany(TransaksiData::class, 'jadwal_ami_id', 'jadwal_ami_id');
+    }
 }

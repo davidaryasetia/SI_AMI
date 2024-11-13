@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,8 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #023047; /* Latar belakang biru tua */
+            background-color: #023047;
+            /* Latar belakang biru tua */
             color: #fff;
             display: flex;
             justify-content: center;
@@ -18,7 +20,8 @@
 
         .container {
             text-align: center;
-            background-color: #ffffff; /* Warna kotak kecil putih */
+            background-color: #ffffff;
+            /* Warna kotak kecil putih */
             padding: 50px;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
@@ -26,18 +29,21 @@
 
         h1 {
             font-size: 48px;
-            color: #ffb703; /* Warna header kontras (kuning) */
+            color: #ffb703;
+            /* Warna header kontras (kuning) */
             margin-bottom: 20px;
         }
 
         p {
             font-size: 18px;
             margin-bottom: 30px;
-            color: #023047; /* Warna teks utama */
+            color: #023047;
+            /* Warna teks utama */
         }
 
         button {
-            background-color: #fb8500; /* Warna tombol oranye */
+            background-color: #fb8500;
+            /* Warna tombol oranye */
             color: white;
             padding: 10px 20px;
             border: none;
@@ -48,7 +54,8 @@
         }
 
         button:hover {
-            background-color: #ffb703; /* Hover tombol (kuning) */
+            background-color: #ffb703;
+            /* Hover tombol (kuning) */
         }
 
         img {
@@ -60,29 +67,42 @@
             h1 {
                 font-size: 36px;
             }
+
             p {
                 font-size: 16px;
             }
+
             button {
                 font-size: 14px;
             }
         }
     </style>
 </head>
+
 <body>
 
     <div class="container">
         <img src="{{ asset('assets/img/PENS.jpg') }}" alt="Access Denied Illustration">
         <h1>403 - Access Denied</h1>
         <p>You do not have permission to access this page.</p>
-        <button onclick="goBack()">Go Back</button>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST">
+            @csrf
+        </form>
+        <a class="sidebar-link" href="#" aria-expanded="false"
+            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            <span>
+                <i class="ti ti-logout"></i>
+            </span>
+            <span class="hide-menu">Logout</span>
+        </a>
     </div>
 
-    <script>
+    {{-- <script>
         function goBack() {
             window.history.back();
         }
-    </script>
+    </script> --}}
 
 </body>
+
 </html>
