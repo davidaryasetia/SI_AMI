@@ -35,6 +35,11 @@
                                 </button>
                             </form>
                         </div>
+                        <div class="ms-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="ti ti-weight me-2"></i> Cek Beban
+                            </button>
+                        </div>
 
                     </div>
 
