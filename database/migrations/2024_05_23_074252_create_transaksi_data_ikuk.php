@@ -40,9 +40,9 @@ return new class extends Migration
             $table->boolean('status_pengisian_audite')->nullable();
             $table->boolean('status_verifikasi_auditor')->nullable();
             $table->string('realisasi_ikuk')->nullable();
-            $table->longText('analisis')->nullable();
+            $table->longText(column: 'analisis_usulan_keberhasilan')->nullable();
             $table->longText('target_lama')->nullable();
-            $table->longText('target_tahun_depan')->nullable();
+            $table->longText('usulan_target_tahun_depan')->nullable();
             $table->longText('strategi_pencapaian')->nullable();
             $table->longText('sarpras_yang_dibutuhkan')->nullable();
             $table->longText('faktor_pendukung')->nullable();
@@ -50,7 +50,7 @@ return new class extends Migration
             $table->longText('akar_masalah')->nullable();
             $table->longText('tindak_lanjut')->nullable();
             $table->longText('status')->nullable();
-            $table->string('data_dukung')->nullable();
+            $table->string('    ')->nullable();
             $table->timestamps();
         });
     }

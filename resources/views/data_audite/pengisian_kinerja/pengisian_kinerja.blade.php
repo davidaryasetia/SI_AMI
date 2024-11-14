@@ -32,7 +32,7 @@
 
         .ikuk-btn {
             display: inline-block;
-            margin: 3px;
+            margin: 2px;
             padding: 10px 12px;
             font-size: 12px;
             width: auto;
@@ -112,7 +112,7 @@
 
                                 <!-- Form utama untuk update -->
                                 <form id="updateForm{{ $dataIndikator['kode_ikuk'] }}" method="POST"
-                                    action="{{ route('pengisian_kinerja.update', $dataIndikator['kode_ikuk']) }}">
+                                    action="{{ route('pengisian_kinerja.update', $transaksi['transaksi_data_ikuk_id']) }}">
                                     @csrf
                                     @method('PUT')
                                     <div class="modal-body">
@@ -129,25 +129,25 @@
                                         </div>
                                         <div class="mb-3">
                                             <h6 class="text-primary"><strong>Capaian</strong></h6>
-                                            <input type="number" class="form-control capaian-input"
+                                            <input type="number" name="realisasi_ikuk" class="form-control capaian-input"
                                                 placeholder="Masukkan Jumlah Capaian"
                                                 id="capaian{{ $dataIndikator['kode_ikuk'] }}"
                                                 data-target="{{ $dataIndikator['target_ikuk'] }}">
                                         </div>
 
-                                        <!-- Form A: Ditampilkan jika capaian >= target -->
+
                                         <div class="form-a" id="formA{{ $dataIndikator['kode_ikuk'] }}"
                                             style="display: none;">
-                                            <h6 class="text-primary"><strong>Form 1 (Capaian >= Target)</strong></h6>
                                             <input type="hidden" name="transaksi_data_ikuk_id"
                                                 value="{{ $transaksi['transaksi_data_ikuk_id'] }}">
                                             <div class="mb-3">
-                                                <label>Analisis Keberhasilan</label>
-                                                <input type="text" class="form-control" name="analisis">
+                                                <label>Analisis Usulan Keberhasilan</label>
+                                                <input type="text" class="form-control"
+                                                    name="analisis_usulan_keberhasilan">
                                             </div>
                                             <div class="mb-3">
-                                                <label>Target Tahun Depan</label>
-                                                <input type="text" class="form-control" name="target_tahun_depan">
+                                                <label>Usulan Target Tahun Depan</label>
+                                                <input type="text" class="form-control" name="usulan_target_tahun_depan">
                                             </div>
                                             <div class="mb-3">
                                                 <label>Strategi Pencapaian</label>
@@ -160,15 +160,13 @@
                                             <hr>
                                             <div class="mb-3">
                                                 <label>Link Data Dukung</label>
-                                                <input type="file" class="form-control" name="sarpras_yang_dibutuhkan">
+                                                <input type="text" class="form-control" name="data_dukung">
                                             </div>
                                         </div>
 
                                         <!-- Form B: Ditampilkan jika capaian < target -->
                                         <div class="form-b" id="formB{{ $dataIndikator['kode_ikuk'] }}"
                                             style="display: none;">
-                                            <h6 class="text-primary"><strong>Form 2 (Capaian < Target)</strong>
-                                            </h6>
                                             <div class="mb-3">
                                                 <label>Faktor Pendukung</label>
                                                 <input type="text" class="form-control" name="faktor_pendukung">
@@ -188,7 +186,7 @@
                                             <hr>
                                             <div class="mb-3">
                                                 <label>Link Data Dukung</label>
-                                                <input type="file" class="form-control" name="sarpras_yang_dibutuhkan">
+                                                <input type="text" class="form-control" name="data_dukung">
                                             </div>
                                         </div>
                                     </div>
@@ -262,7 +260,7 @@
 
                 {{-- Table Content --}}
                 <div class="table-responsive">
-                    <table id="tabel_kinerja_audite" class="table table-bordered table-hover">
+                    <table id="tabel_kinerja_audite" class="table table-bordered ">
                         <thead class="table-light">
                             <tr>
                                 <th>No</th>
@@ -313,53 +311,62 @@
 
 
                                     <!-- Capaian -->
-                                    <td data-label="Capaian" style="">
-                                        {{ $transaksi['capaian'] ?? '' }}
+                                    <td data-label="Realisasi Ikuk"
+                                        style="background-color: {{ empty($transaksi['realisasi_ikuk']) ? '#d3d3d3' : '' }}">
+                                        {{ $transaksi['realisasi_ikuk'] ?? '' }}
                                     </td>
 
                                     <!-- Analisis Keberhasilan -->
-                                    <td data-label="Analisis Keberhasilan" style="">
-                                        {{ $transaksi['analisis'] ?? '' }}
+                                    <td data-label="Analisis Keberhasilan"
+                                        style="background-color: {{ empty($transaksi['analisis_usulan_keberhasilan']) ? '#d3d3d3' : '' }}">
+                                        {{ $transaksi['analisis_usulan_keberhasilan'] ?? '' }}
                                     </td>
 
                                     <!-- Usulan Target Tahun Depan -->
-                                    <td data-label="Usulan Target Tahun Depan" style="">
-                                        {{ $transaksi['target_tahun_depan'] ?? '' }}
+                                    <td data-label="Usulan Target Tahun Depan"
+                                        style="background-color: {{ empty($transaksi['usulan_target_tahun_depan']) ? '#d3d3d3' : '' }}">
+                                        {{ $transaksi['usulan_target_tahun_depan'] ?? '' }}
                                     </td>
 
                                     <!-- Strategi Pencapaian -->
-                                    <td data-label="Strategi Pencapaian" style="">
+                                    <td data-label="Strategi Pencapaian"
+                                        style="background-color: {{ empty($transaksi['strategi_pencapaian']) ? '#d3d3d3' : '' }}">
                                         {{ $transaksi['strategi_pencapaian'] ?? '' }}
                                     </td>
 
                                     <!-- Sarpras Yang Dibutuhkan -->
-                                    <td data-label="Sarpras Yang Dibutuhkan" style="">
+                                    <td data-label="Sarpras Yang Dibutuhkan"
+                                        style="background-color: {{ empty($transaksi['sarpras_yang_dibutuhkan']) ? '#d3d3d3' : '' }}">
                                         {{ $transaksi['sarpras_yang_dibutuhkan'] ?? '' }}
                                     </td>
 
                                     <!-- Faktor Pendukung -->
-                                    <td data-label="Faktor Pendukung" style="">
+                                    <td data-label="Faktor Pendukung"
+                                        style="background-color: {{ empty($transaksi['faktor_pendukung']) ? '#d3d3d3' : '' }}">
                                         {{ $transaksi['faktor_pendukung'] ?? '' }}
                                     </td>
 
                                     <!-- Faktor Penghambat -->
-                                    <td data-label="Faktor Penghambat" style="">
+                                    <td data-label="Faktor Penghambat"
+                                        style="background-color: {{ empty($transaksi['faktor_penghambat']) ? '#d3d3d3' : '' }}">
                                         {{ $transaksi['faktor_penghambat'] ?? '' }}
                                     </td>
 
                                     <!-- Akar Masalah -->
-                                    <td data-label="Akar Masalah" style="">
+                                    <td data-label="Akar Masalah"
+                                        style="background-color: {{ empty($transaksi['akar_masalah']) ? '#d3d3d3' : '' }}">
                                         {{ $transaksi['akar_masalah'] ?? '' }}
                                     </td>
 
                                     <!-- Tindak Lanjut -->
-                                    <td data-label="Tindak Lanjut" style="">
+                                    <td data-label="Tindak Lanjut"
+                                        style="background-color: {{ empty($transaksi['tindak_lanjut']) ? '#d3d3d3' : '' }}">
                                         {{ $transaksi['tindak_lanjut'] ?? '' }}
                                     </td>
 
                                     <!-- Data Dukung -->
-                                    <td data-label="Data Dukung" style="">
-
+                                    <td data-label="Data Dukung" style="background-color: {{ empty($transaksi['data_dukung']) ? '#d3d3d3' : '' }}">
+                                        {{ $transaksi['data_dukung'] ?? '' }}
                                     </td>
                                 </tr>
                             @endforeach

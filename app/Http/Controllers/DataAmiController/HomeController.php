@@ -16,22 +16,24 @@ class HomeController extends Controller
     {
         $data_unit = Unit::with([
             'units_cabang:unit_cabang_id,unit_id,nama_unit_cabang'
-        ])->get(); 
+        ])->get();
 
         // Ambil periode yang sedang berjalan 
         $currentPeriode = PeriodePelaksanaan::where('status', 'Sedang Berjalan')
-            ->orderBy('tanggal_pembukaan_ami','desc')
+            ->orderBy('tanggal_pembukaan_ami', 'desc')
             ->first();
-        
-        if (!$currentPeriode){
+
+        if (!$currentPeriode) {
             $currentPeriode = PeriodePelaksanaan::orderBy('tanggal_pembukaan_ami', 'desc')->first();
-        }
+        } 
+
+        // dd($currentPeriode->toArray());
 
         // dump($data_unit->toArray());
         return view('data_ami.home_admin.beranda', [
             'title' => 'Home',
             'data_unit' => $data_unit,
-            'current_periode' => $currentPeriode, 
+            'current_periode' => $currentPeriode,
         ]);
     }
     /**

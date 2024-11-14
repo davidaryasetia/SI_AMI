@@ -24,11 +24,15 @@
         <!-- Pengumuman Kegiatan AMI -->
         <div class="row mb-4 d-flex">
             <div class="col-12">
-                <h5 class="fw-normal text-dark">Hai, {{ Auth::user()->nama }}! Selamat datang di Dashboard Auditor</h5>
+                <h5 class="fw-bold text-dark">Hai, {{ Auth::user()->nama }}! Selamat datang di Dashboard Auditor</h5>
                 <div class="col-lg-3">
-                    @if ($current_periode->status == 'Sedang Berjalan')
+                    @if ($current_periode && $current_periode->status == 'Sedang Berjalan')
                         <div class="alert alert-custom mt-3" role="alert">
                             <strong>Kegiatan AMI Sedang Berlangsung</strong>
+                        </div>
+                    @elseif ($current_periode && $current_periode->status == 'Tutup')
+                        <div class="alert alert-custom-danger mt-3" role="alert">
+                            <strong>Kegiatan AMI Telah Ditutup</strong>
                         </div>
                     @else
                         <div class="alert alert-custom-danger mt-3" role="alert">
@@ -61,7 +65,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php $nomer=1; ?>
+                                    <?php $nomer = 1; ?>
                                     @foreach (session('auditor') as $auditor)
                                         <tr>
                                             <td>{{ $nomer++ }}</td>
@@ -72,9 +76,9 @@
                                                 @else
                                                     Anggota Auditor
                                                 @endif
-                                            </td> 
+                                            </td>
                                             <td><span class="badge bg-warning text-dark" style="font-weight: bold">Dalam
-                                                Proses</span></td>
+                                                    Proses</span></td>
                                         </tr>
                                     @endforeach
 
@@ -94,28 +98,46 @@
                     </div>
                     <div class="card-body">
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Tahun:
-                                <strong><strong>{{ \Carbon\Carbon::parse($current_periode->tanggal_pembukaan_ami)->translatedFormat('Y') }}</strong></strong>
-                            </li>
-                            <li class="list-group-item">Periode:
-                                <strong>{{ \Carbon\Carbon::parse($current_periode->tanggal_pembukaan_ami)->translatedFormat('d M') }}
-                                    -
-                                    {{ \Carbon\Carbon::parse($current_periode->tanggal_penutupan_ami)->translatedFormat('d M') }}</strong>
-                            </li>
-                            <li class="list-group-item">Jumlah Unit: <strong>{{ count(session('auditor')) }}</strong></li>
-                            <li class="list-group-item">Progress Evaluasi Kinerja: -</strong></li>
-                            <li class="list-group-item">Status:
-                                @if ($current_periode->status == 'Sedang Berjalan')
-                                    <span class="badge ms-2"
-                                        style="background-color: #d1ecf1; color: #0c5460; border-color: #bee5eb; font-weight: bold">{{ $current_periode->status }}
-                                    </span>
-                                @else
-                                    <span class="badge ms-2"
-                                        style="background-color: #ff0000; color: #ffffff; border-color: #dd8d8d; font-weight: bold">{{ $current_periode->status }}
-                                    </span>
-                                @endif
+                            @if (!empty($current_periode->tanggal_pembukaan_ami) && $current_periode !== null)
+                                <li class="list-group-item">Tahun:
+                                    <strong>{{ \Carbon\Carbon::parse($current_periode->tanggal_pembukaan_ami)->translatedFormat('Y') }}</strong>
+                                </li>
 
-                            </li>
+                                <li class="list-group-item">Periode:
+                                    <strong>{{ \Carbon\Carbon::parse($current_periode->tanggal_pembukaan_ami)->translatedFormat('d M') }}
+                                        -
+                                        {{ \Carbon\Carbon::parse($current_periode->tanggal_penutupan_ami)->translatedFormat('d M') }}</strong>
+                                </li>
+                                <li class="list-group-item">Keterangan:
+                                    <strong>{{ $current_periode->nama_periode_ami }}</strong>
+                                </li>
+
+                                @if ($current_periode->status == 'Sedang Berjalan')
+                                    <li class="list-group-item">Status :
+                                        <span class="badge ms-2"
+                                            style=" background-color: #d1ecf1; color: #0c5460; border-color: #bee5eb; font-weight: bold">{{ $current_periode->status }}</span>
+                                    </li>
+                                @else
+                                    <li class="list-group-item"> Status :
+                                        <span class="badge ms-2"
+                                            style=" background-color: #ff0000; color: #ffffff; border-color: #dd8d8d; font-weight: bold">{{ $current_periode->status }}</span>
+                                    </li>
+                                @endif
+                            @else
+                                <li class="list-group-item">Tahun:
+                                    <strong><span style="color: red">Belum di Set</span></strong>
+                                </li>
+                                <li class="list-group-item">Periode:
+                                    <strong style="color: red">Belum di Set</strong>
+                                </li>
+                                <li class="list-group-item">Keterangan:
+                                    <strong style="color: red">Belum di Set</strong>
+                                </li>
+                                <li class="list-group-item">Status :
+                                    <span class="badge ms-2"
+                                        style=" background-color: #ff0000; color: #ffffff; border-color: #dd8d8d; font-weight: bold">Tutup</span>
+                                </li>
+                            @endif
                         </ul>
                     </div>
                 </div>

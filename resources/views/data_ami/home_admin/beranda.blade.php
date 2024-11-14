@@ -42,15 +42,16 @@
                                                     </ul>
                                                 </td>
                                                 <td colspan="1" class="border-bottom-0">
-                                                    <h6 class="fw-semibold mb-0"><span class="badge bg-warning text-dark" style="font-weight: bold">Dalam
-                                                        Proses</span></h6>
+                                                    <h6 class="fw-semibold mb-0"><span class="badge bg-warning text-dark"
+                                                            style="font-weight: bold">Dalam
+                                                            Proses</span></h6>
                                                 </td>
                                                 <td colspan="1" class="border-bottom-0">
-                                                    <h6 class="fw-semibold mb-0"><span class="badge bg-warning text-dark" style="font-weight: bold">Dalam
-                                                        Proses</span></h6>
+                                                    <h6 class="fw-semibold mb-0"><span class="badge bg-warning text-dark"
+                                                            style="font-weight: bold">Dalam
+                                                            Proses</span></h6>
                                                 </td>
                                             </tr>
-                                            
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -66,17 +67,46 @@
                         </div>
                         <div class="card-body" style="padding: 16px">
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item">Tahun: <strong>{{ \Carbon\Carbon::parse($current_periode->tanggal_pembukaan_ami)->translatedFormat('Y') }}</strong></li>
-                                <li class="list-group-item">Periode: <strong>{{ \Carbon\Carbon::parse($current_periode->tanggal_pembukaan_ami)->translatedFormat('d M') }} - {{ \Carbon\Carbon::parse($current_periode->tanggal_penutupan_ami)->translatedFormat('d M') }}</strong></li>
-                                <li class="list-group-item">Keterangan: <strong>{{ $current_periode->nama_periode_ami }}</strong></li>
-                                <li class="list-group-item">Status: 
-                                    @if ($current_periode->status == "Sedang Berjalan")
-                                        
-                                    <span class="badge ms-2" style=" background-color: #d1ecf1; color: #0c5460; border-color: #bee5eb; font-weight: bold">{{ $current_periode->status }}</span></li>
+                                @if (!empty($current_periode->tanggal_pembukaan_ami) && $current_periode !== null)
+                                    <li class="list-group-item">Tahun:
+                                        <strong>{{ \Carbon\Carbon::parse($current_periode->tanggal_pembukaan_ami)->translatedFormat('Y') }}</strong>
+                                    </li>
+
+                                    <li class="list-group-item">Periode:
+                                        <strong>{{ \Carbon\Carbon::parse($current_periode->tanggal_pembukaan_ami)->translatedFormat('d M') }}
+                                            -
+                                            {{ \Carbon\Carbon::parse($current_periode->tanggal_penutupan_ami)->translatedFormat('d M') }}</strong>
+                                    </li>
+                                    <li class="list-group-item">Keterangan:
+                                        <strong>{{ $current_periode->nama_periode_ami }}</strong>
+                                    </li>
+
+                                    @if ($current_periode->status == 'Sedang Berjalan')
+                                        <li class="list-group-item"> Status : 
+                                            <span class="badge ms-2"
+                                                style=" background-color: #d1ecf1; color: #0c5460; border-color: #bee5eb; font-weight: bold">{{ $current_periode->status }}</span>
+                                        </li>
                                     @else
-                                    <span class="badge ms-2" style=" background-color: #ff0000; color: #ffffff; border-color: #dd8d8d; font-weight: bold">{{ $current_periode->status }}</span></li>
-                                        
+                                        <li class="list-group-item"> Status : 
+                                            <span class="badge ms-2"
+                                                style=" background-color: #ff0000; color: #ffffff; border-color: #dd8d8d; font-weight: bold">{{ $current_periode->status }}</span>
+                                        </li>
                                     @endif
+                                @else
+                                    <li class="list-group-item">Tahun:
+                                        <strong><span style="color: red">Belum di Set</span></strong>
+                                    </li>
+                                    <li class="list-group-item">Periode:
+                                        <strong style="color: red">Belum di Set</strong>
+                                    </li>
+                                    <li class="list-group-item">Keterangan:
+                                        <strong style="color: red">Belum di Set</strong>
+                                    </li>
+                                    <li class="list-group-item">Status : 
+                                        <span class="badge ms-2"
+                                            style=" background-color: #ff0000; color: #ffffff; border-color: #dd8d8d; font-weight: bold">Tutup</span>
+                                    </li>
+                                @endif
                             </ul>
                         </div>
                     </div>
@@ -87,8 +117,8 @@
             <script>
                 // Sembunyikan welcome message
                 setTimeout(function() {
-                document.getElementById('welcomeMessage').style.display = 'none';
-            }, 5000);
+                    document.getElementById('welcomeMessage').style.display = 'none';
+                }, 5000);
 
                 $('#table_status').DataTable({
                     responsive: true,

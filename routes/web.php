@@ -73,7 +73,6 @@ Route::middleware(['auth', 'role:auditor'])->group(function () {
 Route::middleware(['auth', 'role:audite'])->group(function () {
     Route::get('/home/audite', [HomeAuditeController::class, 'HomeAudite'])->name('home.audite');
     Route::resource('/pengisian_kinerja', PengisianKinerjaController::class);
-    Route::resource('/rekap_capaian', RekapCapaianController::class);
     Route::resource('/persetujuan', PersetujuanController::class);
 
 }); 

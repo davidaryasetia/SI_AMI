@@ -43,6 +43,15 @@
                         </a>
                     </li>
                     <li class="sidebar-item role-admin">
+                        <a class="sidebar-link {{ Request::is('periode_audit*') }}" href="/periode_audit"
+                            aria-expanded="false">
+                            <span>
+                                <i class="ti ti-calendar-event"></i>
+                            </span>
+                            <span class="hide-menu">Periode Audit</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item role-admin">
                         <a class="sidebar-link {{ Request::is('data_unit*') ? 'active' : '' }}" href="/data_unit"
                             aria-expanded="false">
                             <span>
@@ -61,16 +70,6 @@
                         </a>
                     </li>
                     <li class="sidebar-item role-admin">
-                        <a class="sidebar-link {{ Request::is('ploting_ami*') ? 'active' : '' }}" href="/ploting_ami"
-                            aria-expanded="false">
-                            <span>
-                                <i class="ti ti-users"></i>
-                            </span>
-                            <span class="hide-menu">Ploating AMI</span>
-                        </a>
-                    </li>
-
-                    <li class="sidebar-item role-admin">
                         <a class="sidebar-link {{ Request::is('data_indikator*') ? 'active' : '' }}"
                             href="/data_indikator" aria-expanded="false">
                             <span>
@@ -80,12 +79,12 @@
                         </a>
                     </li>
                     <li class="sidebar-item role-admin">
-                        <a class="sidebar-link {{ Request::is('periode_audit*') }}" href="/periode_audit"
+                        <a class="sidebar-link {{ Request::is('ploting_ami*') ? 'active' : '' }}" href="/ploting_ami"
                             aria-expanded="false">
                             <span>
-                                <i class="ti ti-calendar-event"></i>
+                                <i class="ti ti-users"></i>
                             </span>
-                            <span class="hide-menu">Periode Audit</span>
+                            <span class="hide-menu">Ploating AMI</span>
                         </a>
                     </li>
                     <li class="sidebar-item role-admin">
@@ -131,15 +130,6 @@
                             <span class="hide-menu">Pengisian Kinerja</span>
                         </a>
                     </li>
-                    {{-- <li class="sidebar-item role-audite">
-                        <a class="sidebar-link {{ Request::is('rekap_capaian*') ? 'active' : '' }}"
-                            href="/rekap_capaian" aria-expanded="false">
-                            <span>
-                                <i class="ti ti-file-analytics"></i>
-                            </span>
-                            <span class="hide-menu">Rekap Capaian</span>
-                        </a>
-                    </li> --}}
                     <li class="sidebar-item role-audite">
                         <a class="sidebar-link {{ Request::is('persetujuan*') ? 'active' : '' }}" href="/persetujuan"
                             aria-expanded="false">

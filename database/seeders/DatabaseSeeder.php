@@ -33,7 +33,6 @@ class DatabaseSeeder extends Seeder
             // Data Transaksi
 
         // Laporan
-            PeriodePelaksanaanSeeder::class,
             LingkupAuditSeeder::class,
             TujuanAuditSeeder::class,
             LaporanAuditorSeeder::class,

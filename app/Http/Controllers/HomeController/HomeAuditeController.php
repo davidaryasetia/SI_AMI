@@ -34,7 +34,7 @@ class HomeAuditeController extends Controller
 
         if (!$currentPeriode) {
             $currentPeriode = PeriodePelaksanaan::orderBy('tanggal_pembukaan_ami', 'desc')->first();
-        }
+        } 
      
         return view('data_audite.home_audite.beranda', [
             'title' => 'Audite',
