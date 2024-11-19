@@ -20,48 +20,55 @@ class PengisianKinerjaAuditorController extends Controller
         $units = Unit::whereIn('unit_id', $auditorUnits)->orderBy('unit_id')->get();
         $unitId = $request->input('unit_id');
 
-        // Default ke unit pertama jika $unitId kosong
-        if (!$unitId && $units->isNotEmpty()) {
-            $unitId = $units->first()->unit_id;
-        }
+        // Jika unit belum dipilih, kosongkan data_indikator
+        if (!$unitId) {
+            $data_indikator = null;
+            $nama_unit = '-';
+        } else {
+            // Ambil periode pelaksanaan terbaru
+            $periodeTerbaru = PeriodePelaksanaan::where('status', 'Sedang Berjalan')
+                ->orderBy('tanggal_pembukaan_ami', 'desc')
+                ->first();
 
-        // Ambil periode pelaksanaan terbaru
-        $periodeTerbaru = PeriodePelaksanaan::where('status', 'Sedang Berjalan')
-            ->orderBy('tanggal_pembukaan_ami', 'desc')
-            ->first();
-
-        if (!$periodeTerbaru) {
-            return redirect()->back()->with('error', 'Tidak ada periode pelaksanaan yang aktif');
-        }
-
-        // Ambil data indikator berdasarkan unit_id dan jadwal_ami_id
-        $jadwalAmiId = $periodeTerbaru->jadwal_ami_id;
-
-        $data_indikator = Unit::with([
-            'indikator_ikuk.transaksiDataIkuk' => function ($query) use ($jadwalAmiId) {
-                $query->where('jadwal_ami_id', $jadwalAmiId);
+            if (!$periodeTerbaru) {
+                return redirect()->back()->with('error', 'Tidak ada periode pelaksanaan yang aktif');
             }
-        ])
-            ->where('unit_id', $unitId)
-            ->first();
+
+            // Ambil data indikator berdasarkan unit_id dan jadwal_ami_id
+            $jadwalAmiId = $periodeTerbaru->jadwal_ami_id;
+
+            $data_indikator = Unit::with([
+                'indikator_ikuk.transaksiDataIkuk' => function ($query) use ($jadwalAmiId) {
+                    $query->where('jadwal_ami_id', $jadwalAmiId);
+                }
+            ])
+                ->where('unit_id', $unitId)
+                ->first();
+
+            // Ambil nama unit berdasarkan unitId
+            $nama_unit = $units->where('unit_id', $unitId)->first()->nama_unit ?? '-';
+        }
 
         // Hitung jumlah berdasarkan kondisi
         $melampauiTarget = 0;
         $memenuhi = 0;
         $belumMemenuhi = 0;
 
-        foreach ($data_indikator->indikator_ikuk as $indikator) {
-            foreach ($indikator->transaksiDataIkuk as $transaksi) {
-                if ($transaksi->realisasi_ikuk > $indikator->target_ikuk) {
-                    $melampauiTarget++;
-                } elseif ($transaksi->realisasi_ikuk == $indikator->target_ikuk) {
-                    $memenuhi++;
-                } elseif ($transaksi->realisasi_ikuk < $indikator->target_ikuk) {
-                    $belumMemenuhi++;
+        if ($data_indikator) {
+            foreach ($data_indikator->indikator_ikuk as $indikator) {
+                foreach ($indikator->transaksiDataIkuk as $transaksi) {
+                    if ($transaksi->realisasi_ikuk > $indikator->target_ikuk) {
+                        $melampauiTarget++;
+                    } elseif ($transaksi->realisasi_ikuk == $indikator->target_ikuk) {
+                        $memenuhi++;
+                    } elseif ($transaksi->realisasi_ikuk < $indikator->target_ikuk) {
+                        $belumMemenuhi++;
+                    }
                 }
             }
+
         }
-        
+
 
         $totalKinerja = $melampauiTarget + $memenuhi + $belumMemenuhi;
         // dump($data_indikator->toArray());

@@ -1,6 +1,7 @@
 @extends('layouts.main')
+@section('title', 'Edit Data Indikator')
 
-@section('row')
+@section('content')
     <div class="container-fluid">
         <div class="col-lg-12 d-flex align-items-stretch">
             <div class="card w-100">
@@ -8,7 +9,9 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="d-flex align-items-center mb-4">
                             <div>
-                               
+                                <a href="{{ url()->previous() }}" class="d-flex align-items-center">
+                                    <i class="ti ti-arrow-left me-3" style="font-size: 20px; color: black"></i>
+                                </a>
                             </div>
                             <div>
                                 <span class="card-title fw-semibold me-3">Edit Data - Indikator Kinerja Unit : {{$data->nama_unit}} </span>

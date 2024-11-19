@@ -1,44 +1,71 @@
-<!--  Header Start -->
-<header class="app-header">
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <ul class="navbar-nav">
-            <li class="nav-item d-block d-xl-none">
-                <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse" href="javascript:void(0)">
-                    <i class="ti ti-menu-2"></i>
-                </a>
-            </li>
-        </ul>
-        <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
-            <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
-                <li class="nav-item dropdown d-flex align-items-center" style="backgroun">
-                    <a class="nav-link d-flex align-items-center" href="javascript:void(0)"
-                        id="drop2" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="{{ Auth::user()->foto_gambar ? Storage::disk('s3')->url(Auth::user()->foto_gambar) : asset('assets/images/profile/user-profile.png') }}"
-                            alt="Profile" width="35" height="35" class="rounded-circle">
-                        <div class="flex-grow-1 ms-2">
-                            <span class="fw-semibold d-block" id="navbar-username" style="font-size: 14px">{{ Auth::user()->nama }}</span>
-                        </div>
-                        <i class="ti ti-chevron-down ms-2" style="font-size: 16px"></i>
-                    </a>
+<nav class="navbar navbar-expand-lg text-white d-flex justify-content-between pl-4 pr-4"
+    style="background-color: #0B668B;">
+    <div class="container-fluid">
+        <!-- Logo dan Toggle Button -->
+        <div class="d-flex align-items-center">
 
-                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
-                        <div class="message-body">
-                            <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
-                                <i class="ti ti-user fs-6"></i>
-                                <p class="mb-0 fs-3">Profile</p>
-                            </a>
-
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                @csrf
-                            </form>
-                            <a href="#" class="btn btn-outline-primary mx-3 mt-2 d-block"
-                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-                        </div>
+            <a class="navbar-brand d-flex align-items-center text-white ms-2" href="#">
+                <img src="{{ asset('assets/images/logos/white-logo.png') }}" alt="Logo P4MP" class="img-fluid"
+                    style="max-height: 40px; margin-right: 10px;">
+                    <div class="d-flex flex-column ms-2">
+                        <span style="font-weight: 700; font-size:18px">AMI - PENS</span>
+                        <small>Audit Mutu Internal</small>
                     </div>
-                </li>
-            </ul>
+               
+            </a>
 
+            <button id="sidebarToggle" class="btn btn-outline-light ms-1">
+                <i class="ti ti-menu-2"></i>
+            </button>
         </div>
-    </nav>
-</header>
-<!--  Header End -->
+
+        <div class="d-flex align-items-center" style="margin-right: 20px">
+            <!-- Dropdown Role -->
+            <div class="dropdown d-flex align-items-center me-3">
+                <select id="roleSelect" class="form-select" style="width: auto; color: black; background-color:white">
+                    @if (session('roles'))
+                        @foreach (session('roles') as $role)
+                            <option value="{{ $role }}" {{ session('active_role') == $role ? 'selected' : '' }}>
+                                {{ ucfirst($role) }}
+                            </option>
+                        @endforeach
+                    @endif
+                </select>
+            </div>
+
+            <!-- User Profile Dropdown -->
+            <div class="dropdown d-flex align-items-center">
+                <!-- Profile Picture -->
+                <img src="{{ Auth::user()->foto_gambar ? Storage::disk('s3')->url(Auth::user()->foto_gambar) : asset('assets/images/profile/user-profile.png') }}"
+                    alt="Profile" class="rounded-circle me-2" style="width: 40px; height: 40px; cursor: pointer;"
+                    data-bs-toggle="dropdown">
+
+                <!-- User Name -->
+                <span class="text-white fw-bold" style="cursor: pointer;" data-bs-toggle="dropdown">
+                    {{ Auth::user()->nama }}
+                </span>
+                <i class="ti ti-chevron-down text-white ms-1" data-bs-toggle="dropdown"></i>
+
+                <!-- Dropdown Menu -->
+                <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 p-3">
+                    <li class="text-center">
+                        <img src="{{ Auth::user()->foto_gambar ? Storage::disk('s3')->url(Auth::user()->foto_gambar) : asset('assets/images/profile/user-profile.png') }}"
+                            alt="Profile" class="rounded-circle mb-2" style="width: 60px; height: 60px;">
+                        <p class="fw-semibold mb-1">{{ Auth::user()->nama }}</p>
+                    </li>
+                    <li>
+                        <a href="#" class="dropdown-item d-flex align-items-center">
+                            <i class="ti ti-user me-2"></i> Profile
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('logout') }}" class="dropdown-item text-danger">
+                            <i class="ti ti-power me-2"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</nav>

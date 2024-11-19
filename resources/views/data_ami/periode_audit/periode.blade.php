@@ -1,4 +1,6 @@
 @extends('layouts.main')
+
+@section('title', 'Periode Audit')
 @push('css')
     <style>
         table td,
@@ -23,7 +25,7 @@
     </style>
 @endpush
 
-@section('row')
+@section('content')
     <div class="container-fluid">
         <div class="col-lg-12 d-flex align-items-stretch">
             <div class="w-100">
@@ -61,7 +63,7 @@
                         @method('PUT')
                     @endif
 
-                    
+
                     <div class="form-group mb-3">
                         <label for="namaPeriode" class="form-label">Nama Periode AMI</label>
                         <input type="text" class="form-control" name="nama_periode_ami" id="namaPeriode"
@@ -87,7 +89,7 @@
                 {{-- Tabel Periode AMI --}}
                 <div class="table-responsive mt-4">
                     <h4 class="card-title fw-semibold mb-4">Riwayat Jadwal Pengisian</h4>
-                    <table class="table table-hover table-bordered">
+                    <table class="table table-hover table-bordered" id="periode_pelaksanaan">
                         <thead class="table-light">
                             <tr>
                                 <th>No.</th>
@@ -212,7 +214,24 @@
             </div>
         </div>
     </div>
-@endsection
 
-@push('scripts')
-@endpush
+    @push('script')
+    <script>
+        // ------------- Data Audit Mutu Internal ------------
+        $('#periode_pelaksanaan').DataTable({
+            responsive: true,
+            "scrollY": "480px",
+            "pageLength": 20, // Set initial page length to 10
+            "lengthMenu": [
+                [20, 40, 50, 100],
+                [20, 40, 50, 100],
+            ],
+            "columnDefs": [{
+                targets: 0, // Target kolom "No"
+                width: '2%' // Sesuaikan persentase lebar kolom
+            }],
+        });
+    </script>
+    @endpush
+
+@endsection

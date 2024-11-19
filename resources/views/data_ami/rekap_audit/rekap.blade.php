@@ -1,6 +1,6 @@
 @extends('layouts.main')
-
-@section('row')
+@section('title', 'Rekap Audit')
+@section('content')
     <div class="container-fluid">
         <div class="col-lg-12 d-flex align-items-stretch">
             <div class="w-100">

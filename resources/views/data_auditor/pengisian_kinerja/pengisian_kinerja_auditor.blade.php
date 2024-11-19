@@ -1,5 +1,5 @@
 @extends('layouts.main')
-
+@section('title', 'Pengisian Kinerja Auditor')
 @push('css')
     <style>
         .card-header-custom {
@@ -33,7 +33,7 @@
     </style>
 @endpush
 
-@section('row')
+@section('content')
     <div class="container-fluid">
         <div class="col-lg-12 d-flex align-items-stretch">
             <div class="w-100">
@@ -41,8 +41,7 @@
                 {{-- Header --}}
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <div>
-                        <h5 style="color: black; margin-bottom: 12px fw-semibold">Sistem Informasi Audit Mutu Internal</h5>
-                        <p style="color: black">Progress Pengecekan Kinerja Audite: Unit {{ $nama_unit }}</p>
+                        <h4 class="card-title fw-semibold">Progress Capaian Data Kinerja Audite: Unit {{ $nama_unit }}</h4>
                     </div>
                     <div class="col-lg-2">
                         <select id="unit_id" class="form-select text-black" style="border-radius: 12px;">
@@ -80,85 +79,105 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $nomer = 1; ?>
-                            @foreach ($data_indikator->indikator_ikuk as $data)
-                                @php
-                                    $transaksi = $data->transaksiDataIkuk->first();
-                                @endphp
+                            @if (!$data_indikator)
                                 <tr>
-                                    <td>{{ $nomer++ }}</td>
-                                    <td>{{ $data['kode_ikuk'] }}</td>
-                                    <td>{{ $data['isi_indikator_kinerja_unit_kerja'] }}</td>
-                                    <td>{{ $data['target_ikuk'] }}</td>
-                                    <td>{{ $transaksi['realisasi_ikuk'] ?? '' }} </td>
-
-                                    {{-- Hasil Audit --}}
-                                    <td data-label="Status Audit">
-                                        @if ($transaksi['realisasi_ikuk'] > $data['target_ikuk'])
-                                            <span style="color: blue">Melampaui</span>
-                                        @elseif ($transaksi['realisasi_ikuk'] == $data['target_ikuk'])
-                                            <span style="color: blue">Memenuhi</span>
-                                        @elseif ($transaksi['realisasi_ikuk'] < $data['target_ikuk'])
-                                            <span style="color: red">Belum Memenuhi</span>
-                                        @endif
-                                    </td>
-                                    <!-- Analisis Keberhasilan -->
-                                    <td data-label="Analisis Keberhasilan"
-                                        style="background-color: {{ empty($transaksi['analisis_usulan_keberhasilan']) ? '#d3d3d3' : '' }}">
-                                        {{ $transaksi['analisis_usulan_keberhasilan'] ?? '' }}
-                                    </td>
-
-                                    <!-- Usulan Target Tahun Depan -->
-                                    <td data-label="Usulan Target Tahun Depan"
-                                        style="background-color: {{ empty($transaksi['usulan_target_tahun_depan']) ? '#d3d3d3' : '' }}">
-                                        {{ $transaksi['usulan_target_tahun_depan'] ?? '' }}
-                                    </td>
-
-                                    <!-- Strategi Pencapaian -->
-                                    <td data-label="Strategi Pencapaian"
-                                        style="background-color: {{ empty($transaksi['strategi_pencapaian']) ? '#d3d3d3' : '' }}">
-                                        {{ $transaksi['strategi_pencapaian'] ?? '' }}
-                                    </td>
-
-                                    <!-- Sarpras Yang Dibutuhkan -->
-                                    <td data-label="Sarpras Yang Dibutuhkan"
-                                        style="background-color: {{ empty($transaksi['sarpras_yang_dibutuhkan']) ? '#d3d3d3' : '' }}">
-                                        {{ $transaksi['sarpras_yang_dibutuhkan'] ?? '' }}
-                                    </td>
-
-                                    <!-- Faktor Pendukung -->
-                                    <td data-label="Faktor Pendukung"
-                                        style="background-color: {{ empty($transaksi['faktor_pendukung']) ? '#d3d3d3' : '' }}">
-                                        {{ $transaksi['faktor_pendukung'] ?? '' }}
-                                    </td>
-
-                                    <!-- Faktor Penghambat -->
-                                    <td data-label="Faktor Penghambat"
-                                        style="background-color: {{ empty($transaksi['faktor_penghambat']) ? '#d3d3d3' : '' }}">
-                                        {{ $transaksi['faktor_penghambat'] ?? '' }}
-                                    </td>
-
-                                    <!-- Akar Masalah -->
-                                    <td data-label="Akar Masalah"
-                                        style="background-color: {{ empty($transaksi['akar_masalah']) ? '#d3d3d3' : '' }}">
-                                        {{ $transaksi['akar_masalah'] ?? '' }}
-                                    </td>
-
-                                    <!-- Tindak Lanjut -->
-                                    <td data-label="Tindak Lanjut"
-                                        style="background-color: {{ empty($transaksi['tindak_lanjut']) ? '#d3d3d3' : '' }}">
-                                        {{ $transaksi['tindak_lanjut'] ?? '' }}
-                                    </td>
-
-                                    <!-- Data Dukung -->
-                                    <td data-label="Data Dukung"
-                                        style="background-color: {{ empty($transaksi['data_dukung']) ? '#d3d3d3' : '' }}">
-                                        {{ $transaksi['data_dukung'] ?? '' }}
-                                    </td>
+                                    <td colspan="15" class="" style="font-size: 16px; font-weight: 400; color: red">Silakan pilih unit kerja terlebih
+                                        dahulu.</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    
                                 </tr>
-                            @endforeach
+                            @else
+                                <?php $nomer = 1; ?>
+                                @foreach ($data_indikator->indikator_ikuk as $data)
+                                    @php
+                                        $transaksi = $data->transaksiDataIkuk->first();
+                                    @endphp
+                                    <tr>
+                                        <td>{{ $nomer++ }}</td>
+                                        <td>{{ $data['kode_ikuk'] }}</td>
+                                        <td>{{ $data['isi_indikator_kinerja_unit_kerja'] }}</td>
+                                        <td>{{ $data['target_ikuk'] }}</td>
+                                        <td>{{ $transaksi['realisasi_ikuk'] ?? '' }} </td>
 
+                                        {{-- Hasil Audit --}}
+                                        <td data-label="Status Audit">
+                                            @if ($transaksi['realisasi_ikuk'] > $data['target_ikuk'])
+                                                <span style="color: blue">Melampaui</span>
+                                            @elseif ($transaksi['realisasi_ikuk'] == $data['target_ikuk'])
+                                                <span style="color: blue">Memenuhi</span>
+                                            @elseif ($transaksi['realisasi_ikuk'] < $data['target_ikuk'])
+                                                <span style="color: red">Belum Memenuhi</span>
+                                            @endif
+                                        </td>
+                                        <!-- Analisis Keberhasilan -->
+                                        <td data-label="Analisis Keberhasilan"
+                                            style="background-color: {{ empty($transaksi['analisis_usulan_keberhasilan']) ? '#d3d3d3' : '' }}">
+                                            {{ $transaksi['analisis_usulan_keberhasilan'] ?? '' }}
+                                        </td>
 
+                                        <!-- Usulan Target Tahun Depan -->
+                                        <td data-label="Usulan Target Tahun Depan"
+                                            style="background-color: {{ empty($transaksi['usulan_target_tahun_depan']) ? '#d3d3d3' : '' }}">
+                                            {{ $transaksi['usulan_target_tahun_depan'] ?? '' }}
+                                        </td>
+
+                                        <!-- Strategi Pencapaian -->
+                                        <td data-label="Strategi Pencapaian"
+                                            style="background-color: {{ empty($transaksi['strategi_pencapaian']) ? '#d3d3d3' : '' }}">
+                                            {{ $transaksi['strategi_pencapaian'] ?? '' }}
+                                        </td>
+
+                                        <!-- Sarpras Yang Dibutuhkan -->
+                                        <td data-label="Sarpras Yang Dibutuhkan"
+                                            style="background-color: {{ empty($transaksi['sarpras_yang_dibutuhkan']) ? '#d3d3d3' : '' }}">
+                                            {{ $transaksi['sarpras_yang_dibutuhkan'] ?? '' }}
+                                        </td>
+
+                                        <!-- Faktor Pendukung -->
+                                        <td data-label="Faktor Pendukung"
+                                            style="background-color: {{ empty($transaksi['faktor_pendukung']) ? '#d3d3d3' : '' }}">
+                                            {{ $transaksi['faktor_pendukung'] ?? '' }}
+                                        </td>
+
+                                        <!-- Faktor Penghambat -->
+                                        <td data-label="Faktor Penghambat"
+                                            style="background-color: {{ empty($transaksi['faktor_penghambat']) ? '#d3d3d3' : '' }}">
+                                            {{ $transaksi['faktor_penghambat'] ?? '' }}
+                                        </td>
+
+                                        <!-- Akar Masalah -->
+                                        <td data-label="Akar Masalah"
+                                            style="background-color: {{ empty($transaksi['akar_masalah']) ? '#d3d3d3' : '' }}">
+                                            {{ $transaksi['akar_masalah'] ?? '' }}
+                                        </td>
+
+                                        <!-- Tindak Lanjut -->
+                                        <td data-label="Tindak Lanjut"
+                                            style="background-color: {{ empty($transaksi['tindak_lanjut']) ? '#d3d3d3' : '' }}">
+                                            {{ $transaksi['tindak_lanjut'] ?? '' }}
+                                        </td>
+
+                                        <!-- Data Dukung -->
+                                        <td data-label="Data Dukung"
+                                            style="background-color: {{ empty($transaksi['data_dukung']) ? '#d3d3d3' : '' }}">
+                                            {{ $transaksi['data_dukung'] ?? '' }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
                         </tbody>
                     </table>
                 </div>
@@ -216,6 +235,9 @@
                 [20, 40, 50, 100],
                 [20, 40, 50, 100],
             ],
+            language: {
+                emptyTable: "Data Indikator Kinerja Pada Unit {{ $nama_unit }} Belum Di Atur"
+            }
 
         });
     </script>

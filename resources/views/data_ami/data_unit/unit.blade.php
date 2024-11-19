@@ -1,6 +1,11 @@
 @extends('layouts.main')
 
-@section('row')
+@section('title', 'Data Unit')
+@push('css')
+    
+@endpush
+
+@section('content')
     <div class="container-fluid">
         <div class="col-lg-12 d-flex align-items-stretch">
             <div class="w-100">

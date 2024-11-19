@@ -1,5 +1,5 @@
 @extends('layouts.main')
-
+@section('title', 'Tambah Unit')
 @push('css')
     <style>
         #submitBtn {
@@ -11,7 +11,7 @@
     </style>
 @endpush
 
-@section('row')
+@section('content')
     <div class="container-fluid">
         <div class="col-lg-12 d-flex align-items-stretch">
             <div class="card w-100">

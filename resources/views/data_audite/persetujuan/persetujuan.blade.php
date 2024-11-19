@@ -1,4 +1,5 @@
 @extends('layouts.main')
+@section('title', 'Form Persetujuan')
 @push('css')
     <style>
         .approval-container {
@@ -95,7 +96,7 @@
     </style>
 @endpush
 
-@section('row')
+@section('content')
     <div class="container-fluid approval-container">
         <div class="approval-box">
             <h4 class="card-title fw-semibold">Persetujuan Evaluasi Kinerja Unit {{ session('audite.unit.nama_unit') }}</h4>

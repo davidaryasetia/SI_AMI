@@ -1,4 +1,5 @@
 @extends('layouts.main')
+@section('title', 'Data Indikator AMI')
 @push('css')
     <style>
         table#table_indikator tbody td{
@@ -10,7 +11,7 @@
     </style>
 @endpush
 
-@section('row')
+@section('content')
     <div class="container-fluid">
         <div class="col-lg-12 d-flex align-items-stretch">
             <div class="w-100">

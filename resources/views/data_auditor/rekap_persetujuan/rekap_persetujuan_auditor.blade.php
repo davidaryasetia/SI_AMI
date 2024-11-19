@@ -1,6 +1,6 @@
 @extends('layouts.main')
-
-@push('css')
+@section('title', 'Rekap Persetujuan Auditor')
+@push('css')    
     <style>
         .header-title {
             font-size: 1.5rem;
@@ -103,7 +103,7 @@
     </style>
 @endpush
 
-@section('row')
+@section('content')
     <div class="container-fluid">
         <div class="col-lg-12 d-flex align-items-stretch">
             <div class="w-100">

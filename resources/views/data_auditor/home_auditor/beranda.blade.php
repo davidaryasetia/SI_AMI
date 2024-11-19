@@ -1,4 +1,5 @@
 @extends('layouts.main')
+@section('title', 'Home Auditor')
 @push('css')
     <style>
         .alert-custom {
@@ -19,7 +20,7 @@
     </style>
 @endpush
 
-@section('row')
+@section('content')
     <div class="container-fluid">
         <!-- Pengumuman Kegiatan AMI -->
         <div class="row mb-4 d-flex">

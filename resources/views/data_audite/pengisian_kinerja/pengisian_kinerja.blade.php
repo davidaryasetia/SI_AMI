@@ -1,4 +1,6 @@
 @extends('layouts.main')
+
+@section('title', 'Pengisian Kinerja')
 @push('css')
     <style>
         table td,
@@ -99,7 +101,7 @@
                 font-size: 12px;
                 /* Ukuran font lebih kecil */
             }
-
+            
 
 
             table td::before {
@@ -112,12 +114,12 @@
     </style>
 @endpush
 
-@section('row')
+@section('content')
     <div class="container-fluid">
         <div class="col-lg-12 d-flex align-items-stretch">
             <div class="w-100">
                 {{-- Header --}}
-                <div class="d-flex justify-content-start align-items-center mb-4 content-header position-relative">
+                <div class="d-flex justify-content-start align-items-center mb-2 content-header position-relative">
                     <h4 class="card-title fw-semibold">
                         Progress Pengisian Kinerja Audite - Unit
                         @if (session()->has('audite.unit.nama_unit'))
@@ -149,7 +151,7 @@
                     @endphp
                     <div class="modal fade" id="modal{{ $dataIndikator['kode_ikuk'] }}" tabindex="-1"
                         aria-labelledby="modalLabel{{ $dataIndikator['kode_ikuk'] }}" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
+                        <div class="modal-dialog modal-lg modal-dialog-scrollable">
                             <!-- Modal Konten -->
                             <div class="modal-content">
                                 <div class="modal-header bg-primary text-white">
@@ -165,7 +167,7 @@
                                     action="{{ route('pengisian_kinerja.update', $transaksi['transaksi_data_ikuk_id']) }}">
                                     @csrf
                                     @method('PUT')
-                                    <div class="modal-body">
+                                    <div class="modal-body" style="max-height: 560px; overflow-y: auto">
                                         <input type="hidden" name="transaksi_data_ikuk_id"
                                             value="{{ $transaksi['transaksi_data_ikuk_id'] }}">
                                         <div class="mb-3">
@@ -313,7 +315,7 @@
                     <table id="table_pengisian_kinerja" class="table table-bordered ">
                         <thead class="table-light">
                             <tr>
-                                <th>No</th>
+                                <th style="width: 2px;!important">No</th>
                                 <th>Kode</th>
                                 <th>Indikator</th>
                                 <th>Target</th>

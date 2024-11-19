@@ -1,4 +1,5 @@
 @extends('layouts.main')
+@section('title', 'Ploating AMI')
 @push('css')
     <style>
         .unit-list {
@@ -17,7 +18,7 @@
     </style>
 @endpush
 
-@section('row')
+@section('content')
     <div class="container-fluid">
         <div class="col-lg-12 d-flex align-items-stretch">
             <div class="w-100">

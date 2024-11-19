@@ -1,4 +1,5 @@
 @extends('layouts.main')
+@section('title', 'Home Audite')
 @push('css')
     <style>
         /* Custom CSS */
@@ -25,7 +26,7 @@
     </style>
 @endpush
 
-@section('row')
+@section('content')
     <div class="container-fluid">
         <div class="row mb-4 d-flex flex-row align-items-center mb-4 justify-content-between">
             <div class="col-lg-8">

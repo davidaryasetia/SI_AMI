@@ -1,208 +1,151 @@
-<!-- Sidebar Start -->
-<aside class="left-sidebar">
-    <!-- Sidebar scroll-->
-    <div>
-        <div class="brand-logo d-flex align-items-center justify-content-between">
-            <a href="/home" class="text-nowrap logo-img">
-                <img src="{{ asset('assets/images/logos/long-logo.png') }}" width="180" alt="" />
-            </a>
-            <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
-                <i class="ti ti-x fs-8"></i>
-            </div>
-        </div>
-        <!-- Sidebar navigation-->
-        <nav class="sidebar-nav scroll-sidebar" data-simplebar="" style="margin-top: 32px   ">
-            <ul id="sidebarnav">
-
-                <!-- Dropdown Select Role -->
-                <li class="sidebar-item" style="margin-bottom: 24px">
-                    <div class="dropdown">
-                        <label for="roleSelect" style="margin-bottom: 8px">Role:</label>
-                        <select id="roleSelect" class="form-select">
-                            @if (session('roles'))
-                                @foreach (session('roles') as $role)
-                                    <option value="{{ $role }}"
-                                        {{ session('active_role') == $role ? 'selected' : '' }}>
-                                        {{ ucfirst($role) }}
-                                    </option>
-                                @endforeach
-                            @endif
-                        </select>
-                    </div>
-                </li>
-
-                <!-------------------------------- Menu for Admin ------------------------------->
-                @if (session('active_role') === 'admin')
-                    <li class="sidebar-item role-admin">
-                        <a class="sidebar-link {{ Request::is('/home') ? 'active' : '' }}" href="/home"
-                            aria-expanded="false">
-                            <span>
-                                <i class="ti ti-layout-dashboard"></i>
-                            </span>
-                            <span class="hide-menu">Home</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item role-admin">
-                        <a class="sidebar-link {{ Request::is('periode_audit*') }}" href="/periode_audit"
-                            aria-expanded="false">
-                            <span>
-                                <i class="ti ti-calendar-event"></i>
-                            </span>
-                            <span class="hide-menu">Periode Audit</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item role-admin">
-                        <a class="sidebar-link {{ Request::is('data_unit*') ? 'active' : '' }}" href="/data_unit"
-                            aria-expanded="false">
-                            <span>
-                                <i class="ti ti-article"></i>
-                            </span>
-                            <span class="hide-menu">Data Unit</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item role-admin">
-                        <a class="sidebar-link {{ Request::is('data_user*') ? 'active' : '' }}" href="/data_user"
-                            aria-expanded="false">
-                            <span>
-                                <i class="ti ti-users-group"></i>
-                            </span>
-                            <span class="hide-menu">Data User</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item role-admin">
-                        <a class="sidebar-link {{ Request::is('data_indikator*') ? 'active' : '' }}"
-                            href="/data_indikator" aria-expanded="false">
-                            <span>
-                                <i class="ti ti-table"></i>
-                            </span>
-                            <span class="hide-menu">Data Indikator</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item role-admin">
-                        <a class="sidebar-link {{ Request::is('ploting_ami*') ? 'active' : '' }}" href="/ploting_ami"
-                            aria-expanded="false">
-                            <span>
-                                <i class="ti ti-users"></i>
-                            </span>
-                            <span class="hide-menu">Ploating AMI</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item role-admin">
-                        <a class="sidebar-link {{ Request::is('progres_audit*') }}" href="/progres_audit"
-                            aria-expanded="false">
-                            <span>
-                                <i class="ti ti-clipboard-data"></i>
-                            </span>
-                            <span class="hide-menu">Progress Audit</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item role-admin">
-                        <a class="sidebar-link {{ Request::is('rekap_audit*') }}" href="/rekap_audit"
-                            aria-expanded="false">
-                            <span>
-                                <i class="ti ti-chart-dots"></i>
-                            </span>
-                            <span class="hide-menu">Rekap Audit</span>
-                        </a>
-                    </li>
-                @endif
-
-
-
-                <!----------------------------------------Menu Audite-------------------------------------------------------->
-                @if (session('active_role') === 'audite')
-                    <!----------------------------------------Menu Audite-------------------------------------------------------->
-                    <li class="sidebar-item role-audite">
-                        <a class="sidebar-link {{ Request::is('/home/audite*') ? 'active' : '' }}" href="/home/audite"
-                            aria-expanded="false">
-                            <span>
-                                <i class="ti ti-layout-dashboard"></i>
-                            </span>
-                            <span class="hide-menu">Home</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item role-audite">
-                        <a class="sidebar-link {{ Request::is('pengisian_kinerja*') ? 'active' : '' }}"
-                            href="/pengisian_kinerja" aria-expanded="false">
-                            <span>
-                                <i class="ti ti-file-description"></i>
-                            </span>
-                            <span class="hide-menu">Pengisian Kinerja</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item role-audite">
-                        <a class="sidebar-link {{ Request::is('persetujuan*') ? 'active' : '' }}" href="/persetujuan"
-                            aria-expanded="false">
-                            <span>
-                                <i class="ti ti-checkup-list"></i>
-                            </span>
-                            <span class="hide-menu">Persetujuan</span>
-                        </a>
-                    </li>
-                @endif
-
-                <!-----------------------------------------Menu for Auditor----------------------------->
-                @if (session('active_role') === 'auditor')
-                    <li class="sidebar-item role-auditor">
-                        <a class="sidebar-link {{ Request::is('/home/auditor*') ? 'active' : '' }}"
-                            href="/home/auditor " aria-expanded="false">
-                            <span>
-                                <i class="ti ti-layout-dashboard"></i>
-                            </span>
-                            <span class="hide-menu">Home</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item role-auditor">
-                        <a class="sidebar-link {{ Request::is('pengisian_kinerja_auditor*') ? 'active' : '' }}"
-                            href="/pengisian_kinerja_auditor" aria-expanded="false">
-                            <span>
-                                <i class="ti ti-file-description"></i>
-                            </span>
-                            <span class="hide-menu">Pengisian Kinerja</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item role-auditor">
-                        <a class="sidebar-link {{ Request::is('rekap_persetujuan_auditor*') ? 'active' : '' }}"
-                            href="/rekap_persetujuan_auditor" aria-expanded="false">
-                            <span>
-                                <i class="ti ti-checkup-list"></i>
-                            </span>
-                            <span class="hide-menu">Rekap & Persetujuan</span>
-                        </a>
-                    </li>
-                @endif
-
-                {{-- -------------------------------------------------------------------------------------- --}}
-                <li class="sidebar-item">
-                    <a class="sidebar-link {{ Request::is('profile*') ? 'active' : '' }}" href="/profile"
-                        aria-expanded="false">
-                        <span>
-                            <i class="ti ti-user"></i>
-                        </span>
-                        <span class="hide-menu">Profile</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST">
-                        @csrf
-                    </form>
-                    <a class="sidebar-link" href="#" aria-expanded="false"
-                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <span>
-                            <i class="ti ti-logout"></i>
-                        </span>
-                        <span class="hide-menu">Logout</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-        <!-- End Sidebar navigation-->
+<div id="sidebar" class="d-flex flex-column">
+    <div class="text-center" style="height: 60px;">
+        <!-- Div kosong untuk menggantikan gambar -->
     </div>
-    <!-- End Sidebar scroll-->
-</aside>
-<!--  Sidebar End -->
+    <ul class="nav flex-column">
 
-<!-- Script to dynamically change menu based on role -->
+        {{-- ------------------------- Admin------------------------------------------- --}}
+        @if (session('active_role') === 'admin')
+            <li class="nav-item role-admin">
+                <a class="nav-link d-flex align-items-center {{ request()->is('home') ? 'active' : '' }}" href="/home"
+                    data-title="Home">
+                    <i class="ti ti-layout-dashboard me-2"></i>
+                    <span class="menu-text">Home</span>
+                </a>
+            </li>
+            <li class="nav-item role-admin">
+                <a class="nav-link d-flex align-items-center {{ request()->is('periode_audit') ? 'active' : '' }}"
+                    href="/periode_audit" data-title="Periode Audit">
+                    <i class="ti ti-calendar-event me-2"></i>
+                    <span class="menu-text">Periode Audit</span>
+                </a>
+            </li>
+            <li class="nav-item role-admin">
+                <a class="nav-link d-flex align-items-center {{ Request::is('data_unit*') ? 'active' : '' }}"
+                    href="/data_unit">
+                    <i class="ti ti-database me-2"></i>
+                    <span class="menu-text">Data Unit</span>
+                </a>
+            </li>
+            <li class="nav-item role-admin">
+                <a class="nav-link d-flex align-items-center {{ Request::is('data_user*') ? 'active' : '' }}"
+                    href="/data_user">
+                    <i class="ti ti-user me-2"></i>
+                    <span class="menu-text">Data User</span>
+                </a>
+            </li>
+            <li class="nav-item role-admin">
+                <a class="nav-link d-flex align-items-center {{ Request::is('data_indikator*') ? 'active' : '' }}"
+                    href="/data_indikator">
+                    <i class="ti ti-table me-2"></i>
+                    <span class="menu-text">Data Indikator</span>
+                </a>
+            </li>
+            <li class="nav-item role-admin">
+                <a class="nav-link d-flex align-items-center  {{ Request::is('ploting_ami*') ? 'active' : '' }}"
+                    href="/ploting_ami">
+                    <i class="ti ti-clipboard me-2"></i>
+                    <span class="menu-text">Ploating AMI</span>
+                </a>
+            </li>
+            <li class="nav-item role-admin">
+                <a class="nav-link d-flex align-items-center {{ Request::is('progres_audit*') ? 'active' : '' }} "
+                    href="/progres_audit">
+                    <i class="ti ti-clipboard-data me-2"></i>
+                    <span class="menu-text">Progress Audit</span>
+                </a>
+            </li>
+            <li class="nav-item role-admin">
+                <a class="nav-link d-flex align-items-center  {{ Request::is('rekap_audit*') ? 'active' : '' }}"
+                    href="/rekap_audit">
+                    <i class="ti ti-chart-dots me-2"></i>
+                    <span class="menu-text">Rekap Audit</span>
+                </a>
+            </li>
+        @endif
+        {{-- ------------------------- End Admin---------------------------------------------------------- --}}
+
+
+        {{-- ------------------------- Audite------------------------------------------------------------- --}}
+        @if (session('active_role') === 'audite')
+            <li class="nav-item">
+                <a class="nav-link d-flex align-items-center {{ url()->current() === url('/home/audite') ? 'active' : '' }}"
+                    href="/home/audite" data-title="Home">
+                    <i class="ti ti-layout-dashboard me-2"></i>
+                    <span class="menu-text">Home</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link d-flex align-items-center {{ Request::is('pengisian_kinerja*') ? 'active' : '' }}"
+                    href="/pengisian_kinerja" data-title="Home">
+                    <i class="ti ti-file-description me-2"></i>
+                    <span class="menu-text">Pengisian Kinerja</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link d-flex align-items-center {{ Request::is('persetujuan*') ? 'active' : '' }}"
+                    href="/persetujuan" data-title="Home">
+                    <i class="ti ti-file-description me-2"></i>
+                    <span class="menu-text">Persetujuan</span>
+                </a>
+            </li>
+        @endif
+        {{-- ------------------------- End Audite-------------------------------------------------------------- --}}
+
+        {{-- ------------------------- Auditor------------------------------------------------------------- --}}
+        @if (session('active_role') === 'auditor')
+            <li class="nav-item">
+                <a class="nav-link d-flex align-items-center {{ url()->current() === url('/home/auditor') ? 'active' : '' }}"
+                    href="/home/auditor" data-title="Home">
+                    <i class="ti ti-layout-dashboard me-2"></i>
+                    <span class="menu-text">Home</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link d-flex align-items-center {{ Request::is('pengisian_kinerja_auditor*') ? 'active' : '' }}"
+                    href="/pengisian_kinerja_auditor" data-title="Home">
+                    <i class="ti ti-file-description me-2"></i>
+                    <span class="menu-text">Pengisian Kinerja Auditor</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link d-flex align-items-center {{ Request::is('rekap_persetujuan_auditor*') ? 'active' : '' }}"
+                    href="/rekap_persetujuan_auditor" data-title="Home">
+                    <i class="ti ti-file-description me-2"></i>
+                    <span class="menu-text">Rekap & Persetujuan</span>
+                </a>
+            </li>
+        @endif
+        {{-- ------------------------- End Audite-------------------------------------------------------------- --}}
+
+
+
+
+        {{-- ---------------------------- Root Menu ---------------------- --}}
+        <li class="nav-item">
+            <a class="nav-link d-flex align-items-center {{ Request::is('profile*') ? 'active' : '' }}"
+                href="/profile">
+                <i class="ti ti-user me-2"></i>
+                <span class="menu-text">Profile</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                @csrf
+            </form>
+            <a class="nav-link d-flex " href="#" aria-expanded="false"
+                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class="ti ti-logout me-2"></i>
+                <span class="hide-menu">Logout</span>
+            </a>
+        </li>
+    </ul>
+</div>
+
 <script>
     window.onload = function() {
         const roleSelect = document.getElementById('roleSelect');
