@@ -204,4 +204,41 @@ class PlotingAmiController extends Controller
 
         return redirect()->route('ploting_ami.index')->with('success', 'Ploting Ami Berhasil Di reset');
     }
+
+    // Cek beban 
+    public function cekBeban(Request $request)
+    {
+        $auditors = User::where('is_auditor', true)->get();
+
+        $data = $auditors->map(function ($auditor) {
+            $auditor1Units = Auditor::where('auditor_1', $auditor->user_id)
+                ->with('units') // Pastikan relasi `units` ada di model Auditor
+                ->get()
+                ->pluck('units.nama_unit')
+                ->toArray();
+
+            $auditor2Units = Auditor::where('auditor_2', $auditor->user_id)
+                ->with('units')
+                ->get()
+                ->pluck('units.nama_unit')
+                ->toArray();
+
+            $jumlahAuditor1 = count($auditor1Units);
+            $jumlahAuditor2 = count($auditor2Units);
+            $total = $jumlahAuditor1 + $jumlahAuditor2;
+
+            return [
+                'nama' => $auditor->nama,
+                'jumlahAuditor1' => $jumlahAuditor1,
+                'jumlahAuditor2' => $jumlahAuditor2,
+                'auditor1Units' => $auditor1Units, // Unit untuk Auditor 1
+                'auditor2Units' => $auditor2Units, // Unit untuk Auditor 2
+                'total' => $total,
+            ];
+        });
+
+        return response()->json($data);
+    }
+
 }
+

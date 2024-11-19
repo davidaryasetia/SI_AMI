@@ -4,6 +4,7 @@ namespace App\Http\Controllers\DataAuditorController;
 
 use App\Http\Controllers\Controller;
 use App\Models\IndikatorKinerjaUnitKerja;
+use App\Models\PeriodePelaksanaan;
 use App\Models\Unit;
 use Illuminate\Http\Request;
 
@@ -14,39 +15,71 @@ class PengisianKinerjaAuditorController extends Controller
      */
     public function index(Request $request)
     {
-        // Ambil data unit 
+        // Ambil unit yang terkait dengan auditor dari session
         $auditorUnits = collect(session('auditor'))->pluck('units.unit_id')->unique();
         $units = Unit::whereIn('unit_id', $auditorUnits)->orderBy('unit_id')->get();
         $unitId = $request->input('unit_id');
 
-        // Jika unit_id tida ada di (state awal)
+        // Default ke unit pertama jika $unitId kosong
         if (!$unitId && $units->isNotEmpty()) {
             $unitId = $units->first()->unit_id;
         }
 
-        $data_ami = IndikatorKinerjaUnitKerja::select(
-            'indikator_kinerja_unit_kerja_id',
-            'kode_ikuk',
-            'isi_indikator_kinerja_unit_kerja',
-            'satuan_ikuk',
-            'target_ikuk',
-            'unit.nama_unit as nama_unit',
-            'unit.unit_id as unit_id'
-        )
-            ->join('unit', 'indikator_kinerja_unit_kerja.unit_id', '=', 'unit.unit_id')
-            ->where('indikator_kinerja_unit_kerja.unit_id', $unitId)
-            ->get();
+        // Ambil periode pelaksanaan terbaru
+        $periodeTerbaru = PeriodePelaksanaan::where('status', 'Sedang Berjalan')
+            ->orderBy('tanggal_pembukaan_ami', 'desc')
+            ->first();
 
+        if (!$periodeTerbaru) {
+            return redirect()->back()->with('error', 'Tidak ada periode pelaksanaan yang aktif');
+        }
 
+        // Ambil data indikator berdasarkan unit_id dan jadwal_ami_id
+        $jadwalAmiId = $periodeTerbaru->jadwal_ami_id;
+
+        $data_indikator = Unit::with([
+            'indikator_ikuk.transaksiDataIkuk' => function ($query) use ($jadwalAmiId) {
+                $query->where('jadwal_ami_id', $jadwalAmiId);
+            }
+        ])
+            ->where('unit_id', $unitId)
+            ->first();
+
+        // Hitung jumlah berdasarkan kondisi
+        $melampauiTarget = 0;
+        $memenuhi = 0;
+        $belumMemenuhi = 0;
+
+        foreach ($data_indikator->indikator_ikuk as $indikator) {
+            foreach ($indikator->transaksiDataIkuk as $transaksi) {
+                if ($transaksi->realisasi_ikuk > $indikator->target_ikuk) {
+                    $melampauiTarget++;
+                } elseif ($transaksi->realisasi_ikuk == $indikator->target_ikuk) {
+                    $memenuhi++;
+                } elseif ($transaksi->realisasi_ikuk < $indikator->target_ikuk) {
+                    $belumMemenuhi++;
+                }
+            }
+        }
+        
+
+        $totalKinerja = $melampauiTarget + $memenuhi + $belumMemenuhi;
+        // dump($data_indikator->toArray());
+        // Ambil nama unit berdasarkan unitId
         $nama_unit = $units->where('unit_id', $unitId)->first()->nama_unit ?? '-';
         return view('data_auditor.pengisian_kinerja.pengisian_kinerja_auditor', [
             'title' => 'Pengisian Kinerja Auditor',
-            'units' => $units, 
-            'data_ami' => $data_ami, 
-            'unit_id' => $unitId, 
-            'nama_unit' => $nama_unit, 
+            'units' => $units,
+            'data_indikator' => $data_indikator,
+            'unit_id' => $unitId,
+            'nama_unit' => $nama_unit,
+            'melampauiTarget' => $melampauiTarget,
+            'memenuhi' => $memenuhi,
+            'belumMemenuhi' => $belumMemenuhi,
+            'totalKinerja' => $totalKinerja,
         ]);
     }
+
 
     /**
      * Show the form for creating a new resource.

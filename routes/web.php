@@ -66,7 +66,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware(['auth', 'role:auditor'])->group(function () {
     Route::get('/home/auditor', [HomeAuditorController::class, 'HomeAuditor'])->name('home.auditor');
     Route::resource('/pengisian_kinerja_auditor', PengisianKinerjaAuditorController::class );
-    Route::get('/data_indikator_auditor', [PengisianKinerjaAuditorController::class, 'index'])->name('data_indikator_auditor.index');
+    Route::get('/pengisian_kinerja_auditor', [PengisianKinerjaAuditorController::class, 'index'])->name('data_indikator_auditor.index');
     Route::resource('/rekap_persetujuan_auditor', RekapPersetujuanAuditorController::class);
 });
 
@@ -88,6 +88,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/data_user/reset', [DataUserController::class, 'resetStatus'])->name('data_user.reset');
         Route::resource('/ploting_ami', PlotingAmiController::class);
         Route::post('/ploting_ami/reset', [PlotingAmiController::class, 'resetPloting'])->name('ploting_ami.reset');
+        Route::post('/ploting_ami/cek-beban', [PlotingAmiController::class, 'cekBeban'])->name('ploting_ami.cek_beban');
         Route::resource('/data_indikator', DataIndikatorController::class);
         Route::get('/data_indikator/unit/create/{id}', [DataIndikatorController::class, 'create_ikuk_id']);
         Route::delete('data_indikator/delete/{indikator_id}/{unit_id}', [DataIndikatorController::class, 'destroyWithUnit'])->name('data_indikator.destroyWithUnit');

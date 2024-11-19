@@ -88,7 +88,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Tambah Unit</button>
+                        <button type="submit" class="btn btn-primary">Update Data Indikator</button>
                     </form>
                     {{-- END-Content --}}
                 </div>

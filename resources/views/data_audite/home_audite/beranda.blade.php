@@ -71,7 +71,7 @@
         <!-- Konten Utama -->
         <div class="row">
             <!-- Tabel Data Audite -->
-            <div class="col-lg-8 mb-4">
+            <div class="col-lg-8 mb-2">
                 <div class="card shadow-sm">
                     <div class="card-header bg-light">
                         <h5 class="card-title mb-0 text-black">Data Approval Auditor</h5>
@@ -110,7 +110,6 @@
                                             @else
                                                 {{ $auditor2 }}
                                             @endif
-                                            {{ $auditor2 }}
                                         </td>
                                         <td>Anggota Auditor</td>
                                         <td><span class="badge bg-warning text-dark" style="font-weight: bold">Dalam
@@ -180,7 +179,7 @@
 
 
         <!-- Tambahan Grafik Rekap Capaian -->
-        <div class="row mt-2">
+        <div class="row mt-1">
             <div class="col-lg-12">
                 <div class="card shadow-sm">
                     <div class="card-header bg-light">
@@ -204,33 +203,37 @@
             var performanceChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ['Rekap Capaian'], // Hanya satu label untuk strip tunggal
-                    datasets: [{
-                            label: 'Belum Mencapai Target',
-                            data: [30], // Contoh data
+                    labels: ['Rekap Capaian'],
+                    datasets: [
+                        {
+                            label: 'Belum Memenuhi',
+                            data: [{{ $persentaseBelumMemenuhi }}], // Persentase dinamis
                             backgroundColor: 'rgba(255, 43, 43, 1)',
+                            count: {{ $belumMemenuhi }} // Jumlah fix data dinamis
                         },
                         {
-                            label: 'Mencapai Target',
-                            data: [40], // Contoh data
+                            label: 'Memenuhi',
+                            data: [{{ $persentaseMemenuhi }}], // Persentase dinamis
                             backgroundColor: 'rgba(44, 42, 255, 0.8)',
+                            count: {{ $memenuhi }} // Jumlah fix data dinamis
                         },
                         {
-                            label: 'Melebihi Target',
-                            data: [30], // Contoh data
+                            label: 'Melampaui',
+                            data: [{{ $persentaseMelampaui }}], // Persentase dinamis
                             backgroundColor: 'rgba(45, 255, 42, 1)',
+                            count: {{ $melampauiTarget }} // Jumlah fix data dinamis
                         },
                     ]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    indexAxis: 'y', // Membuat grafik horizontal
+                    indexAxis: 'y',
                     scales: {
                         x: {
                             stacked: true,
                             beginAtZero: true,
-                            max: 100 // Menyesuaikan skala ke 100% untuk persentase
+                            max: 100 // Karena persentase, maksimum 100%
                         },
                         y: {
                             stacked: true
@@ -241,8 +244,14 @@
                             position: 'top',
                         },
                         tooltip: {
-                            mode: 'index',
-                            intersect: false
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    let value = context.raw || 0; // Persentase
+                                    let count = context.dataset.count || 0; // Jumlah fix
+                                    return `${label}: ${value}% (${count} data)`;
+                                }
+                            }
                         }
                     }
                 }

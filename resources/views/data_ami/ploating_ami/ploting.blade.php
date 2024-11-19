@@ -35,11 +35,134 @@
                                 </button>
                             </form>
                         </div>
+                        <!-- Tombol Trigger Modal -->
                         <div class="ms-2">
-                            <button type="submit" class="btn btn-primary">
+                            <button type="button" class="btn btn-primary" id="cekBebanButton" data-bs-toggle="modal"
+                                data-bs-target="#cekBebanModal">
                                 <i class="ti ti-weight me-2"></i> Cek Beban
                             </button>
                         </div>
+
+                        <!-- Modal -->
+                        <!-- Modal -->
+                        <div class="modal fade" id="cekBebanModal" tabindex="-1" aria-labelledby="cekBebanModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-primary text-white">
+                                        <h5 class="modal-title" id="cekBebanModalLabel"
+                                            style="color: white; font-weight: 600"><i class="ti ti-weight me-2"></i>Cek
+                                            Beban User Auditor</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div id="bebanContent">
+                                            <table class="table table-striped table-hover">
+                                                <thead class="table-primary">
+                                                    <tr>
+                                                        <th scope="col">Nama Auditor</th>
+                                                        <th scope="col" class="text-center">Beban Auditor 1</th>
+                                                        <th scope="col" class="text-center">Beban Auditor 2</th>
+                                                        <th scope="col" class="text-center">Total Beban</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="bebanTableBody">
+                                                    <!-- Data akan dimuat secara dinamis dengan JavaScript -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Tutup</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <script>
+                            document.getElementById('cekBebanButton').addEventListener('click', function() {
+                                const bebanTableBody = document.getElementById('bebanTableBody');
+                                bebanTableBody.innerHTML = `
+        <tr>
+            <td colspan="4" class="text-center">Memuat data...</td>
+        </tr>
+    `;
+
+                                fetch('{{ route('ploting_ami.cek_beban') }}', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                        }
+                                    })
+                                    .then(response => {
+                                        if (!response.ok) {
+                                            throw new Error(`HTTP error! Status: ${response.status}`);
+                                        }
+                                        return response.json();
+                                    })
+                                    .then(data => {
+                                        if (data.length > 0) {
+                                            bebanTableBody.innerHTML = '';
+                                            data.forEach(auditor => {
+                                                const auditor1Units = auditor.auditor1Units.join(', ');
+                                                const auditor2Units = auditor.auditor2Units.join(', ');
+
+                                                bebanTableBody.innerHTML += `
+                    <tr>
+                        <td>${auditor.nama}</td>
+                        <td class="text-center">
+                            ${auditor.jumlahAuditor1}
+                            <span 
+                                class="ms-2 btn btn-sm btn-light" 
+                                tabindex="0" 
+                                data-bs-toggle="popover" 
+                                data-bs-trigger="hover focus" 
+                                data-bs-content="${auditor1Units}">
+                                <i class="ti ti-info-circle"></i>
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            ${auditor.jumlahAuditor2}
+                            <span 
+                                class="ms-2 btn btn-sm btn-light" 
+                                tabindex="0" 
+                                data-bs-toggle="popover" 
+                                data-bs-trigger="hover focus" 
+                                data-bs-content="${auditor2Units}">
+                                <i class="ti ti-info-circle"></i>
+                            </span>
+                        </td>
+                        <td class="text-center"><strong>${auditor.total}</strong></td>
+                    </tr>
+                `;
+                                            });
+
+                                            // Inisialisasi popover
+                                            const popoverTriggerList = [].slice.call(document.querySelectorAll(
+                                                '[data-bs-toggle="popover"]'));
+                                            popoverTriggerList.forEach(function(popoverTriggerEl) {
+                                                new bootstrap.Popover(popoverTriggerEl);
+                                            });
+                                        } else {
+                                            bebanTableBody.innerHTML = `
+                <tr>
+                    <td colspan="4" class="text-center text-muted">Tidak ada data auditor.</td>
+                </tr>
+            `;
+                                        }
+                                    })
+                                    .catch(error => {
+                                        bebanTableBody.innerHTML = `
+            <tr>
+                <td colspan="4" class="text-center text-danger">Gagal memuat data: ${error.message}</td>
+            </tr>
+        `;
+                                    });
+                            });
+                        </script>
 
                     </div>
 
@@ -209,6 +332,8 @@
                     },
                 ]
             });
+
+            // Logic Cek beban
         </script>
     @endpush
 @endsection
