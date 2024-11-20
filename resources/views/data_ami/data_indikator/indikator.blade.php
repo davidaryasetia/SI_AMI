@@ -2,10 +2,11 @@
 @section('title', 'Data Indikator AMI')
 @push('css')
     <style>
-        table#table_indikator tbody td{
+        table#table_indikator tbody td {
             padding: 0px 8px;
         }
-        table#table_indikator tbody td th{
+
+        table#table_indikator tbody td th {
             margin: 0;
         }
     </style>
@@ -251,11 +252,13 @@
         <script>
             $('#table_indikator').DataTable({
                 responsive: true,
-                "scrollY": "480px",
-                "pageLength": 20, // Set initial page length to 5
+                "scrollY": "520px",
+                scrollX: true,
+                autoWidth: false,
+                "pageLength": 50,
                 "lengthMenu": [
-                    [20, 30, 40, 50, 100],
-                    [20, 30, 40, 50, 100],
+                    [50, 100],
+                    [50, 100],
                 ],
                 columns: [{
                         width: '6px'

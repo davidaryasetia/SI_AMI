@@ -23,7 +23,7 @@
 @section('content')
     <div class="container-fluid">
         <!-- Pengumuman Kegiatan AMI -->
-        <div class="row mb-4 d-flex">
+        <div class="row mb-2 d-flex">
             <div class="col-12">
                 <h5 class="fw-bold text-dark">Hai, {{ Auth::user()->nama }}! Selamat datang di Dashboard Auditor</h5>
                 <div class="col-lg-3">
@@ -49,7 +49,7 @@
         <!-- Konten Utama -->
         <div class="row">
             <!-- Tabel Data Audite -->
-            <div class="col-lg-8 mb-4">
+            <div class="col-lg-8 mb-1">
                 <div class="card">
                     <div class="card-header">
                         <h5 class="card-title mb-0">Status Finalisasi Pengisian Audite</h5>
@@ -92,8 +92,8 @@
             </div>
 
             <!-- Informasi Jadwal AMI -->
-            <div class="col-lg-4 mb-4">
-                <div class="card h-100">
+            <div class="col-lg-4 mb-1">
+                <div class="card h-90">
                     <div class="card-header">
                         <h5 class="card-title mb-0">Informasi Jadwal AMI</h5>
                     </div>
@@ -144,9 +144,112 @@
                 </div>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-light d-flex align-items-center justify-content-between">
+                        <div></div>
+                        <h5 class="card-title mb-0 text-black text-center">Rekap Capaian Unit : {{ $nama_unit }}</h5>
+                        <div class="col-lg-2">
+                            <select id="unit_id" class="form-select text-black"
+                                style="border-radius: 12px; background-color: white">
+                                <option value="">Pilih Unit Kerja</option>
+                                @foreach (session('auditor') as $auditor)
+                                    <option value="{{ $auditor['units']['unit_id'] }}"
+                                        {{ request('unit_id') == $auditor['units']['unit_id'] ? 'selected' : '' }}>
+                                        {{ $auditor['units']['nama_unit'] }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="horizontal-bar-chart-container"
+                            style="height: 100px; width: 100%; max-width: 1200px; margin: auto;">
+                            <canvas id="performanceChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     @push('script')
-        <!-- Script tambahan jika diperlukan -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const unitSelect = document.getElementById('unit_id');
+
+                unitSelect.addEventListener('change', function() {
+                    const unitId = unitSelect.value;
+
+                    if (unitId) {
+                        window.location.href = `/home/auditor?unit_id=${unitId}`;
+                    } else {
+                        window.location.href = `/home/auditor`;
+                    }
+                })
+            })
+        </script>
+
+        <script>
+            var ctx = document.getElementById('performanceChart').getContext('2d');
+            var performanceChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Rekap Capaian'],
+                    datasets: [{
+                            label: 'Belum Memenuhi',
+                            data: [{{ $persentaseBelumMemenuhi }}],
+                            backgroundColor: 'rgba(255, 43, 43, 1)',
+                            count: {{ $belumMemenuhi }} // Jumlah fix data dinamis
+                        },
+                        {
+                            label: 'Memenuhi',
+                            data: [{{ $persentaseMemenuhi }}], // Persentase dinamis
+                            backgroundColor: 'rgba(44, 42, 255, 0.8)',
+                            count: {{ $memenuhi }} // Jumlah fix data dinamis
+                        },
+                        {
+                            label: 'Melampaui',
+                            data: [{{ $persentaseMelampaui }}], // Persentase dinamis
+                            backgroundColor: 'rgba(45, 255, 42, 1)',
+                            count: {{ $melampauiTarget }} // Jumlah fix data dinamis
+                        },
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            stacked: true,
+                            beginAtZero: true,
+                            max: 100 // Karena persentase, maksimum 100%
+                        },
+                        y: {
+                            stacked: true
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    let value = context.raw || 0; // Persentase
+                                    let count = context.dataset.count || 0; // Jumlah fix
+                                    return `${label}: ${value}% (${count} data)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
     @endpush
 @endsection

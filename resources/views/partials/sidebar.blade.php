@@ -62,6 +62,13 @@
                     <span class="menu-text">Rekap Audit</span>
                 </a>
             </li>
+            <li class="nav-item role-admin">
+                <a class="nav-link d-flex align-items-center {{ Request::is('riwayat*') ? 'active' : '' }}"
+                    href="/riwayat">
+                    <i class="ti ti-history me-2"></i>
+                    <span class="menu-text">Riwayat Audit</span>
+                </a>
+            </li>
         @endif
         {{-- ------------------------- End Admin---------------------------------------------------------- --}}
 

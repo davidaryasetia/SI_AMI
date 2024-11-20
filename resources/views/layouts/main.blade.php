@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=0.9">
     <title>@yield('title', 'Dashboard')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" rel="stylesheet">
@@ -22,6 +22,18 @@
         body {
             margin: 0;
             overflow: hidden;
+        }
+
+        .table-responsive {
+            zoom: 0.9;
+            overflow-x: auto;
+        }
+
+        table {
+            table-layout: auto;
+            width: 100%;
+            word-wrap: break-word;
+            font-size: 14px;
         }
 
         /* Navbar Section */
@@ -308,8 +320,7 @@
         }
 
 
-       /* Modal Dropdown  */
-       
+        /* Modal Dropdown  */
     </style>
     @stack('css')
 </head>

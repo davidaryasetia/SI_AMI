@@ -50,7 +50,7 @@ return new class extends Migration
             $table->longText('akar_masalah')->nullable();
             $table->longText('tindak_lanjut')->nullable();
             $table->longText('status')->nullable();
-            $table->string('data_dukung')->nullable();
+            $table->text('data_dukung')->nullable();
             $table->timestamps();
         });
     }

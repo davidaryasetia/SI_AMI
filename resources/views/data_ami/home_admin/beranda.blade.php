@@ -142,14 +142,15 @@
 
             $('#table_status').DataTable({
                 responsive: true,
+                "scrollY": "500px",
+                scrollX: true,
                 autoWidth: false,
-                "scrollY": "480px",
-                "pageLenght": 20,
-
+                "pageLength": 50,
                 "lengthMenu": [
-                    [20, 40, 50, 100],
-                    [20, 40, 50, 100],
+                    [50, 100],
+                    [50, 100],
                 ],
+
                 columns: [{
                         width: '32px'
                     },

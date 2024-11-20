@@ -2,7 +2,6 @@
 
 @section('title', 'Data Unit')
 @push('css')
-    
 @endpush
 
 @section('content')
@@ -67,7 +66,7 @@
                             </div>
                         </div>
                         <!-- Modal -->
-                        
+
                         <div class="d-flex justify-content-start">
                             <form action="{{ route('data_unit.index') }}" method="GET" class="col-lg-10" id="unitForm">
                                 <div class="d-flex align-items-center">
@@ -189,11 +188,13 @@
             // ------------- Data Audit Mutu Internal ------------
             $('#table_unit').DataTable({
                 responsive: true,
-                "scrollY": "480px",
-                "pageLength": 20, // Set initial page length to 10
+                "scrollY": "520px",
+                scrollX: true,
+                autoWidth: false,
+                "pageLength": 50,
                 "lengthMenu": [
-                    [20, 40, 50, 100],
-                    [20, 40, 50, 100],
+                    [50, 100],
+                    [50, 100],
                 ],
                 "columnDefs": [{
                     targets: 0, // Target kolom "No"

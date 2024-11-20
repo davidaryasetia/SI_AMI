@@ -12,6 +12,7 @@ use App\Http\Controllers\DataAmiController\PeriodeAuditController;
 use App\Http\Controllers\DataAmiController\PlotingAmiController;
 use App\Http\Controllers\DataAmiController\ProgresAuditController;
 use App\Http\Controllers\DataAmiController\RekapAuditController;
+use App\Http\Controllers\DataAmiController\RiwayatController;
 use App\Http\Controllers\DataAuditeController\PengisianKinerjaController;
 use App\Http\Controllers\DataAuditeController\PersetujuanController;
 use App\Http\Controllers\DataAuditeController\RekapCapaianController;
@@ -65,6 +66,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth', 'role:auditor'])->group(function () {
     Route::get('/home/auditor', [HomeAuditorController::class, 'HomeAuditor'])->name('home.auditor');
+    Route::get('/home/auditor', [HomeAuditorController::class, 'HomeAuditor']);
     Route::resource('/pengisian_kinerja_auditor', PengisianKinerjaAuditorController::class );
     Route::get('/pengisian_kinerja_auditor', [PengisianKinerjaAuditorController::class, 'index'])->name('data_indikator_auditor.index');
     Route::resource('/rekap_persetujuan_auditor', RekapPersetujuanAuditorController::class);
@@ -99,6 +101,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/rekap_audit', RekapAuditController::class);
         Route::post('/import_Indikator_Kinerja_Unit', [ImportIndikatorKinerjaController::class, 'importData'])->name('import.dataIndikator');
         Route::post('/import_Unit_Kerja', [ImportUnitController::class, 'importDataUnit'])->name('import.dataUnit');
+        Route::get('/riwayat', [RiwayatController::class, 'index']);
     });
 });
 

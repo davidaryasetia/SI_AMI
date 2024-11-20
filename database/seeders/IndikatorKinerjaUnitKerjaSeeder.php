@@ -19,21 +19,21 @@ class IndikatorKinerjaUnitKerjaSeeder extends Seeder
             'kode_ikuk' => 'U11.1',
             'isi_indikator_kinerja_unit_kerja' => 'Jumlah lulusan prodi yang mendapatkan pekerjaan pertama dengan waktu tunggu ≤ 6 bulan dan bergaji ≥ 1.2 x UMP',
             'satuan_ikuk' => 'lulusan',
-            'target_ikuk' => null,
+            'target_ikuk' => 40,
         ]);
         IndikatorKinerjaUnitKerja::create([ // 2
             'unit_id' => 1, 
             'kode_ikuk' => 'U11.2',
             'isi_indikator_kinerja_unit_kerja' => 'Jumlah lulusan prodi yang mendapatkan pekerjaan pertama  dengan waktu tunggu antara 6 sd 12 bulan dan bergaji ≥ 1.2 x UMP',
             'satuan_ikuk' => 'lulusan',
-            'target_ikuk' => null,
+            'target_ikuk' => 40,
         ]);
         IndikatorKinerjaUnitKerja::create([ // 3
             'unit_id' => 1, 
             'kode_ikuk' => 'U11.3',
             'isi_indikator_kinerja_unit_kerja' => 'Jumlah lulusan prodi yang mendapatkan pekerjaan pertama dengan waktu tunggu ≤ 6 bulan dan bergaji   ≤ 1.2 x UMP',
             'satuan_ikuk' => 'lulusan',
-            'target_ikuk' => null,
+            'target_ikuk' => 40,
         ]);
         IndikatorKinerjaUnitKerja::create([ // 4
             'unit_id' => 1, 
@@ -49,7 +49,7 @@ class IndikatorKinerjaUnitKerjaSeeder extends Seeder
             'kode_ikuk' => 'U11.5',
             'isi_indikator_kinerja_unit_kerja' => 'Jumlah lulusan prodi yang melanjutkan studi ke jenjang berikutnya',
             'satuan_ikuk' => 'lulusan',
-            'target_ikuk' => null,
+            'target_ikuk' => 40,
         ]);
 
         // Ukarni -> IKSK_3
@@ -59,28 +59,28 @@ class IndikatorKinerjaUnitKerjaSeeder extends Seeder
             'isi_indikator_kinerja_unit_kerja' => 'Jumlah lulusan prodi yang berwirausaha berijin dengan waktu tunggu ≤ 6 bulan dan bergaji ≥ 1.2 x UMP
             ',
             'satuan_ikuk' => 'lulusan',
-            'target_ikuk' => null,
+            'target_ikuk' => 40,
         ]);
         IndikatorKinerjaUnitKerja::create([ //7
             'unit_id' => 1, 
             'kode_ikuk' => 'U11.7',
             'isi_indikator_kinerja_unit_kerja' => 'Jumlah lulusan prodi yang berwirausaha berijin dengan waktu tunggu antara 6 sd 12 bulan dan bergaji ≥ 1.2 x UMP',
             'satuan_ikuk' => 'lulusan',
-            'target_ikuk' => null,
+            'target_ikuk' => 40,
         ]);
         IndikatorKinerjaUnitKerja::create([ // 8
             'unit_id' => 1, 
             'kode_ikuk' => 'U11.8',
             'isi_indikator_kinerja_unit_kerja' => 'Jumlah lulusan prodi yang berwirausaha berijin dengan waktu tunggu ≤ 6 bulan dan bergaji   ≤ 1.2 x UMP',
             'satuan_ikuk' => 'lulusan',
-            'target_ikuk' => null,
+            'target_ikuk' => 40,
         ]);
         IndikatorKinerjaUnitKerja::create([ // 9
             'unit_id' => 1, 
             'kode_ikuk' => 'U11.9',
             'isi_indikator_kinerja_unit_kerja' => 'Jumlah lulusan prodi yang berwirausaha berijin dengan waktu tunggu antara 6 sd 12 bulan dan bergaji ≤  1.2 x UMP',
             'satuan_ikuk' => 'lulusan',
-            'target_ikuk' => null,
+            'target_ikuk' => 40,
         ]);
 
         // Ukarni -> IKSK_4
@@ -89,7 +89,7 @@ class IndikatorKinerjaUnitKerjaSeeder extends Seeder
             'kode_ikuk' => 'U11.10',
             'isi_indikator_kinerja_unit_kerja' => 'Jumlah responden tracer study pada tahun anggaran berjalan (Lulusan T-1)',
             'satuan_ikuk' => 'lulusan',
-            'target_ikuk' => null,
+            'target_ikuk' => 40,
         ]);
 
         // P3M -> IKSK_6

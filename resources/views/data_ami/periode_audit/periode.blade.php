@@ -216,22 +216,20 @@
     </div>
 
     @push('script')
-    <script>
-        // ------------- Data Audit Mutu Internal ------------
-        $('#periode_pelaksanaan').DataTable({
-            responsive: true,
-            "scrollY": "480px",
-            "pageLength": 20, // Set initial page length to 10
-            "lengthMenu": [
-                [20, 40, 50, 100],
-                [20, 40, 50, 100],
-            ],
-            "columnDefs": [{
-                targets: 0, // Target kolom "No"
-                width: '2%' // Sesuaikan persentase lebar kolom
-            }],
-        });
-    </script>
+        <script>
+            // ------------- Data Audit Mutu Internal ------------
+            $('#periode_pelaksanaan').DataTable({
+                responsive: true,
+                "scrollY": "500px",
+                scrollX: true,
+                autoWidth: false,
+                "pageLength": 50,
+                "lengthMenu": [
+                    [50, 100],
+                    [50, 100],
+                ],
+            });
+        </script>
     @endpush
 
 @endsection

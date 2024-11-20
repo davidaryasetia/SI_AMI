@@ -28,7 +28,7 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="row mb-4 d-flex flex-row align-items-center mb-4 justify-content-between">
+        <div class="row d-flex flex-row align-items-center mb-2 justify-content-between">
             <div class="col-lg-8">
                 <h5 class="fw-bold text-dark">Hai, {{ Auth::user()->nama }}! Selamat datang di Dashboard Audite pada
                     <strong>Unit
@@ -72,7 +72,7 @@
         <!-- Konten Utama -->
         <div class="row">
             <!-- Tabel Data Audite -->
-            <div class="col-lg-8 mb-2">
+            <div class="col-lg-8 mb-1">
                 <div class="card shadow-sm">
                     <div class="card-header bg-light">
                         <h5 class="card-title mb-0 text-black">Data Approval Auditor</h5>
@@ -125,16 +125,23 @@
             </div>
 
             <!-- Informasi Jadwal AMI -->
-            <div class="col-lg-4 mb-4">
-                <div class="card shadow-sm h-100">
+            <div class="col-lg-4 mb-1">
+                <div class="card shadow-sm h-90">
                     <div class="card-header text-white">
-                        <h5 class="card-title mb-0">Informasi Jadwal AMI</h5>
+                        <h5 class="card-title mb-0">Informasi Pelaksanaan AMI</h5>
                     </div>
                     <div class="card-body" style="padding: 16px">
                         <ul class="list-group list-group-flush">
                             @if (!empty($current_periode->tanggal_pembukaan_ami) && $current_periode !== null)
                                 <li class="list-group-item">Tahun:
                                     <strong>{{ \Carbon\Carbon::parse($current_periode->tanggal_pembukaan_ami)->translatedFormat('Y') }}</strong>
+                                </li>
+                                <li class="list-group-item">Unit:
+                                    <strong>
+                                        @if (session()->has('audite.unit.nama_unit'))
+                                            {{ session('audite.unit.nama_unit') }}
+                                        @endif
+                                    </strong>
                                 </li>
 
                                 <li class="list-group-item">Periode:
@@ -180,7 +187,7 @@
 
 
         <!-- Tambahan Grafik Rekap Capaian -->
-        <div class="row mt-1">
+        <div class="row">
             <div class="col-lg-12">
                 <div class="card shadow-sm">
                     <div class="card-header bg-light">
@@ -205,10 +212,9 @@
                 type: 'bar',
                 data: {
                     labels: ['Rekap Capaian'],
-                    datasets: [
-                        {
+                    datasets: [{
                             label: 'Belum Memenuhi',
-                            data: [{{ $persentaseBelumMemenuhi }}], // Persentase dinamis
+                            data: [{{ $persentaseBelumMemenuhi }}],
                             backgroundColor: 'rgba(255, 43, 43, 1)',
                             count: {{ $belumMemenuhi }} // Jumlah fix data dinamis
                         },

@@ -73,6 +73,7 @@ class PengisianKinerjaAuditorController extends Controller
         $totalKinerja = $melampauiTarget + $memenuhi + $belumMemenuhi;
         // dump($data_indikator->toArray());
         // Ambil nama unit berdasarkan unitId
+
         $nama_unit = $units->where('unit_id', $unitId)->first()->nama_unit ?? '-';
         return view('data_auditor.pengisian_kinerja.pengisian_kinerja_auditor', [
             'title' => 'Pengisian Kinerja Auditor',

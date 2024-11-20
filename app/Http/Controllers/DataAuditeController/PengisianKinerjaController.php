@@ -23,7 +23,7 @@ class PengisianKinerjaController extends Controller
             ->first();
 
         if (!$periodeTerbaru) {
-            return redirect()->back()->with('error', 'Tidak ada periode pelaksanaan yang aktif');
+            return redirect()->back()->with('error', 'Tidak ada periode pelaksanaan yang aktif, Tidak Bisa melakukan audit pengisian data.');
         }
 
         // Get Data Indikator 
@@ -58,7 +58,7 @@ class PengisianKinerjaController extends Controller
         }
 
         $totalKinerja = $melampauiTarget + $memenuhi + $belumMemenuhi;
-
+        // dump($data_indikator->toArray());
         return view('data_audite.pengisian_kinerja.pengisian_kinerja', [
             'title' => 'Pengisian Kinerja',
             'data_indikator' => $data_indikator,

@@ -101,7 +101,7 @@
                 font-size: 12px;
                 /* Ukuran font lebih kecil */
             }
-            
+
 
 
             table td::before {
@@ -151,7 +151,7 @@
                     @endphp
                     <div class="modal fade" id="modal{{ $dataIndikator['kode_ikuk'] }}" tabindex="-1"
                         aria-labelledby="modalLabel{{ $dataIndikator['kode_ikuk'] }}" aria-hidden="true">
-                        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                        <div class="modal-dialog modal-xl modal-dialog-scrollable">
                             <!-- Modal Konten -->
                             <div class="modal-content">
                                 <div class="modal-header bg-primary text-white">
@@ -184,7 +184,8 @@
                                             <input type="number" name="realisasi_ikuk" class="form-control capaian-input"
                                                 placeholder="Masukkan Jumlah Capaian"
                                                 id="capaian{{ $dataIndikator['kode_ikuk'] }}"
-                                                data-target="{{ $dataIndikator['target_ikuk'] }}">
+                                                data-target="{{ $dataIndikator['target_ikuk'] }}"
+                                                value="{{ $transaksi->realisasi_ikuk ?? '' }}">
                                         </div>
 
 
@@ -195,24 +196,29 @@
                                             <div class="mb-3">
                                                 <label>Analisis Usulan Keberhasilan</label>
                                                 <input type="text" class="form-control"
-                                                    name="analisis_usulan_keberhasilan">
+                                                    name="analisis_usulan_keberhasilan"
+                                                    value="{{ $transaksi['analisis_usulan_keberhasilan'] ?? '' }}">
                                             </div>
                                             <div class="mb-3">
                                                 <label>Usulan Target Tahun Depan</label>
-                                                <input type="text" class="form-control" name="usulan_target_tahun_depan">
+                                                <input type="text" class="form-control" name="usulan_target_tahun_depan"
+                                                    value="{{ $transaksi['usulan_target_tahun_depan'] ?? '' }}">
                                             </div>
                                             <div class="mb-3">
                                                 <label>Strategi Pencapaian</label>
-                                                <input type="text" class="form-control" name="strategi_pencapaian">
+                                                <input type="text" class="form-control" name="strategi_pencapaian"
+                                                    value="{{ $transaksi['strategi_pencapaian'] ?? '' }}">
                                             </div>
                                             <div class="mb-3">
                                                 <label>Sarpras Yang Dibutuhkan</label>
-                                                <input type="text" class="form-control" name="sarpras_yang_dibutuhkan">
+                                                <input type="text" class="form-control" name="sarpras_yang_dibutuhkan"
+                                                    value="{{ $transaksi['sarpras_yang_dibutuhkan'] ?? '' }}">
                                             </div>
                                             <hr>
                                             <div class="mb-3">
                                                 <label>Link Data Dukung</label>
-                                                <input type="text" class="form-control" name="data_dukung">
+                                                <input type="text" class="form-control" name="data_dukung"
+                                                    value="{{ $transaksi['data_dukung'] ?? '' }}">
                                             </div>
                                         </div>
 
@@ -221,24 +227,29 @@
                                             style="display: none;">
                                             <div class="mb-3">
                                                 <label>Faktor Pendukung</label>
-                                                <input type="text" class="form-control" name="faktor_pendukung">
+                                                <input type="text" class="form-control" name="faktor_pendukung"
+                                                    value="{{ $transaksi['faktor_pendukung'] ?? '' }}">
                                             </div>
                                             <div class="mb-3">
                                                 <label>Faktor Penghambat</label>
-                                                <input type="text" class="form-control" name="faktor_penghambat">
+                                                <input type="text" class="form-control" name="faktor_penghambat"
+                                                    value="{{ $transaksi['faktor_penghambat'] ?? '' }}">
                                             </div>
                                             <div class="mb-3">
                                                 <label>Akar Masalah</label>
-                                                <input type="text" class="form-control" name="akar_masalah">
+                                                <input type="text" class="form-control" name="akar_masalah"
+                                                    value="{{ $transaksi['akar_masalah'] ?? '' }}">
                                             </div>
                                             <div class="mb-3">
                                                 <label>Tindak Lanjut</label>
-                                                <input type="text" class="form-control" name="tindak_lanjut">
+                                                <input type="text" class="form-control" name="tindak_lanjut"
+                                                    value="{{ $transaksi['tindak_lanjut'] ?? '' }}">
                                             </div>
                                             <hr>
                                             <div class="mb-3">
                                                 <label>Link Data Dukung</label>
-                                                <input type="text" class="form-control" name="data_dukung">
+                                                <input type="text" class="form-control" name="data_dukung"
+                                                    value="{{ $transaksi['data_dukung'] ?? '' }}">
                                             </div>
                                         </div>
                                     </div>
@@ -261,32 +272,41 @@
                         const capaianInputs = document.querySelectorAll('.capaian-input');
 
                         capaianInputs.forEach(input => {
-                            input.addEventListener('input', function() {
-                                const target = parseFloat(input.getAttribute('data-target'));
-                                const capaian = parseFloat(input.value);
+                            // Tambahkan listener untuk input manual
+                            input.addEventListener('input', handleInputChange);
 
-                                // Ambil form A dan form B berdasarkan ID input
-                                const formA = document.getElementById('formA' + input.id.replace('capaian',
-                                    ''));
-                                const formB = document.getElementById('formB' + input.id.replace('capaian',
-                                    ''));
-
-                                formA.style.display = 'none';
-                                formB.style.display = 'none';
-
-                                if (!isNaN(capaian)) {
-                                    if (capaian >= target) {
-                                        formA.style.display = 'block';
-                                        formB.style.display = 'none';
-                                    } else {
-                                        formA.style.display = 'none';
-                                        formB.style.display = 'block';
-                                    }
-                                }
-                            });
+                            // Jika input sudah memiliki value, panggil handleInputChange secara manual
+                            if (input.value) {
+                                handleInputChange.call(input); // Panggil handler dengan konteks input
+                            }
                         });
 
-                        // Tambahkan listener untuk submit hanya form yang tampil
+                        // Fungsi untuk menangani perubahan nilai capaian
+                        function handleInputChange() {
+                            const target = parseFloat(this.getAttribute('data-target'));
+                            const capaian = parseFloat(this.value);
+
+                            // Ambil form A dan form B berdasarkan ID input
+                            const formA = document.getElementById('formA' + this.id.replace('capaian', ''));
+                            const formB = document.getElementById('formB' + this.id.replace('capaian', ''));
+
+                            // Reset tampilan form
+                            formA.style.display = 'none';
+                            formB.style.display = 'none';
+
+                            // Tampilkan form sesuai kondisi capaian dan target
+                            if (!isNaN(capaian)) {
+                                if (capaian >= target) {
+                                    formA.style.display = 'block';
+                                    formB.style.display = 'none';
+                                } else {
+                                    formA.style.display = 'none';
+                                    formB.style.display = 'block';
+                                }
+                            }
+                        }
+
+                        // Tambahkan listener untuk submit hanya pada form yang tampil
                         const saveButtons = document.querySelectorAll('.save-button');
 
                         saveButtons.forEach(button => {
@@ -309,6 +329,7 @@
                         });
                     });
                 </script>
+
 
                 {{-- Table Content --}}
                 <div class="table-responsive">
@@ -464,12 +485,17 @@
             // ------------- Data Audit Mutu Internal ------------
             $('#table_pengisian_kinerja').DataTable({
                 responsive: true,
-                "scrollY": "480px",
-                "pageLength": 20, // Set initial page length to 10
+                "scrollY": "520px",
+                scrollX: true,
+                autoWidth: false,
+                "pageLength": 50,
                 "lengthMenu": [
-                    [20, 40, 50, 100],
-                    [20, 40, 50, 100],
+                    [50, 100],
+                    [50, 100],
                 ],
+                language: {
+                    emptyTable: "Data Indikator Kinerja Pada Unit Belum Di Atur"
+                }
 
             });
         </script>

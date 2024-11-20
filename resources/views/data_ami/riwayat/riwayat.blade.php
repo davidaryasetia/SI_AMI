@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', 'Pengisian Kinerja Auditor')
+@section('title', 'Riwayat Kinerja')
 @push('css')
     <style>
         .card-header-custom {
@@ -53,32 +53,53 @@
             <div class="w-100">
 
                 {{-- Header --}}
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <div class="d-flex justify-content-start">
-                        <h4 class="card-title fw-semibold">Progress Capaian Data Kinerja Audite: Unit {{ $nama_unit }}
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div class="d-flex align-items-center">
+                        <h4 class="card-title fw-semibold">Riwayat Progress Capaian Kinerja Unit {{ $nama_unit }}
                         </h4>
 
+                        
                         {{-- Tooltip Custom dengan Tippy.js --}}
                         <div id="tooltip-info" class="ms-2" style="cursor: pointer;">
                             <i class="ti ti-info-circle fs-5 text-primary"></i>
                         </div>
                     </div>
-                    <div class="col-lg-2">
-                        <select id="unit_id" class="form-select text-black" style="border-radius: 12px;">
-                            <option value="">Pilih Unit Kerja</option>
-                            @foreach (session('auditor') as $auditor)
-                                <option value="{{ $auditor['units']['unit_id'] }}"
-                                    {{ request('unit_id') == $auditor['units']['unit_id'] ? 'selected' : '' }}>
-                                    {{ $auditor['units']['nama_unit'] }}</option>
-                            @endforeach
-                        </select>
+                    <div class="d-flex align-items-center">
+                        <div class="">
+                            <div class="col-lg-12">
+                                <select id="unit_id" class="form-select text-black"
+                                    style="border-radius: 12px;color: black">
+                                    <option value="Pilih Unit">Pilih Unit Kerja</option>
+                                    @foreach ($units as $unit)
+                                        <option value="{{ $unit->unit_id }}">
+                                            {{ $unit->nama_unit }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="ms-3">
+                            <div class="col-lg-12">
+                                <select id="unit_id" class="form-select text-black"
+                                    style="border-radius: 12px;color: black">
+                                    <option value="">Pilih Periode AMI</option>
+                                    @foreach ($jadwalPeriode as $jadwal)
+                                        <option value="{{ $jadwal->jadwal_ami_id }}">
+                                            {{ $jadwal->nama_periode_ami }} :
+                                            {{ \Carbon\Carbon::parse($jadwal->tanggal_pembukaan_ami)->translatedFormat('d M') }}
+                                            -
+                                            {{ \Carbon\Carbon::parse($jadwal->tanggal_penutupan_ami)->translatedFormat('d M') }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 {{-- End Header --}}
 
                 {{-- Table Content --}}
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="table_pengisian_kinerja_auditor">
+                    <table class="table table-bordered" id="riwayat">
                         <thead>
                             <tr>
                                 <th>No.</th>
@@ -118,7 +139,6 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
-
                                 </tr>
                             @else
                                 <?php $nomer = 1; ?>
@@ -212,22 +232,6 @@
 @push('script')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const unitSelect = document.getElementById('unit_id');
-
-            unitSelect.addEventListener('change', function() {
-                const unitId = unitSelect.value;
-
-                if (unitId) {
-                    window.location.href = `/pengisian_kinerja_auditor?unit_id=${unitId}`;
-                } else {
-                    window.location.href = `/pengisian_kinerja_auditor`;
-                }
-            })
-        })
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
             tippy('#tooltip-info', {
                 content: `
         <div style="text-align: left;">
@@ -246,9 +250,6 @@
         });
     </script>
 
-
-
-
     <script>
         // ------------- Data Audit Mutu Internal ------------
         $('#table_pengisian_kinerja_auditor').DataTable({
@@ -262,9 +263,10 @@
                 [50, 100],
             ],
             language: {
-                emptyTable: "Data Indikator Kinerja Pada Unit {{ $nama_unit }} Belum Di Atur"
+                emptyTable: "Data Indikator Kinerja Pada Unit Belum Di Atur"
             }
 
         });
+    </script>
     </script>
 @endpush
