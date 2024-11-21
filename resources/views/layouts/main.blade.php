@@ -3,31 +3,30 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=0.9">
-    <title>@yield('title', 'Dashboard')</title>
-    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@yield('title', 'Dashboard')</title>
     <link rel="shortcut icon" type="image/png" href="{{ asset('assets/images/logos/short-logo.png') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/styles.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/customize.css') }}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css">
     <style>
         body {
             margin: 0;
             overflow: hidden;
         }
 
-        /*
+
         .table-responsive {
             zoom: 0.9;
             overflow-x: auto;
-        } */
+        }
 
-        /* table {
+        table {
             table-layout: auto;
             width: 100%;
             word-wrap: break-word;
             font-size: 14px;
-        } */
+        }
 
         /* Navbar Section */
         .navbar {
@@ -95,8 +94,6 @@
             display: block;
         }
 
-
-
         .btn-outline-light {
             border-color: white;
             color: white;
@@ -106,9 +103,6 @@
             background-color: #004f7f;
             color: white;
         }
-
-        /* End Navbar Section */
-
 
         /* Sidebar Section */
         #sidebar {
@@ -317,25 +311,19 @@
             border: 1px solid #ccc;
             /* Border lembut */
             border-radius: 5px;
-            /* Sudut melengkung */
             padding: 5px 15px;
             font-size: 14px;
             font-weight: 500;
             color: #333;
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-            /* Bayangan dropdown */
             transition: all 0.3s ease;
-            /* Efek transisi halus */
         }
 
         .btn-light.dropdown-toggle:hover {
             background-color: #e9ecef;
-            /* Warna hover */
             border-color: #b3b3b3;
         }
 
-        /* Dropdown item */
-        /* Style untuk dropdown container */
         .dropdown-enhanced {
             width: auto;
             min-width: 100px;
@@ -446,6 +434,7 @@
     <script src="{{ asset('assets/js/app.min.js') }}"></script>
     <script src="{{ asset('assets/libs/apexcharts/dist/apexcharts.min.js') }}"></script>
     <script src="{{ asset('assets/libs/simplebar/dist/simplebar.js') }}"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
     @stack('script')
 </body>
 
