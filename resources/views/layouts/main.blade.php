@@ -5,32 +5,29 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=0.9">
     <title>@yield('title', 'Dashboard')</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/png" href="{{ asset('assets/images/logos/short-logo.png') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/styles.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/customize.css') }}">
-    <!-- Tippy.js CSS -->
-    <link href="https://unpkg.com/tippy.js@6/dist/tippy.css" rel="stylesheet">
-    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
     <style>
         body {
             margin: 0;
             overflow: hidden;
         }
 
+        /*
         .table-responsive {
             zoom: 0.9;
             overflow-x: auto;
-        }
+        } */
 
-        table {
+        /* table {
             table-layout: auto;
             width: 100%;
             word-wrap: break-word;
             font-size: 14px;
-        }
+        } */
 
         /* Navbar Section */
         .navbar {
@@ -274,10 +271,7 @@
 
         /* Table Section */
         table.dataTable tbody td {
-            /* height: 10px; */
-            /* Atur tinggi sel sesuai keinginan Anda */
             line-height: 10px;
-            /* Vertically center text if needed */
         }
 
         .alert-container {
@@ -384,7 +378,7 @@
             margin-right: 10px;
         }
 
-        
+
 
 
         /* Modal Dropdown  */
@@ -404,7 +398,6 @@
         @yield('content')
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const sidebar = document.getElementById("sidebar");
@@ -428,51 +421,26 @@
                 });
             }
 
-            // Menambahkan event listener pada toggle button
             sidebarToggle.addEventListener("click", function() {
                 const isCurrentlyCollapsed = sidebar.classList.contains("collapsed");
                 sidebar.classList.toggle("collapsed");
                 contentWrapper.classList.toggle("full");
 
                 if (isCurrentlyCollapsed) {
-                    // Tampilkan teks menu
                     menuTexts.forEach(text => {
                         text.style.display = "";
                     });
                 } else {
-                    // Sembunyikan teks menu
                     menuTexts.forEach(text => {
                         text.style.display = "none";
                     });
                 }
 
-                // Menyimpan status ke localStorage
                 localStorage.setItem("sidebarCollapsed", !isCurrentlyCollapsed);
             });
         });
     </script>
-    {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script> --}}
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --}}
-    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
-
-    <!-- Tippy.js JS -->
-    <script src="https://unpkg.com/@popperjs/core@2"></script>
-    <script src="https://unpkg.com/tippy.js@6"></script>
-    <script src="{{ asset('assets/libs/jquery/dist/jquery.min.js') }}"></script>
-    <script src="{{ asset('assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('assets/js/sidebarmenu.js') }}"></script>
-    <script src="{{ asset('assets/js/app.min.js') }}"></script>
-    <script src="{{ asset('assets/libs/apexcharts/dist/apexcharts.min.js') }}"></script>
-    <script src="{{ asset('assets/libs/simplebar/dist/simplebar.js') }}"></script>
-    <script src="{{ asset('assets/js/dashboard.js') }}"></script>
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.7/css/dataTables.dataTables.css" />
-    <script src="https://cdn.datatables.net/2.0.7/js/dataTables.js"></script>
-
-
-    {{-- Custom dropdown menu --}}
-
-
+    
     @stack('script')
 </body>
 
