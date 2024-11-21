@@ -18,34 +18,34 @@ class ImportIndikatorKinerjaController extends Controller
         $request->validate([
             'excel_file' => 'required|file|mimes:xls,xlsx',
         ]);
-    
+
         $file = $request->file('excel_file');
         $spreadsheet = IOFactory::load($file->getPathname());
         $sheetNames = $spreadsheet->getSheetNames(); // Ambil semua nama sheet
-    
+
         // Cari Periode dengan Status "Sedang Berjalan"
         $periodeTerbuka = PeriodePelaksanaan::where('status', 'Sedang Berjalan')->first();
-    
+
         if (!$periodeTerbuka) {
             return redirect()->back()->with('error', 'Tidak ada periode yang terbuka. Silakan buat periode terlebih dahulu.');
         }
-    
+
         foreach ($sheetNames as $sheetName) {
             $sheet = $spreadsheet->getSheetByName($sheetName);
             $rows = $sheet->toArray();
-    
+
             if (!empty($rows)) {
-                $header = $rows[0]; // Ambil header
-                unset($rows[0]); // Hapus header dari data
-    
-                foreach ($rows as $row) {
+                unset($rows[0]); // Hapus header baris pertama
+                unset($rows[1]); // Hapus header baris kedua
+
+                foreach ($rows as $rowIndex => $row) {
                     if (empty($row[0]) || empty($row[1])) {
                         continue; // Skip jika data kosong
                     }
-    
+
                     // Cek Unit berdasarkan nama_unit
                     $unit = Unit::where('nama_unit', $sheetName)->first();
-    
+
                     // Jika Unit tidak ditemukan, buat Unit baru
                     if (!$unit) {
                         $unit = Unit::create([
@@ -53,7 +53,7 @@ class ImportIndikatorKinerjaController extends Controller
                             'tipe_data' => 'default', // Atur tipe_data default
                         ]);
                     }
-    
+
                     // Tambahkan Data ke Indikator Kinerja Unit Kerja
                     $indikator = IndikatorKinerjaUnitKerja::create([
                         'kode_ikuk' => $row[0],
@@ -62,7 +62,7 @@ class ImportIndikatorKinerjaController extends Controller
                         'target_ikuk' => $row[3],
                         'unit_id' => $unit->unit_id,
                     ]);
-    
+
                     // Tambahkan Data ke Transaksi Data berdasarkan Periode Terbuka
                     TransaksiData::create([
                         'indikator_kinerja_unit_kerja_id' => $indikator->indikator_kinerja_unit_kerja_id,
@@ -85,8 +85,9 @@ class ImportIndikatorKinerjaController extends Controller
                 }
             }
         }
-    
+
         return redirect()->back()->with('success', 'Data berhasil diimpor dan ditambahkan ke transaksi!');
     }
-    
+
+
 }
