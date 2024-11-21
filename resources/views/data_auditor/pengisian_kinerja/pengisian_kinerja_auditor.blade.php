@@ -64,15 +64,29 @@
                         </div>
                     </div>
                     <div class="col-lg-2">
-                        <select id="unit_id" class="form-select text-black" style="border-radius: 12px;">
+                        <select
+                            id="unit_id"
+                            class="form-select text-black"
+                            style="
+                                font-size: 14px; 
+                                color: #333; 
+                                background-color: #f8f8f8; 
+                                border: 1px solid #ddd; 
+                                border-radius: 10px; 
+                                padding: 8px 8px; 
+                                transition: all 0.3s ease;
+                            "
+                        >
                             <option value="">Pilih Unit Kerja</option>
                             @foreach (session('auditor') as $auditor)
                                 <option value="{{ $auditor['units']['unit_id'] }}"
                                     {{ request('unit_id') == $auditor['units']['unit_id'] ? 'selected' : '' }}>
-                                    {{ $auditor['units']['nama_unit'] }}</option>
+                                    {{ $auditor['units']['nama_unit'] }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
+                    
                 </div>
                 {{-- End Header --}}
 
@@ -216,7 +230,7 @@
 
             unitSelect.addEventListener('change', function() {
                 const unitId = unitSelect.value;
-
+                
                 if (unitId) {
                     window.location.href = `/pengisian_kinerja_auditor?unit_id=${unitId}`;
                 } else {

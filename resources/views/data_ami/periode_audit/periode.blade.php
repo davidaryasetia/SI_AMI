@@ -152,7 +152,7 @@
                                                             aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <p>Untuk menghapus periode pelaksanaan AMI ini, harap masukkan nama
+                                                        <p style="line-height: normal">Untuk menghapus periode pelaksanaan AMI ini, harap masukkan nama
                                                             periode:</p>
                                                         <strong
                                                             style="display: block">{{ $periode->nama_periode_ami }}</strong>
@@ -160,7 +160,7 @@
                                                             placeholder="Masukkan nama periode untuk konfirmasi"
                                                             data-expected="{{ $periode->nama_periode_ami }}">
                                                         <div
-                                                            style="background-color: #fff3cd; color: #856404; padding: 15px; border: 1px solid #ffeeba; border-radius: 5px; margin-top: 15px;">
+                                                            style="background-color: #fff3cd; color: #856404; padding: 15px; border: 1px solid #ffeeba; border-radius: 5px; margin-top: 15px; line-height: normal">
                                                             <strong>!! Perhatian !!</strong> Menghapus Periode AMI ini akan
                                                             menghapus seluruh riwayat pelaksanaan AMI pada periode tanggal
                                                             tersebut.

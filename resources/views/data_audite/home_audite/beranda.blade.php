@@ -130,7 +130,7 @@
                     <div class="card-header text-white">
                         <h5 class="card-title mb-0">Informasi Pelaksanaan AMI</h5>
                     </div>
-                    <div class="card-body" style="padding: 16px">
+                    <div class="card-body p-2">
                         <ul class="list-group list-group-flush">
                             @if (!empty($current_periode->tanggal_pembukaan_ami) && $current_periode !== null)
                                 <li class="list-group-item">Tahun:

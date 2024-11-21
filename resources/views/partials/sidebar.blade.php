@@ -98,6 +98,14 @@
                     <span class="menu-text">Persetujuan</span>
                 </a>
             </li>
+
+            <li class="nav-item">
+                <a class="nav-link d-flex align-items-center {{ Request::is('riwayat_audite*') ? 'active' : '' }}"
+                    href="/riwayat_audite" data-title="Home">
+                    <i class="ti ti-history me-2"></i>
+                    <span class="menu-text">Riwayat Audite</span>
+                </a>
+            </li>
         @endif
         {{-- ------------------------- End Audite-------------------------------------------------------------- --}}
 

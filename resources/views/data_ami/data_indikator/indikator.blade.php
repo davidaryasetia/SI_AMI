@@ -67,9 +67,10 @@
                                                             <li>Indikator Kinerja Unit Kerja [Text]</li>
                                                             <li>Satuan [text]</li>
                                                             <li>Target [Integer]</li>
-                                                            <li>Unit [Text]</li>
                                                         </ol>
                                                     </li>
+                                                    <li>Setiap Nama Field Unit perlu berisi indikator.</li>
+                                                    <li>Contoh data Sampel: <a href="https://docs.google.com/spreadsheets/d/1gq_LDY6U0ZKrLDWh8YubN3Z3AJKOssbO/edit?usp=sharing&ouid=106902234954089943700&rtpof=true&sd=true" target="_blank">Unduh di sini</a></li>
                                                 </ul>
                                             </div>
                                             <button class="btn btn-primary" type="submit">

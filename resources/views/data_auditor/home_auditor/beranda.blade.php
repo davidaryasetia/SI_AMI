@@ -97,11 +97,15 @@
                     <div class="card-header">
                         <h5 class="card-title mb-0">Informasi Jadwal AMI</h5>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body p-2">
                         <ul class="list-group list-group-flush">
                             @if (!empty($current_periode->tanggal_pembukaan_ami) && $current_periode !== null)
                                 <li class="list-group-item">Tahun:
                                     <strong>{{ \Carbon\Carbon::parse($current_periode->tanggal_pembukaan_ami)->translatedFormat('Y') }}</strong>
+                                </li>
+                                
+                                <li class="list-group-item">Jumlah Unit Diaudit:
+                                    <strong>{{ count(session('auditor')) }}</strong>
                                 </li>
 
                                 <li class="list-group-item">Periode:
@@ -153,7 +157,15 @@
                         <h5 class="card-title mb-0 text-black text-center">Rekap Capaian Unit : {{ $nama_unit }}</h5>
                         <div class="col-lg-2">
                             <select id="unit_id" class="form-select text-black"
-                                style="border-radius: 12px; background-color: white">
+                                style="
+                            font-size: 14px; 
+                            color: #333; 
+                            background-color: #ffffff; 
+                            border: 1px solid #ddd; 
+                            border-radius: 10px; 
+                            padding: 8px 8px; 
+                            transition: all 0.3s ease;
+                        ">
                                 <option value="">Pilih Unit Kerja</option>
                                 @foreach (session('auditor') as $auditor)
                                     <option value="{{ $auditor['units']['unit_id'] }}"

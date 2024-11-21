@@ -79,20 +79,6 @@
                         </div>
                     </div>
                     <div class="d-flex align-items-center">
-                        <div class="">
-                            <div class="col-lg-12">
-                                <select id="unit_id" name="unit_id" class="form-select text-black"
-                                    style="border-radius: 12px;color: black">
-                                    <option value="">Pilih Unit Kerja</option>
-                                    @foreach ($units as $unit)
-                                        <option value="{{ $unit->unit_id }}"
-                                            {{ $selectedUnitId == $unit->unit_id ? 'selected' : '' }}>
-                                            {{ $unit->nama_unit }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
                         <div class="ms-3">
                             <div class="col-lg-12">
                                 <select id="jadwal_ami_id" name="jadwal_ami_id" class="form-select text-black"
@@ -100,7 +86,7 @@
                                     <option value="">Pilih Periode AMI</option>
                                     @foreach ($jadwalPeriode as $jadwal)
                                         <option value="{{ $jadwal->jadwal_ami_id }}"
-                                            {{ $selectedJadwalAmiId == $jadwal->jadwal_ami_id ? 'selected' : '' }}>
+                                            {{ $jadwalAmiId == $jadwal->jadwal_ami_id ? 'selected' : '' }}>
                                             {{ $jadwal->nama_periode_ami }} :
                                             {{ \Carbon\Carbon::parse($jadwal->tanggal_pembukaan_ami)->translatedFormat('d M') }}
                                             -
@@ -108,15 +94,12 @@
                                         </option>
                                     @endforeach
                                 </select>
-
                             </div>
                         </div>
-
                     </div>
                 </div>
-                {{-- End Header --}}
 
-                <div class="d-flex justify-content-end" style="position: absolute; top: 72px;right: 40px; z-index: 1050;">
+                <div class="d-flex justify-content-end " style="position: absolute; top: 72px;right: 40px; z-index: 1050;">
                     @if (session('success'))
                         <div class="alert alert-primary  col-lg-8" role="alert">
                             {{ session('success') }}
@@ -135,6 +118,7 @@
                         });
                     }, 5000);
                 </script>
+                {{-- End Header --}}
 
                 {{-- Barchart --}}
                 <div class="horizontal-bar-chart-container"
@@ -168,8 +152,7 @@
                             @if (!$data_indikator)
                                 <tr>
                                     <td colspan="15" class="" style="font-size: 16px; font-weight: 400; color: red">
-                                        Silakan pilih unit kerja terlebih
-                                        dahulu.</td>
+                                        Silahkan Pilih Jadwal periode Pengisian Terlebih Dahulu.</td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -357,26 +340,19 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const unitSelect = document.getElementById('unit_id');
             const jadwalSelect = document.getElementById('jadwal_ami_id');
 
             function updatePage() {
-                const unitId = unitSelect.value;
                 const jadwalId = jadwalSelect.value;
 
-                if (unitId && jadwalId) {
-                    window.location.href = `/riwayat?unit_id=${unitId}&jadwal_ami_id=${jadwalId}`;
-                } else if (unitId) {
-                    window.location.href = `/riwayat?unit_id=${unitId}`;
-                } else if (jadwalId) {
-                    window.location.href = `/riwayat?jadwal_ami_id=${jadwalId}`;
+                if (jadwalId) {
+                    window.location.href = `/riwayat_audite?jadwal_ami_id=${jadwalId}`;
                 } else {
-                    window.location.href = `/riwayat`;
+                    window.location.href = `/riwayat_audite`;
                 }
             }
 
-            // Add event listeners for both dropdowns
-            unitSelect.addEventListener('change', updatePage);
+            // Tambahkan event listener hanya untuk dropdown jadwal
             jadwalSelect.addEventListener('change', updatePage);
         });
     </script>

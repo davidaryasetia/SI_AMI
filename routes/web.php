@@ -16,6 +16,7 @@ use App\Http\Controllers\DataAmiController\RiwayatController;
 use App\Http\Controllers\DataAuditeController\PengisianKinerjaController;
 use App\Http\Controllers\DataAuditeController\PersetujuanController;
 use App\Http\Controllers\DataAuditeController\RekapCapaianController;
+use App\Http\Controllers\DataAuditeController\RiwayatAuditeController;
 use App\Http\Controllers\DataAuditorController\PengisianKinerjaAuditorController;
 use App\Http\Controllers\DataAuditorController\RekapPersetujuanAuditorController;
 use App\Http\Controllers\HomeController\HomeAuditeController;
@@ -42,6 +43,10 @@ Route::middleware(['auth'])->group(function(){
     Route::post('/select_role', [AuthController::class, 'selectRole'])->name('select.role'); 
     Route::post('/switch-role', [AuthController::class, 'switchRole'])->name('switch.role');
     Route::resource('/profile', ProfileController::class);
+    Route::get('/errors/403', function () {
+        return view(view: 'errors.403');
+    })->name('errors.403');
+    
 });
 
 Route::middleware(['guest'])->group(function () {
@@ -76,7 +81,7 @@ Route::middleware(['auth', 'role:audite'])->group(function () {
     Route::get('/home/audite', [HomeAuditeController::class, 'HomeAudite'])->name('home.audite');
     Route::resource('/pengisian_kinerja', PengisianKinerjaController::class);
     Route::resource('/persetujuan', PersetujuanController::class);
-
+    Route::get('/riwayat_audite', [RiwayatAuditeController::class, 'index'])->name('riwayat_audite.index');
 }); 
 
 
@@ -101,7 +106,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/rekap_audit', RekapAuditController::class);
         Route::post('/import_Indikator_Kinerja_Unit', [ImportIndikatorKinerjaController::class, 'importData'])->name('import.dataIndikator');
         Route::post('/import_Unit_Kerja', [ImportUnitController::class, 'importDataUnit'])->name('import.dataUnit');
-        Route::get('/riwayat', [RiwayatController::class, 'index']);
+        Route::get('/riwayat', [RiwayatController::class, 'index'])->name('riwayat.index');
     });
 });
 

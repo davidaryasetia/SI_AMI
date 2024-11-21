@@ -12,6 +12,8 @@ class ProgresAuditController extends Controller
      */
     public function index()
     {
+
+        // $progres_indikator = Unit::with('')
         return view("data_ami.progres_audit.progres", [
             'title' => 'Progress Audit'
         ]);

@@ -13,8 +13,8 @@
                 <ul class="nav nav-tabs mb-4" id="rekapTabs" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="rekap-per-unit-tab" data-bs-toggle="tab"
-                            data-bs-target="#rekap-per-unit" type="button" role="tab"
-                            aria-controls="rekap-per-unit" aria-selected="true">Rekap Per Unit</button>
+                            data-bs-target="#rekap-per-unit" type="button" role="tab" aria-controls="rekap-per-unit"
+                            aria-selected="true">Rekap Per Unit</button>
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="rekap-per-indikator-tab" data-bs-toggle="tab"
@@ -35,12 +35,12 @@
                         aria-labelledby="rekap-per-unit-tab">
                         <h5 class="mb-4">Rekap per Unit</h5>
                         <div class="table-responsive">
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" id="rekap_per_unit">
                                 <thead class="table-light">
                                     <tr>
                                         <th>No.</th>
                                         <th>Unit</th>
-                                        <th>Total IK</th>
+                                        <th>Total IKUK</th>
                                         <th>Belum Mencapai</th>
                                         <th>Mencapai Target</th>
                                         <th>Melebihi Target</th>
@@ -95,8 +95,7 @@
                     </div>
 
                     {{-- Rekap Akreditasi --}}
-                    <div class="tab-pane fade" id="rekap-akreditasi" role="tabpanel"
-                        aria-labelledby="rekap-akreditasi-tab">
+                    <div class="tab-pane fade" id="rekap-akreditasi" role="tabpanel" aria-labelledby="rekap-akreditasi-tab">
                         <h5 class="mb-4">Rekap Akreditasi</h5>
                         <div class="table-responsive">
                             <table class="table table-bordered">
@@ -144,6 +143,30 @@
 @endsection
 
 {{-- FullCalendar JavaScript --}}
-@push('scripts')
-    {{-- Script tambahan jika dibutuhkan --}}
+@push('script')
+    <script>
+        // ------------- Data Audit Mutu Internal ------------
+        $('#rekap_per_unit').DataTable({
+            responsive: true,
+            "scrollY": "520px",
+            scrollX: true,
+            autoWidth: false,
+            "pageLength": 50,
+            "lengthMenu": [
+                [50, 100],
+                [50, 100],
+            ],
+        });
+        $('#rekap_per_indikator').DataTable({
+            responsive: true,
+            "scrollY": "520px",
+            scrollX: true,
+            autoWidth: false,
+            "pageLength": 50,
+            "lengthMenu": [
+                [50, 100],
+                [50, 100],
+            ],
+        });
+    </script>
 @endpush
