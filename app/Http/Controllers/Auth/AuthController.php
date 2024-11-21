@@ -114,13 +114,14 @@ class AuthController extends Controller
 
             if (count($roles) > 1) {
                 return redirect()->route('choose.role');
-            } else {
+            } elseif (count($roles) === 1) {
                 session(['active_role' => $roles[0]]);
                 return $this->redirectToRole($roles[0]);
+            } else {
+                // Jika user tidak memiliki role yang valid
+                return redirect()->route('errors.403');
             }
-
-            // Jika user tidak memiliki role yang valid
-            // return redirect()->route('login')->with('error', 'Anda tidak memiliki akses role yang valid.');
+            
         } else {
             // Jika email atau password salah
             return redirect()->back()->with('error', 'Email atau password salah !!!');

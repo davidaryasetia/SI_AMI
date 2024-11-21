@@ -41,31 +41,31 @@ class PengisianKinerjaController extends Controller
         // dump($data_indikator->toArray());
 
         // Hitung jumlah data berdasarkan kondisi
-        $melampauiTarget = 0;
-        $memenuhi = 0;
-        $belumMemenuhi = 0;
+        // $melampauiTarget = 0;
+        // $memenuhi = 0;
+        // $belumMemenuhi = 0;
         
-        foreach ($data_indikator->indikator_ikuk as $indikator){
-            foreach ($indikator->transaksiDataIkuk as $transaksi){
-                if ($transaksi->realisasi_ikuk > $indikator->target_ikuk){
-                    $melampauiTarget++;
-                } elseif ($transaksi->realisasi_ikuk == $indikator->target_ikuk){
-                    $memenuhi++;
-                } elseif ($transaksi->realisasi_ikuk < $indikator->target_ikuk){
-                    $belumMemenuhi++;
-                }
-            }
-        }
+        // foreach ($data_indikator->indikator_ikuk as $indikator){
+        //     foreach ($indikator->transaksiDataIkuk as $transaksi){
+        //         if ($transaksi->realisasi_ikuk > $indikator->target_ikuk){
+        //             $melampauiTarget++;
+        //         } elseif ($transaksi->realisasi_ikuk == $indikator->target_ikuk){
+        //             $memenuhi++;
+        //         } elseif ($transaksi->realisasi_ikuk < $indikator->target_ikuk){
+        //             $belumMemenuhi++;
+        //         }
+        //     }
+        // }
 
-        $totalKinerja = $melampauiTarget + $memenuhi + $belumMemenuhi;
+        // $totalKinerja = $melampauiTarget + $memenuhi + $belumMemenuhi;
         // dump($data_indikator->toArray());
         return view('data_audite.pengisian_kinerja.pengisian_kinerja', [
             'title' => 'Pengisian Kinerja',
             'data_indikator' => $data_indikator,
-            'melampauiTarget' => $melampauiTarget, 
-            'memenuhi' => $memenuhi, 
-            'belumMemenuhi' => $belumMemenuhi, 
-            'totalKinerja' => $totalKinerja, 
+            // 'melampauiTarget' => $melampauiTarget, 
+            // 'memenuhi' => $memenuhi, 
+            // 'belumMemenuhi' => $belumMemenuhi, 
+            // 'totalKinerja' => $totalKinerja, 
         ]);
     }
 

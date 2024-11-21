@@ -47,7 +47,7 @@
 
                 {{-- Tabel Progress Audit --}}
                 <div class="table-responsive mt-4">
-                    <table class="table table-sm table-hover table-bordered">
+                    <table class="table table-sm table-hover table-bordered" id="table_progres">
                         <thead class="table-light">
                             <tr>
                                 <th>No.</th>
@@ -94,6 +94,25 @@
             let progress = 0; // Contoh nilai progres, sesuaikan dari backend
             document.querySelector('.progress-bar').style.width = progress + '%';
             document.querySelector('.progress-bar').textContent = progress + '%';
+        </script>
+
+        <script>
+            // ------------- Data Audit Mutu Internal ------------
+            $('#table_progres').DataTable({
+                responsive: true,
+                "scrollY": "520px",
+                scrollX: true,
+                autoWidth: false,
+                "pageLength": 50,
+                "lengthMenu": [
+                    [50, 100],
+                    [50, 100],
+                ],
+                "columnDefs": [{
+                    targets: 0, // Target kolom "No"
+                    width: '2%' // Sesuaikan persentase lebar kolom
+                }],
+            });
         </script>
     @endpush
 @endsection

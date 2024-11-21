@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=0.9">
     <title>@yield('title', 'Dashboard')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
     <link rel="shortcut icon" type="image/png" href="{{ asset('assets/images/logos/short-logo.png') }}" />
@@ -13,10 +14,6 @@
     <link rel="stylesheet" href="{{ asset('assets/css/customize.css') }}">
     <!-- Tippy.js CSS -->
     <link href="https://unpkg.com/tippy.js@6/dist/tippy.css" rel="stylesheet">
-
-
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body {
@@ -261,7 +258,7 @@
         /* End Sidebar Section */
 
         #content-wrapper {
-            margin-top: 56px;
+            margin-top: 50px;
             padding: 32px 20px 10px 220px;
             overflow-y: auto;
             height: calc(100vh - 56px);
@@ -318,6 +315,77 @@
         .unit-list li:last-child {
             margin-bottom: 0;
         }
+
+        /* Dropdown */
+        /* Style untuk dropdown */
+        .btn-light.dropdown-toggle {
+            background-color: #f8f9fa;
+            /* Warna lembut untuk dropdown */
+            border: 1px solid #ccc;
+            /* Border lembut */
+            border-radius: 5px;
+            /* Sudut melengkung */
+            padding: 5px 15px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            /* Bayangan dropdown */
+            transition: all 0.3s ease;
+            /* Efek transisi halus */
+        }
+
+        .btn-light.dropdown-toggle:hover {
+            background-color: #e9ecef;
+            /* Warna hover */
+            border-color: #b3b3b3;
+        }
+
+        /* Dropdown item */
+        /* Style untuk dropdown container */
+        .dropdown-enhanced {
+            width: auto;
+            min-width: 100px;
+            padding: 5px 10px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            background-color: #f8f9fa;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        /* Hover effect untuk dropdown */
+        .dropdown-enhanced:hover {
+            background-color: #f1f1f1;
+            border-color: #ffffff;
+        }
+
+        /* Style saat focus */
+        .dropdown-enhanced:focus {
+            outline: none;
+            box-shadow: 0 0 5px rgba(33, 150, 243, 0.5);
+            border-color: #2196f3;
+        }
+
+        /* Label peran */
+        .dropdown label {
+            color: white;
+            /* Warna teks label di navbar */
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        /* Navbar styling */
+
+        .navbar .dropdown {
+            margin-right: 10px;
+        }
+
+        
 
 
         /* Modal Dropdown  */
