@@ -127,10 +127,10 @@
                         @endif
                     </h4>
 
-                    {{-- Tooltip Custom dengan Tippy.js
+                    {{-- Tooltip Custom dengan Tippy.js --}}
                     <div id="tooltip-info" class="ms-2" style="cursor: pointer;">
                         <i class="ti ti-info-circle fs-5 text-primary"></i>
-                    </div> --}}
+                    </div>
                 </div>
 
 
@@ -461,7 +461,7 @@
     </div>
 
     @push('script')
-        {{-- <script>
+        <script>
             document.addEventListener('DOMContentLoaded', function() {
                 tippy('#tooltip-info', {
                     content: `
@@ -479,7 +479,7 @@
                     maxWidth: '300px'
                 });
             });
-        </script> --}}
+        </script>
 
         <script>
             // ------------- Data Audit Mutu Internal ------------

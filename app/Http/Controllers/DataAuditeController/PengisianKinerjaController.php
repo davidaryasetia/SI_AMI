@@ -41,31 +41,31 @@ class PengisianKinerjaController extends Controller
         // dump($data_indikator->toArray());
 
         // Hitung jumlah data berdasarkan kondisi
-        // $melampauiTarget = 0;
-        // $memenuhi = 0;
-        // $belumMemenuhi = 0;
-        
-        // foreach ($data_indikator->indikator_ikuk as $indikator){
-        //     foreach ($indikator->transaksiDataIkuk as $transaksi){
-        //         if ($transaksi->realisasi_ikuk > $indikator->target_ikuk){
-        //             $melampauiTarget++;
-        //         } elseif ($transaksi->realisasi_ikuk == $indikator->target_ikuk){
-        //             $memenuhi++;
-        //         } elseif ($transaksi->realisasi_ikuk < $indikator->target_ikuk){
-        //             $belumMemenuhi++;
-        //         }
-        //     }
-        // }
+        $melampauiTarget = 0;
+        $memenuhi = 0;
+        $belumMemenuhi = 0;
 
-        // $totalKinerja = $melampauiTarget + $memenuhi + $belumMemenuhi;
+        foreach ($data_indikator->indikator_ikuk as $indikator) {
+            foreach ($indikator->transaksiDataIkuk as $transaksi) {
+                if ($transaksi->realisasi_ikuk > $indikator->target_ikuk) {
+                    $melampauiTarget++;
+                } elseif ($transaksi->realisasi_ikuk == $indikator->target_ikuk) {
+                    $memenuhi++;
+                } elseif ($transaksi->realisasi_ikuk < $indikator->target_ikuk) {
+                    $belumMemenuhi++;
+                }
+            }
+        }
+
+        $totalKinerja = $melampauiTarget + $memenuhi + $belumMemenuhi;
         // dump($data_indikator->toArray());
         return view('data_audite.pengisian_kinerja.pengisian_kinerja', [
             'title' => 'Pengisian Kinerja',
             'data_indikator' => $data_indikator,
-            // 'melampauiTarget' => $melampauiTarget, 
-            // 'memenuhi' => $memenuhi, 
-            // 'belumMemenuhi' => $belumMemenuhi, 
-            // 'totalKinerja' => $totalKinerja, 
+            'melampauiTarget' => $melampauiTarget,
+            'memenuhi' => $memenuhi,
+            'belumMemenuhi' => $belumMemenuhi,
+            'totalKinerja' => $totalKinerja,
         ]);
     }
 
@@ -117,7 +117,7 @@ class PengisianKinerjaController extends Controller
             'faktor_penghambat' => 'nullable|string',
             'akar_masalah' => 'nullable|string',
             'tindak_lanjut' => 'nullable|string',
-            'data_dukung' => 'nullable|string', 
+            'data_dukung' => 'nullable|string',
         ]);
 
         // update_data_transaksi
@@ -134,7 +134,7 @@ class PengisianKinerjaController extends Controller
             'akar_masalah' => $request->input('akar_masalah'),
             'tindak_lanjut' => $request->input('tindak_lanjut'),
             'status_pengisian_audite' => true,
-            'data_dukung' => $request->input('data_dukung'), 
+            'data_dukung' => $request->input('data_dukung'),
         ]);
 
         return redirect()->route('pengisian_kinerja.index')->with('success', 'Data Kinerja Berhasil Diperbarui');
