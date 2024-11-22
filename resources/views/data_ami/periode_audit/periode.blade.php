@@ -51,6 +51,14 @@
                                 {{ session('error') }}
                             </div>
                         @endif
+
+                        <script>
+                            setTimeout(function() {
+                                document.querySelectorAll('.alert').forEach(function(alert) {
+                                    alert.style.display = "none";
+                                });
+                            }, 5000);
+                        </script>
                     </div>
                 </div>
 
@@ -152,7 +160,8 @@
                                                             aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <p style="line-height: normal">Untuk menghapus periode pelaksanaan AMI ini, harap masukkan nama
+                                                        <p style="line-height: normal">Untuk menghapus periode pelaksanaan
+                                                            AMI ini, harap masukkan nama
                                                             periode:</p>
                                                         <strong
                                                             style="display: block">{{ $periode->nama_periode_ami }}</strong>
