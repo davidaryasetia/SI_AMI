@@ -28,17 +28,17 @@
                 </a>
             </li>
             <li class="nav-item role-admin">
-                <a class="nav-link d-flex align-items-center {{ Request::is('data_user*') ? 'active' : '' }}"
-                    href="/data_user">
-                    <i class="ti ti-user me-2"></i>
-                    <span class="menu-text">Data User</span>
-                </a>
-            </li>
-            <li class="nav-item role-admin">
                 <a class="nav-link d-flex align-items-center {{ Request::is('data_indikator*') ? 'active' : '' }}"
                     href="/data_indikator">
                     <i class="ti ti-table me-2"></i>
                     <span class="menu-text">Data Indikator</span>
+                </a>
+            </li>
+            <li class="nav-item role-admin">
+                <a class="nav-link d-flex align-items-center {{ Request::is('data_user*') ? 'active' : '' }}"
+                    href="/data_user">
+                    <i class="ti ti-user me-2"></i>
+                    <span class="menu-text">Data User</span>
                 </a>
             </li>
             <li class="nav-item role-admin">
@@ -48,13 +48,13 @@
                     <span class="menu-text">Ploating AMI</span>
                 </a>
             </li>
-            <li class="nav-item role-admin">
+            {{-- <li class="nav-item role-admin">
                 <a class="nav-link d-flex align-items-center {{ Request::is('progres_audit*') ? 'active' : '' }} "
                     href="/progres_audit">
                     <i class="ti ti-clipboard-data me-2"></i>
                     <span class="menu-text">Progress Audit</span>
                 </a>
-            </li>
+            </li> --}}
             <li class="nav-item role-admin">
                 <a class="nav-link d-flex align-items-center  {{ Request::is('rekap_audit*') ? 'active' : '' }}"
                     href="/rekap_audit">

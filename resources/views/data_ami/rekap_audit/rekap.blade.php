@@ -21,11 +21,6 @@
                             data-bs-target="#rekap-per-indikator" type="button" role="tab"
                             aria-controls="rekap-per-indikator" aria-selected="false">Rekap Per Indikator</button>
                     </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="rekap-akreditasi-tab" data-bs-toggle="tab"
-                            data-bs-target="#rekap-akreditasi" type="button" role="tab"
-                            aria-controls="rekap-akreditasi" aria-selected="false">Rekap Akreditasi</button>
-                    </li>
                 </ul>
 
                 {{-- Tab Content --}}
@@ -94,49 +89,12 @@
                         </div>
                     </div>
 
-                    {{-- Rekap Akreditasi --}}
-                    <div class="tab-pane fade" id="rekap-akreditasi" role="tabpanel" aria-labelledby="rekap-akreditasi-tab">
-                        <h5 class="mb-4">Rekap Akreditasi</h5>
-                        <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th>No.</th>
-                                        <th>Kriteria</th>
-                                        <th>Kode</th>
-                                        <th>Indikator</th>
-                                        <th>Target</th>
-                                        <th>Capaian</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>C2</td>
-                                        <td>IKU2.2</td>
-                                        <td>Jumlah paper</td>
-                                        <td>5</td>
-                                        <td>4</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>C2</td>
-                                        <td>IKU3.3</td>
-                                        <td>Jumlah paten</td>
-                                        <td>5</td>
-                                        <td>6</td>
-                                    </tr>
-                                    {{-- Tambahkan baris sesuai kebutuhan --}}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
                 </div>
 
                 {{-- Tombol Export --}}
-                <div class="d-flex justify-content-end mt-4">
+                {{-- <div class="d-flex justify-content-end mt-4">
                     <button type="button" class="btn btn-warning">Export</button>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>
