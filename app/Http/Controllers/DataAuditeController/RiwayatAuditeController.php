@@ -18,10 +18,9 @@ class RiwayatAuditeController extends Controller
 
         // Ambil nilai parameter dari query string
         $jadwalAmiId = $request->query('jadwal_ami_id');
-        // Ketika jadwal amiId gaada maka return back error
         if ($jadwalAmiId) {
             $jadwalAmi = PeriodePelaksanaan::find($jadwalAmiId);
-    
+
             if (!$jadwalAmi) {
                 return redirect()->route('riwayat_audite.index')->with('error', 'Jadwal AMI Pada Periode Tersebut Tidak Ditemukan, silahkan pilih jadwal yang tersedia.');
             }
@@ -63,9 +62,8 @@ class RiwayatAuditeController extends Controller
         $persentaseBelumMemenuhi = $totalKinerja > 0 ? round(($belumMemenuhi / $totalKinerja) * 100, 2) : 0;
 
         return view('data_audite.riwayat_audite.riwayat_audite', [
-            'title' => 'Riwayat Data Unit',
             'jadwalPeriode' => $jadwalPeriode,
-            'nama_unit' => $nama_unit, 
+            'nama_unit' => $nama_unit,
             'data_indikator' => $data_indikator,
             'jadwalAmiId' => $jadwalAmiId,
 

@@ -103,7 +103,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/periode_audit', PeriodeAuditController::class);
         Route::post('/periode_audit/close/{id}', [PeriodeAuditController::class, 'close'])->name('periode_audit.close');
         Route::resource('/progres_audit', ProgresAuditController::class);
-        Route::resource('/rekap_audit', RekapAuditController::class);
+        Route::get('/rekap_audit', [RekapAuditController::class, 'index'])->name('rekap_audit.index ');
         Route::post('/import_Indikator_Kinerja_Unit', [ImportIndikatorKinerjaController::class, 'importData'])->name('import.dataIndikator');
         Route::post('/import_Unit_Kerja', [ImportUnitController::class, 'importDataUnit'])->name('import.dataUnit');
         Route::get('/riwayat', [RiwayatController::class, 'index'])->name('riwayat.index');

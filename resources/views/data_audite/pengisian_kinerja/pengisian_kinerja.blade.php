@@ -446,10 +446,10 @@
                                     <!-- Data Dukung -->
                                     <td data-label="Data Dukung"
                                         style="background-color: {{ empty($transaksi['data_dukung']) ? '#d3d3d3' : '' }}">
-                                        {{ $transaksi['data_dukung'] ?? '' }}
+                                        <a href="{{ $transaksi['data_dukung'] ?? '' }}" target="_blank">{{ $transaksi['data_dukung'] ?? '' }}</a>
                                     </td>
                                 </tr>
-                            @endforeach
+                            @endforeach 
                         </tbody>
 
                     </table>

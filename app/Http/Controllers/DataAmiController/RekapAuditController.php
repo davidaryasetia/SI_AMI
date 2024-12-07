@@ -3,65 +3,80 @@
 namespace App\Http\Controllers\DataAmiController;
 
 use App\Http\Controllers\Controller;
+use App\Models\PeriodePelaksanaan;
+use App\Models\Unit;
 use Illuminate\Http\Request;
 
 class RekapAuditController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
+        $jadwalPeriode = PeriodePelaksanaan::orderBy('tanggal_pembukaan_ami', 'desc')->get();
+
+        $jadwalAmiId = $request->query('jadwal_ami_id');
+        if ($jadwalAmiId) {
+            $jadwalAmi = PeriodePelaksanaan::find($jadwalAmiId);
+
+            if (!$jadwalAmi) {
+                return redirect()->route('rekap_audit.index')->with('error', 'Tidak ada Jadwal AMI');
+            }
+        }
+
+        $data_transaksi = collect();
+        if ($jadwalAmiId) {
+            $data_transaksi = Unit::with([
+                'indikator_ikuk.transaksiDataIkuk' => function ($query) use ($jadwalAmiId) {
+                    $query->where('jadwal_ami_id', $jadwalAmiId);
+                }
+            ])->get();
+        }
+
+        $rekapByUnit = $data_transaksi->map(function ($unit) {
+            $melampauiTarget = 0;
+            $memenuhi = 0;
+            $belumMemenuhi = 0;
+
+            foreach ($unit->indikator_ikuk as $indikator) {
+                foreach ($indikator->transaksiDataIkuk as $transaksi) {
+                    if ($transaksi->realisasi_ikuk > $indikator->target_ikuk) {
+                        $melampauiTarget++;
+                    } elseif ($transaksi->realisasi_ikuk == $indikator->target_ikuk) {
+                        $memenuhi++;
+                    } elseif ($transaksi->realisasi_ikuk < $indikator->target_ikuk) {
+                        $belumMemenuhi++;
+                    }
+                }
+            }
+
+            return [
+                'unit_id' => $unit->unit_id,
+                'nama_unit' => $unit->nama_unit,
+                'belumMemenuhi' => $belumMemenuhi,
+                'memenuhi' => $memenuhi,
+                'melampauiTarget' => $melampauiTarget,
+                'totalDataIkuk' => $melampauiTarget + $memenuhi + $belumMemenuhi,
+                'indikator_ikuk' => $unit->indikator_ikuk->map(function ($indikator) {
+                    return [
+                        'kode_ikuk' => $indikator->kode_ikuk,
+                        'isi_indikator_kinerja_unit_kerja' => $indikator->isi_indikator_kinerja_unit_kerja,
+                        'target_ikuk' => $indikator->target_ikuk,
+                        'transaksi' => $indikator->transaksiDataIkuk->first(),
+                    ];
+                })
+            ];
+        });
+
+        // dump($rekapByUnit->toArray());
+        // dump($data_transaksi->toArray());
+
         return view('data_ami.rekap_audit.rekap', [
-            'title' => 'Rekap Audit', 
+            'jadwalPeriode' => $jadwalPeriode,
+            'dataTransaksi' => $data_transaksi,
+            'jadwalAmiId' => $jadwalAmiId,
+            'rekapByUnit' => $rekapByUnit,
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

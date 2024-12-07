@@ -21,14 +21,13 @@
             line-height: 1.4;
         }
 
-        #table_pengisian_kinerja_auditor td {
+        #riwayat td {
             width: 250px;
             white-space: normal;
             word-wrap: break-word;
-            line-height: 1.4 !important;
+            line-height: 1.4;
             text-align: left;
         }
-
         .tippy-box[data-theme~='custom'] {
             background-color: #ffffff;
             color: #333;
@@ -43,13 +42,7 @@
             color: #ffffff;
         }
 
-        #riwayat td {
-            width: 250px;
-            white-space: normal;
-            word-wrap: break-word;
-            line-height: 1.4;
-            text-align: left;
-        }
+      
     </style>
 @endpush
 
@@ -259,7 +252,7 @@
                                         <!-- Data Dukung -->
                                         <td data-label="Data Dukung"
                                             style="background-color: {{ empty($transaksi['data_dukung']) ? '#d3d3d3' : '' }}">
-                                            {{ $transaksi['data_dukung'] ?? '' }}
+                                            <a href="{{ $transaksi['data_dukung'] ?? '' }}" target="_blank">{{ $transaksi['data_dukung'] ?? '' }}</a>
                                         </td>
                                     </tr>
                                 @endforeach

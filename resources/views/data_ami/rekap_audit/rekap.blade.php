@@ -1,16 +1,65 @@
 @extends('layouts.main')
 @section('title', 'Rekap Audit')
 @section('content')
+    @push('css')
+        <style>
+            .table td,
+            .table th {
+                word-wrap: break-word;
+                white-space: normal;
+                text-align: left;
+                vertical-align: top;
+                line-height: 1.4;
+            }
+
+            #rekap_per_unit td {
+                width: 8px;
+                white-space: normal;
+                word-wrap: break-word;
+                line-height: 1.4 !important;
+                text-align: left;
+            }
+
+            #detail_rekap_unit td {
+                width: 8px;
+                white-space: normal;
+                word-wrap: break-word;
+                line-height: 1.4 !important;
+                text-align: left;
+            }
+        </style>
+    @endpush
     <div class="container-fluid">
         <div class="col-lg-12 d-flex align-items-stretch">
             <div class="w-100">
                 {{-- Header --}}
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h4 class="card-title fw-semibold">Rekap Audit Mutu</h4>
+                    <div>
+                        <h4 class="card-title fw-semibold">Rekap Audit Mutu</h4>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="ms-3">
+                            <div class="col-lg-12">
+                                <select id="jadwal_ami_id" name="jadwal_ami_id" class="form-select text-black"
+                                    style="border-radius: 12px;color: black">
+                                    <option value="">Pilih Periode AMI</option>
+                                    @foreach ($jadwalPeriode as $jadwal)
+                                        <option value="{{ $jadwal->jadwal_ami_id }}"
+                                            {{ $jadwalAmiId == $jadwal->jadwal_ami_id ? 'selected' : '' }}>
+                                            {{ $jadwal->nama_periode_ami }} :
+                                            {{ \Carbon\Carbon::parse($jadwal->tanggal_pembukaan_ami)->translatedFormat('d M') }}
+                                            -
+                                            {{ \Carbon\Carbon::parse($jadwal->tanggal_penutupan_ami)->translatedFormat('d M') }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 {{-- Nav Tabs for Rekap --}}
-                <ul class="nav nav-tabs mb-4" id="rekapTabs" role="tablist">
+                <ul class="nav nav-tabs mb-2" id="rekapTabs" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="rekap-per-unit-tab" data-bs-toggle="tab"
                             data-bs-target="#rekap-per-unit" type="button" role="tab" aria-controls="rekap-per-unit"
@@ -28,33 +77,106 @@
                     {{-- Rekap Per Unit --}}
                     <div class="tab-pane fade show active" id="rekap-per-unit" role="tabpanel"
                         aria-labelledby="rekap-per-unit-tab">
-                        <h5 class="mb-4">Rekap per Unit</h5>
+                        {{-- <h5 class="mb-4">Rekap per Unit</h5> --}}
                         <div class="table-responsive">
                             <table class="table table-bordered" id="rekap_per_unit">
                                 <thead class="table-light">
                                     <tr>
-                                        <th>No.</th>
-                                        <th>Unit</th>
-                                        <th>Total IKUK</th>
-                                        <th>Belum Mencapai</th>
-                                        <th>Mencapai Target</th>
-                                        <th>Melebihi Target</th>
-                                        <th>Lihat</th>
+                                        <th class="border-bottom-0 text-center" style="padding: 10px;">
+                                            <h6 class="fw-semibold mb-0">No</h6>
+                                        </th>
+                                        <th class="border-bottom-0 text-center">
+                                            <h6 class="fw-semibold mb-0">Unit</h6>
+                                        </th>
+                                        <th class="border-bottom-0 text-center">
+                                            <h6 class="fw-semibold mb-0">Total Indikator</h6>
+                                        </th>
+                                        <th class="border-bottom-0 text-center">
+                                            <h6 class="fw-semibold mb-0">Belum Mencapai</h6>
+                                        </th>
+                                        <th class="border-bottom-0 text-center">
+                                            <h6 class="fw-semibold mb-0">Mecapai Target</h6>
+                                        </th>
+                                        <th class="border-bottom-0 text-center">
+                                            <h6 class="fw-semibold mb-0">Melebihi Target</h6>
+                                        </th>
+                                        <th class="border-bottom-0 text-center">
+                                            <h6 class="fw-semibold mb-0">Lihat</h6>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>P4MP</td>
-                                        <td>120</td>
-                                        <td>20</td>
-                                        <td>90</td>
-                                        <td>10</td>
-                                        <td><a href="#">V</a></td>
-                                    </tr>
-                                    {{-- Tambahkan baris sesuai kebutuhan --}}
+                                    @if ($rekapByUnit->isEmpty())
+                                        <tr>
+                                            <td colspan="7" style="font-size: 16px; color: red">Silahkan Pilih Periode
+                                                Pelaksanaan AMI</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    @else
+                                        <?php $nomer = 1; ?>
+                                        @foreach ($rekapByUnit as $data_rekap)
+                                            <tr>
+                                                <td class="text-center">{{ $nomer++ }}</td>
+                                                <td>{{ $data_rekap['nama_unit'] }}</td>
+                                                <td>{{ $data_rekap['totalDataIkuk'] }}</td>
+                                                <td>{{ $data_rekap['belumMemenuhi'] }}</td>
+                                                <td>{{ $data_rekap['memenuhi'] }}</td>
+                                                <td>{{ $data_rekap['melampauiTarget'] }}</td>
+                                                <td class="text-center"><a href="#" class=""
+                                                        data-bs-toggle="modal" data-bs-target="#modalDetail"
+                                                        data-unit-id="{{ $data_rekap['unit_id'] }}"
+                                                        data-nama-unit="{{ $data_rekap['nama_unit'] }}"
+                                                        data-indikator-ikuk='@json($data_rekap['indikator_ikuk'])'>
+                                                        <i class="ti ti-eye" style="font-size: 16px; color: blue"></i>
+                                                    </a></td>
+                                            </tr>
+                                        @endforeach
+
+                                        {{-- Tambahkan baris sesuai kebutuhan --}}
+                                    @endif
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+                    {{-- Modal Rekap Audit Mutu --}}
+                    <!-- Modal -->
+                    <div class="modal fade" id="modalDetail" tabindex="-1" aria-labelledby="modalDetailLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalDetailLabel" style="color: black; font-weight: 500">Data Detail Indikator Kinerja Unit Kerja
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p style="font-size: 16px"><strong>Unit:<span id="modalUnitName"></span></strong></p>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-hover" id="detail_rekap_unit">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th style="width: 10%; text-align: center;">Kode IKUK</th>
+                                                    <th style="width: 40%; text-align: center;">Indikator Kinerja</th>
+                                                    <th style="width: 15%; text-align: center;">Status</th>
+                                                    <th style="width: 15%; text-align: center;">Target</th>
+                                                    <th style="width: 15%; text-align: center;">Capaian</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="modalTableBody"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Tutup</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -63,27 +185,52 @@
                         aria-labelledby="rekap-per-indikator-tab">
                         <h5 class="mb-4">Rekap per Indikator</h5>
                         <div class="table-responsive">
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" id="">
                                 <thead class="table-light">
                                     <tr>
-                                        <th>No.</th>
-                                        <th>Kode</th>
-                                        <th>Indikator</th>
-                                        <th>Target</th>
-                                        <th>Unit yang Mencapai Target</th>
-                                        <th>Rekomendasi</th>
+                                        <th class="border-bottom-0 text-center">
+                                            <h6 class="fw-semibold mb-0">No</h6>
+                                        </th>
+                                        <th class="border-bottom-0 text-center">
+                                            <h6 class="fw-semibold mb-0">Unit</h6>
+                                        </th>
+                                        <th class="border-bottom-0 text-center">
+                                            <h6 class="fw-semibold mb-0">Total Indikator</h6>
+                                        </th>
+                                        <th class="border-bottom-0 text-center">
+                                            <h6 class="fw-semibold mb-0">Belum Mencapai</h6>
+                                        </th>
+                                        <th class="border-bottom-0 text-center">
+                                            <h6 class="fw-semibold mb-0">Mecapai Target</h6>
+                                        </th>
+                                        <th class="border-bottom-0 text-center">
+                                            <h6 class="fw-semibold mb-0">Melebihi Target</h6>
+                                        </th>
+                                        <th class="border-bottom-0 text-center">
+                                            <h6 class="fw-semibold mb-0">Lihat Indikator</h6>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>IK2.2</td>
-                                        <td>Jumlah publikasi minimal tiap tahun</td>
-                                        <td>5</td>
-                                        <td>70%</td>
-                                        <td>Belum dapat ditingkatkan</td>
-                                    </tr>
-                                    {{-- Tambahkan baris sesuai kebutuhan --}}
+                                    @if ($rekapByUnit->isEmpty())
+                                        <td colspan="7" style="font-size: 16px; color: red">Silahkan Pilih Periode
+                                            Pelaksanaan AMI</td>
+                                    @else
+                                        <?php $nomer = 1; ?>
+                                        @foreach ($rekapByUnit as $data_rekap)
+                                            <tr>
+                                                <td>{{ $nomer++ }}</td>
+                                                <td>{{ $data_rekap['nama_unit'] }}</td>
+                                                <td>{{ $data_rekap['totalDataIkuk'] }}</td>
+                                                <td>{{ $data_rekap['belumMemenuhi'] }}</td>
+                                                <td>{{ $data_rekap['memenuhi'] }}</td>
+                                                <td>{{ $data_rekap['melampauiTarget'] }}</td>
+                                                <td><a href="#"><span><i class="ti ti-eye"></i></span></a></td>
+                                            </tr>
+                                        @endforeach
+
+                                        {{-- Tambahkan baris sesuai kebutuhan --}}
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
@@ -115,11 +262,82 @@
                 [50, 100],
             ],
         });
+    </script>
+    <script>
+        // ------------- Data Audit Mutu Internal ------------
+        $('#detail_rekap_unit').DataTable({
+            responsive: true,
+            "pageLength": 50,
+            "lengthMenu": [
+                [20, 50, 100],
+                [20, 50, 100],
+            ],
+        });
+    </script>
+
+    {{-- Script Modal Rekap Per Unit --}}
+    <script>
+        document.querySelectorAll('a[data-bs-toggle="modal"]').forEach(button => {
+            button.addEventListener('click', function() {
+                const unitName = this.dataset.namaUnit;
+                const indikatorData = JSON.parse(this.dataset.indikatorIkuk);
+
+                document.getElementById('modalUnitName').textContent = unitName;
+                const modalTableBody = document.getElementById('modalTableBody');
+                modalTableBody.innerHTML = '';
+
+                indikatorData.forEach(indikator => {
+                    const status = indikator.transaksi ?
+                        indikator.transaksi.realisasi_ikuk > indikator.target ?
+                        'Melampaui' :
+                        indikator.transaksi.realisasi_ikuk == indikator.target ?
+                        'Memenuhi' :
+                        'Belum Memenuhi' :
+                        'Tidak Ada Data';
+
+                    modalTableBody.innerHTML += `
+                        <tr>
+                            <td>${indikator.kode_ikuk}</td>
+                            <td>${indikator.isi_indikator_kinerja_unit_kerja}</td>
+                            <td>${status}</td>
+                            <td>${indikator.target_ikuk}</td>
+                            <td>${indikator.transaksi.realisasi_ikuk}</td>
+                        </tr>
+                    `;
+                })
+            })
+        })
+    </script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const jadwalSelect = document.getElementById('jadwal_ami_id');
+
+            function updatePage() {
+                const jadwalId = jadwalSelect.value;
+
+                if (jadwalId) {
+                    window.location.href = `/rekap_audit?jadwal_ami_id=${jadwalId}`;
+                } else {
+                    window.location.href = `/rekap_audit`;
+                }
+            }
+
+            // Tambahkan event listener hanya untuk dropdown jadwal
+            jadwalSelect.addEventListener('change', updatePage);
+        });
+    </script>
+
+
+
+    <script>
+        // ------------- Data Audit Mutu Internal ------------
         $('#rekap_per_indikator').DataTable({
             responsive: true,
             "scrollY": "520px",
             scrollX: true,
-            autoWidth: false,
+            autoWidth: true,
             "pageLength": 50,
             "lengthMenu": [
                 [50, 100],
