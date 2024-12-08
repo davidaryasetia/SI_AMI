@@ -65,18 +65,18 @@ class RekapAuditController extends Controller
                 })
             ];
         });
-
+        // dump($data_transaksi->pluck('indikator_ikuk')->flatten()->toArray());
         // dump($rekapByUnit->toArray());
-        // dump($data_transaksi->toArray());
 
         return view('data_ami.rekap_audit.rekap', [
             'jadwalPeriode' => $jadwalPeriode,
             'dataTransaksi' => $data_transaksi,
+            'indikatorIkuk' => $data_transaksi->pluck('indikator_ikuk')->flatten(),
             'jadwalAmiId' => $jadwalAmiId,
             'rekapByUnit' => $rekapByUnit,
         ]);
     }
 
-
+    
 
 }

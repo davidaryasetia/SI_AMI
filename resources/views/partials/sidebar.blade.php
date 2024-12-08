@@ -48,13 +48,13 @@
                     <span class="menu-text">Ploating AMI</span>
                 </a>
             </li>
-            {{-- <li class="nav-item role-admin">
+            <li class="nav-item role-admin">
                 <a class="nav-link d-flex align-items-center {{ Request::is('progres_audit*') ? 'active' : '' }} "
                     href="/progres_audit">
                     <i class="ti ti-clipboard-data me-2"></i>
                     <span class="menu-text">Progress Audit</span>
                 </a>
-            </li> --}}
+            </li>
             <li class="nav-item role-admin">
                 <a class="nav-link d-flex align-items-center  {{ Request::is('rekap_audit*') ? 'active' : '' }}"
                     href="/rekap_audit">

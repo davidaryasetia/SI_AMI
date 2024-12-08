@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\DataAmiController\AuditorController;
 use App\Http\Controllers\DataAmiController\DataIndikatorController;
 use App\Http\Controllers\DataAmiController\DataUnitController;
+use App\Http\Controllers\DataAmiController\ExportRekapAuditController;
 use App\Http\Controllers\DataAmiController\HomeController;
 use App\Http\Controllers\DataAmiController\PeriodeAuditController;
 use App\Http\Controllers\DataAmiController\PlotingAmiController;
@@ -38,15 +39,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth'])->group(function(){
+Route::middleware(['auth'])->group(function () {
     Route::get('/choose_role', [AuthController::class, 'chooseRole'])->name('choose.role');
-    Route::post('/select_role', [AuthController::class, 'selectRole'])->name('select.role'); 
+    Route::post('/select_role', [AuthController::class, 'selectRole'])->name('select.role');
     Route::post('/switch-role', [AuthController::class, 'switchRole'])->name('switch.role');
     Route::resource('/profile', ProfileController::class);
     Route::get('/errors/403', function () {
         return view(view: 'errors.403');
     })->name('errors.403');
-    
+
 });
 
 Route::middleware(['guest'])->group(function () {
@@ -72,7 +73,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware(['auth', 'role:auditor'])->group(function () {
     Route::get('/home/auditor', [HomeAuditorController::class, 'HomeAuditor'])->name('home.auditor');
     Route::get('/home/auditor', [HomeAuditorController::class, 'HomeAuditor']);
-    Route::resource('/pengisian_kinerja_auditor', PengisianKinerjaAuditorController::class );
+    Route::resource('/pengisian_kinerja_auditor', PengisianKinerjaAuditorController::class);
     Route::get('/pengisian_kinerja_auditor', [PengisianKinerjaAuditorController::class, 'index'])->name('data_indikator_auditor.index');
     Route::resource('/rekap_persetujuan_auditor', RekapPersetujuanAuditorController::class);
 });
@@ -82,7 +83,7 @@ Route::middleware(['auth', 'role:audite'])->group(function () {
     Route::resource('/pengisian_kinerja', PengisianKinerjaController::class);
     Route::resource('/persetujuan', PersetujuanController::class);
     Route::get('/riwayat_audite', [RiwayatAuditeController::class, 'index'])->name('riwayat_audite.index');
-}); 
+});
 
 
 // Auth Middleware
@@ -104,6 +105,8 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/periode_audit/close/{id}', [PeriodeAuditController::class, 'close'])->name('periode_audit.close');
         Route::resource('/progres_audit', ProgresAuditController::class);
         Route::get('/rekap_audit', [RekapAuditController::class, 'index'])->name('rekap_audit.index ');
+        Route::get('/rekap_audit_unit/export', [ExportRekapAuditController::class, 'exportRekapPerUnit'])->name('rekap_audit_unit.export');
+        Route::get('/rekap_audit_indikator/export', [ExportRekapAuditController::class, 'exportRekapPerIndikator'])->name('rekap_audit_indikator.export');
         Route::post('/import_Indikator_Kinerja_Unit', [ImportIndikatorKinerjaController::class, 'importData'])->name('import.dataIndikator');
         Route::post('/import_Unit_Kerja', [ImportUnitController::class, 'importDataUnit'])->name('import.dataUnit');
         Route::get('/riwayat', [RiwayatController::class, 'index'])->name('riwayat.index');

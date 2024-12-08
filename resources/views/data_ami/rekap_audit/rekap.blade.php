@@ -27,6 +27,29 @@
                 line-height: 1.4 !important;
                 text-align: left;
             }
+
+            #rekap_per_indikator td {
+                width: 8px;
+                white-space: normal;
+                word-wrap: break-word;
+                line-height: 1.4 !important;
+                text-align: left;
+            }
+
+            .status-belum-memenuhi {
+                color: red;
+                font-weight: bold;
+            }
+
+            .status-memenuhi {
+                color: blue;
+                font-weight: bold;
+            }
+
+            .status-melampaui {
+                color: green;
+                font-weight: bold;
+            }
         </style>
     @endpush
     <div class="container-fluid">
@@ -34,8 +57,20 @@
             <div class="w-100">
                 {{-- Header --}}
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <div>
-                        <h4 class="card-title fw-semibold">Rekap Audit Mutu</h4>
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <h4 class="card-title fw-semibold">Rekap Audit Mutu</h4>
+                        </div>
+                        <div class="d-flex justify-content-end ms-3">
+                            <div class="d-flex justify-content-end ms-3">
+                                <form id="exportForm" action="{{ route('rekap_audit_unit.export') }}" method="GET">
+                                    <input type="hidden" name="jadwal_ami_id" value="{{ $jadwalAmiId }}">
+                                    <button type="submit" id="exportButton" class="btn btn-sm btn-primary">
+                                        <i class="ti ti-download"></i> Export Rekap Per Unit
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                     <div class="d-flex align-items-center">
                         <div class="ms-3">
@@ -57,6 +92,26 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="d-flex justify-content-end" style="position: absolute; top: 72px;right: 40px; z-index: 1050;">
+                    @if (session('success'))
+                        <div class="alert alert-primary  col-lg-12" role="alert">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                    @if (session('error'))
+                        <div class="alert alert-danger  col-lg-12" role="alert">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+                </div>
+                <script>
+                    setTimeout(function() {
+                        document.querySelectorAll('.alert').forEach(function(alert) {
+                            alert.style.display = "none";
+                        });
+                    }, 5000);
+                </script>
 
                 {{-- Nav Tabs for Rekap --}}
                 <ul class="nav nav-tabs mb-2" id="rekapTabs" role="tablist">
@@ -150,7 +205,8 @@
                         <div class="modal-dialog modal-xl">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="modalDetailLabel" style="color: black; font-weight: 500">Data Detail Indikator Kinerja Unit Kerja
+                                    <h5 class="modal-title" id="modalDetailLabel" style="color: black; font-weight: 500">
+                                        Data Detail Indikator Kinerja Unit Kerja
                                     </h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
@@ -183,52 +239,52 @@
                     {{-- Rekap Per Indikator --}}
                     <div class="tab-pane fade" id="rekap-per-indikator" role="tabpanel"
                         aria-labelledby="rekap-per-indikator-tab">
-                        <h5 class="mb-4">Rekap per Indikator</h5>
                         <div class="table-responsive">
-                            <table class="table table-bordered" id="">
+                            <table class="table table-bordered" id="rekap_per_indikator">
                                 <thead class="table-light">
                                     <tr>
                                         <th class="border-bottom-0 text-center">
                                             <h6 class="fw-semibold mb-0">No</h6>
                                         </th>
                                         <th class="border-bottom-0 text-center">
-                                            <h6 class="fw-semibold mb-0">Unit</h6>
+                                            <h6 class="fw-semibold mb-0">Kode Ikuk</h6>
                                         </th>
                                         <th class="border-bottom-0 text-center">
-                                            <h6 class="fw-semibold mb-0">Total Indikator</h6>
+                                            <h6 class="fw-semibold mb-0">Indikator IKUK</h6>
                                         </th>
                                         <th class="border-bottom-0 text-center">
-                                            <h6 class="fw-semibold mb-0">Belum Mencapai</h6>
+                                            <h6 class="fw-semibold mb-0">Target</h6>
                                         </th>
                                         <th class="border-bottom-0 text-center">
-                                            <h6 class="fw-semibold mb-0">Mecapai Target</h6>
+                                            <h6 class="fw-semibold mb-0">Capaian</h6>
                                         </th>
                                         <th class="border-bottom-0 text-center">
-                                            <h6 class="fw-semibold mb-0">Melebihi Target</h6>
-                                        </th>
-                                        <th class="border-bottom-0 text-center">
-                                            <h6 class="fw-semibold mb-0">Lihat Indikator</h6>
+                                            <h6 class="fw-semibold mb-0">Analisis Tindak Lanjut</h6>
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if ($rekapByUnit->isEmpty())
-                                        <td colspan="7" style="font-size: 16px; color: red">Silahkan Pilih Periode
+                                    @if ($indikatorIkuk->isEmpty())
+                                        <td colspan="6" style="font-size: 16px; color: red">Silahkan Pilih Periode
                                             Pelaksanaan AMI</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
                                     @else
                                         <?php $nomer = 1; ?>
-                                        @foreach ($rekapByUnit as $data_rekap)
+                                        @foreach ($indikatorIkuk as $index => $indikator)
                                             <tr>
-                                                <td>{{ $nomer++ }}</td>
-                                                <td>{{ $data_rekap['nama_unit'] }}</td>
-                                                <td>{{ $data_rekap['totalDataIkuk'] }}</td>
-                                                <td>{{ $data_rekap['belumMemenuhi'] }}</td>
-                                                <td>{{ $data_rekap['memenuhi'] }}</td>
-                                                <td>{{ $data_rekap['melampauiTarget'] }}</td>
-                                                <td><a href="#"><span><i class="ti ti-eye"></i></span></a></td>
+                                                <td class="text-center">{{ $index + 1 }}</td>
+                                                <td>{{ $indikator->kode_ikuk }}</td>
+                                                <td>{{ $indikator->isi_indikator_kinerja_unit_kerja }}</td>
+                                                <td>{{ $indikator->target_ikuk }}</td>
+                                                <td>{{ $indikator->transaksiDataIkuk->first()->realisasi_ikuk ?? '-' }}
+                                                </td>
+                                                <td>{{ $indikator->transaksiDataIkuk->first()->tindak_lanjut ?? '-' }}</td>
                                             </tr>
                                         @endforeach
-
                                         {{-- Tambahkan baris sesuai kebutuhan --}}
                                     @endif
                                 </tbody>
@@ -239,9 +295,7 @@
                 </div>
 
                 {{-- Tombol Export --}}
-                {{-- <div class="d-flex justify-content-end mt-4">
-                    <button type="button" class="btn btn-warning">Export</button>
-                </div> --}}
+
             </div>
         </div>
     </div>
@@ -273,6 +327,16 @@
                 [20, 50, 100],
             ],
         });
+
+        // ------------- Data Audit Mutu Internal ------------
+        $('#rekap_per_indikator').DataTable({
+            responsive: true,
+            "pageLength": 50,
+            "lengthMenu": [
+                [50, 100],
+                [50, 100],
+            ],
+        });
     </script>
 
     {{-- Script Modal Rekap Per Unit --}}
@@ -287,19 +351,29 @@
                 modalTableBody.innerHTML = '';
 
                 indikatorData.forEach(indikator => {
-                    const status = indikator.transaksi ?
-                        indikator.transaksi.realisasi_ikuk > indikator.target ?
-                        'Melampaui' :
-                        indikator.transaksi.realisasi_ikuk == indikator.target ?
-                        'Memenuhi' :
-                        'Belum Memenuhi' :
-                        'Tidak Ada Data';
+                    let status = 'Tidak ada Data';
+                    let statusClass = '';
+                    let capaian = '-';
+
+                    if (indikator.transaksi) {
+                        capaian = indikator.transaksi.realisasi_ikuk || '-';
+                        if (indikator.transaksi.realisasi_ikuk > indikator.target_ikuk) {
+                            status = 'Melampaui';
+                            statusClass = 'status-melampaui';
+                        } else if (indikator.transaksi.realisasi_ikuk == indikator.target_ikuk) {
+                            status = 'Memenuhi'
+                            statusClass = 'status-memenuhi';
+                        } else {
+                            status = 'Belum Memenuhi';
+                            statusClass = 'status-belum-memenuhi';
+                        }
+                    }
 
                     modalTableBody.innerHTML += `
                         <tr>
                             <td>${indikator.kode_ikuk}</td>
                             <td>${indikator.isi_indikator_kinerja_unit_kerja}</td>
-                            <td>${status}</td>
+                            <td class="${statusClass}">${status}</td>
                             <td>${indikator.target_ikuk}</td>
                             <td>${indikator.transaksi.realisasi_ikuk}</td>
                         </tr>
@@ -308,7 +382,6 @@
             })
         })
     </script>
-
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -329,20 +402,28 @@
         });
     </script>
 
-
-
+    {{-- Script button export --}}
     <script>
-        // ------------- Data Audit Mutu Internal ------------
-        $('#rekap_per_indikator').DataTable({
-            responsive: true,
-            "scrollY": "520px",
-            scrollX: true,
-            autoWidth: true,
-            "pageLength": 50,
-            "lengthMenu": [
-                [50, 100],
-                [50, 100],
-            ],
+        document.addEventListener('DOMContentLoaded', function() {
+            const rekapTabs = document.getElementById('rekapTabs');
+            const exportForm = document.getElementById('exportForm');
+            const exportButton = document.getElementById('exportButton');
+
+            rekapTabs.addEventListener('click', (e) => {
+                const selectedTab = e.target.id;
+
+                if (selectedTab === 'rekap-per-unit-tab') {
+                    exportForm.action = "{{ route('rekap_audit_unit.export') }}";
+                    exportButton.classList.remove('btn-primary');
+                    exportButton.classList.add('btn-success');
+                    exportButton.innerHTML = '<i class="ti ti-download"></i> Export Rekap Per Unit';
+                } else if (selectedTab === 'rekap-per-indikator-tab') {
+                    exportForm.action = "{{ route('rekap_audit_indikator.export') }}";
+                    exportButton.classList.remove('btn-success');
+                    exportButton.classList.add('btn-primary');
+                    exportButton.innerHTML = '<i class="ti ti-download"></i> Export Rekap Per Indikator';
+                }
+            });
         });
     </script>
 @endpush
