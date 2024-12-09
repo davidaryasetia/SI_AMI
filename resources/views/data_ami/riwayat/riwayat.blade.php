@@ -28,6 +28,7 @@
             line-height: 1.4;
             text-align: left;
         }
+
         .tippy-box[data-theme~='custom'] {
             background-color: #ffffff;
             color: #333;
@@ -41,8 +42,6 @@
         .tippy-arrow {
             color: #ffffff;
         }
-
-      
     </style>
 @endpush
 
@@ -65,11 +64,26 @@
 
                         </h4>
 
+                        <div class="d-flex ms-1">
+                            <div class="d-flex justify-content-end ms-3">
+                                <!-- Form Export -->
+                                <form id="exportForm" action="{{ route('riwayat.export') }}" method="GET">
+                                    <input type="hidden" name="jadwal_ami_id" value="{{ $selectedJadwalAmiId }}">
+                                    <input type="hidden" name="unit_id" value="{{ $selectedUnitId }}">
+                                    <button type="submit" id="exportButton" class="btn btn-sm btn-primary">
+                                        <i class="ti ti-download"></i> Export Rekap Per Unit
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+
 
                         {{-- Tooltip Custom dengan Tippy.js --}}
-                        <div id="tooltip-info" class="ms-2" style="cursor: pointer;">
+                        <div id="tooltip-info" class="ms-3" style="cursor: pointer;">
                             <i class="ti ti-info-circle fs-5 text-primary"></i>
                         </div>
+
+                       
                     </div>
                     <div class="d-flex align-items-center">
                         <div class="">
@@ -252,7 +266,8 @@
                                         <!-- Data Dukung -->
                                         <td data-label="Data Dukung"
                                             style="background-color: {{ empty($transaksi['data_dukung']) ? '#d3d3d3' : '' }}">
-                                            <a href="{{ $transaksi['data_dukung'] ?? '' }}" target="_blank">{{ $transaksi['data_dukung'] ?? '' }}</a>
+                                            <a href="{{ $transaksi['data_dukung'] ?? '' }}"
+                                                target="_blank">{{ $transaksi['data_dukung'] ?? '' }}</a>
                                         </td>
                                     </tr>
                                 @endforeach

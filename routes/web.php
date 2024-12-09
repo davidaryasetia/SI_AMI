@@ -8,6 +8,7 @@ use App\Http\Controllers\DataAmiController\AuditorController;
 use App\Http\Controllers\DataAmiController\DataIndikatorController;
 use App\Http\Controllers\DataAmiController\DataUnitController;
 use App\Http\Controllers\DataAmiController\ExportRekapAuditController;
+use App\Http\Controllers\DataAmiController\ExportRiwayatController;
 use App\Http\Controllers\DataAmiController\HomeController;
 use App\Http\Controllers\DataAmiController\PeriodeAuditController;
 use App\Http\Controllers\DataAmiController\PlotingAmiController;
@@ -18,6 +19,7 @@ use App\Http\Controllers\DataAuditeController\PengisianKinerjaController;
 use App\Http\Controllers\DataAuditeController\PersetujuanController;
 use App\Http\Controllers\DataAuditeController\RekapCapaianController;
 use App\Http\Controllers\DataAuditeController\RiwayatAuditeController;
+use App\Http\Controllers\DataAuditeController\ExportRiwayatAuditeController;
 use App\Http\Controllers\DataAuditorController\PengisianKinerjaAuditorController;
 use App\Http\Controllers\DataAuditorController\RekapPersetujuanAuditorController;
 use App\Http\Controllers\HomeController\HomeAuditeController;
@@ -83,6 +85,8 @@ Route::middleware(['auth', 'role:audite'])->group(function () {
     Route::resource('/pengisian_kinerja', PengisianKinerjaController::class);
     Route::resource('/persetujuan', PersetujuanController::class);
     Route::get('/riwayat_audite', [RiwayatAuditeController::class, 'index'])->name('riwayat_audite.index');
+    Route::get('/riwayat_audite/export', [ExportRiwayatAuditeController::class, 'exportRiwayatAudite'])->name('riwayat_audite.export');
+
 });
 
 
@@ -110,6 +114,8 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/import_Indikator_Kinerja_Unit', [ImportIndikatorKinerjaController::class, 'importData'])->name('import.dataIndikator');
         Route::post('/import_Unit_Kerja', [ImportUnitController::class, 'importDataUnit'])->name('import.dataUnit');
         Route::get('/riwayat', [RiwayatController::class, 'index'])->name('riwayat.index');
+        Route::get('/riwayat/export', [ExportRiwayatController::class, 'export'])->name('riwayat.export');
+
     });
 });
 

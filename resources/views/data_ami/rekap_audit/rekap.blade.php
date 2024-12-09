@@ -50,6 +50,21 @@
                 color: green;
                 font-weight: bold;
             }
+
+
+            .tippy-box[data-theme~='custom'] {
+                background-color: #ffffff;
+                color: #333;
+                box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+                border-radius: 10px;
+                padding: 10px;
+                font-size: 14px;
+                line-height: 1.5;
+            }
+
+            .tippy-arrow {
+                color: #ffffff;
+            }
         </style>
     @endpush
     <div class="container-fluid">
@@ -62,7 +77,7 @@
                             <h4 class="card-title fw-semibold">Rekap Audit Mutu</h4>
                         </div>
                         <div class="d-flex justify-content-end ms-3">
-                            <div class="d-flex justify-content-end ms-3">
+                            <div class="d-flex justify-content-end">
                                 <form id="exportForm" action="{{ route('rekap_audit_unit.export') }}" method="GET">
                                     <input type="hidden" name="jadwal_ami_id" value="{{ $jadwalAmiId }}">
                                     <button type="submit" id="exportButton" class="btn btn-sm btn-primary">
@@ -110,7 +125,7 @@
                         document.querySelectorAll('.alert').forEach(function(alert) {
                             alert.style.display = "none";
                         });
-                    }, 5000);
+                    }, 3000);
                 </script>
 
                 {{-- Nav Tabs for Rekap --}}
@@ -132,7 +147,6 @@
                     {{-- Rekap Per Unit --}}
                     <div class="tab-pane fade show active" id="rekap-per-unit" role="tabpanel"
                         aria-labelledby="rekap-per-unit-tab">
-                        {{-- <h5 class="mb-4">Rekap per Unit</h5> --}}
                         <div class="table-responsive">
                             <table class="table table-bordered" id="rekap_per_unit">
                                 <thead class="table-light">
@@ -182,9 +196,13 @@
                                                 <td>{{ $data_rekap['belumMemenuhi'] }}</td>
                                                 <td>{{ $data_rekap['memenuhi'] }}</td>
                                                 <td>{{ $data_rekap['melampauiTarget'] }}</td>
-                                                <td class="text-center"><a href="#" class=""
+                                                <td class="text-center"><a href="#" class="" id="tooltip-info"
                                                         data-bs-toggle="modal" data-bs-target="#modalDetail"
                                                         data-unit-id="{{ $data_rekap['unit_id'] }}"
+                                                        data-total="{{ $data_rekap['totalDataIkuk'] }}"
+                                                        data-belum-memenuhi="{{ $data_rekap['belumMemenuhi'] }}"
+                                                        data-memenuhi="{{ $data_rekap['memenuhi'] }}"
+                                                        data-melampaui="{{ $data_rekap['melampauiTarget'] }}"
                                                         data-nama-unit="{{ $data_rekap['nama_unit'] }}"
                                                         data-indikator-ikuk='@json($data_rekap['indikator_ikuk'])'>
                                                         <i class="ti ti-eye" style="font-size: 16px; color: blue"></i>
@@ -205,9 +223,17 @@
                         <div class="modal-dialog modal-xl">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="modalDetailLabel" style="color: black; font-weight: 500">
-                                        Data Detail Indikator Kinerja Unit Kerja
-                                    </h5>
+                                    <div class="d-flex align-items-center">
+                                        <h5 class="modal-title" id="modalDetailLabel"
+                                            style="color: black; font-weight: 500">
+                                            Data Detail Indikator Kinerja Unit Kerja
+                                        </h5>
+
+                                        {{-- Tooltip Custom dengan Tippy.js --}}
+                                        <div id="tooltip-info" class="ms-2 mt-1" style="cursor: pointer;">
+                                            <i class="ti ti-info-circle fs-5 text-primary"></i>
+                                        </div>
+                                    </div>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
@@ -217,11 +243,12 @@
                                         <table class="table table-bordered table-hover" id="detail_rekap_unit">
                                             <thead class="table-light">
                                                 <tr>
+                                                    <th style="width: 10%; text-align: center;">No</th>
                                                     <th style="width: 10%; text-align: center;">Kode IKUK</th>
                                                     <th style="width: 40%; text-align: center;">Indikator Kinerja</th>
                                                     <th style="width: 15%; text-align: center;">Status</th>
-                                                    <th style="width: 15%; text-align: center;">Target</th>
-                                                    <th style="width: 15%; text-align: center;">Capaian</th>
+                                                    <th style="width: 10%; text-align: center;">Target</th>
+                                                    <th style="width: 10%; text-align: center;">Capaian</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="modalTableBody"></tbody>
@@ -339,6 +366,43 @@
         });
     </script>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tangkap klik pada elemen yang membuka modal
+            const detailLinks = document.querySelectorAll('#rekap_per_unit a');
+
+            detailLinks.forEach((link) => {
+                link.addEventListener('click', function() {
+                    // Ambil data dari atribut data- elemen yang diklik
+                    const total = this.getAttribute('data-total');
+                    const belumMemenuhi = this.getAttribute('data-belum-memenuhi');
+                    const memenuhi = this.getAttribute('data-memenuhi');
+                    const melampaui = this.getAttribute('data-melampaui');
+                    const namaUnit = this.getAttribute('data-nama-unit');
+
+                    // Update teks dalam modal
+                    document.getElementById('modalUnitName').textContent = namaUnit;
+
+                    // Update tooltip konten
+                    tippy('#tooltip-info', {
+                        content: `
+                    <div style="text-align: left;">
+                        <strong style="font-size: 16px; color:black;">Total Indikator Kinerja:</strong> <span>${total}</span><br>
+                        <strong style="color: #28a745;">Jumlah Melampaui:</strong> <span>${melampaui}</span><br>
+                        <strong style="color: #007bff;">Jumlah Memenuhi:</strong> <span>${memenuhi}</span><br>
+                        <strong style="color: #dc3545;">Jumlah Belum Memenuhi:</strong> <span>${belumMemenuhi}</span>
+                    </div>
+                `,
+                        allowHTML: true,
+                        theme: 'custom',
+                        placement: 'bottom',
+                        interactive: true,
+                        maxWidth: '300px',
+                    });
+                });
+            });
+        });
+    </script>
     {{-- Script Modal Rekap Per Unit --}}
     <script>
         document.querySelectorAll('a[data-bs-toggle="modal"]').forEach(button => {
@@ -350,6 +414,7 @@
                 const modalTableBody = document.getElementById('modalTableBody');
                 modalTableBody.innerHTML = '';
 
+                let no = 1;
                 indikatorData.forEach(indikator => {
                     let status = 'Tidak ada Data';
                     let statusClass = '';
@@ -371,6 +436,7 @@
 
                     modalTableBody.innerHTML += `
                         <tr>
+                            <td>${no++}</td> 
                             <td>${indikator.kode_ikuk}</td>
                             <td>${indikator.isi_indikator_kinerja_unit_kerja}</td>
                             <td class="${statusClass}">${status}</td>
@@ -415,11 +481,11 @@
                 if (selectedTab === 'rekap-per-unit-tab') {
                     exportForm.action = "{{ route('rekap_audit_unit.export') }}";
                     exportButton.classList.remove('btn-primary');
-                    exportButton.classList.add('btn-success');
+                    exportButton.classList.add('btn-primary');
                     exportButton.innerHTML = '<i class="ti ti-download"></i> Export Rekap Per Unit';
                 } else if (selectedTab === 'rekap-per-indikator-tab') {
                     exportForm.action = "{{ route('rekap_audit_indikator.export') }}";
-                    exportButton.classList.remove('btn-success');
+                    exportButton.classList.remove('btn-primary');
                     exportButton.classList.add('btn-primary');
                     exportButton.innerHTML = '<i class="ti ti-download"></i> Export Rekap Per Indikator';
                 }

@@ -72,6 +72,14 @@
 
                         </h4>
 
+                        <div class="ms-2">
+                            <form id="exportForm" action="{{ route('riwayat_audite.export') }}" method="GET">
+                                <input type="hidden" name="jadwal_ami_id" value="{{ $jadwalAmiId }}">
+                                <button type="submit" class="btn btn-sm btn-primary">
+                                    <i class="ti ti-download"></i> Export Riwayat Audite
+                                </button>
+                            </form>
+                        </div>
 
                         {{-- Tooltip Custom dengan Tippy.js --}}
                         <div id="tooltip-info" class="ms-2" style="cursor: pointer;">
