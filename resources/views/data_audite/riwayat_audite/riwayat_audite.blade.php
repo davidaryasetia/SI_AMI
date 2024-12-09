@@ -21,13 +21,6 @@
             line-height: 1.4;
         }
 
-        #table_pengisian_kinerja_auditor td {
-            width: 250px;
-            white-space: normal;
-            word-wrap: break-word;
-            line-height: 1.4 !important;
-            text-align: left;
-        }
 
         .tippy-box[data-theme~='custom'] {
             background-color: #ffffff;
@@ -49,6 +42,7 @@
             word-wrap: break-word;
             line-height: 1.4;
             text-align: left;
+            color: black;
         }
     </style>
 @endpush
@@ -76,7 +70,7 @@
                             <form id="exportForm" action="{{ route('riwayat_audite.export') }}" method="GET">
                                 <input type="hidden" name="jadwal_ami_id" value="{{ $jadwalAmiId }}">
                                 <button type="submit" class="btn btn-sm btn-primary">
-                                    <i class="ti ti-download"></i> Export Riwayat Audite
+                                    <i class="ti ti-download"></i> Unduh Riwayat Audite
                                 </button>
                             </form>
                         </div>

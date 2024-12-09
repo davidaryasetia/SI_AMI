@@ -133,8 +133,8 @@ class PengisianKinerjaController extends Controller
             'faktor_penghambat' => $request->input('faktor_penghambat'),
             'akar_masalah' => $request->input('akar_masalah'),
             'tindak_lanjut' => $request->input('tindak_lanjut'),
-            'status_pengisian_audite' => true,
             'data_dukung' => $request->input('data_dukung'),
+            'status_pengisian_audite' => true, 
         ]);
 
         return redirect()->route('pengisian_kinerja.index')->with('success', 'Data Kinerja Berhasil Diperbarui');

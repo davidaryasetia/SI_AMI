@@ -22,11 +22,11 @@
         }
 
         #riwayat td {
-            width: 250px;
             white-space: normal;
             word-wrap: break-word;
             line-height: 1.4;
             text-align: left;
+            color: black;
         }
 
         .tippy-box[data-theme~='custom'] {
@@ -71,7 +71,7 @@
                                     <input type="hidden" name="jadwal_ami_id" value="{{ $selectedJadwalAmiId }}">
                                     <input type="hidden" name="unit_id" value="{{ $selectedUnitId }}">
                                     <button type="submit" id="exportButton" class="btn btn-sm btn-primary">
-                                        <i class="ti ti-download"></i> Export Rekap Per Unit
+                                        <i class="ti ti-download"></i> Unduh Rekap Per Unit
                                     </button>
                                 </form>
                             </div>

@@ -16,7 +16,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class ExportRekapAuditController extends Controller
 {
-    public function exportRekapPerUnit(Request $request)
+    public function     exportRekapPerUnit(Request $request)
     {
         $jadwalAmiId = $request->query('jadwal_ami_id');
 

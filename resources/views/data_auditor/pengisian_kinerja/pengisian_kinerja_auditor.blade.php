@@ -26,6 +26,7 @@
             word-wrap: break-word;
             line-height: 1.4 !important;
             text-align: left;
+            color: black;
         }
 
         .tippy-box[data-theme~='custom'] {

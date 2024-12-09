@@ -18,22 +18,23 @@
                 word-wrap: break-word;
                 line-height: 1.4 !important;
                 text-align: left;
+                color: black;
             }
 
             #detail_rekap_unit td {
-                width: 8px;
                 white-space: normal;
                 word-wrap: break-word;
                 line-height: 1.4 !important;
                 text-align: left;
+                color: black;
             }
 
             #rekap_per_indikator td {
-                width: 8px;
                 white-space: normal;
                 word-wrap: break-word;
                 line-height: 1.4 !important;
                 text-align: left;
+                color: black;
             }
 
             .status-belum-memenuhi {
@@ -81,7 +82,7 @@
                                 <form id="exportForm" action="{{ route('rekap_audit_unit.export') }}" method="GET">
                                     <input type="hidden" name="jadwal_ami_id" value="{{ $jadwalAmiId }}">
                                     <button type="submit" id="exportButton" class="btn btn-sm btn-primary">
-                                        <i class="ti ti-download"></i> Export Rekap Per Unit
+                                        <i class="ti ti-download"></i> Unduh Rekap Per Unit
                                     </button>
                                 </form>
                             </div>
@@ -449,11 +450,11 @@
         })
     </script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const jadwalSelect = document.getElementById('jadwal_ami_id');
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const jadwalSelect = document.getElementById('jadwal_ami_id');
 
-            function updatePage() {
+                function updatePage() {
                 const jadwalId = jadwalSelect.value;
 
                 if (jadwalId) {
@@ -482,12 +483,12 @@
                     exportForm.action = "{{ route('rekap_audit_unit.export') }}";
                     exportButton.classList.remove('btn-primary');
                     exportButton.classList.add('btn-primary');
-                    exportButton.innerHTML = '<i class="ti ti-download"></i> Export Rekap Per Unit';
+                    exportButton.innerHTML = '<i class="ti ti-download"></i> Unduh Rekap Per Unit';
                 } else if (selectedTab === 'rekap-per-indikator-tab') {
                     exportForm.action = "{{ route('rekap_audit_indikator.export') }}";
                     exportButton.classList.remove('btn-primary');
                     exportButton.classList.add('btn-primary');
-                    exportButton.innerHTML = '<i class="ti ti-download"></i> Export Rekap Per Indikator';
+                    exportButton.innerHTML = '<i class="ti ti-download"></i> Unduh Rekap Per Indikator';
                 }
             });
         });

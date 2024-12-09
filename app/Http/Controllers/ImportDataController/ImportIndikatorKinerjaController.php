@@ -67,8 +67,6 @@ class ImportIndikatorKinerjaController extends Controller
                     TransaksiData::create([
                         'indikator_kinerja_unit_kerja_id' => $indikator->indikator_kinerja_unit_kerja_id,
                         'jadwal_ami_id' => $periodeTerbuka->jadwal_ami_id,
-                        'status_pengisian_audite' => null,
-                        'status_verifikasi_auditor' => null,
                         'realisasi_ikuk' => null,
                         'analisis_usulan_keberhasilan' => null,
                         'target_lama' => null,
@@ -81,6 +79,9 @@ class ImportIndikatorKinerjaController extends Controller
                         'tindak_lanjut' => null,
                         'status' => 'Belum Diisi',
                         'data_dukung' => null,
+                        'status_pengisian_audite' => false, 
+                        'status_finalisasi_audite' => false, 
+                        'status_finalisasi_auditor' => false, 
                     ]);
                 }
             }

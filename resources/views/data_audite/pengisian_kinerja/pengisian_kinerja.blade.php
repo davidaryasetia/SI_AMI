@@ -84,6 +84,7 @@
             word-wrap: break-word;
             line-height: 1.4;
             text-align: left;
+            color: black;
         }
 
         /* Responsive Table */

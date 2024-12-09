@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\DataAmiController\AuditorController;
 use App\Http\Controllers\DataAmiController\DataIndikatorController;
 use App\Http\Controllers\DataAmiController\DataUnitController;
+use App\Http\Controllers\DataAmiController\ExportProgresAuditController;
 use App\Http\Controllers\DataAmiController\ExportRekapAuditController;
 use App\Http\Controllers\DataAmiController\ExportRiwayatController;
 use App\Http\Controllers\DataAmiController\HomeController;
@@ -20,6 +21,7 @@ use App\Http\Controllers\DataAuditeController\PersetujuanController;
 use App\Http\Controllers\DataAuditeController\RekapCapaianController;
 use App\Http\Controllers\DataAuditeController\RiwayatAuditeController;
 use App\Http\Controllers\DataAuditeController\ExportRiwayatAuditeController;
+
 use App\Http\Controllers\DataAuditorController\PengisianKinerjaAuditorController;
 use App\Http\Controllers\DataAuditorController\RekapPersetujuanAuditorController;
 use App\Http\Controllers\HomeController\HomeAuditeController;
@@ -107,7 +109,8 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/daftar_auditor', AuditorController::class);
         Route::resource('/periode_audit', PeriodeAuditController::class);
         Route::post('/periode_audit/close/{id}', [PeriodeAuditController::class, 'close'])->name('periode_audit.close');
-        Route::resource('/progres_audit', ProgresAuditController::class);
+        Route::get('/progres_audit', [ProgresAuditController::class, 'index'])->name('progres_audit.index');
+        Route::get('/progres_audit/export', [ExportProgresAuditController::class, 'export'])->name('progres_audit.export');
         Route::get('/rekap_audit', [RekapAuditController::class, 'index'])->name('rekap_audit.index ');
         Route::get('/rekap_audit_unit/export', [ExportRekapAuditController::class, 'exportRekapPerUnit'])->name('rekap_audit_unit.export');
         Route::get('/rekap_audit_indikator/export', [ExportRekapAuditController::class, 'exportRekapPerIndikator'])->name('rekap_audit_indikator.export');

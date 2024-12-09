@@ -37,8 +37,6 @@ return new class extends Migration
 
             $table->string('riwayat_nama_unit')->nullable();
             $table->string('hasil_audit')->nullable();
-            $table->boolean('status_pengisian_audite')->nullable();
-            $table->boolean('status_verifikasi_auditor')->nullable();
             $table->string('realisasi_ikuk')->nullable();
             $table->longText('analisis_usulan_keberhasilan')->nullable();
             $table->longText('target_lama')->nullable();
@@ -49,7 +47,6 @@ return new class extends Migration
             $table->longText('faktor_penghambat')->nullable();
             $table->longText('akar_masalah')->nullable();
             $table->longText('tindak_lanjut')->nullable();
-            $table->longText('status')->nullable();
             $table->text('data_dukung')->nullable();
             $table->timestamps();
         });
