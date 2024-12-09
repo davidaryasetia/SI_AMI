@@ -17,7 +17,7 @@ class ProgresAuditController extends Controller
         $jadwalPeriode = PeriodePelaksanaan::orderBy('tanggal_pembukaan_ami', 'desc')->get();
 
         // Jika tidak ada jadwal sama sekali dalam database
-        if ($jadwalPeriode->isEmpty()) {
+        if (!$jadwalPeriode) {
             return redirect()->route('progres_audit.index')->with('error', 'Tidak ada jadwal AMI yang tersedia.');
         }
 
