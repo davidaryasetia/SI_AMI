@@ -221,12 +221,12 @@
                     <!-- Modal -->
                     <div class="modal fade" id="modalDetail" tabindex="-1" aria-labelledby="modalDetailLabel"
                         aria-hidden="true">
-                        <div class="modal-dialog modal-xl">
+                        <div class="modal-dialog modal-xl modal-dialog-scrollable">
                             <div class="modal-content">
-                                <div class="modal-header">
+                                <div class="modal-header bg-primary text-white" style="color: white; font-weight: bold">
                                     <div class="d-flex align-items-center">
                                         <h5 class="modal-title" id="modalDetailLabel"
-                                            style="color: black; font-weight: 500">
+                                            style="color: white; font-weight: 500">
                                             Data Detail Indikator Kinerja Unit Kerja
                                         </h5>
 

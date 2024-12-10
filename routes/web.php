@@ -17,6 +17,7 @@ use App\Http\Controllers\DataAmiController\ProgresAuditController;
 use App\Http\Controllers\DataAmiController\RekapAuditController;
 use App\Http\Controllers\DataAmiController\RiwayatController;
 use App\Http\Controllers\DataAuditeController\PengisianKinerjaController;
+use App\Http\Controllers\DataAuditeController\PersetujuanAuditeController;
 use App\Http\Controllers\DataAuditeController\PersetujuanController;
 use App\Http\Controllers\DataAuditeController\RekapCapaianController;
 use App\Http\Controllers\DataAuditeController\RiwayatAuditeController;
@@ -85,7 +86,8 @@ Route::middleware(['auth', 'role:auditor'])->group(function () {
 Route::middleware(['auth', 'role:audite'])->group(function () {
     Route::get('/home/audite', [HomeAuditeController::class, 'HomeAudite'])->name('home.audite');
     Route::resource('/pengisian_kinerja', PengisianKinerjaController::class);
-    Route::resource('/persetujuan', PersetujuanController::class);
+    Route::get('/persetujuan', [PersetujuanAuditeController::class, 'index']);
+    Route::post('/finalisasi-audite', [PersetujuanAuditeController::class, 'finalisasi'])->name('finalisasi_audite.finalisasi');
     Route::get('/riwayat_audite', [RiwayatAuditeController::class, 'index'])->name('riwayat_audite.index');
     Route::get('/riwayat_audite/export', [ExportRiwayatAuditeController::class, 'exportRiwayatAudite'])->name('riwayat_audite.export');
 

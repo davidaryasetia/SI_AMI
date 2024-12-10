@@ -42,17 +42,21 @@ class ProgresAuditController extends Controller
                 $filledIndikator = $unit->indikator_ikuk->filter(function ($indikator) {
                     return $indikator->transaksiDataIkuk->where('status_pengisian_audite', true)->count() > 0;
                 })->count();
-        
+
                 $persentase = $totalIndikator > 0 ? round(($filledIndikator / $totalIndikator) * 100, 2) : 0;
-        
+
                 $statusFinalisasiAuditor1 = $unit->indikator_ikuk->isNotEmpty() && $unit->indikator_ikuk->every(function ($indikator) {
                     return $indikator->transaksiDataIkuk->where('status_finalisasi_auditor1', true)->count() > 0;
                 });
-        
+
                 $statusFinalisasiAuditor2 = $unit->indikator_ikuk->isNotEmpty() && $unit->indikator_ikuk->every(function ($indikator) {
                     return $indikator->transaksiDataIkuk->where('status_finalisasi_auditor2', true)->count() > 0;
                 });
-        
+
+                $statusFinalisasiAudite = $unit->indikator_ikuk->isNotEmpty() && $unit->indikator_ikuk->every(function ($indikator) {
+                    return $indikator->transaksiDataIkuk->where('status_finalisasi_audite', true)->count() > 0;
+                });
+
                 return [
                     'nama_unit' => $unit->nama_unit,
                     'audite' => $unit->audite[0]['user_audite']['nama'] ?? null,
@@ -61,6 +65,7 @@ class ProgresAuditController extends Controller
                     'persentase_audite' => $persentase,
                     'totalIndikator' => $totalIndikator,
                     'filledIndikator' => $filledIndikator,
+                    'status_finalisasi_audite' => $statusFinalisasiAudite, 
                     'status_finalisasi_auditor1' => $statusFinalisasiAuditor1,
                     'status_finalisasi_auditor2' => $statusFinalisasiAuditor2,
                 ];
@@ -68,7 +73,7 @@ class ProgresAuditController extends Controller
 
             $totalPersentaseAudite = $dataPengisian->sum('persentase_audite');
             $jumlahUnit = $dataPengisian->count();
-    
+
             // Rata-rata persentase pengisian semua unit
             $rataPersentasePengisian = $jumlahUnit > 0 ? round($totalPersentaseAudite / $jumlahUnit, 1) : 0;
         } else {
@@ -77,12 +82,13 @@ class ProgresAuditController extends Controller
         }
 
         // dump($dataPengisian->toArray());
+        // dump($dataIndikator->toArray());
         // Kembalikan view dengan data
         return view('data_ami.progres_audit.progres', data: [
             'dataPengisian' => $dataPengisian,
             'jadwalPeriode' => $jadwalPeriode,
             'jadwalAmiId' => $jadwalAmiId,
-            'rataPersentasePengisian' => $rataPersentasePengisian, 
+            'rataPersentasePengisian' => $rataPersentasePengisian,
         ]);
     }
 }

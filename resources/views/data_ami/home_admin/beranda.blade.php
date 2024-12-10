@@ -37,10 +37,13 @@
                                             <h6 class="fw-semibold mb-0">Unit/Kegiatan</h6>
                                         </th>
                                         <th class="border-bottom-0">
-                                            <h6 class="fw-semibold mb-0">Status Verifikasi Audite</h6>
+                                            <h6 class="fw-semibold mb-0">Status Finalisasi Audite</h6>
                                         </th>
                                         <th class="border-bottom-0">
-                                            <h6 class="fw-semibold mb-0">Status Verifikasi Auditor</h6>
+                                            <h6 class="fw-semibold mb-0">Status Verifikasi Auditor 1</h6>
+                                        </th>
+                                        <th class="border-bottom-0">
+                                            <h6 class="fw-semibold mb-0">Status Verifikasi Auditor 2</h6>
                                         </th>
 
                                     </tr>
@@ -60,6 +63,11 @@
                                                         </li>
                                                     @endforeach
                                                 </ul>
+                                            </td>
+                                            <td colspan="1" class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0"><span class="badge bg-warning text-dark"
+                                                        style="font-weight: bold">Dalam
+                                                        Proses</span></h6>
                                             </td>
                                             <td colspan="1" class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0"><span class="badge bg-warning text-dark"
@@ -153,6 +161,9 @@
 
                 columns: [{
                         width: '32px'
+                    },
+                    {
+                        width: '12px'
                     },
                     {
                         width: '12px'

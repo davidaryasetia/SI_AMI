@@ -62,27 +62,37 @@
                                         <th>No</th>
                                         <th>Unit</th>
                                         <th>Status Auditor</th>
-                                        <th>Status</th>
+                                        <th>Persentase Pengisian Audite</th>
+                                        <th>Status Pengisian Audite</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php $nomer = 1; ?>
-                                    @foreach (session('auditor') as $auditor)
+                                    @foreach ($dataTransaksi as $data)
                                         <tr>
                                             <td>{{ $nomer++ }}</td>
-                                            <td>{{ $auditor['units']['nama_unit'] }}</td>
+                                            <td>{{ $data['nama_unit'] }}</td>
                                             <td>
-                                                @if ($auditor['units']['status_auditor'] == 'auditor_1')
+                                                @if ($data['is_ketua_auditor'] == true && $data['is_anggota_auditor'] == false)
                                                     Ketua Auditor
-                                                @else
+                                                @elseif ($data['is_ketua_auditor'] == false && $data['is_anggota_auditor'] == true)
                                                     Anggota Auditor
+                                                @else
+                                                    <span style="color: red">Data Belum Di Set !!!</span>
                                                 @endif
                                             </td>
-                                            <td><span class="badge bg-warning text-dark" style="font-weight: bold">Dalam
-                                                    Proses</span></td>
+                                            <td>
+                                                {{ $data['persentase'] }}%
+                                            </td>
+                                            <td>
+                                                @if ($data['statusFinalisasiAudite'] == true)
+                                                    <span class="badge bg-success text-dark" style="font-weight: bold">Sudah Finalisasi</span>
+                                                @else
+                                                    <span class="badge bg-warning text-dark" style="font-weight: bold">Belum Finalisasi   </span>
+                                                @endif
+                                            </td>
                                         </tr>
                                     @endforeach
-
                                     <!-- Tambahkan data sesuai kebutuhan -->
                                 </tbody>
                             </table>
@@ -103,7 +113,7 @@
                                 <li class="list-group-item">Tahun:
                                     <strong>{{ \Carbon\Carbon::parse($current_periode->tanggal_pembukaan_ami)->translatedFormat('Y') }}</strong>
                                 </li>
-                                
+
                                 <li class="list-group-item">Jumlah Unit Diaudit:
                                     <strong>{{ count(session('auditor')) }}</strong>
                                 </li>

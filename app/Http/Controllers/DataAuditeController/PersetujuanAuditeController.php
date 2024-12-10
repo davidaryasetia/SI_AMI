@@ -1,26 +1,26 @@
 <?php
 
-namespace App\Http\Controllers\HomeController;
+namespace App\Http\Controllers\DataAuditeController;
 
 use App\Http\Controllers\Controller;
 use App\Models\Auditor;
 use App\Models\PeriodePelaksanaan;
+use App\Models\TransaksiData;
 use App\Models\Unit;
 use App\Models\User;
+use Auth;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class HomeAuditeController extends Controller
+class PersetujuanAuditeController extends Controller
 {
-    public function HomeAudite()
+    public function index()
     {
-        // Mendapatkan unit_id dari session audite
+        $date = Carbon::now()->format('d F Y');
         $unitId = session('audite.unit.unit_id');
+        $nama_audite = Auth::user()->nama;
         $nama_unit = session('audite.unit.nama_unit');
 
-        $auditor1 = null;
-        $auditor2 = null;
-
-        // Mendapatkan data Auditor
         $auditorData = Auditor::where('unit_id', $unitId)->first();
         if ($auditorData) {
             $auditor_1 = User::find($auditorData->auditor_1);
@@ -30,44 +30,33 @@ class HomeAuditeController extends Controller
             $auditor2 = $auditor_2 ? $auditor_2->nama : 'Auditor 2 Belum di set!';
         }
 
-        // Mendapatkan data Jadwal Pelaksanaan yang sedang berjalan terakhir
         $currentPeriode = PeriodePelaksanaan::where('status', 'Sedang Berjalan')
             ->orderBy('tanggal_pembukaan_ami', 'desc')
             ->first();
 
-        // Jika tidak ada periode berjalan, ambil periode terakhir (jika ada)
         if (!$currentPeriode) {
             $currentPeriode = PeriodePelaksanaan::orderBy('tanggal_pembukaan_ami', 'desc')->first();
         }
-
         // Jika tidak ada periode sama sekali, set data default
         $jadwalAmiId = $currentPeriode ? $currentPeriode->jadwal_ami_id : null;
 
         if (!$jadwalAmiId) {
-            // Jika tidak ada jadwal, tetap kembalikan view dengan data kosong
-            return view('data_audite.home_audite.beranda', [
-                'title' => 'Audite',
+            return view('data_audite.persetujuan.persetujuan', [
                 'current_periode' => '',
+                'audite' => [
+                    'nama' => $nama_audite, 
+                    ''
+                ], 
                 'auditor1' => [
                     'nama' => $auditor1,
                     'status' => 'Ketua Auditor',
-                    'status_finalisasi' => 'Belum Finalisasi',
+                    'status_finalisasi' => 'Belum Finalisasi'
                 ],
                 'auditor2' => [
                     'nama' => $auditor2,
                     'status' => 'Anggota Auditor',
                     'status_finalisasi' => 'Belum Finalisasi',
                 ],
-                'melampauiTarget' => 0,
-                'memenuhi' => 0,
-                'belumMemenuhi' => 0,
-                'totalCapaian' => 0,
-                'persentaseMelampaui' => 0,
-                'persentaseMemenuhi' => 0,
-                'persentaseBelumMemenuhi' => 0,
-                'persentase_audite' => 0,
-                'totalIndikator' => 0,
-                'filledIndikator' => 0,
             ]);
         }
 
@@ -85,6 +74,12 @@ class HomeAuditeController extends Controller
             return view('data_audite.home_audite.beranda', [
                 'title' => 'Audite',
                 'current_periode' => $currentPeriode,
+                'audite' => [
+                    'nama' => $nama_audite, 
+                    'nama_unit' => $nama_unit, 
+                    'status' => 'audite', 
+                    'status_finalisasi' => false,
+                ], 
                 'auditor1' => [
                     'nama' => $auditor1,
                     'status' => 'Ketua Auditor',
@@ -95,27 +90,8 @@ class HomeAuditeController extends Controller
                     'status' => 'Anggota Auditor',
                     'status_finalisasi' => false ,
                 ],
-                'melampauiTarget' => 0,
-                'memenuhi' => 0,
-                'belumMemenuhi' => 0,
-                'totalCapaian' => 0,
-                'persentaseMelampaui' => 0,
-                'persentaseMemenuhi' => 0,
-                'persentaseBelumMemenuhi' => 0,
-                'persentase_audite' => 0,
-                'totalIndikator' => 0,
-                'filledIndikator' => 0,
             ]);
         }
-
-
-        // Hitung persentase pengisian dan status finalisasi
-        $totalIndikator = $dataUnit->indikator_ikuk->count();
-        $filledIndikator = $dataUnit->indikator_ikuk->filter(function ($indikator) {
-            return $indikator->transaksiDataIkuk->where('status_pengisian_audite', true)->count() > 0;
-        })->count();
-
-        $persentase = $totalIndikator > 0 ? round(($filledIndikator / $totalIndikator) * 100, 2) : 0;
 
         // Status Finalisasi Audite, Auditor1, dan Auditor2
         $statusFinalisasiAuditor1 = $dataUnit->indikator_ikuk->isNotEmpty() && $dataUnit->indikator_ikuk->every(function ($indikator) {
@@ -130,33 +106,15 @@ class HomeAuditeController extends Controller
             return $indikator->transaksiDataIkuk->where('status_finalisasi_audite', true)->count() > 0;
         });
 
-        // Inisialisasi variabel untuk menghitung capaian
-        $melampauiTarget = 0;
-        $memenuhi = 0;
-        $belumMemenuhi = 0;
-
-        foreach ($dataUnit->indikator_ikuk as $indikator) {
-            foreach ($indikator->transaksiDataIkuk as $transaksi) {
-                if ($transaksi->realisasi_ikuk > $indikator->target_ikuk) {
-                    $melampauiTarget++;
-                } elseif ($transaksi->realisasi_ikuk == $indikator->target_ikuk) {
-                    $memenuhi++;
-                } else {
-                    $belumMemenuhi++;
-                }
-            }
-        }
-        // dump($statusFinalisasiAudite);
-
-        // Hitung total capaian dan persentase
-        $totalCapaian = $melampauiTarget + $memenuhi + $belumMemenuhi;
-        $persentaseMelampaui = $totalCapaian > 0 ? round(($melampauiTarget / $totalCapaian) * 100, 2) : 0;
-        $persentaseMemenuhi = $totalCapaian > 0 ? round(($memenuhi / $totalCapaian) * 100, 2) : 0;
-        $persentaseBelumMemenuhi = $totalCapaian > 0 ? round(($belumMemenuhi / $totalCapaian) * 100, 2) : 0;
-        // dump($persentase);
-        return view('data_audite.home_audite.beranda', [
-            'title' => 'Audite',
-            'current_periode' => $currentPeriode,
+        return view('data_audite.persetujuan.persetujuan', [
+            'title' => 'persetujuan',
+            'date' => $date,
+            'audite' => [
+                'nama' => $nama_audite, 
+                'nama_unit' => $nama_unit, 
+                'status' => 'audite', 
+                'status_finalisasi' => $statusFinalisasiAudite ? true : false, 
+            ], 
             'auditor1' => [
                 'nama' => $auditor1,
                 'status' => 'Ketua Auditor',
@@ -169,18 +127,33 @@ class HomeAuditeController extends Controller
             ],
             'statusFinalisasiAudite' => $statusFinalisasiAudite, 
             
-            'melampauiTarget' => $melampauiTarget,
-            'memenuhi' => $memenuhi,
-            'belumMemenuhi' => $belumMemenuhi,
-            'totalCapaian' => $totalCapaian,
-            'persentaseMelampaui' => $persentaseMelampaui,
-            'persentaseMemenuhi' => $persentaseMemenuhi,
-            'persentaseBelumMemenuhi' => $persentaseBelumMemenuhi,
-            'persentase_audite' => $persentase,
-            'totalIndikator' => $totalIndikator,
-            'filledIndikator' => $filledIndikator,
         ]);
     }
 
+    public function finalisasi(Request $request)
+    {
+        $unitId = session('audite.unit.unit_id'); // Mengambil unit_id dari session
+        $periodeTerbaru = PeriodePelaksanaan::where('status', 'Sedang Berjalan')
+            ->orderBy('tanggal_pembukaan_ami', 'desc')
+            ->first();
 
+        if (!$periodeTerbaru) {
+            return redirect()->back()->with('error', 'Tidak ada periode pelaksanaan yang aktif untuk finalisasi.');
+        }
+
+        $jadwalAmiId = $periodeTerbaru->jadwal_ami_id;
+
+        // Finalisasi semua transaksi yang terkait
+        $updated = TransaksiData::whereHas('indikator_ikuk', function ($query) use ($unitId) {
+            $query->where('unit_id', $unitId);
+        })
+            ->where('jadwal_ami_id', $jadwalAmiId)
+            ->update(['status_finalisasi_audite' => true]);
+
+        if ($updated > 0) {
+            return redirect()->back()->with('success', 'Finalisasi berhasil dilakukan. Semua data telah terkunci.');
+        } else {
+            return redirect()->back()->with('error', 'Tidak ada data yang bisa difinalisasi.');
+        }
+    }
 }

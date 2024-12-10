@@ -25,7 +25,7 @@ class AuthController extends Controller
         if ($user && Hash::check($request->password, $user->password)) {
             // Login user
             Auth::login($user);
-
+            session(['user_id' => $user->user_id]);
             // Tentukan role yang dimiliki user dan simpan di session
             $roles = $user->hasMultipleRoles();
             // dd($roles);

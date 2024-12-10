@@ -1,3 +1,6 @@
+{{-- @dump($auditor1)
+@dump($auditor2)
+@dump($statusFinalisasiAudite) --}}
 @extends('layouts.main')
 @section('title', 'Home Audite')
 @push('css')
@@ -89,34 +92,29 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- Contoh Data -->
-                                    <tr>
-                                        <td>1</td>
-                                        <td>
-                                            @if ($auditor1 == null)
-                                                <span style="color: red">Auditor 1 Belum di set</span>
-                                            @else
-                                                {{ $auditor1 }}
-                                            @endif
-                                        </td>
-                                        <td>Ketua Auditor</td>
-                                        <td><span class="badge bg-warning text-dark" style="font-weight: bold">Dalam
-                                                Proses</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>
-                                            @if ($auditor2 == null)
-                                                <span style="color: red">Auditor 2 Belum Di Set</span>
-                                            @else
-                                                {{ $auditor2 }}
-                                            @endif
-                                        </td>
-                                        <td>Anggota Auditor</td>
-                                        <td><span class="badge bg-warning text-dark" style="font-weight: bold">Dalam
-                                                Proses</span></td>
-                                    </tr>
-                                    <!-- Tambahkan data sesuai kebutuhan -->
+                                    @php $auditors = [$auditor1, $auditor2]; @endphp
+                                    @forelse ($auditors as $index => $auditor)
+                                        <tr>
+                                            <td>{{ $index + 1 }}</td>
+                                            <td>{{ $auditor['nama'] ?? 'Belum diatur' }}</td>
+                                            <td>{{ $auditor['status'] ?? 'N/A' }}</td>
+                                            <td>
+                                                @if ($auditor['status_finalisasi'] == true)
+                                                    <span class="badge bg-success text-dark" style="font-weight:bold">
+                                                        Sudah Finalisasi
+                                                    </span>
+                                                @else
+                                                    <span class="badge bg-warning text-dark" style="font-weight: bold">
+                                                        Belum Finalisasi
+                                                    </span>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="4" class="text-center">Data Auditor Tidak Tersedia</td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>

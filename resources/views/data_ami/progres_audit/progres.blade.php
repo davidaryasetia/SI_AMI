@@ -39,6 +39,15 @@
             white-space: nowrap;
             z-index: 10;
         }
+        .text-success{
+            font-size: 18px;
+            padding-left: 4px;
+        }
+        .text-danger{
+            font-size: 16px;
+            padding-left: 4px;
+            color: red !important;
+        }
     </style>
 @endpush
 
@@ -158,6 +167,9 @@
                                         <td>{{ $data['nama_unit'] }}</td>
                                         <td>
                                             {!! $data['audite'] ? $data['audite'] : '<span class="text-danger">User Audite Belum di set!</span>' !!}
+                                            {!! $data['status_finalisasi_audite']
+                                                ? '<span class="text-success">✔</span>'
+                                                : '<span class="text-danger">✖</span>' !!}
                                         </td>
                                         <td>{{ $data['persentase_audite'] }}%</td>
                                         <td>

@@ -1,3 +1,7 @@
+{{-- @dump($audite) --}}
+{{-- @dump($auditor1) --}}
+{{-- @dump($auditor2) --}}
+
 @extends('layouts.main')
 @section('title', 'Form Persetujuan')
 @push('css')
@@ -39,12 +43,14 @@
 
         .signature-icon {
             font-size: 40px;
-            color: #f03e3e; /* Warna lebih kalem */
+            color: #f03e3e;
+            /* Warna lebih kalem */
         }
 
         .signature-approved {
             font-size: 40px;
-            color: #38c172; /* Warna hijau lebih soft */
+            color: #38c172;
+            /* Warna hijau lebih soft */
         }
 
         .signature-text {
@@ -80,6 +86,18 @@
             background-color: #0056b3;
         }
 
+        .disabled-btn {
+            background-color: #d6d6d6;
+            /* Warna abu-abu */
+            color: #999;
+            /* Warna teks abu-abu */
+            border: 1px solid #ccc;
+            cursor: not-allowed;
+            /* Cursor tidak aktif */
+            pointer-events: none;
+            /* Mencegah interaksi */
+        }
+
         @media (max-width: 768px) {
             .approval-box {
                 width: 90%;
@@ -97,74 +115,100 @@
 @endpush
 
 @section('content')
+
     <div class="container-fluid approval-container">
         <div class="approval-box">
             <h4 class="card-title fw-semibold">Persetujuan Evaluasi Kinerja Unit {{ session('audite.unit.nama_unit') }}</h4>
             <p class="approval-text">
-                “Dengan ini saya menyatakan bahwa data yang telah dimasukkan adalah benar. 
+                “Dengan ini saya menyatakan bahwa data yang telah dimasukkan adalah benar.
                 Proses evaluasi oleh auditor telah dijalankan dan saya menyetujui hasil evaluasi.”
             </p>
-            
+
             <div class="approval-signature">
-                {{-- Signature 1 --}}
+                {{-- Signature Audite --}}
                 <div class="signature-section">
-                    <div class="signature-icon">⭕</div>
-                    <div class="signature-text">Proses</div>
+                    @if ($audite['status_finalisasi'] == true)
+                        <div class="signature-approved">✔️</div>
+                        <div class="signature-text">Sudah Finalisasi</div>
+                    @else
+                        <div class="signature-icon">⭕</div>
+                        <div class="signature-text">Proses</div>
+                    @endif
                     <div class="signature-details">
                         Surabaya, {{ $date }} <br>
-                        Unit {{ session('audite.unit.nama_unit') }}, {{ Auth::user()->nama }}
+                        Unit {{ $audite['nama_unit'] }},
+                        {{ $audite['nama'] }}
                     </div>
                 </div>
-                
-                {{-- Signature 2 --}}
+
+                {{-- Signature Ketua Auditor --}}
                 <div class="signature-section">
-                    <div class="signature-icon">⭕</div>
-                    <div class="signature-text">Proses</div>
+                    @if ($auditor1['status_finalisasi'] == true)
+                        <div class="signature-approved">✔️</div>
+                        <div class="signature-text">Sudah Finalisasi</div>
+                    @else
+                        <div class="signature-icon">⭕</div>
+                        <div class="signature-text">Proses</div>
+                    @endif
                     <div class="signature-details">
                         Surabaya, {{ $date }} <br>
-                        Ketua Auditor, 
-                        @if ($auditor1 == null)
-                            <span style="color: red">Auditor 1 Belum di Set</span>
-                        @else
-                        {{ $auditor1 }}
-                        @endif
+                        Ketua Auditor,
+                        {{ $auditor1['nama'] ?? 'Auditor 1 Belum di Set' }}
                     </div>
                 </div>
-                
-                {{-- Signature 3 --}}
+
+                {{-- Signature Anggota Auditor --}}
                 <div class="signature-section">
-                    <div class="signature-approved">⭕</div>
-                    <div class="signature-text">Proses</div>
+                    @if ($auditor2['status_finalisasi'] == true)
+                        <div class="signature-approved">✔️</div>
+                        <div class="signature-text">Sudah Finalisasi</div>
+                    @else
+                        <div class="signature-icon">⭕</div>
+                        <div class="signature-text">Proses</div>
+                    @endif
                     <div class="signature-details">
                         Surabaya, {{ $date }} <br>
-                        Anggota Auditor, 
-                        @if ($auditor2 == null)
-                            <span style="color: red">Auditor 2 Belum Di Atur</span>
-                        @else
-                        {{ $auditor2 }}
-                            
-                        @endif
+                        Anggota Auditor,
+                        {{ $auditor2['nama'] ?? 'Auditor 2 Belum di Atur' }}
                     </div>
                 </div>
             </div>
+
 
             {{-- Form Section --}}
             <div class="form-section">
-                <form action="" method="POST">
+                <form action="{{ route('finalisasi_audite.finalisasi') }}" method="POST" id="finalisasiForm">
                     @csrf
                     <div class="form-group">
-                        <label for="comment">Komentar (Opsional):</label>
-                        <textarea class="form-control" id="comment" name="comment" rows="3" placeholder="Tambahkan komentar jika perlu"></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <button type="submit" class="btn-submit">Kirim Persetujuan</button>
+                        <button type="submit" class="btn-submit {{ $audite['status_finalisasi'] ? 'disabled-btn' : '' }}"
+                            id="btnSubmit" @if ($audite['status_finalisasi']) disabled @endif>
+                            Kirim Persetujuan
+                        </button>
                     </div>
                 </form>
             </div>
+
+
+
         </div>
     </div>
-@endsection
 
-@push('script')
-@endpush
+    @push('script')
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const form = document.getElementById('finalisasiForm');
+                const btnSubmit = document.getElementById('btnSubmit');
+
+                btnSubmit.addEventListener('click', function(event) {
+                    event.preventDefault(); // Mencegah submit form langsung
+                    const confirmation = confirm(
+                        "Apakah Anda Yakin Akan Melakukan Konfirmasi Finalisasi Pengisian Data Audite Ini? Data yang sudah dikonfirmasi tidak akan bisa di edit."
+                    );
+                    if (confirmation) {
+                        form.submit(); // Submit form jika konfirmasi diterima
+                    }
+                });
+            });
+        </script>
+    @endpush
+@endsection
