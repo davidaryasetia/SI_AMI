@@ -77,7 +77,7 @@ class HomeAuditorController extends Controller
             ];
         });
 
-        dump($dataTransaksi->toArray());
+        // dump($dataTransaksi->toArray());
 
 
 
