@@ -118,7 +118,13 @@
 
     <div class="container-fluid approval-container">
         <div class="approval-box">
-            <h4 class="card-title fw-semibold">Persetujuan Evaluasi Kinerja Unit {{ session('audite.unit.nama_unit') }}</h4>
+            <div class="mb-4">
+                <h4 class="card-title fw-semibold mb-1">Persetujuan Evaluasi Kinerja Unit
+                    {{ session('audite.unit.nama_unit') }}</h4>
+            </div>
+            <div class="mb-4">
+                <img src="{{ asset('assets/images/logos/short-logo.png') }}" alt="" width="164px">
+            </div>
             <p class="approval-text">
                 “Dengan ini saya menyatakan bahwa data yang telah dimasukkan adalah benar.
                 Proses evaluasi oleh auditor telah dijalankan dan saya menyetujui hasil evaluasi.”

@@ -134,6 +134,26 @@
                     </div>
                 </div>
 
+                {{-- Error --}}
+                <div class="d-flex justify-content-end" style="position: absolute; top: 72px;right: 40px; z-index: 1050;">
+                    @if (session('success'))
+                        <div class="alert alert-primary  col-lg-12" role="alert">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                    @if (session('error'))
+                        <div class="alert alert-danger  col-lg-12" role="alert">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+                </div>
+                <script>
+                    setTimeout(function() {
+                        document.querySelectorAll('.alert').forEach(function(alert) {
+                            alert.style.display = "none";
+                        });
+                    }, 3000);
+                </script>
 
                 {{-- Button untuk setiap kode IKUK --}}
                 <div class="d-flex flex-wrap" style="margin-bottom: 8px">
@@ -447,10 +467,11 @@
                                     <!-- Data Dukung -->
                                     <td data-label="Data Dukung"
                                         style="background-color: {{ empty($transaksi['data_dukung']) ? '#d3d3d3' : '' }}">
-                                        <a href="{{ $transaksi['data_dukung'] ?? '' }}" target="_blank">{{ $transaksi['data_dukung'] ?? '' }}</a>
+                                        <a href="{{ $transaksi['data_dukung'] ?? '' }}"
+                                            target="_blank">{{ $transaksi['data_dukung'] ?? '' }}</a>
                                     </td>
                                 </tr>
-                            @endforeach 
+                            @endforeach
                         </tbody>
 
                     </table>

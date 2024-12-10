@@ -123,6 +123,10 @@ class PengisianKinerjaController extends Controller
         // update_data_transaksi
         $transaksi = TransaksiData::findOrFail($id);
 
+        if ($transaksi->status_finalisasi_audite){
+            return redirect()->route('pengisian_kinerja.index')->with('error', 'Data ini telah difinalisasi oleh audite dan tidak dapat diubah');
+        }
+
         $transaksi->update([
             'realisasi_ikuk' => $request->input('realisasi_ikuk'),
             'analisis_usulan_keberhasilan' => $request->input('analisis_usulan_keberhasilan'),

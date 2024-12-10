@@ -11,7 +11,7 @@ class HomeAuditorController extends Controller
 {
     public function HomeAuditor(Request $request)
     {
-        // -------------------------------Logic Untuk Mendapatkan data Oeruide Terbaru-----------------------------------
+        // -------------------------------Logic Untuk Mendapatkan data periode Terbaru-----------------------------------
         $periodeTerbaru = PeriodePelaksanaan::where('status', 'Sedang Berjalan')
             ->orderBy('tanggal_pembukaan_ami', 'desc')
             ->first();
@@ -22,6 +22,8 @@ class HomeAuditorController extends Controller
         }
         // Jika tidak ada periode  sama sekali, set data default
         $jadwalAmiId = $periodeTerbaru ? $periodeTerbaru->jadwal_ami_id : null;
+
+
         // -----------------------------Data Untuk Mendapatkan hasil Unit Yang Di Audit----------------------------------
         $auditorUnits = collect(session('auditor'))->pluck('units.unit_id')->unique();
         $units = Unit::whereIn('unit_id', values: $auditorUnits)->orderBy('unit_id')->get();

@@ -14,10 +14,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $data_unit = Unit::with([
-            'units_cabang:unit_cabang_id,unit_id,nama_unit_cabang'
-        ])->get();
-
         // Ambil periode yang sedang berjalan 
         $currentPeriode = PeriodePelaksanaan::where('status', 'Sedang Berjalan')
             ->orderBy('tanggal_pembukaan_ami', 'desc')
@@ -38,7 +34,8 @@ class HomeController extends Controller
             'indikator_ikuk.transaksiDataIkuk' => function ($query) use ($jadwalAmiId) {
                 $query->where('jadwal_ami_id', $jadwalAmiId);
             },
-        ])->get();
+        ])
+        ->get();
 
         // Hitung persentase pengisian untuk setiap unit
         $dataPengisian = collect(); // Default sebagai collection kosong
@@ -76,7 +73,7 @@ class HomeController extends Controller
                 ];
             });
 
-         
+
         } else {
             $dataPengisian = collect();
         }
@@ -85,8 +82,8 @@ class HomeController extends Controller
         // dump($data_unit->toArray());
         return view('data_ami.home_admin.beranda', [
             'title' => 'Home',
-            'data_unit' => $data_unit,
             'current_periode' => $currentPeriode,
+            'dataPengisian' => $dataPengisian,
         ]);
     }
     /**

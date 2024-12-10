@@ -18,8 +18,6 @@ use App\Http\Controllers\DataAmiController\RekapAuditController;
 use App\Http\Controllers\DataAmiController\RiwayatController;
 use App\Http\Controllers\DataAuditeController\PengisianKinerjaController;
 use App\Http\Controllers\DataAuditeController\PersetujuanAuditeController;
-use App\Http\Controllers\DataAuditeController\PersetujuanController;
-use App\Http\Controllers\DataAuditeController\RekapCapaianController;
 use App\Http\Controllers\DataAuditeController\RiwayatAuditeController;
 use App\Http\Controllers\DataAuditeController\ExportRiwayatAuditeController;
 
@@ -80,7 +78,8 @@ Route::middleware(['auth', 'role:auditor'])->group(function () {
     Route::get('/home/auditor', [HomeAuditorController::class, 'HomeAuditor']);
     Route::resource('/pengisian_kinerja_auditor', PengisianKinerjaAuditorController::class);
     Route::get('/pengisian_kinerja_auditor', [PengisianKinerjaAuditorController::class, 'index'])->name('data_indikator_auditor.index');
-    Route::resource('/rekap_persetujuan_auditor', RekapPersetujuanAuditorController::class);
+    Route::get('/rekap_persetujuan_auditor', [RekapPersetujuanAuditorController::class, 'index']);
+    Route::post('/rekap_persetujuan_auditor/finalisasi', [RekapPersetujuanAuditorController::class, 'finalisasiAuditor'])->name('rekap_persetujuan_auditor.finalisasi');
 });
 
 Route::middleware(['auth', 'role:audite'])->group(function () {

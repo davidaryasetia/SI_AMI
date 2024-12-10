@@ -18,6 +18,14 @@
             text-align: center;
             /* Atur posisi teks */
         }
+
+        #table_status td {
+            white-space: normal;
+            word-wrap: break-word;
+            line-height: 1.4;
+            text-align: left;
+            color: black;
+        }
     </style>
 @endpush
 
@@ -25,7 +33,7 @@
     <div>
         <!--  Row 1 -->
         <div class="row">
-            <div class="col-lg-8 d-flex align-items-stretch">
+            <div class="col-lg-9 d-flex align-items-stretch">
                 <div class="card w-100">
                     <div class="card-body p-4">
                         <h5 class="card-title fw-semibold">Status Pengisian Data Audit Mutu Internal</h5>
@@ -33,6 +41,9 @@
                             <table id="table_status" class="table table-hover table-bordered text-nowrap mb-0 align-middle">
                                 <thead class="text-dark fs-4 table-light">
                                     <tr>
+                                        <th class="border-bottom-0">
+                                            <h6 class="fw-semibold mb-0">No</h6>
+                                        </th>
                                         <th class="border-bottom-0">
                                             <h6 class="fw-semibold mb-0">Unit/Kegiatan</h6>
                                         </th>
@@ -49,35 +60,37 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($data_unit as $status)
+                                    <?php $nomor = 1; ?>
+                                    @foreach ($dataPengisian as $data)
                                         <tr>
-                                            <td colspan="1" class="border-bottom-0">
-                                                <div class="mb-3">
-                                                    <h6 class="fw-semibold mb-0">{{ $status->nama_unit }}</h6>
-                                                </div>
-                                                <ul class="unit-list fw-medium">
-                                                    @php $nomor = 1; @endphp
-                                                    @foreach ($status->units_cabang as $unitCabang)
-                                                        <li class="mb-2">
-                                                            {{ $nomor++ }}) {{ $unitCabang->nama_unit_cabang }}
-                                                        </li>
-                                                    @endforeach
-                                                </ul>
+                                            <td>{{ $nomor++ }}</td>
+                                            <td>{{ $data['nama_unit'] }}</td>
+                                            <td class="text-center">
+                                                @if ($data['status_finalisasi_audite'] == true)
+                                                    <span class="badge bg-success text-dark">Data
+                                                        Difinalisasi</span>
+                                                @else
+                                                    <span class="badge bg-warning text-dark">Dalam
+                                                        Proses</span>
+                                                @endif
                                             </td>
-                                            <td colspan="1" class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0"><span class="badge bg-warning text-dark"
-                                                        style="font-weight: bold">Dalam
-                                                        Proses</span></h6>
+                                            <td class="text-center">
+                                                @if ($data['status_finalisasi_auditor1'] == true)
+                                                    <span class="badge bg-success text-dark">Data
+                                                        Difinalisasi</span>
+                                                @else
+                                                    <span class="badge bg-warning text-dark">Dalam
+                                                        Proses</span>
+                                                @endif
                                             </td>
-                                            <td colspan="1" class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0"><span class="badge bg-warning text-dark"
-                                                        style="font-weight: bold">Dalam
-                                                        Proses</span></h6>
-                                            </td>
-                                            <td colspan="1" class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0"><span class="badge bg-warning text-dark"
-                                                        style="font-weight: bold">Dalam
-                                                        Proses</span></h6>
+                                            <td class="text-center">
+                                                @if ($data['status_finalisasi_auditor2'] == true)
+                                                    <span class="badge bg-success text-dark">Data
+                                                        Difinalisasi</span>
+                                                @else
+                                                    <span class="badge bg-warning text-dark">Dalam
+                                                        Proses</span>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
@@ -88,7 +101,7 @@
                 </div>
             </div>
             <!-- Informasi Jadwal -->
-            <div class="col-lg-4 mb-4">
+            <div class="col-lg-3 mb-4">
                 <div class="card shadow-sm">
                     <div class="card-header text-white">
                         <h5 class="card-title mb-0">Informasi Jadwal AMI</h5>
@@ -160,6 +173,9 @@
                 ],
 
                 columns: [{
+                        width: '10px'
+                    },
+                    {
                         width: '32px'
                     },
                     {

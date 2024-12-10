@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('title', 'Rekap Persetujuan Auditor')
-@push('css')    
+@push('css')
     <style>
         .header-title {
             font-size: 1.5rem;
@@ -28,7 +28,6 @@
         .table th,
         .table td {
             border: 1px solid #ddd;
-            padding: 10px;
             text-align: center;
             vertical-align: middle;
         }
@@ -100,6 +99,26 @@
             color: red;
             font-size: 1.5rem;
         }
+
+        . .btn[disabled] {
+            background-color: grey;
+            border-color: grey;
+            color: white;
+            cursor: not-allowed;
+            /* Pointer berubah menjadi tanda larangan */
+        }
+
+        /* Tombol aktif */
+        .btn.btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
+            color: white;
+        }
+
+        .btn.btn-success:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
     </style>
 @endpush
 
@@ -110,31 +129,70 @@
                 {{-- Header --}}
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <div>
-                        <h5 style="color: black">Sistem Informasi Audit Mutu Internal</h5>
-                        <p style="color: black">Pengisian evaluasi unit : <span id="unit-name-display"></span></p>
+                        <h5 style="color: black">Rekap Evaluasi Audit dan Persetujuan Unit</h5>
                     </div>
                 </div>
                 {{-- End Header --}}
 
                 {{-- Table Content --}}
                 <div class="table-responsive">
-                    <table class="table">
-                        <thead>
+                    <table class="table table-bordered table-hover" id="persetujuanAuditor">
+                        <thead class="table-light">
                             <tr>
-                                <th>No.</th>
-                                <th>Unit</th>
-                                <th>Progres Evaluasi</th>
-                                <th>Persetujuan Auditor</th>
+                                <th class="border-bottom-0 text-center">
+                                    <h6 class="fw-semibold mb-0">No</h6>
+                                </th>
+                                <th class="border-bottom-0 text-center">
+                                    <h6 class="fw-semibold mb-0">Unit</h6>
+                                </th>
+                                <th class="border-bottom-0 text-center">
+                                    <h6 class="fw-semibold mb-0">Status Auditor</h6>
+                                </th>
+                                <th class="border-bottom-0 text-center">
+                                    <h6 class="fw-semibold mb-0">Progres Pengisian Audite</h6>
+                                </th>
+                                <th class="border-bottom-0 text-center">
+                                    <h6 class="fw-semibold mb-0">Persetujuan Auditor</h6>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php $no = 1; ?>
-                            @foreach (session('auditor') as $auditor)
+                            @foreach ($dataTransaksi as $data)
                                 <tr>
-                                    <td>{{ $no++ }}</td>
-                                    <td>{{ $auditor['units']['nama_unit'] }}</td>
-                                    <td>-</td>
-                                    <td><span class="icon-cross"><i class="ti ti-x"></i></span></td>
+                                    <td class="text-center">{{ $no++ }}</td>
+                                    <td>{{ $data['nama_unit'] }}</td>
+                                    <td>
+                                        @if ($data['is_ketua_auditor'] == true && $data['is_anggota_auditor'] == false)
+                                            Ketua Auditor
+                                        @elseif ($data['is_ketua_auditor'] == false && $data['is_anggota_auditor'] == true)
+                                            Anggota Aauditor
+                                        @else
+                                            <span style="color: red">Data Belum Di Set!!!</span>
+                                        @endif
+                                    </td>
+                                    <td>{{ $data['persentasePengisianAuditor'] }}%</td>
+                                    <td>
+                                        @if ($data['is_ketua_auditor'] == true && $data['is_anggota_auditor'] == false)
+                                            @if ($data['statusFinalisasiAuditor1'] == false)
+                                                <span class=""><i class="ti ti-circle"
+                                                        style="color: red; font-weight: bold; font-size: 18px"></i></span>
+                                            @elseif ($data['statusFinalisasiAuditor1'] == true)
+                                                <span class="" style=""><i class="ti ti-check text-success"
+                                                        style="font-weight: bold; font-size: 18px"></i></span>
+                                            @endif
+                                        @endif
+
+                                        @if ($data['is_ketua_auditor'] == false && $data['is_anggota_auditor'] == true)
+                                            @if ($data['statusFinalisasiAuditor2'] == false)
+                                                <span class=""><i class="ti ti-circle"
+                                                        style="color: red; font-weight: bold; font-size: 18px"></i></span>
+                                            @elseif ($data['statusFinalisasiAuditor2'] == true)
+                                                <span class=""><i class="ti ti-check text-success"
+                                                        style="font-weight: bold; font-size: 18px"></i></span>
+                                            @endif
+                                        @endif
+                                    </td>
                                 </tr>
                             @endforeach
 
@@ -147,30 +205,34 @@
                 {{-- Approval Content --}}
                 <div class="approval-box">
                     <div class="col-lg-2">
-                        <select id="unit-select" class="form-select text-black bg-primary"
+                        <select id="unit-select" class="form-select text-white bg-primary"
                             style="border-radius: 12px; color: white">
                             <option class="text-white" value="" style="color: white">Pilih Unit Kerja</option>
-                            @foreach (session('auditor') as $auditor)
-                                <option class="text-white" value="{{ $auditor['units']['unit_id'] }}"
-                                    data-unit-name="{{ $auditor['units']['nama_unit'] }}">
-                                    {{ $auditor['units']['nama_unit'] }}
+                            @foreach ($dataTransaksi as $data)
+                                <option class="text-white" value="{{ $data['unit_id'] }}"
+                                    data-unit-name="{{ $data['nama_unit'] }}"
+                                    data-is-ketua-auditor="{{ $data['is_ketua_auditor'] }}"
+                                    data-is-anggota-auditor="{{ $data['is_anggota_auditor'] }}">
+                                    {{ $data['nama_unit'] }}
                                 </option>
                             @endforeach
                         </select>
                     </div>
 
-
                     <div class="d-flex flex-column align-items-center">
                         <p class="approval-text mt-3">
-                            "Dengan ini saya menyatakan bahwa evaluasi telah selesai dilaksanakan dengan benar dan telah
+                            "Dengan ini saya menyatakan bahwa evaluasi terhadap unit <span id="unit-name-placeholder"
+                                style="font-weight: bold;"></span> telah selesai dilaksanakan dengan benar dan telah
                             disepakati bersama dengan auditee."
                         </p>
-                        <p>{{ Auth::user()->nama }}</p>
                         <p class="approval-date">Surabaya, {{ $date }}</p>
+                        <p class="approval-role mb-2" id="auditor-role" style="font-weight: bold"><span ></span></p>
+                        <p>{{ Auth::user()->nama }}</p>
                     </div>
 
-                    <form action="" method="POST">
+                    <form id="approval-form" action="{{ route('rekap_persetujuan_auditor.finalisasi') }}" method="POST">
                         @csrf
+                        <input type="hidden" id="selected-unit-id" name="unit_id">
                         <div class="approval-signature"
                             style="display: flex; justify-content: center; align-items: center; gap: 8px;">
                             <label for="approvalCheck" style="display: flex; align-items: center; gap: 8px;">
@@ -181,10 +243,10 @@
                         </div>
 
                         <div class="mt-3 text-center">
-                            <button type="submit" class="btn btn-success">Submit</button>
+                            <button type="submit" id="submit-button" class="btn btn-success" disabled>Submit</button>
                         </div>
-                    </form>
 
+                    </form>
                 </div>
                 {{-- End Approval Content --}}
 
@@ -193,16 +255,67 @@
     </div>
     @push('script')
         <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const unitSelect = document.getElementById('unit-select');
-                const unitNameDisplay = document.getElementById('unit-name-display'); // Pastikan penamaan ini sesuai
+            $('#persetujuanAuditor').DataTable({
+                responsive: true,
+                scrollX: true,
+                autoWidth: false,
+                "pageLength": 50,
+                "lengthMenu": [
+                    [50, 100],
+                    [50, 100],
+                ],
 
-                unitSelect.addEventListener('change', function() {
+                columns: [{
+                        width: '10px'
+                    },
+                    {
+                        width: '32px'
+                    },
+                    {
+                        width: '12px'
+                    },
+                    {
+                        width: '12px'
+                    },
+                    {
+                        width: '12px'
+                    },
+                ]
+            });
+        </script>
+
+        <script>
+            // JavaScript untuk dropdown dan checkbox handling
+            document.addEventListener("DOMContentLoaded", function() {
+                const unitSelect = document.getElementById("unit-select");
+                const unitNamePlaceholder = document.getElementById("unit-name-placeholder");
+                const approvalCheck = document.getElementById("approvalCheck");
+                const auditorRole = document.getElementById("auditor-role");
+                const submitButton = document.getElementById("submit-button");
+                const hiddenUnitIdInput = document.getElementById("selected-unit-id");
+
+                // Event listener untuk dropdown
+                unitSelect.addEventListener("change", function() {
                     const selectedOption = unitSelect.options[unitSelect.selectedIndex];
-                    const unitName = selectedOption.getAttribute('data-unit-name') || '-';
+                    const unitName = selectedOption.getAttribute("data-unit-name");
+                    const isKetuaAuditor = selectedOption.getAttribute("data-is-ketua-auditor") == true;
+                    const isAnggotaAuditor = selectedOption.getAttribute("data-is-anggota-auditor") == true;
 
-                    // Perbarui teks unit di bagian "Pengisian evaluasi unit"
-                    unitNameDisplay.textContent = unitName;
+                    unitNamePlaceholder.textContent = unitName || "____";
+
+                    if (isKetuaAuditor) {
+                        auditorRole.textContent = "Ketua Auditor,";
+                    } else if (isAnggotaAuditor) {
+                        auditorRole.textContent = "Anggota Auditor,";
+                    } else {
+                        auditorRole.textContent = "Tidak Terdaftar sebagai Auditor";
+                    }
+                    hiddenUnitIdInput.value = selectedOption.value || "";
+                });
+
+                // Event listener untuk checkbox
+                approvalCheck.addEventListener("change", function() {
+                    submitButton.disabled = !approvalCheck.checked;
                 });
             });
         </script>
