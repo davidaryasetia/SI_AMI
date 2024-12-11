@@ -56,6 +56,7 @@ class PengisianKinerjaController extends Controller
                 }
             }
         }
+        // dump($data_indikator->toArray());
 
         $totalKinerja = $melampauiTarget + $memenuhi + $belumMemenuhi;
         // dump($data_indikator->toArray());
@@ -122,14 +123,27 @@ class PengisianKinerjaController extends Controller
 
         // update_data_transaksi
         $transaksi = TransaksiData::findOrFail($id);
-
         if ($transaksi->status_finalisasi_audite){
             return redirect()->route('pengisian_kinerja.index')->with('error', 'Data ini telah difinalisasi oleh audite dan tidak dapat diubah');
+        }
+
+        // Hitung Hasil Audit
+        $realisasiIkuk = $request->input('realisasi_ikuk');
+        $targetIkuk = $request->input('target_ikuk');
+        $hasilAudit = null;
+
+        if ($realisasiIkuk > $targetIkuk){
+            $hasilAudit = 'Melampaui';
+        } elseif ($realisasiIkuk == $targetIkuk){
+            $hasilAudit = 'Memenuhi';
+        } elseif ($realisasiIkuk < $targetIkuk){
+            $hasilAudit = 'Belum Memenuhi';
         }
 
         $transaksi->update([
             'realisasi_ikuk' => $request->input('realisasi_ikuk'),
             'analisis_usulan_keberhasilan' => $request->input('analisis_usulan_keberhasilan'),
+            'hasil_audit' => $hasilAudit, 
             'usulan_target_tahun_depan' => $request->input('usulan_target_tahun_depan'),
             'strategi_pencapaian' => $request->input('strategi_pencapaian'),
             'sarpras_yang_dibutuhkan' => $request->input('sarpras_yang_dibutuhkan'),

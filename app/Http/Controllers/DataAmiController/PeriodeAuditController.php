@@ -60,6 +60,7 @@ class PeriodeAuditController extends Controller
                 TransaksiData::create([
                     'indikator_kinerja_unit_kerja_id' => $indikator->indikator_kinerja_unit_kerja_id,
                     'jadwal_ami_id' => $periode->jadwal_ami_id,
+                    'hasil_audit' => "Belum Memenuhi", 
                     'realisasi_ikuk' => null,
                     'analisis' => null,
                     'target_lama' => null,

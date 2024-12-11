@@ -149,7 +149,7 @@
                                     <h6 class="fw-semibold mb-0">Status Auditor</h6>
                                 </th>
                                 <th class="border-bottom-0 text-center">
-                                    <h6 class="fw-semibold mb-0">Progres Pengisian Audite</h6>
+                                    <h6 class="fw-semibold mb-0">Progres Evaluasi Auditor</h6>
                                 </th>
                                 <th class="border-bottom-0 text-center">
                                     <h6 class="fw-semibold mb-0">Persetujuan Auditor</h6>
@@ -226,7 +226,7 @@
                             disepakati bersama dengan auditee."
                         </p>
                         <p class="approval-date">Surabaya, {{ $date }}</p>
-                        <p class="approval-role mb-2" id="auditor-role" style="font-weight: bold"><span ></span></p>
+                        <p class="approval-role mb-2" id="auditor-role" style="font-weight: bold"><span></span></p>
                         <p>{{ Auth::user()->nama }}</p>
                     </div>
 

@@ -83,7 +83,7 @@
                             <i class="ti ti-info-circle fs-5 text-primary"></i>
                         </div>
 
-                       
+
                     </div>
                     <div class="d-flex align-items-center">
                         <div class="">
@@ -207,12 +207,18 @@
 
                                         {{-- Hasil Audit --}}
                                         <td data-label="Status Audit">
-                                            @if ($transaksi['realisasi_ikuk'] > $data['target_ikuk'])
-                                                <span style="color: blue">Melampaui</span>
-                                            @elseif ($transaksi['realisasi_ikuk'] == $data['target_ikuk'])
-                                                <span style="color: blue">Memenuhi</span>
-                                            @elseif ($transaksi['realisasi_ikuk'] < $data['target_ikuk'])
-                                                <span style="color: red">Belum Memenuhi</span>
+                                            @if ($transaksi['hasil_audit'] == 'Melampaui')
+                                                <span class="badge"
+                                                    style="background-color: blue; color: white; font-weight: 600">Melampaui</span>
+                                            @elseif ($transaksi['hasil_audit'] == 'Memenuhi')
+                                                <span class="badge"
+                                                    style="background-color: green;color: white; font-weight: 600">Memenuhi</span>
+                                            @elseif ($transaksi['hasil_audit'] == 'Belum Memenuhi')
+                                                <span class="badge"
+                                                    style="background-color: red;color: white; font-weight: 600">Belum
+                                                    Memenuhi</span>
+                                            @else
+                                             <span style="color: red">NULL</span>
                                             @endif
                                         </td>
                                         <!-- Analisis Keberhasilan -->
@@ -289,9 +295,9 @@
                 content: `
         <div style="text-align: left;">
             <strong style="font-size: 16px;">Total Indikator Kinerja:</strong> <span>{{ $totalKinerja }}</span><br>
-            <strong style="color: #28a745;">Jumlah Melampaui:</strong> <span>{{ $melampauiTarget }}</span><br>
-            <strong style="color: #007bff;">Jumlah Memenuhi:</strong> <span>{{ $memenuhi }}</span><br>
-            <strong style="color: #dc3545;">Jumlah Belum Memenuhi:</strong> <span>{{ $belumMemenuhi }}</span>
+            <strong style="color: blue;">Jumlah Melampaui:</strong> <span>{{ $melampauiTarget }}</span><br>
+            <strong style="color: green;">Jumlah Memenuhi:</strong> <span>{{ $memenuhi }}</span><br>
+            <strong style="color: red;">Jumlah Belum Memenuhi:</strong> <span>{{ $belumMemenuhi }}</span>
         </div>
     `,
                 allowHTML: true,
@@ -313,19 +319,19 @@
                 datasets: [{
                         label: 'Belum Memenuhi',
                         data: [{{ $persentaseBelumMemenuhi }}],
-                        backgroundColor: 'rgba(255, 43, 43, 1)',
+                        backgroundColor: 'red',
                         count: {{ $belumMemenuhi }} // Jumlah fix data dinamis
                     },
                     {
                         label: 'Memenuhi',
                         data: [{{ $persentaseMemenuhi }}], // Persentase dinamis
-                        backgroundColor: 'rgba(44, 42, 255, 0.8)',
+                        backgroundColor: 'green',
                         count: {{ $memenuhi }} // Jumlah fix data dinamis
                     },
                     {
                         label: 'Melampaui',
                         data: [{{ $persentaseMelampaui }}], // Persentase dinamis
-                        backgroundColor: 'rgba(45, 255, 42, 1)',
+                        backgroundColor: 'blue',
                         count: {{ $melampauiTarget }} // Jumlah fix data dinamis
                     },
                 ]

@@ -67,28 +67,28 @@
                                             <td>{{ $data['nama_unit'] }}</td>
                                             <td class="text-center">
                                                 @if ($data['status_finalisasi_audite'] == true)
-                                                    <span class="badge bg-success text-dark">Data
+                                                    <span class="badge bg-success text-dark" style="font-weight: 600">Data
                                                         Difinalisasi</span>
                                                 @else
-                                                    <span class="badge bg-warning text-dark">Dalam
+                                                    <span class="badge bg-warning text-dark" style="font-weight: 600">Dalam
                                                         Proses</span>
                                                 @endif
                                             </td>
                                             <td class="text-center">
                                                 @if ($data['status_finalisasi_auditor1'] == true)
-                                                    <span class="badge bg-success text-dark">Data
+                                                    <span class="badge bg-success text-dark" style="font-weight: 600">Data
                                                         Difinalisasi</span>
                                                 @else
-                                                    <span class="badge bg-warning text-dark">Dalam
+                                                    <span class="badge bg-warning text-dark" style="font-weight: 600">Dalam
                                                         Proses</span>
                                                 @endif
                                             </td>
                                             <td class="text-center">
                                                 @if ($data['status_finalisasi_auditor2'] == true)
-                                                    <span class="badge bg-success text-dark">Data
+                                                    <span class="badge bg-success text-dark" style="font-weight: 600">Data
                                                         Difinalisasi</span>
                                                 @else
-                                                    <span class="badge bg-warning text-dark">Dalam
+                                                    <span class="badge bg-warning text-dark" style="font-weight: 600">Dalam
                                                         Proses</span>
                                                 @endif
                                             </td>

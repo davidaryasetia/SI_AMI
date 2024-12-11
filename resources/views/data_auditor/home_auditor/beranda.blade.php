@@ -17,6 +17,20 @@
             padding: 15px;
             border-radius: 8px;
         }
+
+        .tippy-box[data-theme~='custom'] {
+            background-color: #ffffff;
+            color: #333;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .tippy-arrow {
+            color: #ffffff;
+        }
     </style>
 @endpush
 
@@ -86,9 +100,11 @@
                                             </td>
                                             <td>
                                                 @if ($data['statusFinalisasiAudite'] == true)
-                                                    <span class="badge bg-success text-dark" style="font-weight: bold">Sudah Finalisasi</span>
+                                                    <span class="badge bg-success text-dark" style="font-weight: bold">Sudah
+                                                        Finalisasi</span>
                                                 @else
-                                                    <span class="badge bg-warning text-dark" style="font-weight: bold">Belum Finalisasi   </span>
+                                                    <span class="badge bg-warning text-dark" style="font-weight: bold">Belum
+                                                        Finalisasi </span>
                                                 @endif
                                             </td>
                                         </tr>
@@ -164,7 +180,9 @@
                 <div class="card shadow-sm">
                     <div class="card-header bg-light d-flex align-items-center justify-content-between">
                         <div></div>
-                        <h5 class="card-title mb-0 text-black text-center">Rekap Capaian Unit : {{ $nama_unit }}</h5>
+                        <h5 class="card-title mb-0 text-black text-center">Rekap Capaian Unit : {{ $nama_unit }} <i
+                                class="ti ti-info-circle fs-5 text-primary" id="tooltip-info"></i></h5>
+
                         <div class="col-lg-2">
                             <select id="unit_id" class="form-select text-black"
                                 style="
@@ -214,6 +232,26 @@
                 })
             })
         </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                tippy('#tooltip-info', {
+                    content: `
+            <div style="text-align: left;">
+                <strong style="font-size: 16px;">Total Indikator Kinerja:</strong> <span>{{ $totalCapaian }}</span><br>
+                <strong style="color: blue;">Jumlah Melampaui:</strong> <span>{{ $melampauiTarget }}</span><br>
+                <strong style="color: green;">Jumlah Memenuhi:</strong> <span>{{ $memenuhi }}</span><br>
+                <strong style="color: red;">Jumlah Belum Memenuhi:</strong> <span>{{ $belumMemenuhi }}</span>
+            </div>
+        `,
+                    allowHTML: true,
+                    theme: 'custom',
+                    placement: 'bottom',
+                    interactive: true,
+                    maxWidth: '300px'
+                });
+            });
+        </script>
+
 
         <script>
             var ctx = document.getElementById('performanceChart').getContext('2d');
@@ -224,19 +262,19 @@
                     datasets: [{
                             label: 'Belum Memenuhi',
                             data: [{{ $persentaseBelumMemenuhi }}],
-                            backgroundColor: 'rgba(255, 43, 43, 1)',
+                            backgroundColor: 'red',
                             count: {{ $belumMemenuhi }} // Jumlah fix data dinamis
                         },
                         {
                             label: 'Memenuhi',
                             data: [{{ $persentaseMemenuhi }}], // Persentase dinamis
-                            backgroundColor: 'rgba(44, 42, 255, 0.8)',
+                            backgroundColor: 'green',
                             count: {{ $memenuhi }} // Jumlah fix data dinamis
                         },
                         {
                             label: 'Melampaui',
                             data: [{{ $persentaseMelampaui }}], // Persentase dinamis
-                            backgroundColor: 'rgba(45, 255, 42, 1)',
+                            backgroundColor: 'blue',
                             count: {{ $melampauiTarget }} // Jumlah fix data dinamis
                         },
                     ]

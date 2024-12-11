@@ -76,8 +76,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware(['auth', 'role:auditor'])->group(function () {
     Route::get('/home/auditor', [HomeAuditorController::class, 'HomeAuditor'])->name('home.auditor');
     Route::get('/home/auditor', [HomeAuditorController::class, 'HomeAuditor']);
-    Route::resource('/pengisian_kinerja_auditor', PengisianKinerjaAuditorController::class);
-    Route::get('/pengisian_kinerja_auditor', [PengisianKinerjaAuditorController::class, 'index'])->name('data_indikator_auditor.index');
+    Route::get('/pengisian_kinerja_auditor', [PengisianKinerjaAuditorController::class, 'index']);
+    Route::post('/update_status_auditor/{id}', [PengisianKinerjaAuditorController::class, 'updateStatusAuditor'])->name('update_status_auditor');
     Route::get('/rekap_persetujuan_auditor', [RekapPersetujuanAuditorController::class, 'index']);
     Route::post('/rekap_persetujuan_auditor/finalisasi', [RekapPersetujuanAuditorController::class, 'finalisasiAuditor'])->name('rekap_persetujuan_auditor.finalisasi');
 });

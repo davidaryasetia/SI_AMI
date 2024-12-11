@@ -219,13 +219,13 @@
                         {
                             label: 'Memenuhi',
                             data: [{{ $persentaseMemenuhi }}], // Persentase dinamis
-                            backgroundColor: 'rgba(44, 42, 255, 0.8)',
+                            backgroundColor: 'green',
                             count: {{ $memenuhi }} // Jumlah fix data dinamis
                         },
                         {
                             label: 'Melampaui',
                             data: [{{ $persentaseMelampaui }}], // Persentase dinamis
-                            backgroundColor: 'rgba(45, 255, 42, 1)',
+                            backgroundColor: 'blue',
                             count: {{ $melampauiTarget }} // Jumlah fix data dinamis
                         },
                     ]
