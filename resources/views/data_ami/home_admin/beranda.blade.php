@@ -41,19 +41,19 @@
                             <table id="table_status" class="table table-hover table-bordered text-nowrap mb-0 align-middle">
                                 <thead class="text-dark fs-4 table-light">
                                     <tr>
-                                        <th class="border-bottom-0">
+                                        <th class="border-bottom-0 text-center">
                                             <h6 class="fw-semibold mb-0">No</h6>
                                         </th>
-                                        <th class="border-bottom-0">
+                                        <th class="border-bottom-0 text-center">
                                             <h6 class="fw-semibold mb-0">Unit/Kegiatan</h6>
                                         </th>
-                                        <th class="border-bottom-0">
+                                        <th class="border-bottom-0 text-center">
                                             <h6 class="fw-semibold mb-0">Status Finalisasi Audite</h6>
                                         </th>
-                                        <th class="border-bottom-0">
+                                        <th class="border-bottom-0 text-center">
                                             <h6 class="fw-semibold mb-0">Status Verifikasi Auditor 1</h6>
                                         </th>
-                                        <th class="border-bottom-0">
+                                        <th class="border-bottom-0 text-center">
                                             <h6 class="fw-semibold mb-0">Status Verifikasi Auditor 2</h6>
                                         </th>
 

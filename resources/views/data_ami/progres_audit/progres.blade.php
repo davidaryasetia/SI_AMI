@@ -140,12 +140,12 @@
                     <table class="table table-sm table-hover table-bordered" id="table_progres">
                         <thead class="table-light">
                             <tr>
-                                <th>No.</th>
-                                <th>Unit</th>
-                                <th>Auditee</th>
-                                <th>Pengisian</th>
-                                <th>Auditor 1</th>
-                                <th>Auditor 2</th>
+                                <th class="text-center">No.</th>
+                                <th class="text-center">Unit</th>
+                                <th class="text-center">Finalisasi Auditee</th>
+                                <th class="text-center">Persentase Pengisian Audite</th>
+                                <th class="text-center">Verifikasi Auditor 1</th>
+                                <th class="text-center">Verifikasi Auditor 2</th>
                             </tr>
                         </thead>
                         <tbody>

@@ -35,6 +35,10 @@ class ExportProgresAuditController extends Controller
 
             $persentase = $totalIndikator > 0 ? round(($filledIndikator / $totalIndikator) * 100, 2) : 0;
 
+            $statusFinalisasiAudite = $unit->indikator_ikuk->isNotEmpty() && $unit->indikator_ikuk->every(function ($indikator) {
+                return $indikator->transaksiDataIkuk->where('status_finalisasi_audite', true)->count() > 0;
+            }) ? '✔' : '✖';
+
             $statusFinalisasiAuditor1 = $unit->indikator_ikuk->isNotEmpty() && $unit->indikator_ikuk->every(function ($indikator) {
                 return $indikator->transaksiDataIkuk->where('status_finalisasi_auditor1', true)->count() > 0;
             }) ? '✔' : '✖';
@@ -45,7 +49,7 @@ class ExportProgresAuditController extends Controller
 
             return [
                 'nama_unit' => $unit->nama_unit,
-                'audite' => $unit->audite[0]['user_audite']['nama'] ?? 'User Audite Belum di set!',
+                'audite' => ($unit->audite[0]['user_audite']['nama'] ?? 'User Audite Belum di set!') . " $statusFinalisasiAudite",
                 'auditor1' => ($unit->auditor->auditor1->nama ?? 'Auditor 1 Belum di set!') . " $statusFinalisasiAuditor1",
                 'auditor2' => ($unit->auditor->auditor2->nama ?? 'Auditor 2 Belum di set!') . " $statusFinalisasiAuditor2",
                 'persentase_audite' => $persentase . '%',
@@ -63,7 +67,7 @@ class ExportProgresAuditController extends Controller
         $sheet->getStyle('A1')->getAlignment()->setHorizontal('center');
 
         // Header
-        $header = ['No', 'Unit', 'Auditee', 'Pengisian', 'Auditor 1', 'Auditor 2'];
+        $header = ['No', 'Unit', 'Finalisasi Audite', 'Persentase Pengisian Audite', 'Verifikasi Auditor 1', 'Verifikasi Auditor 2'];
         $sheet->fromArray($header, null, 'A2');
 
         // Styling Header
@@ -92,6 +96,11 @@ class ExportProgresAuditController extends Controller
                 ->setCellValue("D{$row}", $data['persentase_audite'])
                 ->setCellValue("E{$row}", $data['auditor1'])
                 ->setCellValue("F{$row}", $data['auditor2']);
+
+            // Format warna untuk centang dan silang di kolom status
+            $this->applyConditionalFormatting($sheet, "C{$row}");
+            $this->applyConditionalFormatting($sheet, "E{$row}");
+            $this->applyConditionalFormatting($sheet, "F{$row}");
 
             $row++;
         }
@@ -126,5 +135,28 @@ class ExportProgresAuditController extends Controller
         return response()->download($temp_file, $fileName)->deleteFileAfterSend(true);
     }
 
+    private function applyConditionalFormatting($sheet, $cell)
+    {
+        $conditionalStyles = $sheet->getStyle($cell)->getConditionalStyles();
+
+        // Kondisi untuk centang hijau tua
+        $conditionalGreen = new \PhpOffice\PhpSpreadsheet\Style\Conditional();
+        $conditionalGreen->setConditionType(\PhpOffice\PhpSpreadsheet\Style\Conditional::CONDITION_CONTAINSTEXT)
+            ->setOperatorType(\PhpOffice\PhpSpreadsheet\Style\Conditional::OPERATOR_CONTAINSTEXT)
+            ->setText('✔')
+            ->getStyle()->getFont()->getColor()->setARGB('006400'); // Hijau tua
+
+        // Kondisi untuk silang merah
+        $conditionalRed = new \PhpOffice\PhpSpreadsheet\Style\Conditional();
+        $conditionalRed->setConditionType(\PhpOffice\PhpSpreadsheet\Style\Conditional::CONDITION_CONTAINSTEXT)
+            ->setOperatorType(\PhpOffice\PhpSpreadsheet\Style\Conditional::OPERATOR_CONTAINSTEXT)
+            ->setText('✖')
+            ->getStyle()->getFont()->getColor()->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_RED);
+
+        $conditionalStyles[] = $conditionalGreen;
+        $conditionalStyles[] = $conditionalRed;
+
+        $sheet->getStyle($cell)->setConditionalStyles($conditionalStyles);
+    }
 
 }
