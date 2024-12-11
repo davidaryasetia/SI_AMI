@@ -23,7 +23,7 @@ class HomeController extends Controller
             $currentPeriode = PeriodePelaksanaan::orderBy('tanggal_pembukaan_ami', 'desc')->first();
         }
 
-        $jadwalAmiId = $currentPeriode->jadwal_ami_id;
+        $jadwalAmiId = $currentPeriode ? $currentPeriode->jadwal_ami_id : null;
 
         // Ambil data unit dengan relasi untuk audite, auditor, dan transaksi data
         $dataIndikator = Unit::with([
