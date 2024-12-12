@@ -157,7 +157,7 @@
                                                     @csrf
                                                     <div class="d-flex flex-column align-items-center">
                                                         <select name="hasil_audit" class="form-select form-select-sm"
-                                                            {{ $transaksi['status_pengisian_auditor'] ? 'disabled' : '' }}
+                                                            {{ $transaksi['status_pengisian_auditor'] || $transaksi['status_finalisasi_auditor1'] ? 'disabled' : '' }}
                                                             style="width: auto; font-size: 12px; padding: 4px 8px; border-radius: 6px;">
                                                             <option value="Melampaui"
                                                                 {{ $transaksi['hasil_audit'] == 'NULL' ? 'selected' : '' }}>
