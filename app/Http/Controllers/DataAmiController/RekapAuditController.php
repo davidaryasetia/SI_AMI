@@ -13,24 +13,32 @@ class RekapAuditController extends Controller
 {
     public function index(Request $request)
     {
+        // -------------------------------- Logic untuk Mendapatkan periode Terbaru------------------
         $jadwalPeriode = PeriodePelaksanaan::orderBy('tanggal_pembukaan_ami', 'desc')->get();
+        $selectedJadwalAmiId = $request->input('jadwal_ami_id');
 
-        $jadwalAmiId = $request->query('jadwal_ami_id');
-        if ($jadwalAmiId) {
-            $jadwalAmi = PeriodePelaksanaan::find($jadwalAmiId);
+        // jika tidak ada request data dari dropdown
+        if (!$selectedJadwalAmiId) {
+            $periodeTerbaru = PeriodePelaksanaan::where('status', 'Sedang Berjalan')
+                ->orderBy('tanggal_pembukaan_ami', 'desc')
+                ->first();
 
-            if (!$jadwalAmi) {
-                return redirect()->route('rekap_audit.index')->with('error', 'Tidak ada Jadwal AMI');
+            if (!$periodeTerbaru) {
+                $periodeTerbaru = PeriodePelaksanaan::orderBy('tanggal_pembukaan_ami', 'desc')->first();
             }
+
+            $selectedJadwalAmiId = $periodeTerbaru ? $periodeTerbaru->jadwal_ami_id : null;
         }
 
         $data_transaksi = collect();
-        if ($jadwalAmiId) {
+        if ($selectedJadwalAmiId) {
             $data_transaksi = Unit::with([
-                'indikator_ikuk.transaksiDataIkuk' => function ($query) use ($jadwalAmiId) {
-                    $query->where('jadwal_ami_id', $jadwalAmiId);
+                'indikator_ikuk.transaksiDataIkuk' => function ($query) use ($selectedJadwalAmiId) {
+                    $query->where('jadwal_ami_id', $selectedJadwalAmiId);
                 }
-            ])->get();
+            ])
+                ->where('jadwal_ami_id', $selectedJadwalAmiId)
+                ->get();
         }
 
         $rekapByUnit = $data_transaksi->map(function ($unit) {
@@ -74,7 +82,7 @@ class RekapAuditController extends Controller
             'jadwalPeriode' => $jadwalPeriode,
             'dataTransaksi' => $data_transaksi,
             'indikatorIkuk' => $data_transaksi->pluck('indikator_ikuk')->flatten(),
-            'jadwalAmiId' => $jadwalAmiId,
+            'jadwal_ami_id' => $selectedJadwalAmiId,
             'rekapByUnit' => $rekapByUnit,
         ]);
     }

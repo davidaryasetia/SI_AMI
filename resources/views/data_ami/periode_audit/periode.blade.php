@@ -130,15 +130,53 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <form action="{{ route('periode_audit.close', $periode->jadwal_ami_id) }}"
-                                            method="POST"
-                                            onsubmit="return confirm('Apakah anda yakin ingin menutup periode pelaksanaan ini ?')">
-                                            @csrf
-                                            <button type="submit" class="btn btn-sm"
-                                                style="background-color: rgb(251, 94, 94); color: white"><i
-                                                    class="ti ti-logout"></i></button>
-                                        </form>
+                                        <button class="btn btn-sm" style="background-color: rgb(251, 94, 94); color: white"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#closeModal{{ $periode->jadwal_ami_id }}">
+                                            <i class="ti ti-logout"></i>
+                                        </button>
+
+                                        <!-- Modal Konfirmasi Tutup Periode -->
+                                        <div class="modal fade" id="closeModal{{ $periode->jadwal_ami_id }}" tabindex="-1"
+                                            aria-labelledby="closeModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="closeModalLabel">Konfirmasi Tutup
+                                                            Periode</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p style="line-height: normal">Untuk menutup periode pelaksanaan AMI ini, harap masukkan nama
+                                                            periode:</p>
+                                                        <strong>{{ $periode->nama_periode_ami }}</strong>
+                                                        <input type="text" class="form-control mt-2 confirm-name-input"
+                                                            placeholder="Masukkan nama periode untuk konfirmasi"
+                                                            data-expected="{{ $periode->nama_periode_ami }}">
+                                                            <div
+                                                            style="background-color: #fff3cd; color: #856404; padding: 15px; border: 1px solid #ffeeba; border-radius: 5px; margin-top: 15px; line-height: normal">
+                                                            <strong>Perhatian:</strong> Menutup periode ini akan menghentikan semua aktivitas terkait jadwal periode ini.
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Batal</button>
+                                                        <form
+                                                            action="{{ route('periode_audit.close', $periode->jadwal_ami_id) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            @method('POST')
+                                                            <button type="submit" class="btn btn-danger close-button"
+                                                                style="display: none;">Tutup</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
+
+
                                     <td><a href="{{ route('periode_audit.index', ['id' => $periode->jadwal_ami_id]) }}"
                                             class="btn btn-sm" style="background-color: rgb(255, 255, 6); color: black"><i
                                                 class="ti ti-pencil"></i></a></td>
@@ -155,7 +193,8 @@
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
+                                                        <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus
+                                                        </h5>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                             aria-label="Close"></button>
                                                     </div>
@@ -170,7 +209,7 @@
                                                             data-expected="{{ $periode->nama_periode_ami }}">
                                                         <div
                                                             style="background-color: #fff3cd; color: #856404; padding: 15px; border: 1px solid #ffeeba; border-radius: 5px; margin-top: 15px; line-height: normal">
-                                                            <strong>!! Perhatian !!</strong> Menghapus Periode AMI ini akan
+                                                            <strong>Perhatian :</strong> Menghapus Periode AMI ini akan
                                                             menghapus seluruh riwayat pelaksanaan AMI pada periode tanggal
                                                             tersebut.
                                                         </div>
@@ -212,6 +251,22 @@
                                             } else {
                                                 deleteButton.style.display = 'none'; // Sembunyikan tombol
                                                 console.log("Button 'Hapus' disembunyikan"); // Debugging
+                                            }
+                                        }
+                                    });
+                                </script>
+                                <script>
+                                    document.addEventListener('input', function(event) {
+                                        // Cek apakah input adalah input konfirmasi nama
+                                        if (event.target.classList.contains('confirm-name-input')) {
+                                            const expectedName = event.target.getAttribute('data-expected').trim();
+                                            const closeButton = event.target.closest('.modal').querySelector('.close-button');
+
+                                            // Aktifkan tombol jika nama sesuai
+                                            if (event.target.value.trim() === expectedName) {
+                                                closeButton.style.display = 'inline-block';
+                                            } else {
+                                                closeButton.style.display = 'none';
                                             }
                                         }
                                     });

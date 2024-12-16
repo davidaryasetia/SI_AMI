@@ -11,22 +11,32 @@ class RiwayatController extends Controller
 {
     public function index(Request $request)
     {
-        // Ambil data dropdown
+        // -------------------------------- Logic untuk Mendapatkan periode Terbaru------------------
         $jadwalPeriode = PeriodePelaksanaan::orderBy('tanggal_pembukaan_ami', 'desc')->get();
-        $units = Unit::orderBy('unit_id', 'asc')->get();
-    
-        // Ambil nilai parameter dari query string
-        $selectedJadwalAmiId = $request->query('jadwal_ami_id');
+        $selectedJadwalAmiId = $request->input('jadwal_ami_id');
         $selectedUnitId = $request->query('unit_id');
-        // Ketika jadwal amiId gaada maka return back error
-        if ($selectedJadwalAmiId) {
-            $jadwalAmi = PeriodePelaksanaan::find($selectedJadwalAmiId);
-    
-            if (!$jadwalAmi) {
-                return redirect()->route('riwayat.index')->with('error', 'Jadwal AMI Pada Periode Tersebut Tidak Ditemukan, silahkan pilih jadwal yang tersedia.');
+
+        // jika tidak ada request data dari dropdown
+        if (!$selectedJadwalAmiId) {
+            $periodeTerbaru = PeriodePelaksanaan::where('status', 'Sedang Berjalan')
+                ->orderBy('tanggal_pembukaan_ami', 'desc')
+                ->first();
+
+
+            // Jika tidak ada periode yang "Sedang Berjalan", cari periode terakhir (status apa saja)
+            if (!$periodeTerbaru) {
+                $periodeTerbaru = PeriodePelaksanaan::orderBy('tanggal_pembukaan_ami', 'desc')->first();
             }
+
+            $selectedJadwalAmiId = $periodeTerbaru ? $periodeTerbaru->jadwal_ami_id : null ;
         }
-    
+
+
+        $units = Unit::orderBy('unit_id', 'asc')
+            ->where('jadwal_ami_id', $selectedJadwalAmiId)
+            ->get();
+
+
         if (!$selectedJadwalAmiId || !$selectedUnitId) {
             // Jika salah satu parameter tidak ada, tampilkan halaman kosong
             $data_indikator = null;
@@ -39,15 +49,15 @@ class RiwayatController extends Controller
                 }
             ])->where('unit_id', $selectedUnitId)
                 ->first();
-    
+
             $nama_unit = $units->where('unit_id', $selectedUnitId)->first()->nama_unit ?? '-';
         }
-    
+
         // Hitung jumlah indikator berdasarkan kondisi (opsional)
         $melampauiTarget = 0;
         $memenuhi = 0;
         $belumMemenuhi = 0;
-    
+
         if ($data_indikator) {
             foreach ($data_indikator->indikator_ikuk as $indikator) {
                 foreach ($indikator->transaksiDataIkuk as $transaksi) {
@@ -61,7 +71,7 @@ class RiwayatController extends Controller
                 }
             }
         }
-    
+
         $totalKinerja = $melampauiTarget + $memenuhi + $belumMemenuhi;
         $persentaseMelampaui = $totalKinerja > 0 ? round(($melampauiTarget / $totalKinerja) * 100, 2) : 0;
         $persentaseMemenuhi = $totalKinerja > 0 ? round(($memenuhi / $totalKinerja) * 100, 2) : 0;
@@ -79,9 +89,9 @@ class RiwayatController extends Controller
             'memenuhi' => $memenuhi,
             'belumMemenuhi' => $belumMemenuhi,
             'totalKinerja' => $totalKinerja,
-            'persentaseMelampaui' => $persentaseMelampaui ,
-            'persentaseMemenuhi' => $persentaseMemenuhi, 
-            'persentaseBelumMemenuhi' => $persentaseBelumMemenuhi,  
+            'persentaseMelampaui' => $persentaseMelampaui,
+            'persentaseMemenuhi' => $persentaseMemenuhi,
+            'persentaseBelumMemenuhi' => $persentaseBelumMemenuhi,
         ]);
-    }    
+    }
 }

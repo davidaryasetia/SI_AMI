@@ -14,12 +14,18 @@ class Auditor extends Model
     protected $table='auditor';
     protected $primaryKey = 'auditor_id';
     protected $fillable = [
+        'jadwal_ami_id', 
         'unit_id', 
         'auditor_1', 
         'auditor_2', 
         'created_at', 
         'updated_at', 
     ];
+
+    public function periode_pelaksanaan(): BelongsTo
+    {
+        return $this->belongsTo(PeriodePelaksanaan::class, 'jadwal_ami_id', 'jadwal_ami_id');
+    }
 
     public function units(): BelongsTo
     {

@@ -80,9 +80,9 @@
                             ">
                             <option value="">Pilih Unit Kerja</option>
                             @foreach (session('auditor') as $auditor)
-                                <option value="{{ $auditor['units']['unit_id'] }}"
-                                    {{ request('unit_id') == $auditor['units']['unit_id'] ? 'selected' : '' }}>
-                                    {{ $auditor['units']['nama_unit'] }}
+                                <option value="{{ $auditor['unit_id'] }}"
+                                    {{ request('unit_id') == $auditor['unit_id'] ? 'selected' : '' }}>
+                                    {{ $auditor['nama_unit'] }}
                                 </option>
                             @endforeach
                         </select>

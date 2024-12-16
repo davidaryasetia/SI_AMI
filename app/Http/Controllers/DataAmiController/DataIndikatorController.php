@@ -17,8 +17,26 @@ class DataIndikatorController extends Controller
      */
     public function index(Request $request)
     {
+        // -----------------------------------------------Logic untuk mendapatkan Periode Terbaru---------------
+        $jadwalPeriode = PeriodePelaksanaan::orderBy('tanggal_pembukaan_ami', 'desc')->get();
+        $selectedJadwalAmiId = $request->input('jadwal_ami_id');
+
         // Mengambil data semua unit untuk ditampilkan di dropdown
-        $units = Unit::orderBy('unit_id')->paginate(10);
+        if (!$selectedJadwalAmiId) {
+            $periodeTerbaru = PeriodePelaksanaan::where('status', 'Sedang Berjalan')
+                ->orderBy('tanggal_pembukaan_ami', 'desc')
+                ->first();
+
+            if (!$periodeTerbaru) {
+                $periodeTerbaru = PeriodePelaksanaan::orderBy('tanggal_pembukaan_ami', 'desc')->first();
+            }
+
+            $selectedJadwalAmiId = $periodeTerbaru ? $periodeTerbaru->jadwal_ami_id : null;
+        }
+
+        $units = Unit::orderBy('unit_id')
+            ->where('jadwal_ami_id', $selectedJadwalAmiId)
+            ->get();
 
         // Mendapatkan nilai unit_id dari input form
         $unitId = $request->input('unit_id');
@@ -32,7 +50,9 @@ class DataIndikatorController extends Controller
             'unit.nama_unit as nama_unit',
             'unit.unit_id as unit_id'
         )
-            ->join('unit', 'indikator_kinerja_unit_kerja.unit_id', '=', 'unit.unit_id');
+            ->join('unit', 'indikator_kinerja_unit_kerja.unit_id', '=', 'unit.unit_id')
+            ->where('indikator_kinerja_unit_kerja.jadwal_ami_id', $selectedJadwalAmiId);
+
 
         if ($unitId) {
             // Anda harus menentukan tabel untuk kolom unit_id di dalam klausa where
@@ -46,7 +66,9 @@ class DataIndikatorController extends Controller
             'title' => 'Instrument IKUK',
             'units' => $units,
             'data_ami' => $filteredDataAMI,
-            'unit_id' => $unitId
+            'unit_id' => $unitId,
+            'jadwal_ami_id' => $selectedJadwalAmiId,
+            'jadwalPeriode' => $jadwalPeriode,
         ]);
     }
 
@@ -95,19 +117,25 @@ class DataIndikatorController extends Controller
         $satuan_ikuk = $request->input('satuan_ikuk');
         $target_ikuk = $request->input('target_ikuk');
 
-        // Ambil periode yang sedang terbuka
-        $periodeTerbuka = PeriodePelaksanaan::where('status', 'Sedang Berjalan')->first();
 
-        if (!$periodeTerbuka) {
+        // -------------------------------- Cek Periode "Sedang Berjalan" --------------------------------
+        $periodeTerbaru = PeriodePelaksanaan::where('status', 'Sedang Berjalan')
+            ->orderBy('tanggal_pembukaan_ami', 'desc')
+            ->first();
+
+
+        if (!$periodeTerbaru) {
             return redirect()->to('/data_indikator?unit_id=' . $unit_id)->with('error', 'Tidak ada periode terbuka. Silakan buat periode terlebih dahulu.');
         }
 
+        $jadwalAmiId = $periodeTerbaru->jadwal_ami_id;
         $data_indikator_kinerja_unit = [];
         $transaksi_data = [];
 
         foreach ($kode_ikuk as $index => $kode) {
             // Tambahkan indikator kinerja unit kerja ke array
             $indikator = [
+                'jadwal_ami_id' => $jadwalAmiId,
                 'unit_id' => $unit_id,
                 'kode_ikuk' => $kode,
                 'isi_indikator_kinerja_unit_kerja' => $isi_indikator_kinerja_unit_kerja[$index],
@@ -132,13 +160,15 @@ class DataIndikatorController extends Controller
                 // Tambahkan transaksi data berdasarkan periode terbuka dan indikator baru
                 $transaksi_data[] = [
                     'indikator_kinerja_unit_kerja_id' => $indikator->indikator_kinerja_unit_kerja_id,
-                    'jadwal_ami_id' => $periodeTerbuka->jadwal_ami_id,
+                    'jadwal_ami_id' => $jadwalAmiId,
                     'riwayat_nama_unit' => null,
-                    'hasil_audit'  => null,
-                    'status_pengisian_audite'  => null,
-                    'status_verifikasi_auditor' => null,
+                    'hasil_audit' => null,
+                    'status_pengisian_audite' => false,
+                    'status_pengisian_auditor' => false,
+                    'status_finalisasi_auditor1' => false,
+                    'status_finalisasi_auditor2' => false,
                     'realisasi_ikuk' => null,
-                    'analisis_usulan_keberhasilan'  => null,
+                    'analisis_usulan_keberhasilan' => null,
                     'target_lama' => null,
                     'usulan_target_tahun_depan' => null,
                     'strategi_pencapaian' => null,
@@ -147,7 +177,6 @@ class DataIndikatorController extends Controller
                     'faktor_penghambat' => null,
                     'akar_masalah' => null,
                     'tindak_lanjut' => null,
-                    'status' => null,
                     'data_dukung' => null,
                     'created_at' => now(),
                     'updated_at' => now(),
@@ -210,9 +239,23 @@ class DataIndikatorController extends Controller
             'target_ikuk' => 'required|integer'
         ]);
 
-        $data_indikator = IndikatorKinerjaUnitKerja::where('indikator_kinerja_unit_kerja_id', $id)->firstOrFail();
-
         $unit_id = $request->input('unit_id');
+
+        // -------------------------------- Cek Periode "Sedang Berjalan" --------------------------------
+        $periodeTerbaru = PeriodePelaksanaan::where('status', 'Sedang Berjalan')
+            ->orderBy('tanggal_pembukaan_ami', 'desc')
+            ->first();
+            
+        if (!$periodeTerbaru) {
+            return redirect()->to('/data_indikator?unit_id=' . $unit_id)->with('error', 'Tidak ada periode terbuka. Silakan buat periode terlebih dahulu.');
+        }
+
+        $jadwalAmiId = $periodeTerbaru->jadwal_ami_id;
+
+
+        $data_indikator = IndikatorKinerjaUnitKerja::where('indikator_kinerja_unit_kerja_id', $id)
+        ->where('jadwal_ami_id', $jadwalAmiId)
+        ->firstOrFail();
 
         $data_indikator->update([
             'kode_ikuk' => $request->input('kode_ikuk'),

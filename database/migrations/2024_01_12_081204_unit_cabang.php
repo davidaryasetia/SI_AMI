@@ -20,7 +20,7 @@ return new class extends Migration
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
             
-            $table->string('nama_unit_cabang')->lenght(64)->unique();
+            $table->string('nama_unit_cabang');
             $table->timestamps();
         });
     }

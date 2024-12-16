@@ -326,9 +326,9 @@
 
         .dropdown-enhanced {
             width: auto;
-            min-width: 100px;
-            padding: 5px 10px;
-            font-size: 14px;
+            min-width: 92px;
+            padding: 3px 8px;
+            font-size: 13px;
             font-weight: 500;
             color: #333;
             background-color: #f8f9fa;

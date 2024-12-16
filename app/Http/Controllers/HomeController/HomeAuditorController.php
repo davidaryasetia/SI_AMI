@@ -11,6 +11,7 @@ class HomeAuditorController extends Controller
 {
     public function HomeAuditor(Request $request)
     {
+        // dump(session()->all());
         // -------------------------------Logic Untuk Mendapatkan data periode Terbaru-----------------------------------
         $periodeTerbaru = PeriodePelaksanaan::where('status', 'Sedang Berjalan')
             ->orderBy('tanggal_pembukaan_ami', 'desc')
@@ -25,8 +26,12 @@ class HomeAuditorController extends Controller
 
 
         // -----------------------------Data Untuk Mendapatkan hasil Unit Yang Di Audit----------------------------------
-        $auditorUnits = collect(session('auditor'))->pluck('units.unit_id')->unique();
-        $units = Unit::whereIn('unit_id', values: $auditorUnits)->orderBy('unit_id')->get();
+        $auditorUnits = collect(session('auditor'))->pluck('unit_id')->unique();
+        $units = Unit::whereIn('unit_id', $auditorUnits)
+            ->where('jadwal_ami_id', $jadwalAmiId)
+            ->orderBy('unit_id')
+            ->get();
+
         $userId = session('user_id');
         $dataIndikator = Unit::with([
             'units_cabang.audites.user_audite:user_id,nama',
@@ -37,6 +42,7 @@ class HomeAuditorController extends Controller
                 $query->where('jadwal_ami_id', $jadwalAmiId);
             },
         ])
+            ->where('jadwal_ami_id', $jadwalAmiId)
             ->whereIn('unit_id', $auditorUnits) // Filter berdasarkan unit_id dari session auditor
             ->get();
 
@@ -57,10 +63,10 @@ class HomeAuditorController extends Controller
 
             // Periksa apakah user adalah auditor2 (anggota auditor)
             if (isset($unit->auditor->auditor2) && $unit->auditor->auditor2->user_id == $userId) {
-            $isAnggotaAuditor = true;
+                $isAnggotaAuditor = true;
             }
 
-            
+
             $statusFinalisasiAudite = $unit->indikator_ikuk->isNotEmpty() && $unit->indikator_ikuk->every(function ($indikator) {
                 return $indikator->transaksiDataIkuk->where('status_finalisasi_audite', true)->count() > 0;
             });
@@ -70,12 +76,12 @@ class HomeAuditorController extends Controller
                 'nama_unit' => $unit->nama_unit,
                 'is_ketua_auditor' => $isKetuaAuditor,
                 'is_anggota_auditor' => $isAnggotaAuditor,
-                'totalIndikator' => $totalIndikator, 
-                'filledIndikator'=> $filledIndikator,
-                'persentase' => $persentase, 
+                'totalIndikator' => $totalIndikator,
+                'filledIndikator' => $filledIndikator,
+                'persentase' => $persentase,
                 'auditor1' => $unit->auditor->auditor1->nama ?? null,
                 'auditor2' => $unit->auditor->auditor2->nama ?? null,
-                'statusFinalisasiAudite' => $statusFinalisasiAudite, 
+                'statusFinalisasiAudite' => $statusFinalisasiAudite,
             ];
         });
 
@@ -90,6 +96,7 @@ class HomeAuditorController extends Controller
                 $query->where('jadwal_ami_id', $jadwalAmiId);
             }
         ])
+            ->where('jadwal_ami_id', $jadwalAmiId)
             ->where('unit_id', $unitId)
             ->first();
 
@@ -126,7 +133,7 @@ class HomeAuditorController extends Controller
         return view('data_auditor.home_auditor.beranda', [
             'title' => 'Auditor',
             'current_periode' => $periodeTerbaru,
-            'dataTransaksi' => $dataTransaksi, 
+            'dataTransaksi' => $dataTransaksi,
             'nama_unit' => $nama_unit,
             'melampauiTarget' => $melampauiTarget,
             'memenuhi' => $memenuhi,

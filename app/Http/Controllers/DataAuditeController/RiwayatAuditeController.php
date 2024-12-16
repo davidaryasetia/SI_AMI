@@ -11,9 +11,10 @@ class RiwayatAuditeController extends Controller
 {
     public function index(Request $request)
     {
+        // dump(session()->all());
         // Ambil data dropdown
         $jadwalPeriode = PeriodePelaksanaan::orderBy('tanggal_pembukaan_ami', 'desc')->get();
-        $unitId = session('audite.unit.unit_id');
+        $unitId = session('audite.unit_id');
         $units = Unit::orderBy('nama_unit')->get();
 
         // Ambil nilai parameter dari query string
@@ -32,10 +33,13 @@ class RiwayatAuditeController extends Controller
                 'indikator_ikuk.transaksiDataIkuk' => function ($query) use ($jadwalAmiId) {
                     $query->where('jadwal_ami_id', $jadwalAmiId);
                 }
-            ])->where('unit_id', $unitId)->first();
+            ])
+            ->where('jadwal_ami_id', $jadwalAmiId)
+            ->where('unit_id', $unitId)->first();
 
         }
         $nama_unit = $units->where('unit_id', $unitId)->first()->nama_unit ?? '-';
+        // dump($data_indikator->toArray());
 
         // Hitung jumlah indikator berdasarkan kondisi (opsional)
         $melampauiTarget = 0;

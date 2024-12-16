@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\DataAmiController;
 
 use App\Http\Controllers\Controller;
+use App\Models\PeriodePelaksanaan;
 use App\Models\Unit;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -12,20 +13,34 @@ class ExportProgresAuditController extends Controller
 {
     public function export(Request $request)
     {
-        $jadwalAmiId = $request->query('jadwal_ami_id');
-        if (!$jadwalAmiId) {
-            return redirect()->route('progres_audit.index')->with('error', 'Pilih periode AMI dan unit terlebih dahulu.');
+        $selectedJadwalAmiId = $request->input('jadwal_ami_id');
+
+        // jika tidak ada request data dari dropdown
+        if (!$selectedJadwalAmiId) {
+            $periodeTerbaru = PeriodePelaksanaan::where('status', 'Sedang Berjalan')
+                ->orderBy('tanggal_pembukaan_ami', 'desc')
+                ->first();
+
+            if (!$periodeTerbaru) {
+                $periodeTerbaru = PeriodePelaksanaan::orderBy('tanggal_pembukaan_ami', 'desc')->first();
+            }
+
+            $selectedJadwalAmiId = $periodeTerbaru ? $periodeTerbaru->jadwal_ami_id : null;
+            $selectedNamaPeriode = $periodeTerbaru ? $periodeTerbaru->nama_periode_ami : null;
         }
+
 
         // Data dari backend progress audit
         $dataIndikator = Unit::with([
             'audite.user_audite:user_id,nama',
             'auditor.auditor1:user_id,nama',
             'auditor.auditor2:user_id,nama',
-            'indikator_ikuk.transaksiDataIkuk' => function ($query) use ($jadwalAmiId) {
-                $query->where('jadwal_ami_id', $jadwalAmiId);
+            'indikator_ikuk.transaksiDataIkuk' => function ($query) use ($selectedJadwalAmiId) {
+                $query->where('jadwal_ami_id', $selectedJadwalAmiId);
             }
-        ])->get();
+        ])
+            ->where('jadwal_ami_id', $selectedJadwalAmiId)
+            ->get();
 
         $dataPengisian = $dataIndikator->map(function ($unit) {
             $totalIndikator = $unit->indikator_ikuk->count();
@@ -58,6 +73,12 @@ class ExportProgresAuditController extends Controller
 
         // Membuat file Excel
         $spreadsheet = new Spreadsheet();
+        $periode = PeriodePelaksanaan::find($selectedJadwalAmiId);
+        if ($periode) {
+            $nama_periode = $periode->nama_periode_ami;
+        } else {
+            $nama_periode = '-';
+        }
         $sheet = $spreadsheet->getActiveSheet();
 
         // Title
@@ -127,7 +148,7 @@ class ExportProgresAuditController extends Controller
 
         // Membuat file
         $writer = new Xlsx($spreadsheet);
-        $fileName = "Progress_Pengisian_Audit_" . ($jadwalAmiId ?? 'Semua') . ".xlsx";
+        $fileName = "Progress_Pengisian_Audit_" . ($nama_periode ?? 'Semua') . ".xlsx";
         $temp_file = tempnam(sys_get_temp_dir(), $fileName);
 
         $writer->save($temp_file);

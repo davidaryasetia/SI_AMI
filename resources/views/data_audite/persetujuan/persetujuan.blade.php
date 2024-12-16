@@ -117,6 +117,25 @@
 @section('content')
 
     <div class="container-fluid approval-container">
+        <div class="d-flex justify-content-end " style="position: absolute; top: 72px;right: 40px; z-index: 1050;">
+            @if (session('success'))
+                <div class="alert alert-primary  col-lg-10" role="alert">
+                    {{ session('success') }}
+                </div>
+            @endif
+            @if (session('error'))
+                <div class="alert alert-danger  col-lg-10" role="alert">
+                    {{ session('error') }}
+                </div>
+            @endif
+        </div>
+        <script>
+            setTimeout(function() {
+                document.querySelectorAll('.alert').forEach(function(alert) {
+                    alert.style.display = "none";
+                });
+            }, 5000);
+        </script>
         <div class="approval-box">
             <div class="mb-4">
                 <h4 class="card-title fw-semibold mb-1">Persetujuan Evaluasi Kinerja Unit

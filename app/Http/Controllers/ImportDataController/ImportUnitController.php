@@ -4,69 +4,105 @@ namespace App\Http\Controllers\ImportDataController;
 
 use App\Http\Controllers\Controller;
 use App\Models\Unit;
+use App\Models\UnitCabang;
+use App\Models\PeriodePelaksanaan;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class ImportUnitController extends Controller
 {
     public function importDataUnit(Request $request)
     {
-        // Validasi file
-        $request->validate([
-            'file' => 'required|file|mimes:xlsx,xls'
-        ]);
+        try {
+            // Validasi file upload
+            $request->validate([
+                'file' => 'required|file|mimes:xlsx,xls'
+            ]);
 
-        // Ambil file yang diupload
-        $file = $request->file('file');
+            // Ambil periode AMI yang aktif
+            $periodeTerbaru = PeriodePelaksanaan::where('status', 'Sedang Berjalan')
+                ->orderBy('tanggal_pembukaan_ami', 'desc')
+                ->first();
 
-        // Baca file menggunakan PHPSpreadsheet
-        $spreadsheet = IOFactory::load($file->getRealPath());
-
-        // Ambil sheet aktif
-        $sheet = $spreadsheet->getActiveSheet();
-
-        // Ambil data dalam bentuk array
-        $rows = $sheet->toArray(null, true, true, true);
-
-        // Validasi header pada baris pertama
-        $header = $rows[1];
-        if ($header['A'] !== 'Unit Kerja') {
-            return redirect('/unit_kerja')->with('error', 'Format header tidak sesuai');
-        }
-
-        $units = [];
-        // Mulai iterasi dari baris kedua (index 2)
-        foreach ($rows as $index => $row) {
-            if ($index == 1) continue; // Lewati header
-
-            // Ambil data dari kolom Excel
-            $nama_unit = $row['A'];
-
-            // // Skip baris kosong
-            // if (empty($nama_unit)) {
-            //     continue;
-            // }
-
-            // Validasi unik
-            if (!Unit::where('nama_unit', $nama_unit)->exists()) {
-                $units[] = ['nama_unit' => $nama_unit, 'created_at' => now(), 'updated_at' => now()];
+            if (!$periodeTerbaru) {
+                return redirect('/data_unit')->with('error', 'Tidak ada periode AMI yang aktif.');
             }
-        }
 
-        // Debugging: Tampilkan hasil data yang akan dimasukkan ke database
-        dd($units);
+            $jadwalAmiId = $periodeTerbaru->jadwal_ami_id;
 
-        if (empty($units)) {
-            return redirect('/unit_kerja')->with('error', 'Tidak ada data baru untuk diimpor');
-        }
+            // Load file Excel
+            $file = $request->file('file');
+            $spreadsheet = IOFactory::load($file->getRealPath());
 
-        $insertUnits = Unit::insert($units);
+            $dataInserted = false;
 
-        if ($insertUnits) {
-            return redirect('/unit_kerja')->with('success', 'Data Unit Kerja Berhasil Diimpor !!!');
-        } else {
-            return redirect('/unit_kerja')->with('error', 'Data Unit Kerja Gagal Diimpor !!!');
+            foreach ($spreadsheet->getWorksheetIterator() as $sheet) {
+                $sheetTitle = strtolower(trim($sheet->getTitle()));
+                $rows = $sheet->toArray(null, true, true, true);
+
+                if ($sheetTitle == 'unit kerja') {
+                    // Proses import Unit Kerja
+                    foreach ($rows as $index => $row) {
+                        if ($index < 3) continue; // Lewati header
+
+                        $namaUnit = $row['B'] ?? null;
+
+                        if (!empty($namaUnit)) {
+                            Unit::create([
+                                'jadwal_ami_id' => $jadwalAmiId,
+                                'nama_unit' => $namaUnit,
+                                'tipe_data' => 'unit_kerja',
+                                'created_at' => now(),
+                                'updated_at' => now(),
+                            ]);
+                            $dataInserted = true;
+                        }
+                    }
+                } elseif ($sheetTitle == 'departemen kerja') {
+                    // Proses import Departemen Kerja dan Unit Cabang
+                    foreach ($rows as $index => $row) {
+                        if ($index < 3) continue; // Lewati header
+
+                        $namaDepartemen = $row['B'] ?? null;
+
+                        if (!empty($namaDepartemen)) {
+                            $unit = Unit::create([
+                                'jadwal_ami_id' => $jadwalAmiId,
+                                'nama_unit' => $namaDepartemen,
+                                'tipe_data' => 'departemen_kerja',
+                                'created_at' => now(),
+                                'updated_at' => now(),
+                            ]);
+
+                            // Iterasi untuk kolom C–I (Prodi/Unit Cabang)
+                            for ($col = 'C'; $col <= 'I'; $col++) {
+                                $namaUnitCabang = $row[$col] ?? null;
+
+                                if (!empty($namaUnitCabang)) {
+                                    UnitCabang::create([
+                                        'unit_id' => $unit->unit_id,
+                                        'nama_unit_cabang' => $namaUnitCabang,
+                                        'jadwal_ami_id' => $jadwalAmiId,
+                                        'created_at' => now(),
+                                        'updated_at' => now(),
+                                    ]);
+                                    $dataInserted = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Redirect dengan pesan sukses atau error
+            if ($dataInserted) {
+                return redirect('/data_unit')->with('success', 'Data Unit Kerja dan Departemen Kerja berhasil diimpor!');
+            } else {
+                return redirect('/data_unit')->with('error', 'Tidak ada data yang diimpor. Cek format file.');
+            }
+        } catch (\Exception $e) {
+            \Log::error('Import Data Unit Error: ' . $e->getMessage());
+            return redirect('/data_unit')->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 }

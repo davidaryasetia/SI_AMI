@@ -80,7 +80,7 @@
                         <div class="d-flex justify-content-end ms-3">
                             <div class="d-flex justify-content-end">
                                 <form id="exportForm" action="{{ route('rekap_audit_unit.export') }}" method="GET">
-                                    <input type="hidden" name="jadwal_ami_id" value="{{ $jadwalAmiId }}">
+                                    <input type="hidden" name="jadwal_ami_id" value="{{ $jadwal_ami_id }}">
                                     <button type="submit" id="exportButton" class="btn btn-sm btn-primary">
                                         <i class="ti ti-download"></i> Unduh Rekap Per Unit
                                     </button>
@@ -96,7 +96,7 @@
                                     <option value="">Pilih Periode AMI</option>
                                     @foreach ($jadwalPeriode as $jadwal)
                                         <option value="{{ $jadwal->jadwal_ami_id }}"
-                                            {{ $jadwalAmiId == $jadwal->jadwal_ami_id ? 'selected' : '' }}>
+                                            {{ $jadwal_ami_id == $jadwal->jadwal_ami_id ? 'selected' : '' }}>
                                             {{ $jadwal->nama_periode_ami }} :
                                             {{ \Carbon\Carbon::parse($jadwal->tanggal_pembukaan_ami)->translatedFormat('d M') }}
                                             -
@@ -450,11 +450,11 @@
         })
     </script>
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const jadwalSelect = document.getElementById('jadwal_ami_id');
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const jadwalSelect = document.getElementById('jadwal_ami_id');
 
-                function updatePage() {
+            function updatePage() {
                 const jadwalId = jadwalSelect.value;
 
                 if (jadwalId) {

@@ -16,7 +16,7 @@ class PengisianKinerjaController extends Controller
      */
     public function index()
     {
-        $unitId = session('audite.unit.unit_id');
+        $unitId = session('audite.unit_id');
 
         $periodeTerbaru = PeriodePelaksanaan::where('status', 'Sedang Berjalan')
             ->orderBy('tanggal_pembukaan_ami', 'desc')
@@ -27,13 +27,14 @@ class PengisianKinerjaController extends Controller
         }
 
         // Get Data Indikator 
-        $jadwalAmiId = $periodeTerbaru->jadwal_ami_id;
+        $jadwalAmiId = $periodeTerbaru ? $periodeTerbaru->jadwal_ami_id : null;
 
         $data_indikator = Unit::with([
             'indikator_ikuk.transaksiDataIkuk' => function ($query) use ($jadwalAmiId) {
                 $query->where('jadwal_ami_id', $jadwalAmiId);
             }
         ])
+            ->where('jadwal_ami_id', $jadwalAmiId)
             ->where('unit_id', $unitId)
             ->first();
 

@@ -21,11 +21,11 @@ class DatabaseSeeder extends Seeder
         // Calling seeder
         $this->call([
             // Data Master
-            UnitSeeder::class,
-            UnitCabangSeeder::class,
+            // UnitSeeder::class,
+            // UnitCabangSeeder::class,
             UserSeeder::class,
-            AuditorSeeder::class,
-            AuditeSeeder::class,
+            // AuditorSeeder::class,
+            // AuditeSeeder::class,
             // IndikatorKinerjaKegiatanSeeder::class, 
             // IndikatorKinerjaSubKegiatanSeeder::class, 
             // IndikatorKinerjaUnitKerjaSeeder::class, 
@@ -33,9 +33,9 @@ class DatabaseSeeder extends Seeder
             // Data Transaksi
 
         // Laporan
-            LingkupAuditSeeder::class,
-            TujuanAuditSeeder::class,
-            LaporanAuditorSeeder::class,
+            // LingkupAuditSeeder::class,
+            // TujuanAuditSeeder::class,
+            // LaporanAuditorSeeder::class,
         ]);
     }
 }

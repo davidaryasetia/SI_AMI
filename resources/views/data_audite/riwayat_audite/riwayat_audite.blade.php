@@ -53,26 +53,35 @@
             <div class="w-100">
 
                 {{-- Header --}}
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <div class="d-flex align-items-center">
-                        <h4 class="card-title fw-semibold">Riwayat Progress Capaian Kinerja
-                            @if (isset($data_indikator['tipe_data']) && $data_indikator['tipe_data'] === 'unit_kerja')
-                                Unit {{ $nama_unit }}
-                            @elseif (isset($data_indikator['tipe_data']) && $data_indikator['tipe_data'] === 'departemen_kerja')
-                                {{ $nama_unit }}
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <div class="d-flex align-items-start">
+                        <div class="d-flex flex-column">
+                            <h4 class="card-title fw-semibold mb-1">Riwayat Capaian Kinerja
+                            </h4>
+                            @if (isset($data_indikator['nama_unit']))
+                                <span style="color: black; font-weight: 500">{{ $data_indikator['nama_unit'] }}</span>
                             @else
-                                {{ $nama_unit }}
+                                <span style="color: red; font-weight: 500">Data Unit Tidak Tersedia</span>
                             @endif
+                            
+                        </div>
 
-                        </h4>
-
-                        <div class="ms-2">
+                        <div class="ms-1">
                             <form id="exportForm" action="{{ route('riwayat_audite.export') }}" method="GET">
                                 <input type="hidden" name="jadwal_ami_id" value="{{ $jadwalAmiId }}">
                                 <button type="submit" class="btn btn-sm btn-primary">
                                     <i class="ti ti-download"></i> Unduh Riwayat Audite
                                 </button>
                             </form>
+                        </div>
+
+                        <div class="d-flex">
+                            {{-- Button to Open Modal --}}
+                            <button type="button" class="btn btn-sm btn-info ms-3" data-bs-toggle="modal"
+                                data-bs-target="#chartModal"><i class="ti ti-chart-area-line"></i>
+                                Lihat Grafik
+                            </button>
+
                         </div>
 
                         {{-- Tooltip Custom dengan Tippy.js --}}
@@ -101,6 +110,7 @@
                     </div>
                 </div>
 
+
                 <div class="d-flex justify-content-end " style="position: absolute; top: 72px;right: 40px; z-index: 1050;">
                     @if (session('success'))
                         <div class="alert alert-primary  col-lg-8" role="alert">
@@ -122,11 +132,28 @@
                 </script>
                 {{-- End Header --}}
 
-                {{-- Barchart --}}
-                <div class="horizontal-bar-chart-container"
-                    style="height: 70px; width: 100%; max-width: 100%; margin: auto;">
-                    <canvas id="performanceChart"></canvas>
+                {{-- Modal Bar Chart --}}
+                <div class="modal fade" id="chartModal" tabindex="-1" aria-labelledby="chartModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="chartModalLabel">Grafik Progress Capaian</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="horizontal-bar-chart-container"
+                                    style="height: 120px; width: 100%; max-width: 100%; margin: auto;">
+                                    <canvas id="performanceChart"></canvas>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
 
                 {{-- Table Content --}}
                 <div class="table-responsive mt-1   ">
@@ -151,7 +178,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if (!$data_indikator)
+                            @if (!$data_indikator || $data_indikator->indikator_ikuk->isEmpty())
                                 <tr>
                                     <td colspan="15" class="" style="font-size: 16px; font-weight: 400; color: red">
                                         Silahkan Pilih Jadwal periode Pengisian Terlebih Dahulu.</td>
@@ -185,20 +212,30 @@
 
                                         {{-- Hasil Audit --}}
                                         <td data-label="Status Audit">
-                                            @if ($transaksi['hasil_audit'] == 'Melampaui')
-                                                <span class="badge"
-                                                    style="background-color: blue; color: white; font-weight: 600">Melampaui</span>
-                                            @elseif ($transaksi['hasil_audit'] == 'Memenuhi')
-                                                <span class="badge"
-                                                    style="background-color: green;color: white; font-weight: 600">Memenuhi</span>
-                                            @elseif ($transaksi['hasil_audit'] == 'Belum Memenuhi')
-                                                <span class="badge"
-                                                    style="background-color: red;color: white; font-weight: 600">Belum
-                                                    Memenuhi</span>
+                                            @if ($transaksi && isset($transaksi['hasil_audit']))
+                                                @if ($transaksi['hasil_audit'] == 'Melampaui')
+                                                    <span class="badge"
+                                                        style="background-color: blue; color: white; font-weight: 600">
+                                                        Melampaui
+                                                    </span>
+                                                @elseif ($transaksi['hasil_audit'] == 'Memenuhi')
+                                                    <span class="badge"
+                                                        style="background-color: green; color: white; font-weight: 600">
+                                                        Memenuhi
+                                                    </span>
+                                                @elseif ($transaksi['hasil_audit'] == 'Belum Memenuhi')
+                                                    <span class="badge"
+                                                        style="background-color: red; color: white; font-weight: 600">
+                                                        Belum Memenuhi
+                                                    </span>
+                                                @else
+                                                    <span style="color: red">NULL</span>
+                                                @endif
                                             @else
-                                                <span style="color: red">NULL</span>
+                                                <span style="color: red">Data Kosong</span>
                                             @endif
                                         </td>
+
                                         <!-- Analisis Keberhasilan -->
                                         <td data-label="Analisis Keberhasilan"
                                             style="background-color: {{ empty($transaksi['analisis_usulan_keberhasilan']) ? '#d3d3d3' : '' }}">

@@ -11,16 +11,22 @@ class ProgresAuditController extends Controller
 {
     public function index(Request $request)
     {
-        $jadwalAmiId = $request->query('jadwal_ami_id'); // Ambil parameter jadwal AMI
-
-        // Ambil semua jadwal periode
+        // -------------------------------- Logic untuk Mendapatkan periode Terbaru------------------
         $jadwalPeriode = PeriodePelaksanaan::orderBy('tanggal_pembukaan_ami', 'desc')->get();
+        $selectedJadwalAmiId = $request->input('jadwal_ami_id');
 
-        // Jika tidak ada jadwal sama sekali dalam database
-        if (!$jadwalPeriode) {
-            return redirect()->route('progres_audit.index')->with('error', 'Tidak ada jadwal AMI yang tersedia.');
+        // jika tidak ada request data dari dropdown
+        if (!$selectedJadwalAmiId) {
+            $periodeTerbaru = PeriodePelaksanaan::where('status', 'Sedang Berjalan')
+                ->orderBy('tanggal_pembukaan_ami', 'desc')
+                ->first();
+
+            if (!$periodeTerbaru) {
+                $periodeTerbaru = PeriodePelaksanaan::orderBy('tanggal_pembukaan_ami', 'desc')->first();
+            }
+
+            $selectedJadwalAmiId = $periodeTerbaru ? $periodeTerbaru->jadwal_ami_id : null;
         }
-
 
         // Ambil data unit dengan relasi untuk audite, auditor, dan transaksi data
         $dataIndikator = Unit::with([
@@ -28,15 +34,17 @@ class ProgresAuditController extends Controller
             'audite.user_audite:user_id,nama',
             'auditor.auditor1:user_id,nama',
             'auditor.auditor2:user_id,nama',
-            'indikator_ikuk.transaksiDataIkuk' => function ($query) use ($jadwalAmiId) {
-                $query->where('jadwal_ami_id', $jadwalAmiId);
+            'indikator_ikuk.transaksiDataIkuk' => function ($query) use ($selectedJadwalAmiId) {
+                $query->where('jadwal_ami_id', $selectedJadwalAmiId);
             },
-        ])->get();
+        ])
+        ->where('jadwal_ami_id', $selectedJadwalAmiId)
+        ->get();
 
         // Hitung persentase pengisian untuk setiap unit
         $dataPengisian = collect(); // Default sebagai collection kosong
 
-        if ($jadwalAmiId) {
+        if ($selectedJadwalAmiId) {
             $dataPengisian = $dataIndikator->map(function ($unit) {
                 $totalIndikator = $unit->indikator_ikuk->count();
                 $filledIndikator = $unit->indikator_ikuk->filter(function ($indikator) {
@@ -65,7 +73,7 @@ class ProgresAuditController extends Controller
                     'persentase_audite' => $persentase,
                     'totalIndikator' => $totalIndikator,
                     'filledIndikator' => $filledIndikator,
-                    'status_finalisasi_audite' => $statusFinalisasiAudite, 
+                    'status_finalisasi_audite' => $statusFinalisasiAudite,
                     'status_finalisasi_auditor1' => $statusFinalisasiAuditor1,
                     'status_finalisasi_auditor2' => $statusFinalisasiAuditor2,
                 ];
@@ -87,7 +95,7 @@ class ProgresAuditController extends Controller
         return view('data_ami.progres_audit.progres', data: [
             'dataPengisian' => $dataPengisian,
             'jadwalPeriode' => $jadwalPeriode,
-            'jadwalAmiId' => $jadwalAmiId,
+            'jadwal_ami_id' => $selectedJadwalAmiId,
             'rataPersentasePengisian' => $rataPersentasePengisian,
         ]);
     }

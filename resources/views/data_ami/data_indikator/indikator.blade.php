@@ -22,13 +22,13 @@
                             <span class="card-title fw-semibold me-2">Indikator Kinerja Unit Kerja</span>
                         </div>
                         <div class="me-2">
-                            <a href="#" id="tambahIkukBtn" type="button" class="btn btn-primary" disabled><i
+                            <a href="#" id="tambahIkukBtn" type="button" class="btn btn-primary btn-sm" disabled><i
                                     class="ti ti-plus me-1"></i>Tambah IKUK</a>
                         </div>
 
                         <!-- Tombol Trigger Modal -->
                         <div class="me-2">
-                            <a href="#" type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            <a href="#" type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
                                 data-bs-target="#importDataModal">
                                 <i class="ti ti-upload me-1"></i>Import Data
                             </a>
@@ -70,7 +70,9 @@
                                                         </ol>
                                                     </li>
                                                     <li>Setiap Nama Field Unit perlu berisi indikator.</li>
-                                                    <li>Contoh data Sampel: <a href="https://docs.google.com/spreadsheets/d/1gq_LDY6U0ZKrLDWh8YubN3Z3AJKOssbO/edit?usp=sharing&ouid=106902234954089943700&rtpof=true&sd=true" target="_blank">Unduh di sini</a></li>
+                                                    <li>Contoh data Sampel: <a
+                                                            href="https://docs.google.com/spreadsheets/d/1gq_LDY6U0ZKrLDWh8YubN3Z3AJKOssbO/edit?usp=sharing&ouid=106902234954089943700&rtpof=true&sd=true"
+                                                            target="_blank">Unduh di sini</a></li>
                                                 </ul>
                                             </div>
                                             <button class="btn btn-primary" type="submit">
@@ -86,24 +88,28 @@
                         <div class="d-flex justify-content-start">
                             <form action="{{ route('data_indikator.index') }}" method="GET" class="col-lg-8"
                                 id="unitForm">
+                                <!-- Hidden Input untuk Jadwal AMI ID -->
+                                <input type="hidden" id="jadwal_ami_id_hidden" name="jadwal_ami_id"
+                                    value="{{ $jadwal_ami_id }}">
+
+                                <!-- Dropdown Unit -->
                                 <div class="d-flex align-items-center">
                                     <div class="me-2">
-                                        <div class="">
-                                            <select id="unit_id" name="unit_id" class="form-select">
-                                                <option value="">Pilih Unit....</option>
-                                                <option value="">Semual Unit</option>
-                                                @foreach ($units as $unit)
-                                                    <option value="{{ $unit['unit_id'] }}"
-                                                        {{ $unit['unit_id'] == $unit_id ? 'selected' : '' }}>
-                                                        {{ $unit['nama_unit'] }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
+                                        <select id="unit_id" name="unit_id" class="form-select form-select-sm">
+                                            <option value="">Pilih Unit....</option>
+                                            <option value="">Semual Unit</option>
+                                            @foreach ($units as $unit)
+                                                <option value="{{ $unit['unit_id'] }}"
+                                                    {{ $unit['unit_id'] == $unit_id ? 'selected' : '' }}>
+                                                    {{ $unit['nama_unit'] }}
+                                                </option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                             </form>
                         </div>
+
                     </div>
 
                     <div class="alert-container">
@@ -126,6 +132,28 @@
                             });
                         }, 5000);
                     </script>
+
+                    <div class="d-flex align-items-center">
+                        <div class="ms-3">
+                            <div class="col-lg-12">
+                                <select id="jadwal_ami_id" name="jadwal_ami_id" class="form-select text-black"
+                                    style="border-radius: 12px;color: black">
+                                    <option value="">Pilih Periode AMI</option>
+                                    @foreach ($jadwalPeriode as $jadwal)
+                                        <option value="{{ $jadwal->jadwal_ami_id }}"
+                                            {{ $jadwal_ami_id == $jadwal->jadwal_ami_id ? 'selected' : '' }}>
+                                            {{ $jadwal->nama_periode_ami }} :
+                                            {{ \Carbon\Carbon::parse($jadwal->tanggal_pembukaan_ami)->translatedFormat('d M') }}
+                                            -
+                                            {{ \Carbon\Carbon::parse($jadwal->tanggal_penutupan_ami)->translatedFormat('d M') }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+
                     <script>
                         document.addEventListener('DOMContentLoaded', (event) => {
                             const unitSelect = document.getElementById('unit_id');
@@ -250,6 +278,27 @@
         </div>
     </div>
     @push('script')
+        <!-- Script untuk Submit Form -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const unitSelect = document.getElementById('unit_id');
+                const jadwalAmiHidden = document.getElementById('jadwal_ami_id_hidden');
+
+                // Submit form ketika unit dipilih
+                unitSelect.addEventListener('change', function() {
+                    document.getElementById('unitForm').submit();
+                });
+
+                // Update hidden field jadwal_ami_id ketika periode dipilih
+                const jadwalSelect = document.getElementById('jadwal_ami_id');
+                if (jadwalSelect) {
+                    jadwalSelect.addEventListener('change', function() {
+                        jadwalAmiHidden.value = this.value;
+                        document.getElementById('unitForm').submit();
+                    });
+                }
+            });
+        </script>
         <script>
             $('#table_indikator').DataTable({
                 responsive: true,

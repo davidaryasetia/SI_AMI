@@ -11,14 +11,14 @@
                             <span class="card-title fw-semibold me-3">Daftar User</span>
                         </div>
                         <div>
-                            <a href="data_user/create" type="button" class="btn btn-primary"><i class="ti ti-plus"></i>Tambah
+                            <a href="data_user/create" type="button" class="btn btn-sm btn-primary"><i class="ti ti-plus"></i>Tambah
                                 User</a>
                         </div>
                         <div class="ms-2">
                             <form action="{{ route('data_user.reset') }}" method="POST"
                                 onsubmit="return confirm('Apakah Anda yakin ingin mereset semua status data user?')">
                                 @csrf
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-sm btn-primary">
                                     <i class="ti ti-refresh-alert me-2"></i> Reset Status
                                 </button>
                             </form>

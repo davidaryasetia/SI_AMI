@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\PeriodePelaksanaan;
 use App\Models\User;
 use Auth;
 use Hash;
@@ -12,6 +13,18 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
+        // Ambil periode terbaru dengan status "Sedang Berjalan"
+        $periodeTerbaru = PeriodePelaksanaan::where('status', 'Sedang Berjalan')
+            ->orderBy('tanggal_pembukaan_ami', 'desc')
+            ->first();
+
+        if (!$periodeTerbaru) {
+            $periodeTerbaru = PeriodePelaksanaan::orderBy('tanggal_pembukaan_ami', 'desc')->first();
+        }
+
+        $jadwalAmiId = $periodeTerbaru ? $periodeTerbaru->jadwal_ami_id : null;
+
+
         // Validasi input
         $request->validate([
             'email' => 'required|email',
@@ -23,111 +36,96 @@ class AuthController extends Controller
 
         // Jika user ditemukan dan password benar
         if ($user && Hash::check($request->password, $user->password)) {
-            // Login user
             Auth::login($user);
             session(['user_id' => $user->user_id]);
-            // Tentukan role yang dimiliki user dan simpan di session
-            $roles = $user->hasMultipleRoles();
-            // dd($roles);
-            session(['roles' => $roles]);
 
+            // Simpan data jadwal AMI ke dalam session
+            session(['jadwal_ami_id' => $jadwalAmiId]);
+
+            // Tentukan role yang dimiliki user berdasarkan jadwal AMI
+            $roles = [];
             $unitData = [];
 
-            // Data Unit audite
-            if (in_array('audite', $roles)) {
-                $auditeData = $user->audite()->with('units', 'units_cabang')->first();
-                if ($auditeData){
-                    $unit = [
-                     'unit_id' => $auditeData->units->unit_id ?? null, 
-                     'nama_unit' => $auditeData->units->nama_unit ?? null,    
+            // -------------------------- Filter Audite Data by jadwal_ami_id --------------------------
+            // -------------------------- Filter Audite Data --------------------------
+            if ($jadwalAmiId) {
+                $auditeData = $user->audite()
+                    ->where('jadwal_ami_id', $jadwalAmiId)
+                    ->with('units', 'units_cabang')
+                    ->first();
+
+                if ($auditeData) {
+                    $roles[] = 'audite';
+                    $unitData['audite'] = [
+                        'unit_id' => $auditeData->units->unit_id ?? null,
+                        'nama_unit' => $auditeData->units->nama_unit ?? null,
+                        'units_cabang' => $auditeData->units_cabang ? [
+                            'unit_cabang_id' => $auditeData->units_cabang->unit_cabang_id,
+                            'nama_unit_cabang' => $auditeData->units_cabang->nama_unit_cabang
+                        ] : null,
                     ];
-
-                    if ($auditeData->units->tipe_data === 'departemen_kerja'){
-                        $unit['units_cabang'] = $auditeData->units_cabang ? [
-                            'unit_cabang_id' => $auditeData->units_cabang->unit_cabang_id ?? null, 
-                            'nama_unit_cabang' => $auditeData->units_cabang->nama_unit_cabang ?? null,
-                        ] : null;
-                    } else {
-                        $unit['units_cabang'] = null;
-                    }
-
-                    $unitData['audite'] = ['unit'=>$unit];
                 }
-
             }
 
+            // -------------------------- Filter Auditor Data --------------------------
+            $auditor1Units = $user->auditor1()
+                ->where('jadwal_ami_id', $jadwalAmiId)
+                ->with('units')
+                ->get();
 
-            // Data Unit auditor 
-            if (in_array('auditor', $roles)){
-                $auditorData1Units = $user->auditor1()->with('units')->get();
-                $auditorData2Units = $user->auditor2()->with('units')->get();
+            $auditor2Units = $user->auditor2()
+                ->where('jadwal_ami_id', $jadwalAmiId)
+                ->with('units')
+                ->get();
 
+            if ($auditor1Units->isNotEmpty() || $auditor2Units->isNotEmpty()) {
+                $roles[] = 'auditor';
                 $unitData['auditor'] = [];
 
-                // Loop untuk unit auditor 1
-                foreach ($auditorData1Units as $auditorData){
-                    if ($auditorData->units){
-                        $unit = [
-                            'unit_id' => $auditorData->units->unit_id ?? null, 
-                            'nama_unit' => $auditorData->units->nama_unit ?? null, 
-                            'status_auditor' => 'auditor_1'
-                        ];
-
-                        if ($auditorData->units->tipe_data == 'departemen_kerja'){
-                            $unit['unit_cabang'] = $auditorData->units->units_cabang ? [
-                                'unit_cabang_id' => $auditorData->units->units_cabang->unit_cabang_id ?? null, 
-                                'nama_unit_cabang' => $auditorData->units->units_cabang->nama_unit_cabang ?? null, 
-                            ] : null;
-                        } else {
-                            $unit['unit_cabang'] = null;
-                        }
-
-                        $unitData['auditor'][] = ['units' => $unit];
-                    }
+                foreach ($auditor1Units as $auditorData) {
+                    $unitData['auditor'][] = [
+                        'unit_id' => $auditorData->units->unit_id ?? null,
+                        'nama_unit' => $auditorData->units->nama_unit ?? null,
+                        'status_auditor' => 'auditor_1'
+                    ];
                 }
 
-                // Loop untuk unit dimana user adalah auditor_2
-                foreach ($auditorData2Units as $auditorData){
-                    if ($auditorData->units){
-                        $unit = [
-                            'unit_id' => $auditorData->units->unit_id ?? null, 
-                            'nama_unit' => $auditorData->units->nama_unit ?? null, 
-                            'status_auditor' => 'auditor_2', 
-                        ];  
-
-                        if ($auditorData->units->tipe_data === 'departemen_kerja'){
-                            $unit['units_cabang'] = $auditorData->units->units_cabang ? [
-                                'unit_cabang_id' => $auditorData->units_cabang->unit_cabang_id ?? null, 
-                                'nama_unit_cabang' => $auditorData->units_cabang->nama_unit_cabang ?? null, 
-                            ] : null;
-                        } else {
-                            $unit['unit_cabang'] = null;
-                        }
-
-                        $unitData['auditor'][] = ['units' => $unit];
-                    }
+                foreach ($auditor2Units as $auditorData) {
+                    $unitData['auditor'][] = [
+                        'unit_id' => $auditorData->units->unit_id ?? null,
+                        'nama_unit' => $auditorData->units->nama_unit ?? null,
+                        'status_auditor' => 'auditor_2'
+                    ];
                 }
+            }
+
+            // -------------------------- Tambahkan Role Admin jika User Adalah Admin --------------------------
+            if ($user->is_admin) {
+                $roles[] = 'admin';
+            }
+
+            // Simpan data ke dalam session
+            session(['roles' => $roles]);
+
+            if (!empty($roles)) {
+                session(['active_role' => $roles[0]]);
             }
 
             session($unitData);
-            // dd($unitData);
+            session(['jadwal_ami_nama' => $periodeTerbaru ? $periodeTerbaru->nama_periode_ami : 'Tidak Ada Jadwal Aktif']);
 
-            if (count($roles) > 1) {
-                return redirect()->route('choose.role');
+            // -------------------------- Pilih Role --------------------------
+            if (empty($roles)) {
+                return redirect()->route('errors.403');
             } elseif (count($roles) === 1) {
-                session(['active_role' => $roles[0]]);
                 return $this->redirectToRole($roles[0]);
             } else {
-                // Jika user tidak memiliki role yang valid
-                return redirect()->route('errors.403');
+                return redirect()->route('choose.role');
             }
-            
         } else {
-            // Jika email atau password salah
             return redirect()->back()->with('error', 'Email atau password salah !!!');
         }
     }
-
 
     private function redirectToRole($role)
     {
@@ -147,21 +145,28 @@ class AuthController extends Controller
     {
         $roles = session('roles', []);
 
+        if (empty($roles)) {
+            return redirect()->route('errors.403');
+        }
+
         if (count($roles) === 1) {
             return $this->redirectToRole($roles[0]);
         }
+
         return view('choose_role.choose_role', compact('roles'));
     }
 
     public function selectRole(Request $request)
     {
         $role = $request->input('role');
-        session(['active_role' => $role]);
+        if (in_array($role, session('roles', []))) {
+            session(['active_role' => $role]);
+            return $this->redirectToRole($role);
+        }
 
-        return $this->redirectToRole($role);
+        return redirect()->route('errors.403');
     }
 
-    // Tambahkan di controller Anda, misalnya di UserController atau AuthController
     public function switchRole(Request $request)
     {
         $newRole = $request->input('role');
@@ -173,14 +178,6 @@ class AuthController extends Controller
         }
 
         return response()->json(['status' => 'error', 'message' => 'Invalid role.'], 400);
-    }
-
-    public function showLoginForm()
-    {
-        if (Auth::check()) {
-            return redirect()->route('home.index');
-        }
-        return view('auth.login');
     }
 
     public function logout()

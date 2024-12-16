@@ -39,11 +39,13 @@
             white-space: nowrap;
             z-index: 10;
         }
-        .text-success{
+
+        .text-success {
             font-size: 18px;
             padding-left: 4px;
         }
-        .text-danger{
+
+        .text-danger {
             font-size: 16px;
             padding-left: 4px;
             color: red !important;
@@ -64,7 +66,7 @@
                             <div class="d-flex justify-content-end ms-3">
                                 <!-- Form Export -->
                                 <form id="exportForm" action="{{ route('progres_audit.export') }}" method="GET">
-                                    <input type="hidden" name="jadwal_ami_id" value="{{ $jadwalAmiId }}">
+                                    <input type="hidden" name="jadwal_ami_id" value="{{ $jadwal_ami_id }}">
                                     <button type="submit" id="exportButton" class="btn btn-sm btn-primary">
                                         <i class="ti ti-download"></i> Unduh Progress
                                     </button>
@@ -82,7 +84,7 @@
                                     <option value="">Pilih Periode AMI</option>
                                     @foreach ($jadwalPeriode as $jadwal)
                                         <option value="{{ $jadwal->jadwal_ami_id }}"
-                                            {{ $jadwalAmiId == $jadwal->jadwal_ami_id ? 'selected' : '' }}>
+                                            {{ $jadwal_ami_id == $jadwal->jadwal_ami_id ? 'selected' : '' }}>
                                             {{ $jadwal->nama_periode_ami }} :
                                             {{ \Carbon\Carbon::parse($jadwal->tanggal_pembukaan_ami)->translatedFormat('d M') }}
                                             -
@@ -119,7 +121,8 @@
                 {{-- Progress Status --}}
                 <div class="mb-4">
                     <h5 class="fw-bold">Persentase Pengisian Keseluruhan Audite = {{ $rataPersentasePengisian }}%</h5>
-                    <div class="progress" style="height: 25px; position: relative;" title="{{ $rataPersentasePengisian }}%">
+                    <div class="progress" style="height: 25px; position: relative;"
+                        title="{{ $rataPersentasePengisian }}%">
                         <div class="progress-bar bg-warning" role="progressbar"
                             style="width: {{ $rataPersentasePengisian }}%" aria-valuenow="{{ $rataPersentasePengisian }}"
                             aria-valuemin="0" aria-valuemax="100">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\DataAmiController;
 
 use App\Http\Controllers\Controller;
+use App\Models\PeriodePelaksanaan;
 use App\Models\Unit;
 use App\Models\UnitCabang;
 use Illuminate\Http\Request;
@@ -14,20 +15,46 @@ class DataUnitController extends Controller
      */
     public function index(Request $request)
     {
-        $unit_type = $request->input('unit_type');
-        $query = Unit::with(['units_cabang:unit_cabang_id,unit_id,nama_unit_cabang']);
-        if($unit_type && $unit_type !== 'all'){
+        // Ambil Semua Jadwal Periode Terurut
+        $jadwalPeriode = PeriodePelaksanaan::orderBy('tanggal_pembukaan_ami', 'desc')->get();
+
+        // Ambil Jadwal AMI ID dari Request atau Default Terbaru
+        $selectedJadwalAmiId = $request->input('jadwal_ami_id');
+        if (!$selectedJadwalAmiId) {
+            $periodeTerbaru = PeriodePelaksanaan::where('status', 'Sedang Berjalan')
+                ->orderBy('tanggal_pembukaan_ami', 'desc')
+                ->first();
+
+            if (!$periodeTerbaru) {
+                $periodeTerbaru = PeriodePelaksanaan::orderBy('tanggal_pembukaan_ami', 'desc')->first();
+            }
+
+            $selectedJadwalAmiId = $periodeTerbaru ? $periodeTerbaru->jadwal_ami_id : null;
+        }
+
+        // Ambil Unit Type dari Request
+        $unit_type = $request->input('unit_type', 'all'); // Default ke 'all'
+
+        // Query Unit Berdasarkan Jadwal dan Unit Type
+        $query = Unit::with(['units_cabang:unit_cabang_id,unit_id,nama_unit_cabang'])
+            ->where('jadwal_ami_id', $selectedJadwalAmiId);
+
+        if ($unit_type !== 'all') {
             $query->where('tipe_data', $unit_type);
         }
+
         $data_unit = $query->get();
 
-        // dump($data_unit->toArray());
+        // Return View dengan Data
         return view('data_ami.data_unit.unit', [
             'title' => 'Unit Kerja',
             'data_unit' => $data_unit,
-            'unit_type' => $unit_type, 
+            'unit_type' => $unit_type,
+            'jadwal_ami_id' => $selectedJadwalAmiId,
+            'jadwalPeriode' => $jadwalPeriode,
         ]);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -44,9 +71,21 @@ class DataUnitController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
+        // -------------------------------- Cek Periode "Sedang Berjalan" --------------------------------
+        $periodeTerbaru = PeriodePelaksanaan::where('status', 'Sedang Berjalan')
+            ->orderBy('tanggal_pembukaan_ami', 'desc')
+            ->first();
+
+        if (!$periodeTerbaru) {
+            return redirect()->to('/data_unit')->with('error', 'Tidak ada periode terbuka. Silakan buat periode terlebih dahulu.');
+        }
+
+        $jadwalAmiId = $periodeTerbaru->jadwal_ami_id;
+
+        // Ambil tipe data dari input
         $tipe_data = $request->input('tipe_data');
 
+        // -------------------------------- Tambah Unit Kerja --------------------------------
         if ($tipe_data === 'unit_kerja') {
             // Validasi dan simpan data unit kerja
             $validatedData = $request->validate([
@@ -59,6 +98,7 @@ class DataUnitController extends Controller
                 $units[] = [
                     'nama_unit' => $nama_unit,
                     'tipe_data' => $tipe_data,
+                    'jadwal_ami_id' => $jadwalAmiId, // Tambahkan jadwal_ami_id
                     'created_at' => now(),
                     'updated_at' => now()
                 ];
@@ -66,18 +106,21 @@ class DataUnitController extends Controller
             Unit::insert($units);
 
             return redirect('/data_unit')->with('success', 'Unit Kerja berhasil ditambahkan');
-        } elseif ($tipe_data === 'departemen_kerja') {
-
+        }
+        // -------------------------------- Tambah Departemen Kerja --------------------------------
+        elseif ($tipe_data === 'departemen_kerja') {
+            // Validasi data departemen dan prodi
             $validatedData = $request->validate([
                 'nama_departemen' => 'required|unique:unit,nama_unit|min:4',
                 'nama_unit_cabang' => 'nullable|array',
                 'nama_unit_cabang.*' => 'nullable|min:3'
             ]);
 
-            // Simpan departemen
+            // Simpan data departemen
             $unit = Unit::create([
                 'nama_unit' => $validatedData['nama_departemen'],
                 'tipe_data' => $tipe_data,
+                'jadwal_ami_id' => $jadwalAmiId, // Tambahkan jadwal_ami_id
                 'created_at' => now(),
                 'updated_at' => now()
             ]);
@@ -90,6 +133,7 @@ class DataUnitController extends Controller
                         $unitCabangs[] = [
                             'unit_id' => $unit->unit_id,
                             'nama_unit_cabang' => $nama_unit_cabang,
+                            'jadwal_ami_id' => $jadwalAmiId, // Tambahkan jadwal_ami_id
                             'created_at' => now(),
                             'updated_at' => now()
                         ];
@@ -99,7 +143,9 @@ class DataUnitController extends Controller
             }
 
             return redirect('/data_unit')->with('success', 'Departemen dan Prodi berhasil ditambahkan');
-        } else {
+        }
+        // -------------------------------- Error untuk Tipe Data Tidak Valid --------------------------------
+        else {
             return redirect('/data_unit')->with('error', 'Tipe data tidak valid');
         }
     }
@@ -130,7 +176,19 @@ class DataUnitController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $unit = Unit::findOrFail($id);
+        // -------------------------------- Cek Periode "Sedang Berjalan" --------------------------------
+        $periodeTerbaru = PeriodePelaksanaan::where('status', 'Sedang Berjalan')
+            ->orderBy('tanggal_pembukaan_ami', 'desc')
+            ->first();
+
+        if (!$periodeTerbaru) {
+            return redirect()->to('/data_unit')->with('error', 'Tidak ada periode terbuka. Silakan buat periode terlebih dahulu.');
+        }
+
+        $jadwalAmiId = $periodeTerbaru->jadwal_ami_id;
+
+        $unit = Unit::where('jadwal_ami_id', $jadwalAmiId)
+            ->findOrFail($id);
 
         // Validasi
         $request->validate([

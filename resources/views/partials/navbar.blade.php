@@ -40,7 +40,7 @@
             <div class="dropdown d-flex align-items-center">
                 <!-- Profile Picture -->
                 <img src="{{ Auth::user()->foto_gambar ? Storage::disk('s3')->url(Auth::user()->foto_gambar) : asset('assets/images/profile/user-profile.png') }}"
-                    alt="Profile" class="rounded-circle me-2" style="width: 40px; height: 40px; cursor: pointer;"
+                    alt="Profile" class="rounded-circle me-2" style="width: 34px; height: 34px; cursor: pointer;"
                     data-bs-toggle="dropdown">
                 <!-- User Name -->
                 <span class="text-white fw-bold" style="cursor: pointer;" data-bs-toggle="dropdown">
@@ -51,7 +51,7 @@
                 <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 p-3">
                     <li class="text-center">
                         <img src="{{ Auth::user()->foto_gambar ? Storage::disk('s3')->url(Auth::user()->foto_gambar) : asset('assets/images/profile/user-profile.png') }}"
-                            alt="Profile" class="rounded-circle mb-2" style="width: 40px; height: 49px">
+                            alt="Profile" class="rounded-circle mb-2" style="width: 40px; height: 40px">
                         <p class="fw-semibold mb-1">{{ Auth::user()->nama }}</p>
                     </li>
                     <li class="nav-item">

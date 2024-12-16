@@ -12,10 +12,16 @@ class Audite extends Model
     protected $table = 'audite';
     protected $primaryKey = 'audite_id';
     protected $fillable = [
+        'jadwal_ami_id',
         'unit_id',
         'unit_cabang_id',
         'user_id',
     ];
+
+    public function periode_pelaksanaan(): BelongsTo
+    {
+        return $this->belongsTo(PeriodePelaksanaan::class, 'jadwal_ami_id', 'jadwal_ami_id');
+    }
 
     public function user_audite(): BelongsTo
     {

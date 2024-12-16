@@ -35,7 +35,8 @@ class HomeController extends Controller
                 $query->where('jadwal_ami_id', $jadwalAmiId);
             },
         ])
-        ->get();
+            ->where('jadwal_ami_id', $jadwalAmiId)
+            ->get();
 
         // Hitung persentase pengisian untuk setiap unit
         $dataPengisian = collect(); // Default sebagai collection kosong

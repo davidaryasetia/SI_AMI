@@ -16,20 +16,30 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class ExportRekapAuditController extends Controller
 {
-    public function     exportRekapPerUnit(Request $request)
+    public function exportRekapPerUnit(Request $request)
     {
-        $jadwalAmiId = $request->query('jadwal_ami_id');
+        $selectedJadwalAmiId = $request->input('jadwal_ami_id');
 
-        if (!$jadwalAmiId) {
-            return redirect()->to('/rekap_audit')->with('error', 'Silakan pilih Periode AMI terlebih dahulu.');
+        // jika tidak ada request data dari dropdown
+        if (!$selectedJadwalAmiId) {
+            $periodeTerbaru = PeriodePelaksanaan::where('status', 'Sedang Berjalan')
+                ->orderBy('tanggal_pembukaan_ami', 'desc')
+                ->first();
+
+            if (!$periodeTerbaru) {
+                $periodeTerbaru = PeriodePelaksanaan::orderBy('tanggal_pembukaan_ami', 'desc')->first();
+            }
+
+            $selectedJadwalAmiId = $periodeTerbaru ? $periodeTerbaru->jadwal_ami_id : null;
         }
-
         // Ambil data berdasarkan jadwal_ami_id
         $data_transaksi = Unit::with([
-            'indikator_ikuk.transaksiDataIkuk' => function ($query) use ($jadwalAmiId) {
-                $query->where('jadwal_ami_id', $jadwalAmiId);
+            'indikator_ikuk.transaksiDataIkuk' => function ($query) use ($selectedJadwalAmiId) {
+                $query->where('jadwal_ami_id', $selectedJadwalAmiId);
             }
-        ])->get();
+        ])
+        ->where('jadwal_ami_id', $selectedJadwalAmiId)
+        ->get();
 
         $rekapByUnit = $data_transaksi->map(function ($unit) {
             $melampauiTarget = 0;
@@ -59,12 +69,17 @@ class ExportRekapAuditController extends Controller
 
         // Membuat Spreadsheet
         $spreadsheet = new Spreadsheet();
-        $periode = PeriodePelaksanaan::find($jadwalAmiId);
+        $periode = PeriodePelaksanaan::find($selectedJadwalAmiId);
+        if ($periode){
+            $nama_periode = $periode->nama_periode_ami;
+        } else {
+            $nama_periode = '-';
+        }
         $sheet = $spreadsheet->getActiveSheet();
 
         // Header Utama
         $sheet->mergeCells('A1:F1');
-        $sheet->setCellValue('A1', 'Rekap Audit Unit - Periode ' . $periode->nama_periode_ami);
+        $sheet->setCellValue('A1', 'Rekap Audit Unit - Periode ' . $nama_periode);
         $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(16);
         $sheet->getStyle('A1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
         $sheet->getRowDimension(1)->setRowHeight(30);
@@ -120,7 +135,7 @@ class ExportRekapAuditController extends Controller
 
         // Atur Nama File
 
-        $fileName = 'Rekap Audit Unit - Periode AMI ' . $periode->nama_periode_ami . '.xlsx';
+        $fileName = 'Rekap Audit Unit - Periode AMI ' . $nama_periode . '.xlsx';
 
         // Kirim File ke Browser
         $writer = new Xlsx($spreadsheet);

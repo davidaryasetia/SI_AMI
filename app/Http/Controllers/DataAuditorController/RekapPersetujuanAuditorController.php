@@ -29,8 +29,11 @@ class RekapPersetujuanAuditorController extends Controller
 
 
         // -----------------------------Data Untuk Mendapatkan hasil Unit Yang Di Audit----------------------------------
-        $auditorUnits = collect(session('auditor'))->pluck('units.unit_id')->unique();
-        $units = Unit::whereIn('unit_id', values: $auditorUnits)->orderBy('unit_id')->get();
+        $auditorUnits = collect(session('auditor'))->pluck('unit_id')->unique();
+        $units = Unit::whereIn('unit_id', values: $auditorUnits)
+            ->where('jadwal_ami_id', $jadwalAmiId)
+            ->orderBy('unit_id')->get();
+
         $userId = session('user_id');
         $dataIndikator = Unit::with([
             'units_cabang.audites.user_audite:user_id,nama',
@@ -41,6 +44,7 @@ class RekapPersetujuanAuditorController extends Controller
                 $query->where('jadwal_ami_id', $jadwalAmiId);
             },
         ])
+            ->where('jadwal_ami_id', $jadwalAmiId)
             ->whereIn('unit_id', $auditorUnits) // Filter berdasarkan unit_id dari session auditor
             ->get();
 
@@ -126,7 +130,11 @@ class RekapPersetujuanAuditorController extends Controller
         $jadwalAmiId = $periodeTerbaru->jadwal_ami_id;
 
         // cek apakah user ketua auditor atau anggota auditor
-        $unit = Unit::with('auditor')->findOrFail($unitId);
+        $unit = Unit::with('auditor')
+            ->where('unit_id', $unitId)
+            ->where('jadwal_ami_id', $jadwalAmiId)
+            ->firstOrFail();
+
         $isKetuaAuditor = $unit->auditor && $unit->auditor->auditor_1 == $userId;
         $isAnggotaAuditor = $unit->auditor && $unit->auditor->auditor_2 == $userId;
 
@@ -134,7 +142,7 @@ class RekapPersetujuanAuditorController extends Controller
             return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk finalisasi unit ini.');
         }
 
-      
+
         $statusColumn = $isKetuaAuditor ? 'status_finalisasi_auditor1' : 'status_finalisasi_auditor2';
 
         $updateData = TransaksiData::whereHas('indikator_ikuk', function ($query) use ($unitId) {

@@ -134,8 +134,8 @@
                 <div class="d-flex justify-content-start align-items-center mb-2 content-header position-relative">
                     <h4 class="card-title fw-semibold">
                         Progress Pengisian Kinerja Audite - Unit
-                        @if (session()->has('audite.unit.nama_unit'))
-                            {{ session('audite.unit.nama_unit') }}
+                        @if (session()->has('audite.nama_unit'))
+                            {{ session('audite.nama_unit') }}
                         @endif
                     </h4>
 

@@ -10,8 +10,8 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::table('indikator_kinerja_unit_kerja', function (Blueprint $table) {
-            $table->unsignedBigInteger('jadwal_ami_id')->after('indikator_kinerja_unit_kerja_id')->nullable();
+        Schema::table('unit_cabang', function (Blueprint $table) {
+            $table->unsignedBigInteger('jadwal_ami_id')->after('unit_cabang_id')->nullable();
             $table->foreign('jadwal_ami_id')
                 ->references('jadwal_ami_id')
                 ->on('jadwal_ami')
@@ -25,8 +25,9 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::table('indikator_kinerja_unit_kerja', function (Blueprint $table) {
+        Schema::table('unit_cabang', function (Blueprint $table) {
             $table->dropColumn('jadwal_ami_id');
         });
     }
 };
+    

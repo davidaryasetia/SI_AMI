@@ -132,6 +132,26 @@
                         <h5 style="color: black">Rekap Evaluasi Audit dan Persetujuan Unit</h5>
                     </div>
                 </div>
+
+                <div class="d-flex justify-content-end " style="position: absolute; top: 72px;right: 40px; z-index: 1050;">
+                    @if (session('success'))
+                        <div class="alert alert-primary  col-lg-12" role="alert">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                    @if (session('error'))
+                        <div class="alert alert-danger  col-lg-12" role="alert">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+                </div>
+                <script>
+                    setTimeout(function() {
+                        document.querySelectorAll('.alert').forEach(function(alert) {
+                            alert.style.display = "none";
+                        });
+                    }, 5000);
+                </script>
                 {{-- End Header --}}
 
                 {{-- Table Content --}}
@@ -140,7 +160,7 @@
                         <thead class="table-light">
                             <tr>
                                 <th class="border-bottom-0 text-center">
-                                    <h6 class="fw-semibold mb-0">No</h6>
+                                    <h6 class= "fw-semibold mb-0">No</h6>
                                 </th>
                                 <th class="border-bottom-0 text-center">
                                     <h6 class="fw-semibold mb-0">Unit</h6>

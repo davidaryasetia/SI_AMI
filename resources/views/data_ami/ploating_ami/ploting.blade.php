@@ -31,14 +31,14 @@
                             <form action="{{ route('ploting_ami.reset') }}" method="POST"
                                 onsubmit="return confirm('Apakah Anda yakin ingin mereset semua data ploting? Data Audite dan Auditor akan dihapus.')">
                                 @csrf
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary btn-sm">
                                     <i class="ti ti-refresh-alert me-2"></i> Reset Ploting
                                 </button>
                             </form>
                         </div>
                         <!-- Tombol Trigger Modal -->
                         <div class="ms-2">
-                            <button type="button" class="btn btn-primary" id="cekBebanButton" data-bs-toggle="modal"
+                            <button type="button" class="btn btn-primary btn-sm" id="cekBebanButton" data-bs-toggle="modal"
                                 data-bs-target="#cekBebanModal">
                                 <i class="ti ti-weight me-2"></i> Cek Beban
                             </button>
@@ -167,26 +167,48 @@
 
                     </div>
 
-                    <div>
+
+
+                    <div class="d-flex justify-content-end"
+                        style="position: absolute; top: 72px;right: 40px; z-index: 1050;">
                         @if (session('success'))
-                            <div class="alert alert-primary" style role="alert">
+                            <div class="alert alert-primary  col-lg-12" role="alert">
                                 {{ session('success') }}
                             </div>
                         @endif
                         @if (session('error'))
-                            <div class="alert alert-danger" style role="alert">
+                            <div class="alert alert-danger  col-lg-12" role="alert">
                                 {{ session('error') }}
                             </div>
                         @endif
                     </div>
-
                     <script>
                         setTimeout(function() {
                             document.querySelectorAll('.alert').forEach(function(alert) {
                                 alert.style.display = "none";
                             });
-                        }, 5000);
+                        }, 3000);
                     </script>
+                    
+                    <div class="d-flex align-items-center">
+                        <div class="ms-3">
+                            <div class="col-lg-12">
+                                <select id="jadwal_ami_id" name="jadwal_ami_id" class="form-select text-black"
+                                    style="border-radius: 12px;color: black">
+                                    <option value="">Pilih Periode AMI</option>
+                                    @foreach ($jadwalPeriode as $jadwal)
+                                        <option value="{{ $jadwal->jadwal_ami_id }}"
+                                            {{ $jadwal_ami_id == $jadwal->jadwal_ami_id ? 'selected' : '' }}>
+                                            {{ $jadwal->nama_periode_ami }} :
+                                            {{ \Carbon\Carbon::parse($jadwal->tanggal_pembukaan_ami)->translatedFormat('d M') }}
+                                            -
+                                            {{ \Carbon\Carbon::parse($jadwal->tanggal_penutupan_ami)->translatedFormat('d M') }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="table-responsive">
@@ -304,6 +326,24 @@
         </div>
     </div>
     @push('script')
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const jadwalSelect = document.getElementById('jadwal_ami_id');
+
+                function updatePage() {
+                    const jadwalId = jadwalSelect.value;
+
+                    if (jadwalId) {
+                        window.location.href = `/ploting_ami?jadwal_ami_id=${jadwalId}`;
+                    } else {
+                        window.location.href = `/ploting_ami`;
+                    }
+                }
+
+                // Tambahkan event listener hanya untuk dropdown jadwal
+                jadwalSelect.addEventListener('change', updatePage);
+            });
+        </script>
         <script>
             $('#table_audite').DataTable({
                 responsive: true,

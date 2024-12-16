@@ -23,12 +23,16 @@ class ImportIndikatorKinerjaController extends Controller
         $spreadsheet = IOFactory::load($file->getPathname());
         $sheetNames = $spreadsheet->getSheetNames(); // Ambil semua nama sheet
 
-        // Cari Periode dengan Status "Sedang Berjalan"
-        $periodeTerbuka = PeriodePelaksanaan::where('status', 'Sedang Berjalan')->first();
+        // -------------------------------- Cek Periode "Sedang Berjalan" --------------------------------
+        $periodeTerbaru = PeriodePelaksanaan::where('status', 'Sedang Berjalan')
+            ->orderBy('tanggal_pembukaan_ami', 'desc')
+            ->first();
 
-        if (!$periodeTerbuka) {
+        if (!$periodeTerbaru) {
             return redirect()->back()->with('error', 'Tidak ada periode yang terbuka. Silakan buat periode terlebih dahulu.');
         }
+
+        $jadwalAmiId = $periodeTerbaru->jadwal_ami_id;
 
         foreach ($sheetNames as $sheetName) {
             $sheet = $spreadsheet->getSheetByName($sheetName);
@@ -44,18 +48,18 @@ class ImportIndikatorKinerjaController extends Controller
                     }
 
                     // Cek Unit berdasarkan nama_unit
-                    $unit = Unit::where('nama_unit', $sheetName)->first();
+                    $unit = Unit::where('nama_unit', $sheetName)
+                        ->where('jadwal_ami_id', $jadwalAmiId)
+                        ->first();
 
                     // Jika Unit tidak ditemukan, buat Unit baru
                     if (!$unit) {
-                        $unit = Unit::create([
-                            'nama_unit' => $sheetName,
-                            'tipe_data' => 'default', // Atur tipe_data default
-                        ]);
+                        return redirect()->back()->with('error', 'Data Unit Pada Indikator Kinerja Unit Tidak Tersedia');
                     }
 
                     // Tambahkan Data ke Indikator Kinerja Unit Kerja
                     $indikator = IndikatorKinerjaUnitKerja::create([
+                        'jadwal_ami_id' => $jadwalAmiId,
                         'kode_ikuk' => $row[0],
                         'isi_indikator_kinerja_unit_kerja' => $row[1],
                         'satuan_ikuk' => $row[2],
@@ -66,7 +70,7 @@ class ImportIndikatorKinerjaController extends Controller
                     // Tambahkan Data ke Transaksi Data berdasarkan Periode Terbuka
                     TransaksiData::create([
                         'indikator_kinerja_unit_kerja_id' => $indikator->indikator_kinerja_unit_kerja_id,
-                        'jadwal_ami_id' => $periodeTerbuka->jadwal_ami_id,
+                        'jadwal_ami_id' => $jadwalAmiId,
                         'realisasi_ikuk' => null,
                         'analisis_usulan_keberhasilan' => null,
                         'target_lama' => null,
@@ -77,11 +81,10 @@ class ImportIndikatorKinerjaController extends Controller
                         'faktor_penghambat' => null,
                         'akar_masalah' => null,
                         'tindak_lanjut' => null,
-                        'status' => 'Belum Diisi',
                         'data_dukung' => null,
-                        'status_pengisian_audite' => false, 
-                        'status_finalisasi_audite' => false, 
-                        'status_finalisasi_auditor' => false, 
+                        'status_pengisian_audite' => false,
+                        'status_finalisasi_audite' => false,
+                        'status_finalisasi_auditor' => false,
                     ]);
                 }
             }

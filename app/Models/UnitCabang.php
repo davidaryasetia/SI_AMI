@@ -14,11 +14,17 @@ class UnitCabang extends Model
     protected $table='unit_cabang';
     protected $primaryKey='unit_cabang_id';
     protected $fillable=[
+        'jadwal_ami_id', 
         'unit_id',
         'nama_unit_cabang', 
         'created_at', 
         'updated_at'
     ];
+
+    public function periode_pelaksanaan(): BelongsTo
+    {
+        return $this->belongsTo(PeriodePelaksanaan::class, 'jadwal_ami_id', 'jadwal_ami_id');
+    }
     
     public function users_cabang(): BelongsTo
     {

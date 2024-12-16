@@ -14,12 +14,14 @@ use Illuminate\Http\Request;
 
 class PersetujuanAuditeController extends Controller
 {
+
     public function index()
     {
+        // dump(session()->all());
         $date = Carbon::now()->format('d F Y');
-        $unitId = session('audite.unit.unit_id');
+        $unitId = session('audite.unit_id');
         $nama_audite = Auth::user()->nama;
-        $nama_unit = session('audite.unit.nama_unit');
+        $nama_unit = session('audite.nama_unit');
 
         $auditorData = Auditor::where('unit_id', $unitId)->first();
         if ($auditorData) {
@@ -68,7 +70,9 @@ class PersetujuanAuditeController extends Controller
             'indikator_ikuk.transaksiDataIkuk' => function ($query) use ($jadwalAmiId) {
                 $query->where('jadwal_ami_id', $jadwalAmiId);
             },
-        ])->where('unit_id', $unitId)->first();
+        ])
+        ->where('jadwal_ami_id', $jadwalAmiId)
+        ->where('unit_id', $unitId)->first();
 
         if (!$dataUnit) {
             return view('data_audite.home_audite.beranda', [
@@ -132,16 +136,20 @@ class PersetujuanAuditeController extends Controller
 
     public function finalisasi(Request $request)
     {
-        $unitId = session('audite.unit.unit_id'); // Mengambil unit_id dari session
+        // dump(session()->all());
         $periodeTerbaru = PeriodePelaksanaan::where('status', 'Sedang Berjalan')
             ->orderBy('tanggal_pembukaan_ami', 'desc')
             ->first();
 
         if (!$periodeTerbaru) {
-            return redirect()->back()->with('error', 'Tidak ada periode pelaksanaan yang aktif untuk finalisasi.');
+            $periodeTerbaru = PeriodePelaksanaan::orderBy('tanggal_pembukaan_ami', 'desc')->first();
         }
 
-        $jadwalAmiId = $periodeTerbaru->jadwal_ami_id;
+        // Ambil data indikator berdasarkan unit_id dan jadwal_ami_id
+        $jadwalAmiId = $periodeTerbaru ? $periodeTerbaru->jadwal_ami_id : null;
+
+        $unitId = session('audite.unit_id'); // Mengambil unit_id dari session
+     
 
         // Finalisasi semua transaksi yang terkait
         $updated = TransaksiData::whereHas('indikator_ikuk', function ($query) use ($unitId) {

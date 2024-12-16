@@ -14,9 +14,9 @@ class HomeAuditeController extends Controller
     public function HomeAudite()
     {
         // Mendapatkan unit_id dari session audite
-        $unitId = session('audite.unit.unit_id');
+        $unitId = session('audite.unit_id');
         $nama_unit = session('audite.unit.nama_unit');
-
+        // dump(session()->all());
         $auditor1 = null;
         $auditor2 = null;
 
@@ -79,7 +79,10 @@ class HomeAuditeController extends Controller
             'indikator_ikuk.transaksiDataIkuk' => function ($query) use ($jadwalAmiId) {
                 $query->where('jadwal_ami_id', $jadwalAmiId);
             },
-        ])->where('unit_id', $unitId)->first();
+        ])
+        ->where('jadwal_ami_id', $jadwalAmiId)
+        ->where('unit_id', $unitId)
+        ->first();
 
         if (!$dataUnit) {
             return view('data_audite.home_audite.beranda', [
@@ -147,6 +150,7 @@ class HomeAuditeController extends Controller
             }
         }
         // dump($statusFinalisasiAudite);
+        // dump($dataUnit);
 
         // Hitung total capaian dan persentase
         $totalCapaian = $melampauiTarget + $memenuhi + $belumMemenuhi;

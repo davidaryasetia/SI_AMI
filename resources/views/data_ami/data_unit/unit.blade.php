@@ -14,12 +14,12 @@
                             <span class="card-title fw-semibold">Daftar Unit Kerja</span>
                         </div>
                         <div class="me-2">
-                            <a href="data_unit/create" type="button" class="btn btn-primary"><i
+                            <a href="data_unit/create" type="button" class="btn btn-primary btn-sm"><i
                                     class="ti ti-plus me-1"></i>Tambah Unit | Departement</a>
                         </div>
                         <!-- Tombol Trigger Modal -->
                         <div class="me-2">
-                            <a href="#" type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            <a href="#" type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
                                 data-bs-target="#importDataModal">
                                 <i class="ti ti-upload me-1"></i>Import Data
                             </a>
@@ -33,7 +33,7 @@
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="importDataModalLabel">Import Data Unit Kerja
                                         </h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
@@ -42,7 +42,7 @@
                                             @csrf
                                             <div class="mb-3">
                                                 <label for="excel_file" class="form-label">Pilih File Unit Kerja</label>
-                                                <input type="file" name="excel_file" id="excel_file" class="form-control"
+                                                <input type="file" name="file" id="file" class="form-control"
                                                     required>
                                             </div>
                                             <div class="mb-3">
@@ -68,54 +68,76 @@
                         <!-- Modal -->
 
                         <div class="d-flex justify-content-start">
-                            <form action="{{ route('data_unit.index') }}" method="GET" class="col-lg-10" id="unitForm">
+                            <!-- Form Unit -->
+                            <form action="{{ route('data_unit.index') }}" method="GET" class="col-lg-12" id="unitForm">
                                 <div class="d-flex align-items-center">
+                                    <!-- Dropdown Unit Type -->
                                     <div class="me-2">
-                                        <div class="">
-                                            <select id="unit_type" name="unit_type" class="form-select">
-                                                <option value="all"
-                                                    {{ request('unit_type') == 'all' ? 'selected' : '' }}>Filter Unit /
-                                                    Departement....</option>
-                                                <option value="unit_kerja"
-                                                    {{ request('unit_type') == 'unit_kerja' ? 'selected' : '' }}>Unit Kerja
-                                                </option>
-                                                <option value="departemen_kerja"
-                                                    {{ request('unit_type') == 'departemen_kerja' ? 'selected' : '' }}>
-                                                    Departement Kerja</option>
-                                            </select>
-                                        </div>
+                                        <select id="unit_type" name="unit_type" class="form-select form-select-sm">
+                                            <option value="all" {{ request('unit_type') == 'all' ? 'selected' : '' }}>
+                                                Filter Unit / Departement....
+                                            </option>
+                                            <option value="unit_kerja"
+                                                {{ request('unit_type') == 'unit_kerja' ? 'selected' : '' }}>
+                                                Unit Kerja
+                                            </option>
+                                            <option value="departemen_kerja"
+                                                {{ request('unit_type') == 'departemen_kerja' ? 'selected' : '' }}>
+                                                Departement Kerja
+                                            </option>
+                                        </select>
                                     </div>
+                                    <!-- Hidden Field for Jadwal -->
+                                    <input type="hidden" id="jadwal_ami_id_hidden" name="jadwal_ami_id"
+                                        value="{{ request('jadwal_ami_id') }}">
                                 </div>
                             </form>
-                            <script>
-                                document.getElementById('unit_type').addEventListener('change', function() {
-                                    document.getElementById('unitForm').submit();
-                                })
-                            </script>
                         </div>
+
+
 
                     </div>
 
-                    <div>
+                    <div class="d-flex justify-content-end"
+                        style="position: absolute; top: 72px;right: 40px; z-index: 1050;">
                         @if (session('success'))
-                            <div class="alert alert-primary" style role="alert">
+                            <div class="alert alert-primary  col-lg-12" role="alert">
                                 {{ session('success') }}
                             </div>
                         @endif
                         @if (session('error'))
-                            <div class="alert alert-danger" style role="alert">
+                            <div class="alert alert-danger  col-lg-12" role="alert">
                                 {{ session('error') }}
                             </div>
                         @endif
                     </div>
-
                     <script>
                         setTimeout(function() {
                             document.querySelectorAll('.alert').forEach(function(alert) {
                                 alert.style.display = "none";
                             });
-                        }, 5000);
+                        }, 3000);
                     </script>
+
+                    <div class="d-flex align-items-center">
+                        <div class="ms-3">
+                            <div class="col-lg-12">
+                                <select id="jadwal_ami_id" name="jadwal_ami_id" class="form-select text-black"
+                                    style="border-radius: 12px;color: black">
+                                    <option value="">Pilih Periode AMI</option>
+                                    @foreach ($jadwalPeriode as $jadwal)
+                                        <option value="{{ $jadwal->jadwal_ami_id }}"
+                                            {{ $jadwal_ami_id == $jadwal->jadwal_ami_id ? 'selected' : '' }}>
+                                            {{ $jadwal->nama_periode_ami }} :
+                                            {{ \Carbon\Carbon::parse($jadwal->tanggal_pembukaan_ami)->translatedFormat('d M') }}
+                                            -
+                                            {{ \Carbon\Carbon::parse($jadwal->tanggal_penutupan_ami)->translatedFormat('d M') }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="table-responsive">
@@ -184,6 +206,25 @@
     </div>
     {{-- JS --}}
     @push('script')
+        <script>
+            // Submit Form on Unit Type Change
+            document.getElementById('unit_type').addEventListener('change', function() {
+                document.getElementById('unitForm').submit();
+            });
+
+            // Update Hidden Jadwal ID and Submit on Change
+            document.addEventListener('DOMContentLoaded', function() {
+                const jadwalSelect = document.getElementById('jadwal_ami_id'); // Jadwal Dropdown
+                const hiddenJadwalInput = document.getElementById('jadwal_ami_id_hidden');
+
+                if (jadwalSelect) {
+                    jadwalSelect.addEventListener('change', function() {
+                        hiddenJadwalInput.value = jadwalSelect.value;
+                        document.getElementById('unitForm').submit();
+                    });
+                }
+            });
+        </script>
         <script>
             // ------------- Data Audit Mutu Internal ------------
             $('#table_unit').DataTable({

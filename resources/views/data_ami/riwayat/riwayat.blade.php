@@ -51,18 +51,21 @@
             <div class="w-100">
 
                 {{-- Header --}}
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <div class="d-flex align-items-center">
-                        <h4 class="card-title fw-semibold">Riwayat Progress Capaian Kinerja
-                            @if (isset($data_indikator['tipe_data']) && $data_indikator['tipe_data'] === 'unit_kerja')
-                                Unit {{ $nama_unit }}
-                            @elseif (isset($data_indikator['tipe_data']) && $data_indikator['tipe_data'] === 'departemen_kerja')
-                                {{ $nama_unit }}
-                            @else
-                                {{ $nama_unit }}
-                            @endif
+                <div class="d-flex align-items-center mb-2 justify-content-between">
+                    <div class="d-flex align-items-start">
 
-                        </h4>
+                        <div class="d-flex flex-column">
+                            <h4 class="card-title fw-semibold mb-1">Riwayat Capaian Kinerja
+                            </h4>
+                            @if (isset($data_indikator['tipe_data']) && $data_indikator['tipe_data'] === 'unit_kerja')
+                                <span style="color: black; font-weight: 400;">{{ $nama_unit }}</span>
+                            @elseif (isset($data_indikator['tipe_data']) && $data_indikator['tipe_data'] === 'departemen_kerja')
+                                <span style="color: black; font-weight: 400">{{ $nama_unit }}</span>
+                            @else
+                                <span style="color: black; font-weight: 400">{{ $nama_unit }}</span>
+                            @endif
+                        </div>
+
 
                         <div class="d-flex ms-1">
                             <div class="d-flex justify-content-end ms-3">
@@ -77,51 +80,80 @@
                             </div>
                         </div>
 
+                        <div class="d-flex">
+                            {{-- Button to Open Modal --}}
+                            <button type="button" class="btn btn-sm btn-info ms-3" data-bs-toggle="modal"
+                                data-bs-target="#chartModal"><i class="ti ti-chart-area-line"></i>
+                                Lihat Grafik
+                            </button>
+
+                        </div>
+
 
                         {{-- Tooltip Custom dengan Tippy.js --}}
                         <div id="tooltip-info" class="ms-3" style="cursor: pointer;">
                             <i class="ti ti-info-circle fs-5 text-primary"></i>
                         </div>
-
-
                     </div>
-                    <div class="d-flex align-items-center">
-                        <div class="">
-                            <div class="col-lg-12">
-                                <select id="unit_id" name="unit_id" class="form-select text-black"
-                                    style="border-radius: 12px;color: black">
-                                    <option value="">Pilih Unit Kerja</option>
-                                    @foreach ($units as $unit)
-                                        <option value="{{ $unit->unit_id }}"
-                                            {{ $selectedUnitId == $unit->unit_id ? 'selected' : '' }}>
-                                            {{ $unit->nama_unit }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="ms-3">
-                            <div class="col-lg-12">
-                                <select id="jadwal_ami_id" name="jadwal_ami_id" class="form-select text-black"
-                                    style="border-radius: 12px;color: black">
-                                    <option value="">Pilih Periode AMI</option>
-                                    @foreach ($jadwalPeriode as $jadwal)
-                                        <option value="{{ $jadwal->jadwal_ami_id }}"
-                                            {{ $selectedJadwalAmiId == $jadwal->jadwal_ami_id ? 'selected' : '' }}>
-                                            {{ $jadwal->nama_periode_ami }} :
-                                            {{ \Carbon\Carbon::parse($jadwal->tanggal_pembukaan_ami)->translatedFormat('d M') }}
-                                            -
-                                            {{ \Carbon\Carbon::parse($jadwal->tanggal_penutupan_ami)->translatedFormat('d M') }}
-                                        </option>
-                                    @endforeach
-                                </select>
 
-                            </div>
+
+                    <div class="d-flex align-items-start justify-content-end">
+                        <div class="col-lg-4 me-3">
+                            <select id="unit_id" name="unit_id" class="form-select text-black"
+                                style="border-radius: 12px;color: black">
+                                <option value="">Pilih Unit Kerja</option>
+                                @foreach ($units as $unit)
+                                    <option value="{{ $unit->unit_id }}"
+                                        {{ $selectedUnitId == $unit->unit_id ? 'selected' : '' }}>
+                                        {{ $unit->nama_unit }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-lg-5">
+                            <select id="jadwal_ami_id" name="jadwal_ami_id" class="form-select text-black"
+                                style="border-radius: 12px;color: black">
+                                <option value="">Pilih Periode AMI</option>
+                                @foreach ($jadwalPeriode as $jadwal)
+                                    <option value="{{ $jadwal->jadwal_ami_id }}"
+                                        {{ $selectedJadwalAmiId == $jadwal->jadwal_ami_id ? 'selected' : '' }}>
+                                        {{ $jadwal->nama_periode_ami }} :
+                                        {{ \Carbon\Carbon::parse($jadwal->tanggal_pembukaan_ami)->translatedFormat('d M') }}
+                                        -
+                                        {{ \Carbon\Carbon::parse($jadwal->tanggal_penutupan_ami)->translatedFormat('d M') }}
+                                    </option>
+                                @endforeach
+                            </select>
+
                         </div>
 
                     </div>
                 </div>
                 {{-- End Header --}}
+
+                {{-- Modal Bar Chart --}}
+                <div class="modal fade" id="chartModal" tabindex="-1" aria-labelledby="chartModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="chartModalLabel">Grafik Progress Capaian</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="horizontal-bar-chart-container"
+                                    style="height: 120px; width: 100%; max-width: 100%; margin: auto;">
+                                    <canvas id="performanceChart"></canvas>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
 
                 <div class="d-flex justify-content-end" style="position: absolute; top: 72px;right: 40px; z-index: 1050;">
                     @if (session('success'))
@@ -143,14 +175,9 @@
                     }, 5000);
                 </script>
 
-                {{-- Barchart --}}
-                <div class="horizontal-bar-chart-container"
-                    style="height: 70px; width: 100%; max-width: 100%; margin: auto;">
-                    <canvas id="performanceChart"></canvas>
-                </div>
 
                 {{-- Table Content --}}
-                <div class="table-responsive mt-1   ">
+                <div class="table-responsive">
                     <table class="table table-bordered" id="riwayat">
                         <thead style="">
                             <tr>
@@ -218,7 +245,7 @@
                                                     style="background-color: red;color: white; font-weight: 600">Belum
                                                     Memenuhi</span>
                                             @else
-                                             <span style="color: red">NULL</span>
+                                                <span style="color: red">NULL</span>
                                             @endif
                                         </td>
                                         <!-- Analisis Keberhasilan -->
@@ -378,22 +405,35 @@
                 const unitId = unitSelect.value;
                 const jadwalId = jadwalSelect.value;
 
-                if (unitId && jadwalId) {
-                    window.location.href = `/riwayat?unit_id=${unitId}&jadwal_ami_id=${jadwalId}`;
+                if (jadwalId) {
+                    // Reset unit dropdown setiap kali jadwal berubah
+                    unitSelect.innerHTML = '<option value="">Pilih Unit Kerja</option>';
+
+                    // Redirect halaman dengan parameter jadwal
+                    if (unitId) {
+                        window.location.href = `/riwayat?unit_id=${unitId}&jadwal_ami_id=${jadwalId}`;
+                    } else {
+                        window.location.href = `/riwayat?jadwal_ami_id=${jadwalId}`;
+                    }
                 } else if (unitId) {
                     window.location.href = `/riwayat?unit_id=${unitId}`;
-                } else if (jadwalId) {
-                    window.location.href = `/riwayat?jadwal_ami_id=${jadwalId}`;
                 } else {
                     window.location.href = `/riwayat`;
                 }
             }
 
-            // Add event listeners for both dropdowns
+            // Tambahkan event listener untuk kedua dropdown
             unitSelect.addEventListener('change', updatePage);
-            jadwalSelect.addEventListener('change', updatePage);
+            jadwalSelect.addEventListener('change', function() {
+                // Reset dropdown unit saat jadwal berubah
+                unitSelect.innerHTML = '<option value="">Pilih Unit Kerja</option>';
+
+                // Panggil updatePage untuk handle perubahan URL
+                updatePage();
+            });
         });
     </script>
+
 
     <script>
         // ------------- Data Audit Mutu Internal ------------

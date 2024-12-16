@@ -12,10 +12,25 @@ class PengisianKinerjaAuditorController extends Controller
 {
     public function index(Request $request)
     {
+        // dump(session()->all());
+        $periodeTerbaru = PeriodePelaksanaan::where('status', 'Sedang Berjalan')
+            ->orderBy('tanggal_pembukaan_ami', 'desc')
+            ->first();
+
+        if (!$periodeTerbaru) {
+            $periodeTerbaru = PeriodePelaksanaan::orderBy('tanggal_pembukaan_ami', 'desc')->first();
+        }
+
+        // Ambil data indikator berdasarkan unit_id dan jadwal_ami_id
+        $jadwalAmiId = $periodeTerbaru ? $periodeTerbaru->jadwal_ami_id : null;
+
+
         // Ambil unit yang terkait dengan auditor dari session
         $userId = session('user_id');
-        $auditorUnits = collect(session('auditor'))->pluck('units.unit_id')->unique();
-        $units = Unit::whereIn('unit_id', $auditorUnits)->orderBy('unit_id')->get();
+        $auditorUnits = collect(session('auditor'))->pluck('unit_id')->unique();
+        $units = Unit::whereIn('unit_id', $auditorUnits)
+            ->where('jadwal_ami_id', $jadwalAmiId)
+            ->orderBy('unit_id')->get();
         $unitId = $request->input('unit_id');
 
         // Jika unit belum dipilih, kosongkan data_indikator
@@ -29,11 +44,11 @@ class PengisianKinerjaAuditorController extends Controller
                 ->first();
 
             if (!$periodeTerbaru) {
-                return redirect()->back()->with('error', 'Tidak ada periode pelaksanaan yang aktif');
+                $periodeTerbaru = PeriodePelaksanaan::orderBy('tanggal_pembukaan_ami', 'desc')->first();
             }
 
             // Ambil data indikator berdasarkan unit_id dan jadwal_ami_id
-            $jadwalAmiId = $periodeTerbaru->jadwal_ami_id;
+            $jadwalAmiId = $periodeTerbaru ? $periodeTerbaru->jadwal_ami_id : null;
 
 
             $data_indikator = Unit::with([
@@ -44,6 +59,7 @@ class PengisianKinerjaAuditorController extends Controller
                 }
             ])
                 ->where('unit_id', $unitId)
+                ->where('jadwal_ami_id', $jadwalAmiId)
                 ->first();
 
             // Ambil nama unit berdasarkan unitId
@@ -106,15 +122,28 @@ class PengisianKinerjaAuditorController extends Controller
 
     public function updateStatusAuditor(Request $request, $id)
     {
-        $transaksi = TransaksiData::findOrFail($id);
+        $periodeTerbaru = PeriodePelaksanaan::where('status', 'Sedang Berjalan')
+            ->orderBy('tanggal_pembukaan_ami', 'desc')
+            ->first();
 
-        if ($transaksi->status_pengisian_auditor){
+        if (!$periodeTerbaru) {
+            $periodeTerbaru = PeriodePelaksanaan::orderBy('tanggal_pembukaan_ami', 'desc')->first();
+        }
+
+        // Ambil data indikator berdasarkan unit_id dan jadwal_ami_id
+        $jadwalAmiId = $periodeTerbaru ? $periodeTerbaru->jadwal_ami_id : null;
+
+        $transaksi = TransaksiData::where('transaksi_data_ikuk_id', $id)
+            ->where('jadwal_ami_id', $jadwalAmiId)
+            ->firstOrFail();
+
+        if ($transaksi->status_pengisian_auditor) {
             return redirect()->back()->with('error', 'Transaksi ini sudah terkonfirmasi');
         }
 
         $transaksi->update([
-            'hasil_audit' => $request->input('hasil_audit'), 
-            'status_pengisian_auditor' => true, 
+            'hasil_audit' => $request->input('hasil_audit'),
+            'status_pengisian_auditor' => true,
         ]);
 
         return redirect()->back()->with('success', 'Status capaian dan pengisian auditor berhasil diperbarui');

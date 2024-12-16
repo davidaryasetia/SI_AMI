@@ -35,8 +35,8 @@
             <div class="col-lg-8">
                 <h5 class="fw-bold text-dark">Hai, {{ Auth::user()->nama }}! Selamat datang di Dashboard Audite pada
                     <strong>Unit
-                        @if (session()->has('audite.unit.nama_unit'))
-                            {{ session('audite.unit.nama_unit') }}
+                        @if (session()->has('audite.nama_unit'))
+                            {{ session('audite.nama_unit') }}
                         @endif
                     </strong>
                 </h5>
@@ -136,8 +136,8 @@
                                 </li>
                                 <li class="list-group-item">Unit:
                                     <strong>
-                                        @if (session()->has('audite.unit.nama_unit'))
-                                            {{ session('audite.unit.nama_unit') }}
+                                        @if (session()->has('audite.nama_unit'))
+                                            {{ session('audite.nama_unit') }}
                                         @endif
                                     </strong>
                                 </li>
@@ -189,7 +189,10 @@
             <div class="col-lg-12">
                 <div class="card shadow-sm">
                     <div class="card-header bg-light">
-                        <h5 class="card-title mb-0 text-black text-center">Rekap Capaian Unit</h5>
+                        <h5 class="card-title mb-0 text-black text-center">Rekap Capaian Unit @if (session()->has('audite.nama_unit'))
+                                {{ session('audite.nama_unit') }}
+                            @endif
+                        </h5>
                     </div>
                     <div class="card-body">
                         <div class="horizontal-bar-chart-container"
