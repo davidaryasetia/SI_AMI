@@ -21,7 +21,7 @@ class ExportRiwayatAuditeController extends Controller
             return redirect()->route('riwayat_audite.index')->with('error', 'Pilih jadwal AMI terlebih dahulu.');
         }
 
-        $unitId = session('audite.unit.unit_id');
+        $unitId = session('audite.unit_id');
         $unit = Unit::with([
             'indikator_ikuk.transaksiDataIkuk' => function ($query) use ($jadwalAmiId) {
                 $query->where('jadwal_ami_id', $jadwalAmiId);
