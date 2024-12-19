@@ -116,22 +116,22 @@
                         <td>${auditor.nama}</td>
                         <td class="text-center">
                             ${auditor.jumlahAuditor1}
-                            <span 
-                                class="ms-2 btn btn-sm btn-light" 
-                                tabindex="0" 
-                                data-bs-toggle="popover" 
-                                data-bs-trigger="hover focus" 
+                            <span
+                                class="ms-2 btn btn-sm btn-light"
+                                tabindex="0"
+                                data-bs-toggle="popover"
+                                data-bs-trigger="hover focus"
                                 data-bs-content="${auditor1Units}">
                                 <i class="ti ti-info-circle"></i>
                             </span>
                         </td>
                         <td class="text-center">
                             ${auditor.jumlahAuditor2}
-                            <span 
-                                class="ms-2 btn btn-sm btn-light" 
-                                tabindex="0" 
-                                data-bs-toggle="popover" 
-                                data-bs-trigger="hover focus" 
+                            <span
+                                class="ms-2 btn btn-sm btn-light"
+                                tabindex="0"
+                                data-bs-toggle="popover"
+                                data-bs-trigger="hover focus"
                                 data-bs-content="${auditor2Units}">
                                 <i class="ti ti-info-circle"></i>
                             </span>
@@ -189,7 +189,7 @@
                             });
                         }, 3000);
                     </script>
-                    
+
                     <div class="d-flex align-items-center">
                         <div class="ms-3">
                             <div class="col-lg-12">
@@ -347,7 +347,7 @@
         <script>
             $('#table_audite').DataTable({
                 responsive: true,
-                "scrollY": "520px",
+                "scrollY": "640px",
                 scrollX: true,
                 autoWidth: false,
                 "pageLength": 50,

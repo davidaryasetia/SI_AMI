@@ -229,7 +229,7 @@
             // ------------- Data Audit Mutu Internal ------------
             $('#table_unit').DataTable({
                 responsive: true,
-                "scrollY": "520px",
+                "scrollY": "640px",
                 scrollX: true,
                 autoWidth: false,
                 "pageLength": 50,
