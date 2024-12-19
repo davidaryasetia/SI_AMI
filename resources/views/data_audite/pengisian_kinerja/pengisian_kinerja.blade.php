@@ -48,10 +48,10 @@
         }
 
         /* .ikuk-btn:disabled {
-                                                            background-color: #ccc !important;
-                                                            cursor: not-allowed;
-                                                            display: none;
-                                                        } */
+                                                                background-color: #ccc !important;
+                                                                cursor: not-allowed;
+                                                                display: none;
+                                                            } */
 
 
 
@@ -181,14 +181,16 @@
                             </style>
                         @endif
 
-                        <button id="btn" class="ikuk-btn btn-sm" data-bs-toggle="modal"
-                            data-bs-target="#modal{{ $dataIndikator['kode_ikuk'] }}"
-                            {{ $transaksi['status_pengisian_auditor'] ? 'disabled' : '' }}
-                            style="{{ $transaksi['status_pengisian_auditor'] ? 'background-color:grey;' : '' }}">
+                        <button id="btn{{ $dataIndikator['kode_ikuk'] }}"
+                            class="ikuk-btn btn-sm" style="{{ $transaksi && $transaksi['status_pengisian_audite'] ? 'background-color:green' : '' }}"
+                            data-bs-toggle="modal" data-bs-target="#modal{{ $dataIndikator['kode_ikuk'] }}"
+                            {{ $transaksi && $transaksi['status_pengisian_auditor'] ? 'disabled' : '' }}
+                            style="{{ $transaksi && $transaksi['status_pengisian_auditor'] ? 'background-color:green;' : '' }}">
                             {{ $dataIndikator['kode_ikuk'] }}
                         </button>
                     @endforeach
                 </div>
+
 
                 {{-- Modal untuk setiap IKUK --}}
                 @foreach ($data_indikator['indikator_ikuk'] as $dataIndikator)

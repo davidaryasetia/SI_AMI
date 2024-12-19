@@ -26,7 +26,7 @@ class PengisianKinerjaController extends Controller
             return redirect()->back()->with('error', 'Tidak ada periode pelaksanaan yang aktif, Tidak Bisa melakukan audit pengisian data.');
         }
 
-        // Get Data Indikator 
+        // Get Data Indikator
         $jadwalAmiId = $periodeTerbaru ? $periodeTerbaru->jadwal_ami_id : null;
 
         $data_indikator = Unit::with([
@@ -144,7 +144,7 @@ class PengisianKinerjaController extends Controller
         $transaksi->update([
             'realisasi_ikuk' => $request->input('realisasi_ikuk'),
             'analisis_usulan_keberhasilan' => $request->input('analisis_usulan_keberhasilan'),
-            'hasil_audit' => $hasilAudit, 
+            'hasil_audit' => $hasilAudit,
             'usulan_target_tahun_depan' => $request->input('usulan_target_tahun_depan'),
             'strategi_pencapaian' => $request->input('strategi_pencapaian'),
             'sarpras_yang_dibutuhkan' => $request->input('sarpras_yang_dibutuhkan'),
@@ -153,7 +153,7 @@ class PengisianKinerjaController extends Controller
             'akar_masalah' => $request->input('akar_masalah'),
             'tindak_lanjut' => $request->input('tindak_lanjut'),
             'data_dukung' => $request->input('data_dukung'),
-            'status_pengisian_audite' => true, 
+            'status_pengisian_audite' => true,
         ]);
 
         return redirect()->route('pengisian_kinerja.index')->with('success', 'Data Kinerja Berhasil Diperbarui');
