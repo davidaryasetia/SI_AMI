@@ -152,7 +152,7 @@
         <script>
             $('#daftar_user').DataTable({
                 responsive: true,
-                "scrollY": "520px",
+                "scrollY": "640px",
                 scrollX: true,
                 autoWidth: false,
                 "pageLength": 50,
