@@ -129,7 +129,6 @@ class RekapPersetujuanAuditorController extends Controller
         });
 
 
-
         return view('data_auditor.rekap_persetujuan.rekap_persetujuan_auditor', [
             'title' => 'Rekap Persetujuan Auditor',
             'date' => $date,

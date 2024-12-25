@@ -237,7 +237,7 @@
                                     data-is-ketua-auditor={{ $data['is_ketua_auditor'] ? 'true' : 'false' }}
                                     data-is-anggota-auditor={{ $data['is_anggota_auditor'] ? 'true' : 'false' }}
                                     data-status-finalisasi-auditor1="{{ $data['statusFinalisasiAuditor1'] ? true : false }}"
-                                    data-status-finalisasi-auditor2="{{ $data['statusFinalisasiAuditor2 '] ? true : false }}"
+                                    data-status-finalisasi-auditor2="{{ $data['statusFinalisasiAuditor2'] ? true : false }}"
                                     data-tanggal-finalisasi="{{ $data['tanggalFinalisasi'] }}">
                                     {{ $data['nama_unit'] }}
                                 </option>
