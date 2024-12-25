@@ -223,7 +223,7 @@
                     </table>
                 </div>
                 {{-- END Table Content --}}
-                @dump($dataTransaksi->toArray())
+                {{-- @dump($dataTransaksi->toArray()) --}}
                 {{-- Approval Content --}}
                 <div class="approval-box">
                     <div class="col-lg-2">

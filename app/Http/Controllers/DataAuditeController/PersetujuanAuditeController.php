@@ -133,9 +133,9 @@ class PersetujuanAuditeController extends Controller
             ->pluck('tanggal_status_finalisasi_auditor2')
             ->first();
 
-        dump("date finalisasi audite : $formatTanggalFinalisasiAudite");
-        dump("date finalisasi auditor1 : $tanggalFinalisasiAuditor1");
-        dump("date finalisasi auditor2 : $tanggalFinalisasiAuditor2");
+        // dump("date finalisasi audite : $formatTanggalFinalisasiAudite");
+        // dump("date finalisasi auditor1 : $tanggalFinalisasiAuditor1");
+        // dump("date finalisasi auditor2 : $tanggalFinalisasiAuditor2");
         // dump($dataUnit->toArray());
 
         return view('data_audite.persetujuan.persetujuan', [
