@@ -123,6 +123,7 @@
 @endpush
 
 @section('content')
+    {{-- @dump($dataTransaksi->toArray()) --}}
     <div class="container-fluid">
         <div class="col-lg-12 d-flex align-items-stretch">
             <div class="w-100">
@@ -133,14 +134,15 @@
                     </div>
                 </div>
 
-                <div class="d-flex justify-content-end " style="position: absolute; top: 72px;right: 40px; z-index: 1050;">
+                <div class="d-flex justify-content-end col-lg-8"
+                    style="position: absolute; top: 72px;right: 40px; z-index: 1050;">
                     @if (session('success'))
-                        <div class="alert alert-primary  col-lg-12" role="alert">
+                        <div class="alert alert-primary  col-lg-8" role="alert">
                             {{ session('success') }}
                         </div>
                     @endif
                     @if (session('error'))
-                        <div class="alert alert-danger  col-lg-12" role="alert">
+                        <div class="alert alert-danger  col-lg-8" role="alert">
                             {{ session('error') }}
                         </div>
                     @endif
@@ -186,7 +188,7 @@
                                         @if ($data['is_ketua_auditor'] == true && $data['is_anggota_auditor'] == false)
                                             Ketua Auditor
                                         @elseif ($data['is_ketua_auditor'] == false && $data['is_anggota_auditor'] == true)
-                                            Anggota Aauditor
+                                            Anggota Auditor
                                         @else
                                             <span style="color: red">Data Belum Di Set!!!</span>
                                         @endif
@@ -221,7 +223,7 @@
                     </table>
                 </div>
                 {{-- END Table Content --}}
-
+                @dump($dataTransaksi->toArray())
                 {{-- Approval Content --}}
                 <div class="approval-box">
                     <div class="col-lg-2">
@@ -229,23 +231,26 @@
                             style="border-radius: 12px; color: white">
                             <option class="text-white" value="" style="color: white">Pilih Unit Kerja</option>
                             @foreach ($dataTransaksi as $data)
+                                {{-- @dump($data) --}}
                                 <option class="text-white" value="{{ $data['unit_id'] }}"
                                     data-unit-name="{{ $data['nama_unit'] }}"
-                                    data-is-ketua-auditor="{{ $data['is_ketua_auditor'] }}"
-                                    data-is-anggota-auditor="{{ $data['is_anggota_auditor'] }}">
+                                    data-is-ketua-auditor={{ $data['is_ketua_auditor'] ? 'true' : 'false' }}
+                                    data-is-anggota-auditor={{ $data['is_anggota_auditor'] ? 'true' : 'false' }}
+                                    data-status-finalisasi-auditor1="{{ $data['statusFinalisasiAuditor1'] ? true : false }}"
+                                    data-status-finalisasi-auditor2="{{ $data['statusFinalisasiAuditor2 '] ? true : false }}"
+                                    data-tanggal-finalisasi="{{ $data['tanggalFinalisasi'] }}">
                                     {{ $data['nama_unit'] }}
                                 </option>
                             @endforeach
                         </select>
                     </div>
-
                     <div class="d-flex flex-column align-items-center">
                         <p class="approval-text mt-3">
                             "Dengan ini saya menyatakan bahwa evaluasi terhadap unit <span id="unit-name-placeholder"
                                 style="font-weight: bold;"></span> telah selesai dilaksanakan dengan benar dan telah
                             disepakati bersama dengan auditee."
                         </p>
-                        <p class="approval-date">Surabaya, {{ $date }}</p>
+                        <p class="">Surabaya, <span class="approval-date"></span></p>
                         <p class="approval-role mb-2" id="auditor-role" style="font-weight: bold"><span></span></p>
                         <p>{{ Auth::user()->nama }}</p>
                     </div>
@@ -305,38 +310,76 @@
         </script>
 
         <script>
-            // JavaScript untuk dropdown dan checkbox handling
             document.addEventListener("DOMContentLoaded", function() {
                 const unitSelect = document.getElementById("unit-select");
                 const unitNamePlaceholder = document.getElementById("unit-name-placeholder");
                 const approvalCheck = document.getElementById("approvalCheck");
+                const approvalDate = document.querySelector(".approval-date");
                 const auditorRole = document.getElementById("auditor-role");
                 const submitButton = document.getElementById("submit-button");
                 const hiddenUnitIdInput = document.getElementById("selected-unit-id");
+
+                // Fungsi untuk memvalidasi apakah unit kerja sudah dipilih
+                function validateSelection() {
+                    const selectedOption = unitSelect.options[unitSelect.selectedIndex];
+                    const unitSelected = unitSelect.value != ""; // Cek jika unit dipilih
+                    const isKetuaAuditor = selectedOption.getAttribute("data-is-ketua-auditor") == 'true';
+                    const isAnggotaAuditor = selectedOption.getAttribute("data-is-anggota-auditor") == 'true';
+                    const statusFinalisasiAuditor1 = selectedOption.getAttribute('data-status-finalisasi-auditor1') ==
+                        true;
+                    const statusFinalisasiAuditor2 = selectedOption.getAttribute('data-status-finalisasi-auditor2') ==
+                        true;
+
+                    if (!unitSelected) {
+                        approvalCheck.disabled = true;
+                        submitButton.disabled = true;
+                    } else if (isKetuaAuditor && statusFinalisasiAuditor1) {
+                        approvalCheck.disabled = true;
+                        submitButton.disabled = true;
+                    } else if (isAnggotaAuditor && statusFinalisasiAuditor2) {
+                        approvalCheck.disabled = true;
+                        submitButton.disabled = true;
+                    } else {
+                        approvalCheck.disabled = !unitSelect;
+                        submitButton.disabled = !unitSelect || !approvalCheck.checked;
+                    }
+                }
 
                 // Event listener untuk dropdown
                 unitSelect.addEventListener("change", function() {
                     const selectedOption = unitSelect.options[unitSelect.selectedIndex];
                     const unitName = selectedOption.getAttribute("data-unit-name");
-                    const isKetuaAuditor = selectedOption.getAttribute("data-is-ketua-auditor") == true;
-                    const isAnggotaAuditor = selectedOption.getAttribute("data-is-anggota-auditor") == true;
+                    const isKetuaAuditor = selectedOption.getAttribute("data-is-ketua-auditor") == 'true';
+                    const isAnggotaAuditor = selectedOption.getAttribute("data-is-anggota-auditor") == 'true';
+                    const tanggalFinalisasi = selectedOption.getAttribute("data-tanggal-finalisasi");
 
                     unitNamePlaceholder.textContent = unitName || "____";
 
+                    if (tanggalFinalisasi) {
+                        approvalDate.textContent = `${tanggalFinalisasi}`;
+                    } else {
+                        approvalDate.textContent = "Tanggal tidak tersedia";
+                    }
+
                     if (isKetuaAuditor) {
-                        auditorRole.textContent = "Ketua Auditor,";
+                        auditorRole.textContent = "Ketua Auditor";
                     } else if (isAnggotaAuditor) {
-                        auditorRole.textContent = "Anggota Auditor,";
+                        auditorRole.textContent = "Anggota Auditor";
                     } else {
                         auditorRole.textContent = "Tidak Terdaftar sebagai Auditor";
                     }
+
                     hiddenUnitIdInput.value = selectedOption.value || "";
+                    validateSelection(); // Validasi ulang setelah dropdown diubah
                 });
 
                 // Event listener untuk checkbox
                 approvalCheck.addEventListener("change", function() {
-                    submitButton.disabled = !approvalCheck.checked;
+                    validateSelection(); // Validasi ulang setelah checkbox berubah
                 });
+
+                // Validasi awal saat halaman dimuat
+                validateSelection();
             });
         </script>
     @endpush

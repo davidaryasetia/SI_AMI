@@ -47,12 +47,17 @@
             border-color: transparent;
         }
 
-        /* .ikuk-btn:disabled {
-                                                                background-color: #ccc !important;
-                                                                cursor: not-allowed;
-                                                                display: none;
-                                                            } */
+        .ikuk-btn[data-status="audite"] {
+            background-color: green;
+        }
 
+        .ikuk-btn[data-status="auditor"] {
+            background-color: #ccc;
+        }
+
+        .ikuk-btn[data-status="default"] {
+            background-color: #007bff;
+        }
 
 
         .tippy-box[data-theme~='custom'] {
@@ -167,27 +172,25 @@
                 </script>
 
                 {{-- Button untuk setiap kode IKUK --}}
+
                 <div class="d-flex flex-wrap" style="margin-bottom: 8px">
                     @foreach ($data_indikator['indikator_ikuk'] as $dataIndikator)
                         @php
                             $transaksi = $dataIndikator->transaksiDataIkuk->first();
+                            $isHidden =
+                                $transaksi['status_finalisasi_audite'] || $transaksi['status_finalisasi_auditor1'];
                         @endphp
-
-                        @if ($transaksi['status_finalisasi_audite'] || $transaksi['status_finalisasi_auditor1'])
-                            <style>
-                                #btn {
-                                    display: none;
-                                }
-                            </style>
-                        @endif
-
-                        <button id="btn{{ $dataIndikator['kode_ikuk'] }}"
-                            class="ikuk-btn btn-sm" style="{{ $transaksi && $transaksi['status_pengisian_audite'] ? 'background-color:green' : '' }}"
-                            data-bs-toggle="modal" data-bs-target="#modal{{ $dataIndikator['kode_ikuk'] }}"
-                            {{ $transaksi && $transaksi['status_pengisian_auditor'] ? 'disabled' : '' }}
-                            style="{{ $transaksi && $transaksi['status_pengisian_auditor'] ? 'background-color:green;' : '' }}">
+                        @if (!$isHidden)
+                        <button
+                        id="modal {{ $dataIndikator['kode_ikuk'] }}"
+                         class="ikuk-btn btn-sm {{ $transaksi && $transaksi['status_pengisian_audite'] ? 'btn-success' : '' }}"
+                            data-bs-target="#modal{{ $dataIndikator['kode_ikuk'] }}"
+                            data-bs-toggle="modal"
+                            data-status="{{ $transaksi['status_pengisian_auditor'] ? 'auditor' : ($transaksi['status_pengisian_audite'] ? 'audite' : 'default') }}"
+                            {{ $transaksi && $transaksi['status_pengisian_auditor'] ? 'disabled' : '' }}>
                             {{ $dataIndikator['kode_ikuk'] }}
                         </button>
+                        @endif
                     @endforeach
                 </div>
 

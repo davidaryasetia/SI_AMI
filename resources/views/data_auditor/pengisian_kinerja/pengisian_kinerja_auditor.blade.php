@@ -161,7 +161,7 @@
                                                             style="width: auto; font-size: 12px; padding: 4px 8px; border-radius: 6px;">
                                                             <option value="Melampaui"
                                                                 {{ $transaksi['hasil_audit'] == 'NULL' ? 'selected' : '' }}>
-                                                                NULL
+                                                                Belum Isi
                                                             </option>
                                                             <option value="Melampaui"
                                                                 {{ $transaksi['hasil_audit'] == 'Melampaui' ? 'selected' : '' }}>

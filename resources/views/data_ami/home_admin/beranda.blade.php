@@ -173,7 +173,7 @@
                 ],
 
                 columns: [{
-                        width: '10px'
+                        width: '10px'   
                     },
                     {
                         width: '32px'

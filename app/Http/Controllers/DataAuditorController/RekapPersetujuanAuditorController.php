@@ -49,6 +49,7 @@ class RekapPersetujuanAuditorController extends Controller
             ->get();
 
         $dataTransaksi = $dataIndikator->map(function ($unit) use ($userId) {
+            $date = Carbon::now()->format('d F y');
             $totalIndikator = $unit->indikator_ikuk->count();
             $filledAudite = $unit->indikator_ikuk->filter(function ($indikator) {
                 return $indikator->transaksiDataIkuk->where('status_pengisian_audite', true)->count() > 0;
@@ -87,6 +88,26 @@ class RekapPersetujuanAuditorController extends Controller
                 return $indikator->transaksiDataIkuk->where('status_finalisasi_auditor2', true)->count() > 0;
             });
 
+            $tanggalFinalisasi = $date;
+            if ($isKetuaAuditor) {
+                $tanggalFinalisasi = $unit->indikator_ikuk
+                    ->pluck('transaksiDataIkuk')
+                    ->flatten()->where('status_finalisasi_auditor1', true)
+                    ->first()
+                    ->tanggal_status_finalisasi_auditor1 ?? $date;
+
+                $formatTanggalFinalisasi = Carbon::parse($tanggalFinalisasi)->format('d F Y');
+
+            } else if ($isAnggotaAuditor) {
+                $tanggalFinalisasi = $unit->indikator_ikuk
+                    ->pluck('transaksiDataIkuk')
+                    ->flatten()->where('status_finalisasi_auditor2', true)
+                    ->first()
+                    ->tanggal_status_finalisasi_auditor2 ?? $date;
+
+                $formatTanggalFinalisasi = Carbon::parse($tanggalFinalisasi)->format('d F Y');
+            }
+
 
             return [
                 'unit_id' => $unit->unit_id,
@@ -102,11 +123,12 @@ class RekapPersetujuanAuditorController extends Controller
                 'auditor2' => $unit->auditor->auditor2->nama ?? null,
                 'statusFinalisasiAudite' => $statusFinalisasiAudite,
                 'statusFinalisasiAuditor1' => $statusFinalisasiAuditor1,
-                'statusFinalisasiAuditor2' => $statusFinalisasiAuditor2
+                'statusFinalisasiAuditor2' => $statusFinalisasiAuditor2,
+                'tanggalFinalisasi' => $formatTanggalFinalisasi,
             ];
         });
 
-        // dump($dataTransaksi->toArray());
+
 
         return view('data_auditor.rekap_persetujuan.rekap_persetujuan_auditor', [
             'title' => 'Rekap Persetujuan Auditor',
@@ -142,14 +164,41 @@ class RekapPersetujuanAuditorController extends Controller
             return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk finalisasi unit ini.');
         }
 
+        // Cek validasi status_pengisian_auditor
+        $cek_pengisian_auditor = TransaksiData::whereHas('indikator_ikuk', function ($query) use ($unitId) {
+            $query->where('unit_id', $unitId);
+        })
+            ->where('jadwal_ami_id', $jadwalAmiId)
+            ->where('status_pengisian_auditor', false)
+            ->exists();
+
+        if ($cek_pengisian_auditor) {
+            return redirect()->back()->with('error', 'Tidak dapat melakukan proses finalisasi, karena terdapat isian konfirmasi pada indikator kinerja unit kerja yang belum anda konfirmasi. Mohon pastikan semua transaksi telah dikonfirmasi sebelum melakukan finalisasi.');
+        }
+
+        // Cek validasi status_finalisasi_audite
+        $cek_finalisasi_audite = TransaksiData::whereHas('indikator_ikuk', function ($query) use ($unitId) {
+            $query->where('unit_id', $unitId);
+        })
+            ->where('jadwal_ami_id', $jadwalAmiId)
+            ->where('status_finalisasi_audite', false)
+            ->exists();
+
+        if ($cek_finalisasi_audite) {
+            return redirect()->back()->with('error', 'Tidak bisa melakukan finalisasi, karena audite belum mengkonfirmasi pengisian data, silahkan kontak user audite pada unit ' . $unit->nama_unit);
+        }
 
         $statusColumn = $isKetuaAuditor ? 'status_finalisasi_auditor1' : 'status_finalisasi_auditor2';
+        $dateColumn = $isKetuaAuditor ? 'tanggal_status_finalisasi_auditor1' : 'tanggal_status_finalisasi_auditor2';
 
         $updateData = TransaksiData::whereHas('indikator_ikuk', function ($query) use ($unitId) {
             $query->where('unit_id', $unitId);
         })
             ->where('jadwal_ami_id', $jadwalAmiId)
-            ->update([$statusColumn => true]);
+            ->update([
+                $statusColumn => true,
+                $dateColumn => now(),
+            ]);
 
         if ($updateData > 0) {
             return redirect()->back()->with('success', 'Finalisasi berhasil dilakukan.');

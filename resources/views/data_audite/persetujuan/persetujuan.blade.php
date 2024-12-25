@@ -115,16 +115,15 @@
 @endpush
 
 @section('content')
-
     <div class="container-fluid approval-container">
-        <div class="d-flex justify-content-end " style="position: absolute; top: 72px;right: 40px; z-index: 1050;">
+        <div class="d-flex justify-content-end" style="position: absolute; top: 72px;right: 40px; z-index: 1050;">
             @if (session('success'))
-                <div class="alert alert-primary  col-lg-10" role="alert">
+                <div class="alert alert-primary  col-lg-8" role="alert">
                     {{ session('success') }}
                 </div>
             @endif
             @if (session('error'))
-                <div class="alert alert-danger  col-lg-10" role="alert">
+                <div class="alert alert-danger  col-lg-8" role="alert">
                     {{ session('error') }}
                 </div>
             @endif
@@ -138,14 +137,14 @@
         </script>
         <div class="approval-box">
             <div class="mb-4">
-                <h4 class="card-title fw-semibold mb-1">Persetujuan Evaluasi Kinerja Unit
+                <h4 class="card-title fw-semibold mb-1">Persetujuan Evaluasi Kinerja Unit {{ $nama_unit }}
                     {{ session('audite.unit.nama_unit') }}</h4>
             </div>
             <div class="mb-4">
                 <img src="{{ asset('assets/images/logos/short-logo.png') }}" alt="" width="164px">
             </div>
             <p class="approval-text">
-                “Dengan ini saya menyatakan bahwa data yang telah dimasukkan adalah benar.
+                “Dengan ini saya menyatakan bahwa data yang telah saya masukkan pada unit {{ $nama_unit }} adalah benar.
                 Proses evaluasi oleh auditor telah dijalankan dan saya menyetujui hasil evaluasi.”
             </p>
 
@@ -160,8 +159,8 @@
                         <div class="signature-text">Proses</div>
                     @endif
                     <div class="signature-details">
-                        Surabaya, {{ $date }} <br>
-                        Unit {{ $audite['nama_unit'] }},
+                        Surabaya, {{ $audite['tanggal_finalisasi_audite'] }}<br>
+                        Unit {{ $nama_unit }},
                         {{ $audite['nama'] }}
                     </div>
                 </div>
@@ -176,7 +175,7 @@
                         <div class="signature-text">Proses</div>
                     @endif
                     <div class="signature-details">
-                        Surabaya, {{ $date }} <br>
+                        Surabaya, {{ $auditor1['tanggal_finalisasi_auditor1'] }}<br>
                         Ketua Auditor,
                         {{ $auditor1['nama'] ?? 'Auditor 1 Belum di Set' }}
                     </div>
@@ -192,7 +191,7 @@
                         <div class="signature-text">Proses</div>
                     @endif
                     <div class="signature-details">
-                        Surabaya, {{ $date }} <br>
+                        Surabaya,{{ $auditor2['tanggal_finalisasi_auditor2'] }} <br>
                         Anggota Auditor,
                         {{ $auditor2['nama'] ?? 'Auditor 2 Belum di Atur' }}
                     </div>
@@ -217,6 +216,7 @@
 
         </div>
     </div>
+    {{-- @dump($nama_unit); --}}
 
     @push('script')
         <script>
@@ -227,7 +227,7 @@
                 btnSubmit.addEventListener('click', function(event) {
                     event.preventDefault(); // Mencegah submit form langsung
                     const confirmation = confirm(
-                        "Apakah Anda Yakin Akan Melakukan Konfirmasi Finalisasi Pengisian Data Audite Ini? Data yang sudah dikonfirmasi tidak akan bisa di edit."
+                        "Apakah Anda Yakin Akan Melakukan Konfirmasi Finalisasi Pengisian Data Audite Pada Unit {{ $nama_unit }}? Data yang sudah finalisasi tidak bisa di edit."
                     );
                     if (confirmation) {
                         form.submit(); // Submit form jika konfirmasi diterima

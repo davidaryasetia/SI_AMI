@@ -31,8 +31,11 @@ class TransaksiData extends Model
         'status_pengisian_audite',
         'status_pengisian_auditor',
         'status_finalisasi_audite',
+        'tanggal_status_finalisasi_audite',
         'status_finalisasi_auditor1',
+        'tanggal_status_finalisasi_auditor1',
         'status_finalisasi_auditor2',
+        'tanggal_status_finalisasi_auditor2',
     ];
 
     // Terhadap indikator kinerja unit kerja
