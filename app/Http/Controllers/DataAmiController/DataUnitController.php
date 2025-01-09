@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\PeriodePelaksanaan;
 use App\Models\Unit;
 use App\Models\UnitCabang;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DataUnitController extends Controller
@@ -71,6 +72,7 @@ class DataUnitController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         // -------------------------------- Cek Periode "Sedang Berjalan" --------------------------------
         $periodeTerbaru = PeriodePelaksanaan::where('status', 'Sedang Berjalan')
             ->orderBy('tanggal_pembukaan_ami', 'desc')
@@ -86,11 +88,11 @@ class DataUnitController extends Controller
         $tipe_data = $request->input('tipe_data');
 
         // -------------------------------- Tambah Unit Kerja --------------------------------
-        if ($tipe_data === 'unit_kerja') {
+        if ($tipe_data == 'unit_kerja') {
             // Validasi dan simpan data unit kerja
             $validatedData = $request->validate([
                 'nama_unit_kerja' => 'required|array|min:1',
-                'nama_unit_kerja.*' => 'required|unique:unit,nama_unit|min:4'
+                'nama_unit_kerja.*' => 'required|min:1'
             ]);
 
             $units = [];
@@ -108,12 +110,12 @@ class DataUnitController extends Controller
             return redirect('/data_unit')->with('success', 'Unit Kerja berhasil ditambahkan');
         }
         // -------------------------------- Tambah Departemen Kerja --------------------------------
-        elseif ($tipe_data === 'departemen_kerja') {
+        elseif ($tipe_data == 'departemen_kerja') {
             // Validasi data departemen dan prodi
             $validatedData = $request->validate([
-                'nama_departemen' => 'required|unique:unit,nama_unit|min:4',
+                'nama_departemen' => 'required|min:1',
                 'nama_unit_cabang' => 'nullable|array',
-                'nama_unit_cabang.*' => 'nullable|min:3'
+                'nama_unit_cabang.*' => 'nullable|min:1'
             ]);
 
             // Simpan data departemen
@@ -170,6 +172,36 @@ class DataUnitController extends Controller
             'data_unit' => $data_unit
         ]);
     }
+
+    public function editAll()
+    {
+        $periodeTerbaru = PeriodePelaksanaan::where('status', 'Sedang Berjalan')
+            ->orderBy('tanggal_pembukaan_ami', 'desc')
+            ->first();
+
+        if (!$periodeTerbaru) {
+            return redirect()->to('/data_unit')->with('error', 'Tidak ada periode terbuka');
+        }
+
+        $jadwalAmiId = $periodeTerbaru->jadwal_ami_id;
+
+        $data_units = Unit::with('units_cabang')
+            ->where('jadwal_ami_id', $jadwalAmiId)
+            ->get();
+
+        $total_units = $data_units->count();
+        $total_unit_kerja = $data_units->where('tipe_data', 'unit_kerja')->count();
+        $total_departemen_kerja = $data_units->where('tipe_data', 'departemen_kerja')->count();
+
+        return view('data_ami.data_unit.edit_all', [
+            'title' => 'Edit Data Unit',
+            'data_units' => $data_units,
+            'total_units' => $total_units ?? 0,
+            'total_unit_kerja' => $total_unit_kerja ?? 0,
+            'total_departemen_kerja' => $total_departemen_kerja ?? 0,
+        ]);
+    }
+
 
     /**
      * Update the specified resource in storage.
@@ -246,7 +278,65 @@ class DataUnitController extends Controller
         }
     }
 
+    public function updateAll(Request $request)
+    {
+        // dd($request->all());
+        // Validasi data
+        $validatedData = $request->validate([
+            'data_units.*.id' => 'nullable',
+            'data_units.*.tipe_data' => 'required',
+            'data_units.*.nama_unit' => 'required|string|max:255',
+            'data_units.*.units_cabang.*.id' => 'nullable',
+            'data_units.*.units_cabang.*.nama_unit_cabang' => 'nullable|string|max:255',
+        ]);
 
+        try {
+            foreach ($validatedData['data_units'] as $unitData) {
+                if ($unitData['id']) {
+                    // Update data unit yang ada
+                    $unit = Unit::find($unitData['id']);
+                    $unit->update([
+                        'nama_unit' => $unitData['nama_unit'],
+                        'tipe_data' => $unitData['tipe_data'],
+                    ]);
+                } else {
+                    // Buat data unit baru jika id null
+                    $unit = Unit::create([
+                        'nama_unit' => $unitData['nama_unit'],
+                        'tipe_data' => $unitData['tipe_data'],
+                    ]);
+                }
+
+                if ($unitData['tipe_data'] === 'departemen_kerja' && isset($unitData['units_cabang'])) {
+                    $prodiIds = collect($unitData['units_cabang'])->pluck('id')->filter();
+
+                    // Hapus unit cabang yang tidak ada dalam request
+                    $unit->units_cabang()->whereNotIn('unit_cabang_id', $prodiIds)->delete();
+
+                    foreach ($unitData['units_cabang'] as $unitCabangData) {
+                        if (isset($unitCabangData['id'])) {
+                            // Update jika ID ada
+                            UnitCabang::where('unit_cabang_id', $unitCabangData['id'])->update([
+                                'nama_unit_cabang' => $unitCabangData['nama_unit_cabang'],
+                            ]);
+                        } else {
+                            // Tambah baru jika ID tidak ada
+                            $unit->units_cabang()->create([
+                                'nama_unit_cabang' => $unitCabangData['nama_unit_cabang'],
+                            ]);
+                        }
+                    }
+                } elseif ($unitData['tipe_data'] === 'unit_kerja') {
+                    // Hapus semua cabang jika tipe data adalah unit kerja
+                    $unit->units_cabang()->delete();
+                }
+            }
+
+            return redirect()->route('data_unit.index')->with('success', 'Semua data unit berhasil diperbarui.');
+        } catch (\Exception $e) {
+            return redirect()->route('data_unit.index')->with('error', 'Terjadi kesalahan saat memperbarui data unit.');
+        }
+    }
 
 
     /**

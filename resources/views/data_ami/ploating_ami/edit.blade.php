@@ -21,6 +21,7 @@
                         @csrf
                         @method('PUT')
 
+
                         <div class="mb-4 col-lg-12">
                             <label for="type" class="form-label">Tipe Unit</label>
                             <select class="form-select @error('tipe_data') is-invalid @enderror" id="tipe_data"
@@ -129,26 +130,31 @@
                                 </div>
                                 <div class="mb-4 col-lg-6">
                                     {{-- Audite --}}
-                                    <label for="audite" class="form-label">Kepala Departement</label>
+                                    <label for="audite" class="form-label">Kepala Departemen</label>
                                     <select class="form-select" name="kadep"
-                                        style="{{ isset($data_unit->audite[0]) ? '' : 'border-color:red; color:black' }}">
+                                        style="{{ isset($data_unit->audite) && $data_unit->audite->where('unit_cabang_id', null)->isNotEmpty() ? '' : 'border-color:red; color:black' }}">
+                                        @php
+                                            $kadepAudite = $data_unit->audite->firstWhere('unit_cabang_id', null);
+                                        @endphp
+
                                         @foreach ($audite_users as $user)
                                             <option value="{{ $user->user_id }}"
-                                                {{ isset($data_unit->audite[0]) && $data_unit->audite[0]->user_id == $user->user_id ? 'selected' : '' }}>
+                                                {{ isset($kadepAudite) && $kadepAudite->user_id == $user->user_id ? 'selected' : '' }}>
                                                 {{ $user->nama }}
                                             </option>
                                         @endforeach
+
                                         {{-- Jika user_id null, tambahkan opsi default --}}
-                                        @if (!isset($data_unit->audite[0]->user_id) || is_null($data_unit->audite[0]->user_id))
+                                        @if (!isset($kadepAudite->user_id) || is_null($kadepAudite->user_id))
                                             <option value="" selected>User Audite Belum Di Set</option>
                                         @endif
                                     </select>
                                 </div>
-
                             </div>
 
 
                             <div class="department-fields">
+
                                 @if ($data_unit->units_cabang->isNotEmpty())
                                     @foreach ($data_unit->units_cabang as $key => $unitCabang)
                                         <div

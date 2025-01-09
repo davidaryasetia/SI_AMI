@@ -17,6 +17,10 @@
                             <a href="data_unit/create" type="button" class="btn btn-primary btn-sm"><i
                                     class="ti ti-plus me-1"></i>Tambah Unit | Departement</a>
                         </div>
+                        <div class="me-2">
+                            <a href="{{ route('data_unit.editAll') }}" type="button" class="btn btn-primary btn-sm"><i
+                                    class="ti ti-pencil me-1"></i>Edit Semua Unit</a>
+                        </div>
                         <!-- Tombol Trigger Modal -->
                         <div class="me-2">
                             <a href="#" type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
@@ -31,7 +35,7 @@
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="importDataModalLabel">Import Data Unit Kerja
+                                        <h5 class="modal-title" id="importDataModalLabel" style="font-weight: 600">Import Data Unit Kerja
                                         </h5>
                                         <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
@@ -41,19 +45,18 @@
                                             enctype="multipart/form-data">
                                             @csrf
                                             <div class="mb-3">
-                                                <label for="excel_file" class="form-label">Pilih File Unit Kerja</label>
+                                                <label for="excel_file" class="form-label" style="font-weight: 500">Pilih File Unit Kerja</label>
                                                 <input type="file" name="file" id="file" class="form-control"
                                                     required>
                                             </div>
                                             <div class="mb-3">
                                                 <span>Detail Aturan File :</span>
                                                 <ul style="list-style-type: decimal; padding-left: 20px;">
-                                                    <li>Data Harus Berupa .xls | .xlxs</li>
-                                                    <li>Field Kolom Data:
-                                                        <ol class="data-list"
-                                                            style="list-style-type: disc; padding-left: 20px;">
-                                                            <li>Unit Kerja [Text]</li>
-                                                        </ol>
+                                                    <li>Format file harus dalam bentuk .xls atau .xlsx.</li>
+                                                    <li>Template yang digunakan harus sesuai dengan format yang telah ditentukan.</li>
+                                                    <li>Data yang akan diunggah akan diidentifikasi berdasarkan kolom yang tersedia dalam file Excel. Pastikan semua data valid sebelum diunggah.</li>
+                                                    <li>Format data dapat diunggah pada link berikut : <br>
+                                                    <a href="https://docs.google.com/spreadsheets/d/1mgBvsLyJxnyHRmjJ6PE1vqMj7BhhxGJ6/edit?usp=sharing&ouid=106902234954089943700&rtpof=true&sd=true" target="_blank">Data Dukung</a>
                                                     </li>
                                                 </ul>
                                             </div>

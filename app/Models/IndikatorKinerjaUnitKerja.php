@@ -20,6 +20,10 @@ class IndikatorKinerjaUnitKerja extends Model
         'isi_indikator_kinerja_unit_kerja',
         'satuan_ikuk',
         'target_ikuk',
+        'target1', 
+        'target2', 
+        'link', 
+        'tipe',
         'created_at',
         'updated_at'
     ];

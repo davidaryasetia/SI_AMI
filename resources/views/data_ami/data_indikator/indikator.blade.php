@@ -9,6 +9,10 @@
         table#table_indikator tbody td th {
             margin: 0;
         }
+
+        .tippy-box[data-theme~='custom'] {
+            background-color: whitesmoke
+        }
     </style>
 @endpush
 
@@ -22,8 +26,17 @@
                             <span class="card-title fw-semibold me-2">Indikator Kinerja Unit Kerja</span>
                         </div>
                         <div class="me-2">
-                            <a href="#" id="tambahIkukBtn" type="button" class="btn btn-primary btn-sm" disabled><i
-                                    class="ti ti-plus me-1"></i>Tambah IKUK</a>
+                            <a href="#" id="tambahIkukBtn" type="button" class="btn btn-secondary btn-sm"
+                                style="pointer-events: none;">
+                                <i class="ti ti-plus me-1"></i>Tambah IKUK
+                            </a>
+                        </div>
+
+
+                        <div class="me-2">
+                            <a id="editAllBtn" class="btn btn-secondary btn-sm" style="pointer-events: none;" disabled>
+                                <i class="ti ti-pencil"></i> Edit Semua Indikator
+                            </a>
                         </div>
 
                         <!-- Tombol Trigger Modal -->
@@ -58,21 +71,44 @@
                                             <div class="mb-3">
                                                 <span>Detail Aturan File :</span>
                                                 <ul style="list-style-type: decimal; padding-left: 20px;">
-                                                    <li>Conth sample File : </li>
-                                                    <li>Data Harus Berupa .xls</li>
-                                                    <li>Field Kolom Data:
-                                                        <ol class="data-list"
-                                                            style="list-style-type: disc; padding-left: 20px;">
-                                                            <li>Kode Column [Text]</li>
-                                                            <li>Indikator Kinerja Unit Kerja [Text]</li>
-                                                            <li>Satuan [text]</li>
-                                                            <li>Target [Integer]</li>
+                                                    <li>Format File: File harus dalam format .xls atau .xlsx.</li>
+                                                    <li>Kolom Wajib: File harus memiliki kolom berikut dengan header yang
+                                                        sesuai:
+                                                        <ol style="list-style-type: disc">
+                                                            <li>Kode: Harus diisi (Text).</li>
+                                                            <li>Indikator Kinerja Unit Kerja (IKUK): Harus diisi (Text).
+                                                            </li>
+                                                            <li>Satuan: Harus diisi (Text).</li>
                                                         </ol>
                                                     </li>
-                                                    <li>Setiap Nama Field Unit perlu berisi indikator.</li>
-                                                    <li>Contoh data Sampel: <a
-                                                            href="https://docs.google.com/spreadsheets/d/1gq_LDY6U0ZKrLDWh8YubN3Z3AJKOssbO/edit?usp=sharing&ouid=106902234954089943700&rtpof=true&sd=true"
-                                                            target="_blank">Unduh di sini</a></li>
+                                                    <li>
+                                                        Kolom Opsional: Kolom berikut bersifat opsional dan boleh kosong:
+                                                        <ol style="list-style-type: disc">
+                                                            <li>Target 1: Boleh diisi dengan angka (Integer) atau dibiarkan
+                                                                kosong.</li>
+                                                            <li>Target 2: Boleh diisi dengan angka (Integer) atau dibiarkan
+                                                                kosong.</li>
+                                                            <li>Link: Boleh diisi dengan URL (Text) atau dibiarkan kosong.
+                                                            </li>
+                                                            <li>Tipe: Boleh diisi dengan angka (Integer) atau dibiarkan
+                                                                kosong</li>
+                                                        </ol>
+                                                    </li>
+                                                    <li>
+                                                        Penamaan Sheet Unit :
+                                                        <ol style="list-style-type: disc">
+                                                            <li>Setiap sheet di dalam file mewakili nama unit.</li>
+                                                            <li>Nama unit (nama sheet) harus sesuai dengan data unit yang
+                                                                telah didefinisikan dalam sistem.</li>
+                                                            <li>Jika nama unit belum terdaftar, proses upload akan
+                                                                dihentikan, dan pesan kesalahan akan diberikan yang berisi
+                                                                daftar unit yang belum terdaftar.</li>
+                                                        </ol>
+                                                    </li>
+                                                    <li>
+                                                        Contoh Sample File Data Berikut <br>
+                                                        <a href="https://docs.google.com/spreadsheets/d/1ZQvpfo_gGl1NufO822JpLtdwA8E3ThBR/edit?usp=sharing&ouid=106902234954089943700&rtpof=true&sd=true" target="_blank">Sample Data</a>
+                                                    </li>
                                                 </ul>
                                             </div>
                                             <button class="btn btn-primary" type="submit">
@@ -85,7 +121,7 @@
                         </div>
                         <!-- Modal -->
 
-                        <div class="d-flex justify-content-start">
+                        <div class="d-flex justify-content-start align-items-center">
                             <form action="{{ route('data_indikator.index') }}" method="GET" class="col-lg-8"
                                 id="unitForm">
                                 <!-- Hidden Input untuk Jadwal AMI ID -->
@@ -108,6 +144,10 @@
                                     </div>
                                 </div>
                             </form>
+                            <div id="tooltip-info" class="ms-1 align-items-center" style="cursor: pointer;">
+                                <i class="ti ti-info-circle fs-5 text-primary"></i>
+                            </div>
+
                         </div>
 
                     </div>
@@ -154,33 +194,7 @@
                     </div>
 
 
-                    <script>
-                        document.addEventListener('DOMContentLoaded', (event) => {
-                            const unitSelect = document.getElementById('unit_id');
-                            const tambahIkukBtn = document.getElementById('tambahIkukBtn');
 
-                            if (!unitSelect.value) {
-                                tambahIkukBtn.disabled = true;
-                            } else {
-                                tambahIkukBtn.disabled = false;
-                                tambahIkukBtn.href = `/data_indikator/unit/create/${unitSelect.value}`;
-                            }
-
-                            unitSelect.addEventListener('change', (event) => {
-                                if (event.target.value) {
-                                    tambahIkukBtn.disabled = false;
-                                    tambahIkukBtn.href = `/data_indikator/unit/create/${event.target.value}`;
-                                } else {
-                                    tambahIkukBtn.disabled = true;
-                                    tambahIkukBtn.onclick = null;
-                                    tambahIkukBtn.href = "#";
-                                }
-
-                                unitForm.submit();
-                                console.log('Unit changed to: ', event.target.value);
-                            });
-                        });
-                    </script>
                 </div>
 
                 <div class="table-responsive">
@@ -201,7 +215,16 @@
                                     <h6 class="fw-semibold mb-0 text-center">Satuan</h6>
                                 </th>
                                 <th class="border-bottom-0">
-                                    <h6 class="fw-semibold mb-0 text-center">Target</h6>
+                                    <h6 class="fw-semibold mb-0 text-center">Target 1</h6>
+                                </th>
+                                <th class="border-bottom-0">
+                                    <h6 class="fw-semibold mb-0 text-center">Target 2</h6>
+                                </th>
+                                <th class="border-bottom-0">
+                                    <h6 class="fw-semibold mb-0 text-center">Link</h6>
+                                </th>
+                                <th class="border-bottom-0">
+                                    <h6 class="fw-semibold mb-0 text-center">Tipe</h6>
                                 </th>
                                 <th class="border-bottom-0">
                                     <h6 class="fw-semibold mb-0 text-center">Unit</h6>
@@ -242,7 +265,26 @@
 
                                 <td class="border-bottom-0">
                                     <div class="">
-                                        <h6 class="fw-semibold mb-1 text-center"> {{ $dataAmi->target_ikuk }} </h6>
+                                        <h6 class="fw-semibold mb-1 text-center">{{ $dataAmi->target1 }}</h6>
+                                    </div>
+                                </td>
+
+                                <td class="border-bottom-0">
+                                    <div class="">
+                                        <h6 class="fw-semibold mb-1 text-center">{{ $dataAmi->target2 }}</h6>
+                                    </div>
+                                </td>
+
+                                <td class="border-bottom-0">
+                                    <div class="">
+                                        <h6 class="fw-semibold mb-1 text-center"><a href="{{ $dataAmi->link }}"
+                                                target="_blank">{{ $dataAmi->link }}</a></h6>
+                                    </div>
+                                </td>
+
+                                <td class="border-bottom-0">
+                                    <div class="">
+                                        <h6 class="fw-semibold mb-1 text-center">{{ $dataAmi->tipe }}</h6>
                                     </div>
                                 </td>
 
@@ -278,6 +320,87 @@
         </div>
     </div>
     @push('script')
+        <script>
+            document.addEventListener('DOMContentLoaded', (event) => {
+                const unitSelect = document.getElementById('unit_id'); // Dropdown unit
+                const tambahIkukBtn = document.getElementById('tambahIkukBtn'); // Tombol Tambah IKUK
+                const unitForm = document.getElementById('unitForm'); // Form unit
+
+                // Fungsi untuk memperbarui status tombol Tambah IKUK
+                const updateButtonStatus = () => {
+                    if (!unitSelect.value) {
+                        // Jika unit belum dipilih
+                        tambahIkukBtn.disabled = true;
+                        tambahIkukBtn.classList.add('btn-secondary');
+                        tambahIkukBtn.classList.remove('btn-primary');
+                        tambahIkukBtn.style.pointerEvents = 'none';
+                        tambahIkukBtn.href = "#";
+                    } else {
+                        // Jika unit dipilih
+                        tambahIkukBtn.disabled = false;
+                        tambahIkukBtn.classList.add('btn-primary');
+                        tambahIkukBtn.classList.remove('btn-secondary');
+                        tambahIkukBtn.style.pointerEvents = 'auto';
+                        tambahIkukBtn.href = `/data_indikator/unit/create/${unitSelect.value}`;
+                    }
+                };
+
+                updateButtonStatus();
+                unitSelect.addEventListener('change', (event) => {
+                    updateButtonStatus();
+                    unitForm.submit();
+                    console.log('Unit changed to: ', event.target.value);
+                });
+            });
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const unitSelect = document.getElementById('unit_id');
+                const editAllBtn = document.getElementById('editAllBtn');
+
+                const updateButtonStatus = () => {
+                    if (!unitSelect.value) {
+                        editAllBtn.disabled = true;
+                        editAllBtn.classList.add('btn-secondary');
+                        editAllBtn.classList.remove('btn-primary');
+                        editAllBtn.style.pointerEvents = 'none';
+                    } else {
+                        editAllBtn.disabled = false;
+                        editAllBtn.classList.add('btn-primary');
+                        editAllBtn.classList.remove('btn-secondary');
+                        editAllBtn.style.pointerEvents = 'auto';
+                        editAllBtn.href = `/data_indikator/unit/${unitSelect.value}/edit_all`;
+                    }
+                };
+
+                updateButtonStatus();
+                unitSelect.addEventListener('change', updateButtonStatus);
+            });
+        </script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                tippy('#tooltip-info', {
+                    content: `
+                    <div style="text-align: left;">
+                        <p style="font-size:16px; color:black; font-weight:600">Aturan Perhitungan Capaian Hasil Audit Indikator Berdasarkan Tipe: </p>
+                        <ol type=1 style="color:black; ">
+                            <li>Tipe 0 : jika realisasi >= target yang diterapkan berarti status realisasi melampaui (Capaian yang lebih besar dari target lebih baik)</li>    
+                            <hr>
+                            <li>Tipe 1 : jika realisasi <= target yang diterapkan berarti status realiasasi melampaui (Capaian yang lebih kecil dari target akan berstatus lebih baik)</li> 
+                            <hr>
+                            <li>Tipe 2 (range) : jika realisasi masuk di dalam range pada target 1 dan target 2 yang diterapkan maka, memenuhi, jika di luar range tidak memenuhi</li>
+                        </ol>
+                    </div>
+                `,
+                    allowHTML: true,
+                    theme: 'custom',
+                    placement: 'bottom',
+                    interactive: true,
+                    maxWidth: '300px'
+                });
+            });
+        </script>
         <!-- Script untuk Submit Form -->
         <script>
             document.addEventListener('DOMContentLoaded', function() {
@@ -310,29 +433,6 @@
                     [50, 100],
                     [50, 100],
                 ],
-                columns: [{
-                        width: '6px'
-                    },
-                    {
-                        width: '6px'
-                    },
-                    null,
-                    {
-                        width: '10px'
-                    },
-                    {
-                        width: '10px'
-                    },
-                    {
-                        width: '10px'
-                    },
-                    {
-                        width: '10px'
-                    },
-                    {
-                        width: '10px'
-                    },
-                ]
             });
         </script>
     @endpush

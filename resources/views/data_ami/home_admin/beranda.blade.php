@@ -163,7 +163,7 @@
 
             $('#table_status').DataTable({
                 responsive: true,
-                "scrollY": "500px",
+                "scrollY": "640px",
                 scrollX: true,
                 autoWidth: false,
                 "pageLength": 50,

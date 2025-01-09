@@ -34,7 +34,7 @@
                         @csrf
                         <div class="row mb-4">
                             <div class="col-md-12 position-relative">
-                                <label for="tipe_data" class="form-label">Pilih Tipe Data Unit Kerja</label>
+                                <label for="tipe_data" class="form-label">Pilih Tipe Lembaga</label>
                                 <select class="form-select" id="tipe_data" name="tipe_data">
                                     <option value="unit_kerja">Unit Kerja</option>
                                     <option value="departemen_kerja">Departemen Kerja</option>

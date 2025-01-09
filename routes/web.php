@@ -1,15 +1,16 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\Auth\ProfileAuditeController;
 use App\Http\Controllers\DataAmiController\DataUserController;
 use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\DataAmiController\AuditorController;
 use App\Http\Controllers\DataAmiController\DataIndikatorController;
 use App\Http\Controllers\DataAmiController\DataUnitController;
+use App\Http\Controllers\DataAmiController\ExportPlotingAmiController;
 use App\Http\Controllers\DataAmiController\ExportProgresAuditController;
 use App\Http\Controllers\DataAmiController\ExportRekapAuditController;
 use App\Http\Controllers\DataAmiController\ExportRiwayatController;
+use App\Http\Controllers\DataAmiController\ExportUserAmiController;
 use App\Http\Controllers\DataAmiController\HomeController;
 use App\Http\Controllers\DataAmiController\PeriodeAuditController;
 use App\Http\Controllers\DataAmiController\PlotingAmiController;
@@ -99,13 +100,23 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['role:admin'])->group(function () {
         Route::resource('/home', HomeController::class);
         Route::resource('/data_unit', DataUnitController::class);
+        Route::get('/data_unit/edit/all', [DataUnitController::class, 'editAll'])->name('data_unit.editAll');
+        Route::put('/data_unit/update/all', [DataUnitController::class, 'updateAll'])->name('data_unit.updateAll');
         Route::resource('/data_user', DataUserController::class);
         Route::post('/data_user/reset', [DataUserController::class, 'resetStatus'])->name('data_user.reset');
+        Route::get('/data_user/edit/all', [DataUserController::class, 'editAllUser'])->name('data_user.editAllUser');
+        Route::put('/data_user/user/update_all', [DataUserController::class, 'updateAll'])->name('data_user.updateAll');
+        Route::get('/data_user/export/data', [ExportUserAmiController::class, 'exportPdf'])->name('data_user.export');
         Route::resource('/ploting_ami', PlotingAmiController::class);
         Route::post('/ploting_ami/reset', [PlotingAmiController::class, 'resetPloting'])->name('ploting_ami.reset');
         Route::post('/ploting_ami/cek-beban', [PlotingAmiController::class, 'cekBeban'])->name('ploting_ami.cek_beban');
+        Route::get('/ploting_ami/edit/all', [PlotingAmiController::class, 'editAll'])->name('ploting.edit_all');
+        Route::post('/ploting/update/all', [PlotingAmiController::class, 'updateAll'])->name('ploting.update_all');
+        Route::get('/ploting/export/jadwal', [ExportPlotingAmiController::class, 'exportPdf'])->name('ploting.export');
         Route::resource('/data_indikator', DataIndikatorController::class);
         Route::get('/data_indikator/unit/create/{id}', [DataIndikatorController::class, 'create_ikuk_id']);
+        Route::get('/data_indikator/unit/{unit_id}/edit_all', [DataIndikatorController::class, 'editAllByUnit'])->name('data_indikator.editAllByUnit');
+        Route::put('/data_indikator/unit/{unit_id}/update_all', [DataIndikatorController::class, 'updateAllByUnit'])->name('data_indikator.updateAllByUnit');
         Route::delete('data_indikator/delete/{indikator_id}/{unit_id}', [DataIndikatorController::class, 'destroyWithUnit'])->name('data_indikator.destroyWithUnit');
         Route::resource('/daftar_auditor', AuditorController::class);
         Route::resource('/periode_audit', PeriodeAuditController::class);

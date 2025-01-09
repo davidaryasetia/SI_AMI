@@ -23,7 +23,7 @@
                         @method('PUT')
 
                         <div class="mb-4 col-lg-12">
-                            <label for="type" class="form-label">Tipe Unit</label>
+                            <label for="type" class="form-label">Tipe Lembaga</label>
                             <select class="form-select @error('tipe_data') is-invalid @enderror" id="tipe_data"
                                 name="tipe_data" disabled>
                                 <option value="unit_kerja" {{ $data_unit->tipe_data == 'unit_kerja' ? 'selected' : '' }}>

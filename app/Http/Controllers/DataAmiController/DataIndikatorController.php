@@ -46,9 +46,12 @@ class DataIndikatorController extends Controller
             'kode_ikuk',
             'isi_indikator_kinerja_unit_kerja',
             'satuan_ikuk',
-            'target_ikuk',
+            'target1',
+            'target2',
+            'link',
+            'tipe',
             'unit.nama_unit as nama_unit',
-            'unit.unit_id as unit_id'
+            'unit.unit_id as unit_id',
         )
             ->join('unit', 'indikator_kinerja_unit_kerja.unit_id', '=', 'unit.unit_id')
             ->where('indikator_kinerja_unit_kerja.jadwal_ami_id', $selectedJadwalAmiId);
@@ -104,11 +107,13 @@ class DataIndikatorController extends Controller
     {
         $request->validate([
             'unit_id' => 'required',
-            'kode_ikuk' => 'required|array',
-            'isi_indikator_kinerja_unit_kerja' => 'required|array',
-            'satuan_ikuk' => 'required|array',
-            'target_ikuk' => 'required|array',
-            'target_ikuk.*' => 'required|integer' // memastikan setiap target_ikuk adalah integer
+            'kode_ikuk' => 'required',
+            'isi_indikator_kinerja_unit_kerja' => 'required',
+            'satuan_ikuk' => 'required',
+            'target1' => 'nullable',
+            'target2' => 'nullable',
+            'link' => 'nullable',
+            'tipe' => 'nullable',
         ]);
 
         $unit_id = $request->input('unit_id');
@@ -116,7 +121,10 @@ class DataIndikatorController extends Controller
         $isi_indikator_kinerja_unit_kerja = $request->input('isi_indikator_kinerja_unit_kerja');
         $satuan_ikuk = $request->input('satuan_ikuk');
         $target_ikuk = $request->input('target_ikuk');
-
+        $target1 = $request->input('target1');
+        $target2 = $request->input('target2');
+        $link = $request->input('link');
+        $tipe = $request->input('tipe');
 
         // -------------------------------- Cek Periode "Sedang Berjalan" --------------------------------
         $periodeTerbaru = PeriodePelaksanaan::where('status', 'Sedang Berjalan')
@@ -140,7 +148,10 @@ class DataIndikatorController extends Controller
                 'kode_ikuk' => $kode,
                 'isi_indikator_kinerja_unit_kerja' => $isi_indikator_kinerja_unit_kerja[$index],
                 'satuan_ikuk' => $satuan_ikuk[$index],
-                'target_ikuk' => $target_ikuk[$index],
+                'target1' => $target1[$index],
+                'target2' => $target2[$index],
+                'link' => $link[$index],
+                'tipe' => $tipe[$index],
                 'created_at' => now(),
                 'updated_at' => now()
             ];
@@ -178,6 +189,8 @@ class DataIndikatorController extends Controller
                     'akar_masalah' => null,
                     'tindak_lanjut' => null,
                     'data_dukung' => null,
+                    'saran_auditor1' => null,
+                    'saran_auditor2' => null,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ];
@@ -211,9 +224,12 @@ class DataIndikatorController extends Controller
             'kode_ikuk',
             'isi_indikator_kinerja_unit_kerja',
             'satuan_ikuk',
-            'target_ikuk',
+            'target1',
+            'target2',
+            'link',
+            'tipe',
             'unit.nama_unit as nama_unit',
-            'unit.unit_id as unit_id'
+            'unit.unit_id as unit_id',
         )
             ->where('indikator_kinerja_unit_kerja_id', $id)
             ->join('unit', 'indikator_kinerja_unit_kerja.unit_id', '=', 'unit.unit_id')
@@ -224,7 +240,22 @@ class DataIndikatorController extends Controller
             'title' => 'Edit Data Indikator',
             'data' => $edit_data_ami,
         ]);
+    }
 
+    /**
+     * Edit Semua Indikator Kinerja Unit Kerja
+     */
+    public function editAllByUnit($unitId)
+    {
+        $data_indikator = IndikatorKinerjaUnitKerja::where('unit_id', $unitId)->get();
+        $total_indikator = $data_indikator->count();
+        $unit = Unit::findOrFail($unitId);
+        return view('data_ami.data_indikator.edit_all', [
+            'title' => 'Edit All',
+            'unit' => $unit,
+            'data_indikator' => $data_indikator,
+            'total_indikator' => $total_indikator ?? 0, 
+        ]);
     }
 
     /**
@@ -236,7 +267,10 @@ class DataIndikatorController extends Controller
             'kode_ikuk' => 'required',
             'isi_indikator_kinerja_unit_kerja' => 'required',
             'satuan_ikuk' => 'required',
-            'target_ikuk' => 'required|integer'
+            'target1' => 'nullable|integer',
+            'target2' => 'nullable|integer',
+            'link' => 'nullable',
+            'tipe' => 'nullable',
         ]);
 
         $unit_id = $request->input('unit_id');
@@ -245,7 +279,7 @@ class DataIndikatorController extends Controller
         $periodeTerbaru = PeriodePelaksanaan::where('status', 'Sedang Berjalan')
             ->orderBy('tanggal_pembukaan_ami', 'desc')
             ->first();
-            
+
         if (!$periodeTerbaru) {
             return redirect()->to('/data_indikator?unit_id=' . $unit_id)->with('error', 'Tidak ada periode terbuka. Silakan buat periode terlebih dahulu.');
         }
@@ -254,14 +288,17 @@ class DataIndikatorController extends Controller
 
 
         $data_indikator = IndikatorKinerjaUnitKerja::where('indikator_kinerja_unit_kerja_id', $id)
-        ->where('jadwal_ami_id', $jadwalAmiId)
-        ->firstOrFail();
+            ->where('jadwal_ami_id', $jadwalAmiId)
+            ->firstOrFail();
 
         $data_indikator->update([
             'kode_ikuk' => $request->input('kode_ikuk'),
             'isi_indikator_kinerja_unit_kerja' => $request->input('isi_indikator_kinerja_unit_kerja'),
             'satuan_ikuk' => $request->input('satuan_ikuk'),
-            'target_ikuk' => $request->input('target_ikuk')
+            'target1' => $request->input('target1'),
+            'target2' => $request->input('target2'),
+            'link' => $request->input('link'),
+            'tipe' => $request->input('tipe'),
         ]);
 
         if ($data_indikator) {
@@ -269,6 +306,53 @@ class DataIndikatorController extends Controller
         } else {
             return redirect()->to('/data_indikator?unit_id=' . $unit_id)->with('error', 'Data Indikator Kinerja Unit Gagal Diperbarui !!!');
         }
+    }
+
+    public function updateAllByUnit(Request $request, $unitId)
+    {
+        $request->validate([
+            'indikator.*.id' => 'integer',
+            'indikator.*.kode_ikuk' => 'string',
+            'indikator.*.isi_indikator_kinerja_unit_kerja' => 'string',
+            'indikator.*.satuan_ikuk' => 'nullable|string',
+            'indikator.*.target1' => 'nullable',
+            'indikator.*.target2' => 'nullable',
+            'indikator.*.link' => 'nullable',
+            'indikator.*.tipe' => 'nullable',
+        ]);
+
+        $updateSuccess = true;
+        foreach ($request->indikator as $indikatorData) {
+            $indikator = IndikatorKinerjaUnitKerja::find($indikatorData['id']);
+            if ($indikator) {
+                $update = $indikator->update([
+                    'kode_ikuk' => $indikatorData['kode_ikuk'],
+                    'isi_indikator_kinerja_unit_kerja' => $indikatorData['isi_indikator_kinerja_unit_kerja'],
+                    'satuan_ikuk' => $indikatorData['satuan_ikuk'],
+                    'target1' => $indikatorData['target1'],
+                    'target2' => $indikatorData['target2'],
+                    'link' => $indikatorData['link'],
+                    'tipe' => $indikatorData['tipe'],
+                ]);
+
+                if (!$update) {
+                    $updateSuccess = false;
+                    break;
+                }
+            } else {
+                $updateSuccess = false;
+                break;
+            }
+        }
+
+        if ($updateSuccess) {
+            return redirect()->to('/data_indikator?unit_id=' . $unitId)
+                ->with('success', 'Data Indikator Kinerja Unit Berhasil Diperbarui !!!');
+        } else {
+            return redirect()->to('/data_indikator?unit_id=' . $unitId)
+                ->with('error', 'Data Indikator Kinerja Unit Gagal Diperbarui !!!');
+        }
+
     }
 
     /**
@@ -289,4 +373,6 @@ class DataIndikatorController extends Controller
             return redirect()->to('/data_indikator?unit_id=' . $unit_id)->with('error', 'Data Indikator Kinerja Unit Gagal Dihapus !!!');
         }
     }
+
+
 }

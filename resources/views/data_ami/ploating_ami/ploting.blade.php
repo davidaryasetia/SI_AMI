@@ -36,6 +36,12 @@
                                 </button>
                             </form>
                         </div>
+
+                        <div class="ms-2">
+                            <a href="{{ route('ploting.edit_all') }}" class="btn btn-sm btn-primary"><i
+                                    class="ti ti-pencil"></i> Ploting Semua Data</a>
+                        </div>
+
                         <!-- Tombol Trigger Modal -->
                         <div class="ms-2">
                             <button type="button" class="btn btn-primary btn-sm" id="cekBebanButton" data-bs-toggle="modal"
@@ -44,6 +50,12 @@
                             </button>
                         </div>
 
+                        <div class="ms-2">
+                            <a href="{{ route('ploting.export') }}" class="btn btn-sm btn-primary"><i
+                                    class="ti ti-file-export"></i> Unduh Data Plot AMI</a>
+                        </div>
+
+                        
                         <!-- Modal -->
                         <!-- Modal -->
                         <div class="modal fade" id="cekBebanModal" tabindex="-1" aria-labelledby="cekBebanModalLabel"
@@ -262,13 +274,26 @@
                                 <td class="border-bottom-0">
                                     <div class="mb-4">
                                         <h6 class="fw-semibold mb-1">
-                                            @if (!empty($ploting->audite) && isset($ploting->audite[0]['user_audite']['nama']))
-                                                {{ $ploting->audite[0]['user_audite']['nama'] }} <br>
+                                            @php
+                                                $kadepAudite = null;
+
+                                                // Loop data audite untuk menemukan unit_cabang_id null
+                                                foreach ($ploting->audite as $audite) {
+                                                    if ($audite['unit_cabang_id'] === null) {
+                                                        $kadepAudite = $audite;
+                                                        break;
+                                                    }
+                                                }
+                                            @endphp
+
+                                            @if (!empty($kadepAudite) && isset($kadepAudite['user_audite']['nama']))
+                                                {{ $kadepAudite['user_audite']['nama'] }} <br>
                                             @else
                                                 <span style="color: red">User Audite Belum di set!</span>
                                             @endif
-
                                         </h6>
+
+
                                     </div>
 
                                     <ol class="unit-list fw-medium" style="list-style-position: inside; padding-left: 0;">

@@ -25,9 +25,3 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::get('/test', [TestApiController::class, 'index']);
-Route::get('/unit_kerja',[UnitKerjaController::class, 'index']);
-Route::get('/auditor',[AuditorController::class, 'index']);
-Route::get('/audite', [AuditeController::class, 'index']);
-Route::get('/indikator_kinerja_unit_kerja', [IndikatorKinerjaUnitKerjaController::class, 'index']);
-Route::get('/daftar_user',[UserController::class, 'index']);

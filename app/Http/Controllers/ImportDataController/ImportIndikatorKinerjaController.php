@@ -8,7 +8,6 @@ use App\Models\PeriodePelaksanaan;
 use App\Models\TransaksiData;
 use App\Models\Unit;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class ImportIndikatorKinerjaController extends Controller
@@ -33,7 +32,25 @@ class ImportIndikatorKinerjaController extends Controller
         }
 
         $jadwalAmiId = $periodeTerbaru->jadwal_ami_id;
+        $unitNotFound = [];
 
+        // Validasi semua nama unit terlebih dahulu
+        foreach ($sheetNames as $sheetName) {
+            $unit = Unit::where('nama_unit', $sheetName)
+                ->where('jadwal_ami_id', $jadwalAmiId)
+                ->first();
+
+            if (!$unit) {
+                $unitNotFound[] = $sheetName;
+            }
+        }
+
+        // Jika ada unit yang tidak ditemukan, return error
+        if (!empty($unitNotFound)) {
+            return redirect()->back()->with('error', 'Data unit berikut belum tersedia di database: ' . implode(', ', $unitNotFound));
+        }
+
+        // Jika semua unit ditemukan, lanjutkan proses import
         foreach ($sheetNames as $sheetName) {
             $sheet = $spreadsheet->getSheetByName($sheetName);
             $rows = $sheet->toArray();
@@ -42,19 +59,13 @@ class ImportIndikatorKinerjaController extends Controller
                 unset($rows[0]); // Hapus header baris pertama
                 unset($rows[1]); // Hapus header baris kedua
 
+                $unit = Unit::where('nama_unit', $sheetName)
+                    ->where('jadwal_ami_id', $jadwalAmiId)
+                    ->first();
+
                 foreach ($rows as $rowIndex => $row) {
-                    if (empty($row[0]) || empty($row[1])) {
-                        continue; // Skip jika data kosong
-                    }
-
-                    // Cek Unit berdasarkan nama_unit
-                    $unit = Unit::where('nama_unit', $sheetName)
-                        ->where('jadwal_ami_id', $jadwalAmiId)
-                        ->first();
-
-                    // Jika Unit tidak ditemukan, buat Unit baru
-                    if (!$unit) {
-                        return redirect()->back()->with('error', 'Data Unit Pada Indikator Kinerja Unit Tidak Tersedia');
+                    if (empty($row[0]) || empty($row[1]) || empty($row[2])) {
+                        continue; // Skip jika kolom wajib kosong
                     }
 
                     // Tambahkan Data ke Indikator Kinerja Unit Kerja
@@ -63,18 +74,21 @@ class ImportIndikatorKinerjaController extends Controller
                         'kode_ikuk' => $row[0],
                         'isi_indikator_kinerja_unit_kerja' => $row[1],
                         'satuan_ikuk' => $row[2],
-                        'target_ikuk' => $row[3],
+                        'target1' => $row[3] ?? null,
+                        'target2' => $row[4] ?? null,
+                        'link' => $row[5] ?? null,
+                        'tipe' => $row[6] ?? null,
                         'unit_id' => $unit->unit_id,
                     ]);
 
-                    // Tambahkan Data ke Transaksi Data berdasarkan Periode Terbuka
+                    // Tambahkan Data ke Transaksi Data
                     TransaksiData::create([
                         'indikator_kinerja_unit_kerja_id' => $indikator->indikator_kinerja_unit_kerja_id,
                         'jadwal_ami_id' => $jadwalAmiId,
                         'realisasi_ikuk' => null,
                         'analisis_usulan_keberhasilan' => null,
-                        'target_lama' => null,
-                        'target_tahun_depan' => null,
+                        'target_lama' => null, 
+                        'target_tahun_depan' => null, 
                         'strategi_pencapaian' => null,
                         'sarpras_yang_dibutuhkan' => null,
                         'faktor_pendukung' => null,
@@ -83,15 +97,18 @@ class ImportIndikatorKinerjaController extends Controller
                         'tindak_lanjut' => null,
                         'data_dukung' => null,
                         'status_pengisian_audite' => false,
+                        'status_pengisian_auditor' => false, 
                         'status_finalisasi_audite' => false,
-                        'status_finalisasi_auditor' => false,
+                        'tanggal_status_finalisasi_audite' => null, 
+                        'status_finalisasi_auditor1' => false,
+                        'tanggal_status_finalisasi_auditor1' => null, 
+                        'status_finalisasi_auditor2' => false,
+                        'tanggal_status_finalisasi_auditor2' => null,
                     ]);
                 }
             }
         }
 
-        return redirect()->back()->with('success', 'Data berhasil diimpor dan ditambahkan ke transaksi!');
+        return redirect()->back()->with('success', 'Data berhasil diimpor.');
     }
-
-
 }

@@ -17,7 +17,7 @@
 
 
         .table-responsive {
-            zoom: 0.8;
+            zoom: 0.75;
             overflow-x: auto;
         }
 

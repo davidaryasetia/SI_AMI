@@ -11,7 +11,7 @@ use App\Models\UnitCabang;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class PlotingAmiController extends Controller
+class ClonePlotingAmiController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -115,7 +115,6 @@ class PlotingAmiController extends Controller
 
     public function editAll()
     {
-
         $periodeTerbaru = PeriodePelaksanaan::where('status', 'Sedang Berjalan')
             ->orderBy('tanggal_pembukaan_ami', 'desc')
             ->first();
@@ -364,20 +363,20 @@ class PlotingAmiController extends Controller
                 // Handle Departemen Kerja
                 if ($unit->tipe_data == 'departemen_kerja') {
                     // Update Kepala Departemen (Kadep)
-                    if (isset($unitData['audite'])) {
+                    if (isset($unitData['kadep'])) {
                         $auditeKadep = Audite::where('unit_id', $unitId)
                             ->where('jadwal_ami_id', $selectedJadwalAmiId)
                             ->whereNull('unit_cabang_id')
                             ->first();
 
                         if ($auditeKadep) {
-                            $auditeKadep->update(['user_id' => $unitData['audite']]);
+                            $auditeKadep->update(['user_id' => $unitData['kadep']]);
                         } else {
                             Audite::create([
                                 'jadwal_ami_id' => $selectedJadwalAmiId,
                                 'unit_id' => $unitId,
                                 'unit_cabang_id' => null,
-                                'user_id' => $unitData['audite'],
+                                'user_id' => $unitData['kadep'],
                             ]);
                         }
                     }

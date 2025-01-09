@@ -28,6 +28,8 @@ class TransaksiData extends Model
         'akar_masalah',
         'tindak_lanjut',
         'data_dukung',
+        'saran_auditor1', 
+        'saran_auditor2', 
         'status_pengisian_audite',
         'status_pengisian_auditor',
         'status_finalisasi_audite',

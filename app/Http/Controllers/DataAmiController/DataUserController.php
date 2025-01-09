@@ -81,6 +81,19 @@ class DataUserController extends Controller
     }
 
     /**
+     * Edit all user method
+     */
+    public function editAllUser()
+    {
+        $users = User::all();
+
+        return view('data_ami.data_user.edit_all', data: [
+            'title' => 'Edit All',
+            'users' => $users,
+        ]);
+    }
+
+    /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
@@ -123,6 +136,48 @@ class DataUserController extends Controller
         } else {
             return redirect('/data_user')->with(['error' => 'Data User Gagal Diperbarui !!!']);
         }
+    }
+
+    /**
+     * Update All user method
+     */
+    public function updateAll(Request $request)
+    {
+        // dd($request->all());
+        // Validasi input
+        $request->validate([
+            'users.*.id' => 'required|integer',
+            'users.*.nama' => 'required|string|max:255',
+            'users.*.email' => 'required|email|max:255',
+            'users.*.is_admin' => 'nullable|boolean',
+            'users.*.is_audite' => 'nullable|boolean',
+            'users.*.is_auditor' => 'nullable|boolean',
+            'users.*.reset_password' => 'nullable|boolean',
+            'users.*.password' => 'nullable|string|min:4',
+        ]);
+
+        // Loop untuk update setiap user
+        foreach ($request->users as $userData) {
+            $user = User::findOrFail($userData['id']); // Cari user berdasarkan ID
+
+            // Update data user
+            $user->nama = $userData['nama'];
+            $user->email = $userData['email'];
+            $user->is_admin = $userData['is_admin'] ?? false;
+            $user->is_audite = $userData['is_audite'] ?? false;
+            $user->is_auditor = $userData['is_auditor'] ?? false;
+
+            // Reset password jika checkbox diaktifkan
+            if (!empty($userData['reset_password']) && $userData['reset_password'] == true) {
+                $user->password = Hash::make($userData['password']);
+            }
+
+            // Simpan perubahan
+            $user->save();
+        }
+
+        // Redirect dengan pesan sukses
+        return redirect()->route('data_user.index')->with('success', 'Semua data user berhasil diperbarui.');
     }
 
 
