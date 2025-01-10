@@ -21,6 +21,11 @@
             line-height: 1.4;
         }
 
+        .table-responsive {
+            zoom: 0.7;
+            overflow-x: auto;
+        }
+
         #riwayat td {
             white-space: normal;
             word-wrap: break-word;
@@ -91,8 +96,15 @@
 
 
                         {{-- Tooltip Custom dengan Tippy.js --}}
-                        <div id="tooltip-info" class="ms-3" style="cursor: pointer;">
+                        <div id="tooltip-info" class="ms-3 me-3" style="cursor: pointer;">
                             <i class="ti ti-info-circle fs-5 text-primary"></i>
+                        </div>
+                        <!-- Tambahkan divider vertikal -->
+                        <div style="border-left: 1px solid #bbbbbb; height: 20px;" class="">
+                        </div>
+                        <div id="keterangan_data" class="ms-2 d-flex align-items-center keterangan_data">
+                            <span>Aturan :</span>
+                            <i class="ti ti-info-circle fs-5 text-primary ms-2"></i>
                         </div>
                     </div>
 
@@ -178,15 +190,19 @@
 
                 {{-- Table Content --}}
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="riwayat">
+                    <table class="table table-bordered" style="color: black" id="riwayat">
                         <thead style="">
                             <tr>
                                 <th>No.</th>
                                 <th>Kode</th>
                                 <th>Indikator</th>
-                                <th>Target</th>
-                                <th>Capaian</th>
-                                <th>Status Capaian</th>
+                                <th>Satuan</th>
+                                <th>Target1</th>
+                                <th>Target2</th>
+                                <th>Link</th>
+                                <th>Tipe</th>
+                                <th>Realisasi</th>
+                                <th>Hasil Audit</th>
                                 <th>Analisis Keberhasilan</th>
                                 <th>Usulan Target Tahun Depan</th>
                                 <th>Strategi Pencapaian</th>
@@ -201,9 +217,13 @@
                         <tbody>
                             @if (!$data_indikator)
                                 <tr>
-                                    <td colspan="15" class="" style="font-size: 16px; font-weight: 400; color: red">
+                                    <td colspan="19" class="" style="font-size: 16px; font-weight: 400; color: red">
                                         Silakan pilih unit kerja terlebih
                                         dahulu.</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -229,8 +249,12 @@
                                         <td>{{ $nomer++ }}</td>
                                         <td>{{ $data['kode_ikuk'] }}</td>
                                         <td>{{ $data['isi_indikator_kinerja_unit_kerja'] }}</td>
-                                        <td>{{ $data['target_ikuk'] }}</td>
-                                        <td>{{ $transaksi['realisasi_ikuk'] ?? '' }} </td>
+                                        <td>{{ $data['satuan_ikuk'] }}</td>
+                                        <td>{{ $data['target1'] }}</td>
+                                        <td>{{ $data['target2'] }}</td>
+                                        <td><a href="{{ $data['link'] }}">Link Data Dukung</a></td>
+                                        <td>{{ $data['tipe'] }}</td>
+                                        <td>{{ $transaksi['realisasi_ikuk'] ?? 'Belum Mengisi' }} </td>
 
                                         {{-- Hasil Audit --}}
                                         <td data-label="Status Audit">
@@ -245,7 +269,7 @@
                                                     style="background-color: red;color: white; font-weight: 600">Belum
                                                     Memenuhi</span>
                                             @else
-                                                <span style="color: red">NULL</span>
+                                                <span style="color: red">Belum Megisi</span>
                                             @endif
                                         </td>
                                         <!-- Analisis Keberhasilan -->
@@ -324,7 +348,8 @@
             <strong style="font-size: 16px;">Total Indikator Kinerja:</strong> <span>{{ $totalKinerja }}</span><br>
             <strong style="color: blue;">Jumlah Melampaui:</strong> <span>{{ $melampauiTarget }}</span><br>
             <strong style="color: green;">Jumlah Memenuhi:</strong> <span>{{ $memenuhi }}</span><br>
-            <strong style="color: red;">Jumlah Belum Memenuhi:</strong> <span>{{ $belumMemenuhi }}</span>
+            <strong style="color: red;">Jumlah Belum Memenuhi:</strong> <span>{{ $belumMemenuhi }}</span><br>
+            <strong style="color: black;">Jumlah Belum Mengisi:</strong> <span>{{ $belumMengisi }}</span>
         </div>
     `,
                 allowHTML: true,
@@ -332,6 +357,41 @@
                 placement: 'bottom',
                 interactive: true,
                 maxWidth: '300px'
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const keteranganElements = document.querySelectorAll('.keterangan_data');
+
+            keteranganElements.forEach((element) => {
+                tippy(element, {
+                    content: `
+                <div style="text-align: left;">
+                    <p style="font-size:16px; color:black; font-weight:600">
+                        Aturan Perhitungan Capaian Hasil Audit Indikator Berdasarkan Tipe:
+                    </p>
+                    <ol type="1" style="color:black;">
+                        <li>Tipe 0 : jika realisasi >= target yang diterapkan berarti status realisasi melampaui 
+                            (Capaian yang lebih besar dari target lebih baik)
+                        </li>    
+                        <hr>
+                        <li>Tipe 1 : jika realisasi <= target yang diterapkan berarti status realisasi melampaui 
+                            (Capaian yang lebih kecil dari target akan berstatus lebih baik)
+                        </li> 
+                        <hr>
+                        <li>Tipe 2 (range) : jika realisasi masuk di dalam range pada target 1 dan target 2 yang 
+                            diterapkan maka, memenuhi, jika di luar range tidak memenuhi
+                        </li>
+                    </ol>
+                </div>
+            `,
+                    allowHTML: true,
+                    theme: 'custom',
+                    placement: 'bottom',
+                    interactive: true,
+                    maxWidth: '300px'
+                });
             });
         });
     </script>
@@ -439,7 +499,7 @@
         // ------------- Data Audit Mutu Internal ------------
         $('#riwayat').DataTable({
             responsive: true,
-            "scrollY": "640px",
+            "scrollY": "680px",
             scrollX: true,
             autoWidth: false,
             "pageLength": 50,

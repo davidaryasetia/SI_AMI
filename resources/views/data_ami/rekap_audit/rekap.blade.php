@@ -149,7 +149,7 @@
                     <div class="tab-pane fade show active" id="rekap-per-unit" role="tabpanel"
                         aria-labelledby="rekap-per-unit-tab">
                         <div class="table-responsive">
-                            <table class="table table-bordered" id="rekap_per_unit">
+                            <table class="table table-hover table-bordered" id="rekap_per_unit">
                                 <thead class="table-light">
                                     <tr>
                                         <th class="border-bottom-0 text-center" style="padding: 10px;">
@@ -162,13 +162,16 @@
                                             <h6 class="fw-semibold mb-0">Total Indikator</h6>
                                         </th>
                                         <th class="border-bottom-0 text-center">
-                                            <h6 class="fw-semibold mb-0">Belum Mencapai</h6>
+                                            <h6 class="fw-semibold mb-0">Melampaui</h6>
                                         </th>
                                         <th class="border-bottom-0 text-center">
-                                            <h6 class="fw-semibold mb-0">Mecapai Target</h6>
+                                            <h6 class="fw-semibold mb-0">Memenuhi</h6>
                                         </th>
                                         <th class="border-bottom-0 text-center">
-                                            <h6 class="fw-semibold mb-0">Melebihi Target</h6>
+                                            <h6 class="fw-semibold mb-0">Belum Memenuhi</h6>
+                                        </th>
+                                        <th class="border-bottom-0 text-center">
+                                            <h6 class="fw-semibold mb-0">Belum Mengisi</h6>
                                         </th>
                                         <th class="border-bottom-0 text-center">
                                             <h6 class="fw-semibold mb-0">Lihat</h6>
@@ -194,16 +197,18 @@
                                                 <td class="text-center">{{ $nomer++ }}</td>
                                                 <td>{{ $data_rekap['nama_unit'] }}</td>
                                                 <td>{{ $data_rekap['totalDataIkuk'] }}</td>
-                                                <td>{{ $data_rekap['belumMemenuhi'] }}</td>
-                                                <td>{{ $data_rekap['memenuhi'] }}</td>
                                                 <td>{{ $data_rekap['melampauiTarget'] }}</td>
-                                                <td class="text-center"><a href="#" class="" id="tooltip-info"
+                                                <td>{{ $data_rekap['memenuhi'] }}</td>
+                                                <td>{{ $data_rekap['belumMemenuhi'] }}</td>
+                                                <td>{{ $data_rekap['belumMengisi'] }}</td>
+                                                <td class="text-center"><a href="#" class="" id=""
                                                         data-bs-toggle="modal" data-bs-target="#modalDetail"
                                                         data-unit-id="{{ $data_rekap['unit_id'] }}"
                                                         data-total="{{ $data_rekap['totalDataIkuk'] }}"
-                                                        data-belum-memenuhi="{{ $data_rekap['belumMemenuhi'] }}"
-                                                        data-memenuhi="{{ $data_rekap['memenuhi'] }}"
                                                         data-melampaui="{{ $data_rekap['melampauiTarget'] }}"
+                                                        data-memenuhi="{{ $data_rekap['memenuhi'] }}"
+                                                        data-belum-memenuhi="{{ $data_rekap['belumMemenuhi'] }}"
+                                                        data-belum-mengisi="{{ $data_rekap['belumMengisi'] }}"
                                                         data-nama-unit="{{ $data_rekap['nama_unit'] }}"
                                                         data-indikator-ikuk='@json($data_rekap['indikator_ikuk'])'>
                                                         <i class="ti ti-eye" style="font-size: 16px; color: blue"></i>
@@ -239,17 +244,39 @@
                                         aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <p style="font-size: 16px"><strong>Unit:<span id="modalUnitName"></span></strong></p>
+                                    <div class="d-flex align-items-center">
+                                        <div class="d-flex align-items-center">
+                                            <p style="font-size: 16px; font-weight: 600" class="mb-0">Unit:
+                                                <span id="modalUnitName"></span>
+                                            </p>
+                                        </div>
+                                        <div id="tooltip-info" class="ms-4 me-2 align-items-center"
+                                            style="cursor: pointer;">
+                                            <span>Informasi :</span>
+                                            <i class="ti ti-info-circle fs-5 text-primary"></i>
+                                        </div>
+                                        <!-- Tambahkan divider vertikal -->
+                                        <div style="border-left: 1px solid #bbbbbb; height: 20px;" class="">
+                                        </div>
+                                        <div id="keterangan_data" class="ms-2 d-flex align-items-center keterangan_data">
+                                            <span>Aturan :</span>
+                                            <i class="ti ti-info-circle fs-5 text-primary ms-2"></i>
+                                        </div>
+                                    </div>
+
                                     <div class="table-responsive">
                                         <table class="table table-bordered table-hover" id="detail_rekap_unit">
                                             <thead class="table-light">
                                                 <tr>
-                                                    <th style="width: 10%; text-align: center;">No</th>
-                                                    <th style="width: 10%; text-align: center;">Kode IKUK</th>
-                                                    <th style="width: 40%; text-align: center;">Indikator Kinerja</th>
-                                                    <th style="width: 15%; text-align: center;">Status</th>
-                                                    <th style="width: 10%; text-align: center;">Target</th>
-                                                    <th style="width: 10%; text-align: center;">Capaian</th>
+                                                    <th style="width: 2%; text-align: center;">No</th>
+                                                    <th style="width: 5%; text-align: center;">Kode IKUK</th>
+                                                    <th style="width: 35%; text-align: center;">Indikator Kinerja</th>
+                                                    <th style="width: 8%; text-align: center;">Target 1</th>
+                                                    <th style="width: 8%; text-align: center;">Target 2</th>
+                                                    <th style="width: 8%; text-align: center;">Realisasi</th>
+                                                    <th style="width: 10%; text-align: center;">Hasil Audit</th>
+                                                    <th style="width: 10%; text-align: center;">Link Template</th>
+                                                    <th style="width: 5%; text-align: center;">tipe</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="modalTableBody"></tbody>
@@ -268,7 +295,7 @@
                     <div class="tab-pane fade" id="rekap-per-indikator" role="tabpanel"
                         aria-labelledby="rekap-per-indikator-tab">
                         <div class="table-responsive">
-                            <table class="table table-bordered" id="rekap_per_indikator">
+                            <table class="table table-hover table-bordered" id="rekap_per_indikator">
                                 <thead class="table-light">
                                     <tr>
                                         <th class="border-bottom-0 text-center">
@@ -281,10 +308,13 @@
                                             <h6 class="fw-semibold mb-0">Indikator IKUK</h6>
                                         </th>
                                         <th class="border-bottom-0 text-center">
-                                            <h6 class="fw-semibold mb-0">Target</h6>
+                                            <h6 class="fw-semibold mb-0">Target 1</h6>
                                         </th>
                                         <th class="border-bottom-0 text-center">
-                                            <h6 class="fw-semibold mb-0">Capaian</h6>
+                                            <h6 class="fw-semibold mb-0">Target 2</h6>
+                                        </th>
+                                        <th class="border-bottom-0 text-center">
+                                            <h6 class="fw-semibold mb-0">Realisasi</h6>
                                         </th>
                                         <th class="border-bottom-0 text-center">
                                             <h6 class="fw-semibold mb-0">Analisis Tindak Lanjut</h6>
@@ -293,8 +323,9 @@
                                 </thead>
                                 <tbody>
                                     @if ($indikatorIkuk->isEmpty())
-                                        <td colspan="6" style="font-size: 16px; color: red">Silahkan Pilih Periode
+                                        <td colspan="7" style="font-size: 16px; color: red">Silahkan Pilih Periode
                                             Pelaksanaan AMI</td>
+                                        <td></td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
@@ -307,7 +338,8 @@
                                                 <td class="text-center">{{ $index + 1 }}</td>
                                                 <td>{{ $indikator->kode_ikuk }}</td>
                                                 <td>{{ $indikator->isi_indikator_kinerja_unit_kerja }}</td>
-                                                <td>{{ $indikator->target_ikuk }}</td>
+                                                <td>{{ $indikator->target1 }}</td>
+                                                <td>{{ $indikator->target2 }}</td>
                                                 <td>{{ $indikator->transaksiDataIkuk->first()->realisasi_ikuk ?? '-' }}
                                                 </td>
                                                 <td>{{ $indikator->transaksiDataIkuk->first()->tindak_lanjut ?? '-' }}</td>
@@ -335,7 +367,7 @@
         // ------------- Data Audit Mutu Internal ------------
         $('#rekap_per_unit').DataTable({
             responsive: true,
-            "scrollY": "520px",
+            "scrollY": "600px",
             scrollX: true,
             autoWidth: false,
             "pageLength": 50,
@@ -376,9 +408,10 @@
                 link.addEventListener('click', function() {
                     // Ambil data dari atribut data- elemen yang diklik
                     const total = this.getAttribute('data-total');
-                    const belumMemenuhi = this.getAttribute('data-belum-memenuhi');
-                    const memenuhi = this.getAttribute('data-memenuhi');
                     const melampaui = this.getAttribute('data-melampaui');
+                    const memenuhi = this.getAttribute('data-memenuhi');
+                    const belumMemenuhi = this.getAttribute('data-belum-memenuhi');
+                    const belumMengisi = this.getAttribute('data-belum-mengisi');
                     const namaUnit = this.getAttribute('data-nama-unit');
 
                     // Update teks dalam modal
@@ -391,7 +424,8 @@
                         <strong style="font-size: 16px; color:black;">Total Indikator Kinerja:</strong> <span>${total}</span><br>
                         <strong style="color: #28a745;">Jumlah Melampaui:</strong> <span>${melampaui}</span><br>
                         <strong style="color: #007bff;">Jumlah Memenuhi:</strong> <span>${memenuhi}</span><br>
-                        <strong style="color: #dc3545;">Jumlah Belum Memenuhi:</strong> <span>${belumMemenuhi}</span>
+                        <strong style="color: #dc3545;">Jumlah Belum Memenuhi:</strong> <span>${belumMemenuhi}</span><br>
+                        <strong style="color: black;">Jumlah Belum Mengisi:</strong> <span>${belumMengisi}</span>
                     </div>
                 `,
                         allowHTML: true,
@@ -440,9 +474,12 @@
                             <td>${no++}</td> 
                             <td>${indikator.kode_ikuk}</td>
                             <td>${indikator.isi_indikator_kinerja_unit_kerja}</td>
-                            <td class="${statusClass}">${status}</td>
-                            <td>${indikator.target_ikuk}</td>
-                            <td>${indikator.transaksi.realisasi_ikuk}</td>
+                            <td>${indikator.target1 ?? '-'}</td>
+                            <td>${indikator.target2 ?? '-'}</td>
+                            <td>${indikator.transaksi.realisasi_ikuk ?? 'Belum Mengisi'}</td>
+                            <td class="">${indikator.transaksi.hasil_audit ?? 'Belum Mengisi'}</td>
+                            <td><a href="${indikator.link}" target="_blank">Link Dokumen</a></td>
+                            <td>${indikator.tipe}</td>
                         </tr>
                     `;
                 })
@@ -490,6 +527,41 @@
                     exportButton.classList.add('btn-primary');
                     exportButton.innerHTML = '<i class="ti ti-download"></i> Unduh Rekap Per Indikator';
                 }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const keteranganElements = document.querySelectorAll('.keterangan_data');
+
+            keteranganElements.forEach((element) => {
+                tippy(element, {
+                    content: `
+                <div style="text-align: left;">
+                    <p style="font-size:16px; color:black; font-weight:600">
+                        Aturan Perhitungan Capaian Hasil Audit Indikator Berdasarkan Tipe:
+                    </p>
+                    <ol type="1" style="color:black;">
+                        <li>Tipe 0 : jika realisasi >= target yang diterapkan berarti status realisasi melampaui 
+                            (Capaian yang lebih besar dari target lebih baik)
+                        </li>    
+                        <hr>
+                        <li>Tipe 1 : jika realisasi <= target yang diterapkan berarti status realisasi melampaui 
+                            (Capaian yang lebih kecil dari target akan berstatus lebih baik)
+                        </li> 
+                        <hr>
+                        <li>Tipe 2 (range) : jika realisasi masuk di dalam range pada target 1 dan target 2 yang 
+                            diterapkan maka, memenuhi, jika di luar range tidak memenuhi
+                        </li>
+                    </ol>
+                </div>
+            `,
+                    allowHTML: true,
+                    theme: 'custom',
+                    placement: 'bottom',
+                    interactive: true,
+                    maxWidth: '300px'
+                });
             });
         });
     </script>

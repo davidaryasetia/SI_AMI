@@ -5,6 +5,7 @@ namespace App\Http\Controllers\DataAmiController;
 use App\Http\Controllers\Controller;
 use App\Models\IndikatorKinerjaUnitKerja;
 use App\Models\PeriodePelaksanaan;
+use App\Models\TransaksiData;
 use App\Models\Unit;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -32,45 +33,54 @@ class ExportRekapAuditController extends Controller
 
             $selectedJadwalAmiId = $periodeTerbaru ? $periodeTerbaru->jadwal_ami_id : null;
         }
+
+        $data_transaksi = collect();
         // Ambil data berdasarkan jadwal_ami_id
         $data_transaksi = Unit::with([
             'indikator_ikuk.transaksiDataIkuk' => function ($query) use ($selectedJadwalAmiId) {
                 $query->where('jadwal_ami_id', $selectedJadwalAmiId);
             }
         ])
-        ->where('jadwal_ami_id', $selectedJadwalAmiId)
-        ->get();
+            ->where('jadwal_ami_id', $selectedJadwalAmiId)
+            ->get();
 
-        $rekapByUnit = $data_transaksi->map(function ($unit) {
-            $melampauiTarget = 0;
-            $memenuhi = 0;
-            $belumMemenuhi = 0;
+        $rekapByUnit = $data_transaksi->map(function ($unit) use ($selectedJadwalAmiId) {
+            $indikatorId = $unit->indikator_ikuk->pluck('indikator_kinerja_unit_kerja_id');
 
-            foreach ($unit->indikator_ikuk as $indikator) {
-                foreach ($indikator->transaksiDataIkuk as $transaksi) {
-                    if ($transaksi->realisasi_ikuk > $indikator->target_ikuk) {
-                        $melampauiTarget++;
-                    } elseif ($transaksi->realisasi_ikuk == $indikator->target_ikuk) {
-                        $memenuhi++;
-                    } elseif ($transaksi->realisasi_ikuk < $indikator->target_ikuk) {
-                        $belumMemenuhi++;
-                    }
-                }
-            }
+            $melampauiTarget = TransaksiData::whereIn('indikator_kinerja_unit_kerja_id', $indikatorId)
+                ->where('jadwal_ami_id', $selectedJadwalAmiId)
+                ->where('hasil_audit', 'Melampaui')
+                ->count();
+
+            $memenuhi = TransaksiData::whereIn('indikator_kinerja_unit_kerja_id', $indikatorId)
+                ->where('jadwal_ami_id', $selectedJadwalAmiId)
+                ->where('hasil_audit', 'Memenuhi')
+                ->count();
+
+            $belumMemenuhi = TransaksiData::whereIn('indikator_kinerja_unit_kerja_id', $indikatorId)
+                ->where('jadwal_ami_id', $selectedJadwalAmiId)
+                ->where('hasil_audit', 'Belum Memenuhi')
+                ->count();
+
+            $belumMengisi = TransaksiData::whereIn('indikator_kinerja_unit_kerja_id', $indikatorId)
+                ->where('jadwal_ami_id', $selectedJadwalAmiId)
+                ->where('hasil_audit', NULL)
+                ->count();
 
             return [
                 'nama_unit' => $unit->nama_unit,
-                'totalDataIkuk' => $melampauiTarget + $memenuhi + $belumMemenuhi,
-                'belumMemenuhi' => $belumMemenuhi,
-                'memenuhi' => $memenuhi,
                 'melampauiTarget' => $melampauiTarget,
+                'memenuhi' => $memenuhi,
+                'belumMemenuhi' => $belumMemenuhi,
+                'belumMengisi' => $belumMengisi,
+                'totalDataIkuk' => $melampauiTarget + $memenuhi + $belumMemenuhi + $belumMengisi,
             ];
         });
 
         // Membuat Spreadsheet
         $spreadsheet = new Spreadsheet();
         $periode = PeriodePelaksanaan::find($selectedJadwalAmiId);
-        if ($periode){
+        if ($periode) {
             $nama_periode = $periode->nama_periode_ami;
         } else {
             $nama_periode = '-';
@@ -85,7 +95,7 @@ class ExportRekapAuditController extends Controller
         $sheet->getRowDimension(1)->setRowHeight(30);
 
         // Header Kolom
-        $headers = ['No', 'Unit', 'Total Indikator', 'Belum Mencapai', 'Memenuhi', 'Melebihi Target'];
+        $headers = ['No', 'Unit', 'Total Indikator', 'Melampaui', 'Memenuhi', 'Belum Memenuhi', 'Belum Mengisi'];
         $columnIndex = 'A';
 
         foreach ($headers as $header) {
@@ -97,12 +107,12 @@ class ExportRekapAuditController extends Controller
         }
 
         // Styling Warna Header Kolom
-        $sheet->getStyle('A2:F2')->getFill()
+        $sheet->getStyle('A2:G2')->getFill()
             ->setFillType(Fill::FILL_SOLID)
             ->getStartColor()->setARGB('FFCCE5FF'); // Warna biru muda
 
         // Border untuk Header
-        $sheet->getStyle('A2:F2')->applyFromArray([
+        $sheet->getStyle('A2:G2')->applyFromArray([
             'borders' => [
                 'allBorders' => [
                     'borderStyle' => Border::BORDER_THIN,
@@ -117,14 +127,15 @@ class ExportRekapAuditController extends Controller
             $sheet->setCellValue('A' . $rowIndex, $index + 1);
             $sheet->setCellValue('B' . $rowIndex, $data['nama_unit']);
             $sheet->setCellValue('C' . $rowIndex, $data['totalDataIkuk']);
-            $sheet->setCellValue('D' . $rowIndex, $data['belumMemenuhi']);
+            $sheet->setCellValue('D' . $rowIndex, $data['melampauiTarget']);
             $sheet->setCellValue('E' . $rowIndex, $data['memenuhi']);
-            $sheet->setCellValue('F' . $rowIndex, $data['melampauiTarget']);
+            $sheet->setCellValue('F' . $rowIndex, $data['belumMemenuhi']);
+            $sheet->setCellValue('G' . $rowIndex, $data['belumMengisi']);
             $rowIndex++;
         }
 
         // Border untuk Isi Data
-        $sheet->getStyle('A3:F' . ($rowIndex - 1))->applyFromArray([
+        $sheet->getStyle('A3:G' . ($rowIndex - 1))->applyFromArray([
             'borders' => [
                 'allBorders' => [
                     'borderStyle' => Border::BORDER_THIN,
@@ -160,14 +171,16 @@ class ExportRekapAuditController extends Controller
             'transaksiDataIkuk' => function ($query) use ($jadwalAmiId) {
                 $query->where('jadwal_ami_id', $jadwalAmiId);
             }
-        ])->get();
+        ])
+        ->where('jadwal_ami_id', $jadwalAmiId)
+        ->get();
 
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
         // Header Kolom
-        $headers = ['No', 'Kode Ikuk', 'Indikator IKUK', 'Target', 'Capaian', 'Analisis Tindak Lanjut'];
-        $columnWidths = [5, 15, 50, 10, 10, 50]; // Atur lebar kolom secara manual
+        $headers = ['No', 'Kode Ikuk', 'Indikator IKUK', 'Target 1', 'Target 2', 'Link', 'Tipe', 'Realisasi', 'Analisis Tindak Lanjut'];
+        $columnWidths = [5, 10, 50, 10, 10, 10, 10, 10, 50]; // Atur lebar kolom secara manual
 
         $columnIndex = 'A';
         foreach ($headers as $index => $header) {
@@ -192,9 +205,12 @@ class ExportRekapAuditController extends Controller
             $sheet->setCellValue('A' . $rowIndex, $index + 1); // Nomor
             $sheet->setCellValue('B' . $rowIndex, $indikator->kode_ikuk); // Kode IKUK
             $sheet->setCellValue('C' . $rowIndex, $indikator->isi_indikator_kinerja_unit_kerja); // Indikator
-            $sheet->setCellValue('D' . $rowIndex, $indikator->target_ikuk); // Target
-            $sheet->setCellValue('E' . $rowIndex, $indikator->transaksiDataIkuk->first()->realisasi_ikuk ?? '-'); // Capaian
-            $sheet->setCellValue('F' . $rowIndex, $indikator->transaksiDataIkuk->first()->tindak_lanjut ?? '-'); // Analisis
+            $sheet->setCellValue('D' . $rowIndex, $indikator->target1); // Target
+            $sheet->setCellValue('E' . $rowIndex, $indikator->target2); // Target
+            $sheet->setCellValue('F' . $rowIndex, $indikator->link); // Target
+            $sheet->setCellValue('G' . $rowIndex, $indikator->tipe); // Target
+            $sheet->setCellValue('H' . $rowIndex, $indikator->transaksiDataIkuk->first()->realisasi_ikuk ?? '-'); // Capaian
+            $sheet->setCellValue('I' . $rowIndex, $indikator->transaksiDataIkuk->first()->tindak_lanjut ?? '-'); // Analisis
 
             // Apply Wrapping Text untuk kolom tertentu
             $sheet->getStyle('C' . $rowIndex)->getAlignment()->setWrapText(true);
@@ -204,7 +220,7 @@ class ExportRekapAuditController extends Controller
         }
 
         // Apply Border untuk Data
-        $sheet->getStyle('A2:F' . ($rowIndex - 1))->applyFromArray([
+        $sheet->getStyle('A2:I' . ($rowIndex - 1))->applyFromArray([
             'borders' => [
                 'allBorders' => [
                     'borderStyle' => Border::BORDER_THIN,

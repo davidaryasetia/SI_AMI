@@ -4,6 +4,7 @@ namespace App\Http\Controllers\DataAmiController;
 
 use App\Http\Controllers\Controller;
 use App\Models\PeriodePelaksanaan;
+use App\Models\TransaksiData;
 use App\Models\Unit;
 use Illuminate\Http\Request;
 
@@ -28,7 +29,7 @@ class RiwayatController extends Controller
                 $periodeTerbaru = PeriodePelaksanaan::orderBy('tanggal_pembukaan_ami', 'desc')->first();
             }
 
-            $selectedJadwalAmiId = $periodeTerbaru ? $periodeTerbaru->jadwal_ami_id : null ;
+            $selectedJadwalAmiId = $periodeTerbaru ? $periodeTerbaru->jadwal_ami_id : null;
         }
 
 
@@ -57,22 +58,32 @@ class RiwayatController extends Controller
         $melampauiTarget = 0;
         $memenuhi = 0;
         $belumMemenuhi = 0;
+        $belumMengisi = 0;
 
-        if ($data_indikator) {
-            foreach ($data_indikator->indikator_ikuk as $indikator) {
-                foreach ($indikator->transaksiDataIkuk as $transaksi) {
-                    if ($transaksi->realisasi_ikuk > $indikator->target_ikuk) {
-                        $melampauiTarget++;
-                    } elseif ($transaksi->realisasi_ikuk == $indikator->target_ikuk) {
-                        $memenuhi++;
-                    } elseif ($transaksi->realisasi_ikuk < $indikator->target_ikuk) {
-                        $belumMemenuhi++;
-                    }
-                }
-            }
-        }
+        // Get Data Indikator Id 
+        $indikatorId = $data_indikator && $data_indikator->indikator_ikuk ? $data_indikator->indikator_ikuk->pluck('indikator_kinerja_unit_kerja_id') : collect() ;
 
-        $totalKinerja = $melampauiTarget + $memenuhi + $belumMemenuhi;
+        $melampauiTarget = TransaksiData::whereIn('indikator_kinerja_unit_kerja_id', $indikatorId)
+            ->where('jadwal_ami_id', $selectedJadwalAmiId)
+            ->where('hasil_audit', 'Melampaui')
+            ->count();
+
+        $memenuhi = TransaksiData::whereIn('indikator_kinerja_unit_kerja_id', $indikatorId)
+            ->where('jadwal_ami_id', $selectedUnitId)
+            ->where('hasil_audit', 'Memenuhi')
+            ->count();
+
+        $belumMemenuhi = TransaksiData::whereIn('indikator_kinerja_unit_kerja_id', $indikatorId)
+            ->where('jadwal_ami_id', $selectedJadwalAmiId)
+            ->where('hasil_audit', 'belumMemenuhi')
+            ->count();
+
+        $belumMengisi = TransaksiData::whereIn('indikator_kinerja_unit_kerja_id', $indikatorId)
+            ->where('jadwal_ami_id', $selectedJadwalAmiId)
+            ->where('hasil_audit', NULL)
+            ->count();
+
+        $totalKinerja = $melampauiTarget + $memenuhi + $belumMemenuhi + $belumMengisi;
         $persentaseMelampaui = $totalKinerja > 0 ? round(($melampauiTarget / $totalKinerja) * 100, 2) : 0;
         $persentaseMemenuhi = $totalKinerja > 0 ? round(($memenuhi / $totalKinerja) * 100, 2) : 0;
         $persentaseBelumMemenuhi = $totalKinerja > 0 ? round(($belumMemenuhi / $totalKinerja) * 100, 2) : 0;
@@ -88,6 +99,7 @@ class RiwayatController extends Controller
             'melampauiTarget' => $melampauiTarget,
             'memenuhi' => $memenuhi,
             'belumMemenuhi' => $belumMemenuhi,
+            'belumMengisi' => $belumMengisi, 
             'totalKinerja' => $totalKinerja,
             'persentaseMelampaui' => $persentaseMelampaui,
             'persentaseMemenuhi' => $persentaseMemenuhi,

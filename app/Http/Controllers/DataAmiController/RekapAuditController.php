@@ -4,6 +4,7 @@ namespace App\Http\Controllers\DataAmiController;
 
 use App\Http\Controllers\Controller;
 use App\Models\PeriodePelaksanaan;
+use App\Models\TransaksiData;
 use App\Models\Unit;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
@@ -41,35 +42,45 @@ class RekapAuditController extends Controller
                 ->get();
         }
 
-        $rekapByUnit = $data_transaksi->map(function ($unit) {
-            $melampauiTarget = 0;
-            $memenuhi = 0;
-            $belumMemenuhi = 0;
+        $rekapByUnit = $data_transaksi->map(function ($unit) use ($selectedJadwalAmiId) {
+            $indikatorId = $unit->indikator_ikuk->pluck('indikator_kinerja_unit_kerja_id');
 
-            foreach ($unit->indikator_ikuk as $indikator) {
-                foreach ($indikator->transaksiDataIkuk as $transaksi) {
-                    if ($transaksi->realisasi_ikuk > $indikator->target_ikuk) {
-                        $melampauiTarget++;
-                    } elseif ($transaksi->realisasi_ikuk == $indikator->target_ikuk) {
-                        $memenuhi++;
-                    } elseif ($transaksi->realisasi_ikuk < $indikator->target_ikuk) {
-                        $belumMemenuhi++;
-                    }
-                }
-            }
+            $melampauiTarget = TransaksiData::whereIn('indikator_kinerja_unit_kerja_id', $indikatorId)
+                ->where('jadwal_ami_id', $selectedJadwalAmiId)
+                ->where('hasil_audit', 'Melampaui')
+                ->count();
+
+            $memenuhi = TransaksiData::whereIn('indikator_kinerja_unit_kerja_id', $indikatorId)
+                ->where('jadwal_ami_id', $selectedJadwalAmiId)
+                ->where('hasil_audit', 'Memenuhi')
+                ->count();
+
+            $belumMemenuhi = TransaksiData::whereIn('indikator_kinerja_unit_kerja_id', $indikatorId)
+                ->where('jadwal_ami_id', $selectedJadwalAmiId)
+                ->where('hasil_audit', 'Belum Memenuhi')
+                ->count();
+
+            $belumMengisi = TransaksiData::whereIn('indikator_kinerja_unit_kerja_id', $indikatorId)
+                ->where('jadwal_ami_id', $selectedJadwalAmiId)
+                ->where('hasil_audit', NULL)
+                ->count();
 
             return [
                 'unit_id' => $unit->unit_id,
                 'nama_unit' => $unit->nama_unit,
-                'belumMemenuhi' => $belumMemenuhi,
-                'memenuhi' => $memenuhi,
                 'melampauiTarget' => $melampauiTarget,
-                'totalDataIkuk' => $melampauiTarget + $memenuhi + $belumMemenuhi,
+                'memenuhi' => $memenuhi,
+                'belumMemenuhi' => $belumMemenuhi,
+                'belumMengisi' => $belumMengisi,
+                'totalDataIkuk' => $melampauiTarget + $memenuhi + $belumMemenuhi + $belumMengisi,
                 'indikator_ikuk' => $unit->indikator_ikuk->map(function ($indikator) {
                     return [
                         'kode_ikuk' => $indikator->kode_ikuk,
                         'isi_indikator_kinerja_unit_kerja' => $indikator->isi_indikator_kinerja_unit_kerja,
-                        'target_ikuk' => $indikator->target_ikuk,
+                        'target1' => $indikator->target1,
+                        'target2' => $indikator->target2,
+                        'link' => $indikator->link,
+                        'tipe' => $indikator->tipe,
                         'transaksi' => $indikator->transaksiDataIkuk->first(),
                     ];
                 })
@@ -77,7 +88,6 @@ class RekapAuditController extends Controller
         });
         // dump($data_transaksi->pluck('indikator_ikuk')->flatten()->toArray());
         // dump($rekapByUnit->toArray());
-
         return view('data_ami.rekap_audit.rekap', [
             'jadwalPeriode' => $jadwalPeriode,
             'dataTransaksi' => $data_transaksi,
@@ -102,29 +112,41 @@ class RekapAuditController extends Controller
             }
         ])->get();
 
-        $rekapByUnit = $data_transaksi->map(function ($unit) {
+        $rekapByUnit = $data_transaksi->map(function ($unit) use ($jadwalAmiId) {
+            $indikatorId = $unit->indikator_ikuk->pluck('indikator_kinerja_unit_kerja_id');
+
             $melampauiTarget = 0;
             $memenuhi = 0;
             $belumMemenuhi = 0;
+            $belumMengisi = 0;
 
-            foreach ($unit->indikator_ikuk as $indikator) {
-                foreach ($indikator->transaksiDataIkuk as $transaksi) {
-                    if ($transaksi->realisasi_ikuk > $indikator->target_ikuk) {
-                        $melampauiTarget++;
-                    } elseif ($transaksi->realisasi_ikuk == $indikator->target_ikuk) {
-                        $memenuhi++;
-                    } elseif ($transaksi->realisasi_ikuk < $indikator->target_ikuk) {
-                        $belumMemenuhi++;
-                    }
-                }
-            }
+            $melampauiTarget = TransaksiData::whereIn('indikator_kinerja_unit_kerja_id', $indikatorId)
+                ->where('jadwal_ami_id', $jadwalAmiId)
+                ->where('hasil_audit', 'Melampaui')
+                ->count();
+
+            $memenuhi = TransaksiData::whereIn('indikator_kinerja_unit_kerja_id', $indikatorId)
+                ->where('jadwal_ami_id', $jadwalAmiId)
+                ->where('hasil_audit', 'Memenuhi')
+                ->count();
+
+            $belumMemenuhi = TransaksiData::whereIn('indikator_kinerja_unit_kerja_id', $indikatorId)
+                ->where('jadwal_ami_id', $jadwalAmiId)
+                ->where('hasil_audit', 'Belum Memenuhi')
+                ->count();
+
+            $belumMengisi = TransaksiData::whereIn('indikator_kinerja_unit_kerja_id', $indikatorId)
+                ->where('jadwal_ami_id', $jadwalAmiId)
+                ->where('hasil_audit', NULL)
+                ->count();
 
             return [
                 'nama_unit' => $unit->nama_unit,
                 'totalDataIkuk' => $melampauiTarget + $memenuhi + $belumMemenuhi,
-                'belumMemenuhi' => $belumMemenuhi,
-                'memenuhi' => $memenuhi,
                 'melampauiTarget' => $melampauiTarget,
+                'memenuhi' => $memenuhi,
+                'belumMemenuhi' => $belumMemenuhi,
+                'belumMengisi' => $belumMengisi,
             ];
         });
 
@@ -133,23 +155,24 @@ class RekapAuditController extends Controller
         $sheet = $spreadsheet->getActiveSheet();
 
         // Header Kolom
-        $headers = ['No', 'Unit', 'Total Indikator', 'Belum Mencapai', 'Memenuhi', 'Melebihi Target'];
+        $headers = ['No', 'Unit', 'Total Indikator', 'Melampaui', 'Memenuhi', 'Belum Memenuhi', 'Belum Mengisi'];
         $columnIndex = 'A';
 
         foreach ($headers as $header) {
-            $sheet->setCellValue($columnIndex . '1', $header); // Baris pertama untuk header
+            $sheet->setCellValue($columnIndex . '1', $header);
             $columnIndex++;
         }
 
         // Isi Data
         $rowIndex = 2;
         foreach ($rekapByUnit as $index => $data) {
-            $sheet->setCellValue('A' . $rowIndex, $index + 1); // Nomor
-            $sheet->setCellValue('B' . $rowIndex, $data['nama_unit']); // Nama unit
-            $sheet->setCellValue('C' . $rowIndex, $data['totalDataIkuk']); // Total indikator
-            $sheet->setCellValue('D' . $rowIndex, $data['belumMemenuhi']); // Belum memenuhi
-            $sheet->setCellValue('E' . $rowIndex, $data['memenuhi']); // Memenuhi
-            $sheet->setCellValue('F' . $rowIndex, $data['melampauiTarget']); // Melebihi target
+            $sheet->setCellValue('A' . $rowIndex, $index + 1);
+            $sheet->setCellValue('B' . $rowIndex, $data['nama_unit']);
+            $sheet->setCellValue('C' . $rowIndex, $data['totalDataIkuk']);
+            $sheet->setCellValue('F' . $rowIndex, $data['melampauiTarget']);
+            $sheet->setCellValue('E' . $rowIndex, $data['memenuhi']);
+            $sheet->setCellValue('D' . $rowIndex, $data['belumMemenuhi']);
+            $sheet->setCellValue('D' . $rowIndex, $data['belumMengisi']);
             $rowIndex++;
         }
 
