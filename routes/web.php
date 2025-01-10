@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\DataAmiController\AuditorController;
 use App\Http\Controllers\DataAmiController\DataIndikatorController;
 use App\Http\Controllers\DataAmiController\DataUnitController;
+use App\Http\Controllers\DataAmiController\ExportDataIndikatorController;
 use App\Http\Controllers\DataAmiController\ExportPlotingAmiController;
 use App\Http\Controllers\DataAmiController\ExportProgresAuditController;
 use App\Http\Controllers\DataAmiController\ExportRekapAuditController;
@@ -117,6 +118,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/data_indikator/unit/create/{id}', [DataIndikatorController::class, 'create_ikuk_id']);
         Route::get('/data_indikator/unit/{unit_id}/edit_all', [DataIndikatorController::class, 'editAllByUnit'])->name('data_indikator.editAllByUnit');
         Route::put('/data_indikator/unit/{unit_id}/update_all', [DataIndikatorController::class, 'updateAllByUnit'])->name('data_indikator.updateAllByUnit');
+        Route::get('/data_indikator/unit/export', [ExportDataIndikatorController::class, 'export'])->name('data_indikator.export');
         Route::delete('data_indikator/delete/{indikator_id}/{unit_id}', [DataIndikatorController::class, 'destroyWithUnit'])->name('data_indikator.destroyWithUnit');
         Route::resource('/daftar_auditor', AuditorController::class);
         Route::resource('/periode_audit', PeriodeAuditController::class);

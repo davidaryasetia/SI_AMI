@@ -52,7 +52,7 @@
 
                         <div class="ms-2">
                             <a href="{{ route('ploting.export') }}" class="btn btn-sm btn-primary"><i
-                                    class="ti ti-file-export"></i> Unduh Data Plot AMI</a>
+                                    class="ti ti-download"></i> Unduh Data Plot AMI</a>
                         </div>
 
                         

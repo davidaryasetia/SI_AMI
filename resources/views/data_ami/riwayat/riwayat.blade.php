@@ -79,7 +79,7 @@
                                     <input type="hidden" name="jadwal_ami_id" value="{{ $selectedJadwalAmiId }}">
                                     <input type="hidden" name="unit_id" value="{{ $selectedUnitId }}">
                                     <button type="submit" id="exportButton" class="btn btn-sm btn-primary">
-                                        <i class="ti ti-download"></i> Unduh Rekap Per Unit
+                                        <i class="ti ti-download"></i> Unduh Rekap Unit
                                     </button>
                                 </form>
                             </div>
@@ -114,6 +114,7 @@
                             <select id="unit_id" name="unit_id" class="form-select text-black"
                                 style="border-radius: 12px;color: black">
                                 <option value="">Pilih Unit Kerja</option>
+                                <option value="all" {{ $selectedUnitId == 'all' ? 'selected' : '' }}>Export Semua Unit</option>
                                 @foreach ($units as $unit)
                                     <option value="{{ $unit->unit_id }}"
                                         {{ $selectedUnitId == $unit->unit_id ? 'selected' : '' }}>
@@ -137,10 +138,9 @@
                                     </option>
                                 @endforeach
                             </select>
-
                         </div>
-
                     </div>
+
                 </div>
                 {{-- End Header --}}
 
@@ -169,12 +169,12 @@
 
                 <div class="d-flex justify-content-end" style="position: absolute; top: 72px;right: 40px; z-index: 1050;">
                     @if (session('success'))
-                        <div class="alert alert-primary  col-lg-8" role="alert">
+                        <div class="alert alert-primary  col-lg-12" role="alert">
                             {{ session('success') }}
                         </div>
                     @endif
                     @if (session('error'))
-                        <div class="alert alert-danger  col-lg-8" role="alert">
+                        <div class="alert alert-danger  col-lg-12" role="alert">
                             {{ session('error') }}
                         </div>
                     @endif

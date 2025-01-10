@@ -32,7 +32,7 @@
                         </div>
                         <div class="ms-2">
                             <a href="{{ route('data_user.export') }}" type="button" class="btn btn-sm btn-primary"><i
-                                    class="ti ti-file-download"></i> Unduh Data User
+                                    class="ti ti-download"></i> Unduh Data User
                             </a>
                         </div>
                     </div>

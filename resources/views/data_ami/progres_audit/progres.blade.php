@@ -68,7 +68,7 @@
                                 <form id="exportForm" action="{{ route('progres_audit.export') }}" method="GET">
                                     <input type="hidden" name="jadwal_ami_id" value="{{ $jadwal_ami_id }}">
                                     <button type="submit" id="exportButton" class="btn btn-sm btn-primary">
-                                        <i class="ti ti-download"></i> Unduh Progress
+                                        <i class="ti ti-download"></i> Unduh Progress Audit
                                     </button>
                                 </form>
                             </div>

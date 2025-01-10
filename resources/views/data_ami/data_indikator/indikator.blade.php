@@ -23,7 +23,8 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="d-flex align-items-center mb-2">
                         <div>
-                            <span class="card-title fw-semibold me-2">Indikator Kinerja Unit Kerja</span>
+                            <span class="fw-semibold me-2" style="color: black; font-size: 16px">Indikator Kinerja Unit
+                                Kerja</span>
                         </div>
                         <div class="me-2">
                             <a href="#" id="tambahIkukBtn" type="button" class="btn btn-secondary btn-sm"
@@ -35,7 +36,13 @@
 
                         <div class="me-2">
                             <a id="editAllBtn" class="btn btn-secondary btn-sm" style="pointer-events: none;" disabled>
-                                <i class="ti ti-pencil"></i> Edit Semua Indikator
+                                <i class="ti ti-pencil"></i> Edit Indikator
+                            </a>
+                        </div>
+
+                        <div class="me-2">
+                            <a id="downloadBtn" class="btn btn-secondary btn-sm" style="pointer-events: none;" disabled>
+                                <i class="ti ti-download"></i> Unduh Data
                             </a>
                         </div>
 
@@ -72,7 +79,8 @@
                                                 <span>Detail Aturan File :</span>
                                                 <ul style="list-style-type: decimal; padding-left: 20px;">
                                                     <li>Format File: File harus dalam format .xls atau .xlsx.</li>
-                                                    <li>Kolom Wajib: File harus memiliki kolom berikut dengan header yang
+                                                    <li>Kolom Wajib: File harus memiliki kolom berikut dengan header
+                                                        yang
                                                         sesuai:
                                                         <ol style="list-style-type: disc">
                                                             <li>Kode: Harus diisi (Text).</li>
@@ -82,13 +90,17 @@
                                                         </ol>
                                                     </li>
                                                     <li>
-                                                        Kolom Opsional: Kolom berikut bersifat opsional dan boleh kosong:
+                                                        Kolom Opsional: Kolom berikut bersifat opsional dan boleh
+                                                        kosong:
                                                         <ol style="list-style-type: disc">
-                                                            <li>Target 1: Boleh diisi dengan angka (Integer) atau dibiarkan
+                                                            <li>Target 1: Boleh diisi dengan angka (Integer) atau
+                                                                dibiarkan
                                                                 kosong.</li>
-                                                            <li>Target 2: Boleh diisi dengan angka (Integer) atau dibiarkan
+                                                            <li>Target 2: Boleh diisi dengan angka (Integer) atau
+                                                                dibiarkan
                                                                 kosong.</li>
-                                                            <li>Link: Boleh diisi dengan URL (Text) atau dibiarkan kosong.
+                                                            <li>Link: Boleh diisi dengan URL (Text) atau dibiarkan
+                                                                kosong.
                                                             </li>
                                                             <li>Tipe: Boleh diisi dengan angka (Integer) atau dibiarkan
                                                                 kosong</li>
@@ -98,16 +110,19 @@
                                                         Penamaan Sheet Unit :
                                                         <ol style="list-style-type: disc">
                                                             <li>Setiap sheet di dalam file mewakili nama unit.</li>
-                                                            <li>Nama unit (nama sheet) harus sesuai dengan data unit yang
+                                                            <li>Nama unit (nama sheet) harus sesuai dengan data unit
+                                                                yang
                                                                 telah didefinisikan dalam sistem.</li>
                                                             <li>Jika nama unit belum terdaftar, proses upload akan
-                                                                dihentikan, dan pesan kesalahan akan diberikan yang berisi
+                                                                dihentikan, dan pesan kesalahan akan diberikan yang
+                                                                berisi
                                                                 daftar unit yang belum terdaftar.</li>
                                                         </ol>
                                                     </li>
                                                     <li>
                                                         Contoh Sample File Data Berikut <br>
-                                                        <a href="https://docs.google.com/spreadsheets/d/1ZQvpfo_gGl1NufO822JpLtdwA8E3ThBR/edit?usp=sharing&ouid=106902234954089943700&rtpof=true&sd=true" target="_blank">Sample Data</a>
+                                                        <a href="https://docs.google.com/spreadsheets/d/1ZQvpfo_gGl1NufO822JpLtdwA8E3ThBR/edit?usp=sharing&ouid=106902234954089943700&rtpof=true&sd=true"
+                                                            target="_blank">Sample Data</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -122,7 +137,7 @@
                         <!-- Modal -->
 
                         <div class="d-flex justify-content-start align-items-center">
-                            <form action="{{ route('data_indikator.index') }}" method="GET" class="col-lg-8"
+                            <form action="{{ route('data_indikator.index') }}" method="GET" class="col-lg-6"
                                 id="unitForm">
                                 <!-- Hidden Input untuk Jadwal AMI ID -->
                                 <input type="hidden" id="jadwal_ami_id_hidden" name="jadwal_ami_id"
@@ -133,7 +148,7 @@
                                     <div class="me-2">
                                         <select id="unit_id" name="unit_id" class="form-select form-select-sm">
                                             <option value="">Pilih Unit....</option>
-                                            <option value="">Semual Unit</option>
+                                            <option value="all">Semual Unit</option>
                                             @foreach ($units as $unit)
                                                 <option value="{{ $unit['unit_id'] }}"
                                                     {{ $unit['unit_id'] == $unit_id ? 'selected' : '' }}>
@@ -192,9 +207,6 @@
                             </div>
                         </div>
                     </div>
-
-
-
                 </div>
 
                 <div class="table-responsive">
@@ -377,6 +389,37 @@
                 unitSelect.addEventListener('change', updateButtonStatus);
             });
         </script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const unitSelect = document.getElementById('unit_id');
+                const jadwalSelect = document.getElementById('jadwal_ami_id');
+                const downloadBtn = document.getElementById('downloadBtn');
+
+                const updateButtonStatus = () => {
+                    if (unitSelect.value && jadwalSelect.value) {
+                        downloadBtn.classList.remove('btn-secondary');
+                        downloadBtn.classList.add('btn-primary');
+                        downloadBtn.removeAttribute('disabled');
+                        downloadBtn.style.pointerEvents = 'auto';
+                        downloadBtn.href =
+                            `/data_indikator/unit/export?unit_id=${unitSelect.value}&jadwal_ami_id=${jadwalSelect.value}`;
+                    } else {
+                        downloadBtn.classList.remove('btn-primary');
+                        downloadBtn.classList.add('btn-secondary');
+                        downloadBtn.setAttribute('disabled', true);
+                        downloadBtn.style.pointerEvents = 'none';
+                        downloadBtn.href = "#";
+                    }
+                };
+
+                unitSelect.addEventListener('change', updateButtonStatus);
+                jadwalSelect.addEventListener('change', updateButtonStatus);
+
+                updateButtonStatus();
+            });
+        </script>
+
 
         <script>
             document.addEventListener('DOMContentLoaded', function() {
